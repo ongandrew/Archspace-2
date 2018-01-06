@@ -8,7 +8,7 @@ namespace Archspace2
     {
         public int CouncilId { get; set; }
         public Council Council { get; set; }
-        
+
         public int RaceId { get; set; }
         [NotMapped]
         public Race Race
@@ -22,7 +22,7 @@ namespace Archspace2
                 RaceId = value.Id;
             }
         }
-
+        
         ICollection<Admiral> Commanders { get; set; }
     }
 }
