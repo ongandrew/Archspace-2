@@ -19,7 +19,9 @@ namespace Archspace2.Web
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseKestrel()
                 .UseStartup<Startup>()
-                .Build();
+                .UseIISIntegration()
+                 .Build();
     }
 }
