@@ -1,41 +1,46 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Archspace2
 {
-    public enum ComponentCategory
+    public enum ProjectType
     {
-        Armor,
-        Computer,
-        Shield,
-        Engine,
-        Device,
-        Weapon
+        Planet,
+        Fixed,
+        Council,
+        Ending,
+        Secret,
+        BlackMarket
     }
 
-    public abstract class ShipComponent : Entity
+    public class Project : Entity
     {
-        public ShipComponent(ComponentCategory aComponentCategory) : base()
+        public Project() : base()
         {
-            Category = aComponentCategory;
+            PlayerEffects = new List<PlayerEffect>();
             Prerequisites = new List<PlayerPrerequisite>();
-            Effects = new List<FleetEffect>();
         }
 
-        [JsonProperty("category")]
+        [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public ComponentCategory Category { get; private set; }
+        public ProjectType Type { get; set; }
 
-        [JsonProperty("techLevel")]
-        public int TechLevel { get; set; }
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("cost")]
+        public int Cost { get; set; }
+
+        [JsonProperty("controlModelModifier")]
+        public ControlModel ControlModelModifier { get; set; }
+        [JsonProperty("playerEffects")]
+        public List<PlayerEffect> PlayerEffects { get; set; }
+        
         [JsonProperty("prerequisites")]
         public List<PlayerPrerequisite> Prerequisites { get; set; }
-        [JsonProperty("effects")]
-        public List<FleetEffect> Effects { get; set; }
 
         public override string ToString()
         {

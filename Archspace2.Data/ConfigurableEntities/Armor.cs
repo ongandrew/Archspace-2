@@ -24,5 +24,10 @@ namespace Archspace2
         public double HpMultiplier { get; set; }
         [JsonProperty("defenseRating")]
         public int DefenseRating { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+        }
     }
 }

@@ -42,6 +42,14 @@ namespace Archspace2
                 TechIdList = value.Select(x => x.Id).SerializeIds();
             }
         }
+
+        public ControlModel ControlModel
+        {
+            get
+            {
+                return Race.BaseControlModel + Techs.Select(x => x.ControlModelModifier).Aggregate(new ControlModel(), (a, b) => a + b);
+            }
+        }
         
         ICollection<Admiral> Commanders { get; set; }
         ICollection<Planet> Planets { get; set; }

@@ -46,5 +46,10 @@ namespace Archspace2
         public List<PlayerPrerequisite> Prerequisites { get; set; }
         [JsonProperty("playerEffects")]
         public List<PlayerEffect> PlayerEffects { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+        }
     }
 }

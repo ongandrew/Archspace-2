@@ -12,5 +12,10 @@ namespace Archspace2
         public int MinimumClass { get; set; }
         [JsonProperty("maximumClass")]
         public int MaximumClass { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+        }
     }
 }

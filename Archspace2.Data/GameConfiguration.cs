@@ -12,6 +12,7 @@ namespace Archspace2
             Armors = new List<Armor>();
             Computers = new List<Computer>();
             Engines = new List<Engine>();
+            Projects = new List<Project>();
             Races = new List<Race>();
             Shields = new List<Shield>();
             ShipClasses = new List<ShipClass>();
@@ -27,6 +28,8 @@ namespace Archspace2
         public List<Device> Devices { get; set; }
         [JsonProperty("engines")]
         public List<Engine> Engines { get; set; }
+        [JsonProperty("projects")]
+        public List<Project> Projects { get; set; }
         [JsonProperty("races")]
         public List<Race> Races { get; set; }
         [JsonProperty("shields")]
@@ -45,9 +48,11 @@ namespace Archspace2
             UseDefaultDevices();
             UseDefaultEngines();
             UseDefaultRaces();
+            UseDefaultProjects();
             UseDefaultShields();
             UseDefaultShipClasses();
             UseDefaultTechs();
+            UseDefaultWeapons();
         }
 
         private void UseDefaultArmors()
@@ -1604,6 +1609,756 @@ namespace Archspace2
                 }
             };
         }
+        private void UseDefaultProjects()
+        {
+            Projects = new List<Project>()
+            {
+                new Project()
+                {
+                    Id = 7002,
+                    Name = "Earth Elevator",
+                    Description = "Passing through the entire planet, the Earth Elevator utilizes gravitational energy to move from one end of the planet to the other.  Though its rapid speed makes it difficult for the transportation of live beings, the transportation of objects is greatly simplified, contributing to the increase in efficiency of manufacturing.",
+                    Type = ProjectType.Planet,
+                    Cost = 35000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1320
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Production = 1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7004,
+                    Name = "Earth Elevator",
+                    Description = "Long ago, during the expansion of the universe, the technology most needed was the construction of a system to control the characteristics of the solar environment.  As generations progressed, and many sacrifices later, this technology was perfected with the completion of the solar control system.  With the passage of time, a star ages to become a super nova or a white dwarf star, and the surrounding planets also reach their ends.  But the utilization of the solar control system can prevent the aging of a star, as well as making it possible to partially control the environment of surrounding planets that are under the star's influence.",
+                    Type = ProjectType.Planet,
+                    Cost = 20000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1321
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Environment = 1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7005,
+                    Name = "Orbital Space Elevator",
+                    Description = "An incredible amount of energy is required for a spaceship to escape a planet's atmosphere.  This energy can be conserved through constructing and launching space fleets from orbital stations.  The orbital space elevator was used extensively to transport material from the planet's surface to these stations in orbit around the planet.",
+                    Type = ProjectType.Planet,
+                    Cost = 70000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1328
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Military = 1,
+                        Production = 1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7006,
+                    Name = "Mechanic Bard",
+                    Description = "Well-constructed words have always been one of the most powerful forces in history.  A bard, who combines this powerful language with another power, music, can be considered to possess the ultimate power.  A mechanic bard is an artificially created bard that remembers all forms and history of poetry and song for every language and species.  The mechanic bard also carries out the task of incorporating all this knowledge to create a new language of song.  The mechanic bard is created with the goal of \"stability.\" Everywhere it goes, it will sing songs that will bring stability to each of the regions.  Wherever a mechanic bard exists, life is stabilized, and advancements are brought about faster than other regions.",
+                    Type = ProjectType.Planet,
+                    Cost = 35000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1328
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Growth = 1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7008,
+                    Name = "Mind Control Center",
+                    Description = "This facility is installed per planet, and controls the minds of inhabitants in its own way. The inhabitants strive for completion of the given task without realizing they are controlled. The society is extremely well under control, and the inhabitants would even die for the cause.",
+                    Type = ProjectType.Planet,
+                    Cost = 50000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1119
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Society,
+                            Value = SocietyType.Classism
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Military = 1,
+                        Efficiency = 1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7009,
+                    Name = "Planet Environment Stabilizer",
+                    Description = "This system is based on the idea that life is present within every matter in the universe. This system also enhances overall environment and adjusts it for the race, but it's different from terra-forming in general. While terra forming physically changes the terrain of the planet, this system works on the lives on the planet, changing the environment and proliferating the race indirectly.",
+                    Type = ProjectType.Planet,
+                    Cost = 30000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1421
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Growth = 1,
+                        Environment = 2
+                    }
+                },
+                new Project()
+                {
+                    Id = 7009,
+                    Name = "Clone Family",
+                    Description = "A cluster of clones based on one single organism is called 'Clone Family.' They share the same attributes, outlook and abilities. Grown under the same environment, they manifest their full potential when they are together. They always move together, think together and work together; the whole cluster of clones consider themselves a single entity. Its prowess is unequalled - especially when compared to another organism - but loss of a single clone could well render the whole family useless.",
+                    Type = ProjectType.Planet,
+                    Cost = 30000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1120
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Society,
+                            Value = SocietyType.Totalism
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Production = 2,
+                        FacilityCost = 2,
+                        Genius = -1,
+                        Research = -1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7011,
+                    Name = "Memory Rewinder",
+                    Description = "Memories fade away; it's not that the memories are physically erased from the brain, but that it becomes harder to recollect them after a while, once the memory is stored somewhere in the brain. Memory rewinder is a tool that \"replays\" the memories that were once considered 'lost.' Through the help of this device, anybody can replay the necessary memory logged in the brain; and they can be of immense help for many researchers.",
+                    Type = ProjectType.Fixed,
+                    Cost = 20000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1211
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Research = 1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7013,
+                    Name = "Mind Passway",
+                    Description = "There has been many attempts to find the safest method of data transmission. So far, the safest method known to the universe is the mind passway. This method was brought about by merging the psionic power and enciphering of daily transmissions. Barring the limitations due to the distance, it is the safest transmission method.",
+                    Type = ProjectType.Fixed,
+                    Cost = 150000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1420
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.RacialTrait,
+                            Value = RacialTrait.Psi
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Spy = 2
+                    }
+                },
+                new Project()
+                {
+                    Id = 7016,
+                    Name = "Perfect Secretary",
+                    Description = "This device is the best 'secretary' an intelligence has ever created. Its overall shape and attributes differs from race to race, but its function is about the same for all. It functions as the translator for all languages. It can summarize the statements from the other party, or vice versa. It can also log all the dialogues in the past, then recall the relevant part in need in times of need.",
+                    Type = ProjectType.Fixed,
+                    Cost = 100000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1417
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Spy = 1,
+                        Commerce = 1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7017,
+                    Name = "Dream Maker",
+                    Description = "This device utilizes the psionic power within the materialistic world. It analyzes a person's will, then absorbs his psionic power to transform that energy and will into a concrete material. Once considered an invaluable machine, it lost its luster in that it takes immense mental control as well as massive resources and energy.",
+                    Type = ProjectType.Fixed,
+                    Cost = 600000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1424
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.RacialTrait,
+                            Value = RacialTrait.Psi
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Genius = 2,
+                        Production = 1,
+                        FacilityCost = -1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7018,
+                    Name = "Saga Archive",
+                    Description = "This archive contains all the heroics, saga and many other memorable events. It is open to public, to allow open research of the war history, legends and hidden history. Installation of this facility has caused, directly and indirectly, the growth of heroes in all generations.",
+                    Type = ProjectType.Planet,
+                    Cost = 10000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1121
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Society,
+                            Value = SocietyType.Personalism
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Genius = 2,
+                        Diplomacy = 1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7020,
+                    Name = "University of Past, Present and Future",
+                    Description = "Past, present and future - the flow of time and the secret behind. The Space - the meaning hidden behind. They're the primordial source of question that bogged down any intelligence ever since the start of the time. This institute was established to study exclusively the meaning and secrets of our time and space.",
+                    Type = ProjectType.Fixed,
+                    Cost = 300000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1129
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Research = 3,
+                        Diplomacy = 2
+                    }
+                },
+                new Project()
+                {
+                    Id = 7022,
+                    Name = "Fallen Head",
+                    Description = "This device was called 'Head of Lucifer' once it was first developed. It could exhibit the maximum efficiency under any circumstances, and its abilities were well beyond comparison to other artificial machinaries. To some, it even inspired awe in their heart, and when it was finally committed to the battle, it was named 'Fallen Head.'",
+                    Type = ProjectType.Council,
+                    Cost = 2000000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1130
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Diplomacy = 3,
+                        Efficiency = 2,
+                        Commerce = 1,
+                        Military = 2,
+                        Growth = -1,
+                        Environment = -2
+                    }
+                },
+                new Project()
+                {
+                    Id = 7024,
+                    Name = "Nova Plant",
+                    Description = "This plant is run by the enormous energy released from Nova. Productivity of the system increases by mutiple fold, but the environment suffers, due to the harmful radiation from the Nova. Ships from the outside tends shun from this system, consequently. This in turn results in contraction of inter-planetary commerce. This is an oppressive project that maximizes the productivity at the cost of the inhabitants' well being.",
+                    Type = ProjectType.Council,
+                    Cost = 2000000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1327
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Production = 3,
+                        Environment = -1,
+                        Commerce = -1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7025,
+                    Name = "Archmage",
+                    Description = "This is a cyber warfare game on Matrix. This game is highly addictive too. This game is used to train the establishment of strategy and tactics in military academies. Also, through the training with this game, each individual learns how to work together and exist together; consequently this enhances the cohesion among individuals.",
+                    Type = ProjectType.Council,
+                    Cost = 50000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1213
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Genius = 1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7026,
+                    Name = "Humanoid Plant",
+                    Description = "Out of the endless desire toward the throne that only belonged to the deity, humans have eventually created a being that looks same as humans themselves, but possesses much superior talents. This creature, named 'Replicant' has both mental and physical talent that could reach a few hundred fold of human's talent. However, they have a very short life span, and are programmed not to hurt humans. Creation of 'humans without human right' also have waged intense opposition among humans later.",
+                    Type = ProjectType.Fixed,
+                    Cost = 600000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1425
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Race,
+                            Value = 1
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        FacilityCost = 2,
+                        Production = 2,
+                        Diplomacy = -1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7027,
+                    Name = "Thinker Ball",
+                    Description = "No one knows where the name 'Thinker Ball' originated from. This system works like an Oracle, but its much capricious behavior rendered its nickname 'fairy.' At times this device presents helpful ideas but it consumes massive amount of energy, shutting down the nearby facilities at times.",
+                    Type = ProjectType.Council,
+                    Cost = 2000000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1224
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Military = 3,
+                        Commerce = 2,
+                        Efficiency = 2,
+                        FacilityCost = -2
+                    }
+                },
+                new Project()
+                {
+                    Id = 7030,
+                    Name = "AI Bill of Rights",
+                    Description = "Development of AI has brought up many questions about the rights of the AI, resulting in the declaration of AI Bill of Rights eventually. This at first caused overall agitation in the society, which also raised the cost of maintanence of the society in the course. Especially, this had a significant effect on the military AI's, but in the end, this has contributed in the wholesomeness and individual autonomy in the society.",
+                    Type = ProjectType.Council,
+                    Cost = 200000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1220
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Military = -1,
+                        Efficiency = 4,
+                        FacilityCost = -1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7031,
+                    Name = "Truth Tester",
+                    Description = "Discovery of Self-evident Language has brought answers to many statements that were once questioned or considered inconclusive. By transforming and manipulating with this self-evident language, anyone could figure out whether the given statement was true or not. This process is called 'Truth Testing.' Implementation of automated truth tester has brought about many change and influence over the society.",
+                    Type = ProjectType.Council,
+                    Cost = 225000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1122
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Research = 1,
+                        Spy = 1,
+                        Diplomacy = 1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7032,
+                    Name = "Truth Tester",
+                    Description = "As the Empire grew in strength, it became necessary to make a place where overall domestic and diplomatic matters could be discussed. The necessity for the Imperial Palace was manisfested, through the need to proclaim the dignity of the Emperor to its domain in beyond. With the Imperial Palace, the diplomats work with higher degree of pride, and the people would support the military with more enthusiasm. But its maintenance is highly costly; it takes a lot to rear the dignity all over the space.",
+                    Type = ProjectType.Fixed,
+                    Cost = 300000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1126
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Society,
+                            Value = SocietyType.Classism
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Diplomacy = 2,
+                        Military = 2,
+                        Production = 1,
+                        FacilityCost = -1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7033,
+                    Name = "Symbol of Liberation",
+                    Description = "Symbol of Liberation is a monolithic monument, which stands for the aspiration for the liberation of all races in the whole galaxy and beyond. This monument will inspire the people and instill individual autonomy and responsibility, aspiring them for higher ambition. Yet this may turn out to be a setback in that the people may fall a prey to the external manipulation of information.",
+                    Type = ProjectType.Fixed,
+                    Cost = 300000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1127
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Society,
+                            Value = SocietyType.Classism
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Genius = 2,
+                        Production = 1,
+                        Commerce = 1,
+                        Research = 1,
+                        Spy = -2
+                    }
+                },
+                new Project()
+                {
+                    Id = 7034,
+                    Name = "The One Unified Mind",
+                    Description = "You have merged the minds of the race into a new mind. Your own mind and existence have been absorbed into this 'unified mind' and you are satisfied with the race organizing and moving with unified mind. The whole race is working with higher degree of efficiency, but at times you, the overlord, find it cumbersome at times to control the race minion by minion.",
+                    Type = ProjectType.Fixed,
+                    Cost = 300000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1125
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Society,
+                            Value = SocietyType.Totalism
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Production = 2,
+                        Growth = 2,
+                        Efficiency = 1,
+                        Spy = -1,
+                        Diplomacy = -1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7036,
+                    Name = "Organic Plant",
+                    Description = "Industrial growth has always involved consumption of more energy. The need for energy continuously grew for higher efficiency and more production in less time. Organic plant is the answer scientists have been looking for, as the answer to the current problem. This scientific revolution is made of a live organic entity, and its efficiency is simply unequalled. This living plant is capable of supplying more energy to the industry constantly at less cost.",
+                    Type = ProjectType.Planet,
+                    Cost = 60000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1411
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Race,
+                            Value = 2
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Growth = 1,
+                        Production = 1,
+                        FacilityCost = 2
+                    }
+                },
+                new Project()
+                {
+                    Id = 7037,
+                    Name = "Desire Amplifier",
+                    Description = "Individual development and growth is closely related to the desire toward power and resource. The history is the manisfestation of how the people have fought, lived and betrayed for the power and resources. This device, called 'Desire Amplifier,' amplifies the desire of individuals to the extreme, using that desire as the driving force to move the society. This amplified desire is seen through the thirst for more power and resource, instigating an extreme competition. Such a society grows faster, and produces more resources but it tends to lose its flexibility and overall control of such a society becomes hard. Yet great many of the developing society use this device, for this ensures a fast growth in the early stage.",
+                    Type = ProjectType.Planet,
+                    Cost = 3000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1107
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Race,
+                            Value = 1
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Growth = 1,
+                        Production = 1,
+                        Efficiency = -1,
+                        Research = -1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7038,
+                    Name = "Will of the Righteous",
+                    Description = "Even before the discovery of religion, it was so easy to deceive yourself by you. With religion, it's a lot easier to deceive yourself by you. This is a kind of the national wide hypnosis. You are never wrong. You cannot be wrong. If something is wrong, It's your opponent's fault. You make for righteousness and your will itself is the will of the Righteous.",
+                    Type = ProjectType.Fixed,
+                    Cost = 3000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1104
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Society,
+                            Value = SocietyType.Classism
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Military = 1,
+                        Production = 1,
+                        Commerce = -1,
+                        Diplomacy = -1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7040,
+                    Name = "Galactic Liberalism Movement",
+                    Description = "As the pan-galactic liberalism movement starts spreading, everybody starts acting on his own accord. This results in loss of order in major part and decrease in industrial output. Researchers are free to research his area of interest, however, and this results in many magnificent feats. Also, inter-galactic commerce is vitalized through the promotion of free trade.",
+                    Type = ProjectType.Fixed,
+                    Cost = 100000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1111
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Society,
+                            Value = SocietyType.Personalism
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Production = -1,
+                        Research = 3,
+                        Commerce = 3
+                    }
+                },
+                new Project()
+                {
+                    Id = 7041,
+                    Name = "Advocacy of Green Round",
+                    Description = "Under the advocacy, the council declares that it will administer environment-friendly policies, and regulates excess development of the planet. Through the exhaustive research and study of the past and the lost civilizations, these cluster of sages have come to claim that excess consumption of resources and irresponsible production of waste have caused the decline and fall of past civilization. This policy reflects such an opinion. Under this policy, the council makes every effort to preserve the environment, but this also results in impediment to the overall industrial development.",
+                    Type = ProjectType.Council,
+                    Cost = 30000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1114
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Environment = 2,
+                        Efficiency = 1,
+                        FacilityCost = -1
+                    }
+                },
+                new Project()
+                {
+                    Id = 7042,
+                    Name = "Neutral Power Declaration",
+                    Description = "Under such a declaration, the council renounces its military ambitions, and turns to pacifism. The excess resources from the military accelerates the overall development of the society. Also, it facilitates all kinds of intelligence activities, but the lack of military power undermines the voice.",
+                    Type = ProjectType.Council,
+                    Cost = 500000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1128
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Military = -2,
+                        Diplomacy = -1,
+                        Commerce = 2,
+                        Production = 2,
+                        Spy = 1,
+                        Research = 2
+                    }
+                },
+                new Project()
+                {
+                    Id = 7043,
+                    Name = "Galactic Agreement of Free Commerce",
+                    Description = "Galactic Agreement of Free Commerce, a pan-council agreement contributes in vitalization of inter-council commerces, which in turn promotes commerce from the external sources. Traders travel to the farthest sectors, and all regions overflow with liveliness and energy. At the same time, it becomes harder to regulate informations, and this in turn jeopardizes the information security.",
+                    Type = ProjectType.Council,
+                    Cost = 15000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1112
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Commerce = 2
+                    }
+                },
+                new Project()
+                {
+                    Id = 7045,
+                    Name = "Propaganda Entertainment",
+                    Description = "This project involves putting together the perfect show to inspire your people. It causes them to put thier best effort into all they do and fuels their desire to conquer the enemy. Unfortunately, it also takes up time when they could be doing things, and decreases originality.",
+                    Type = ProjectType.Planet,
+                    Cost = 20000,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1116
+                        }
+                    },
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Military = 1,
+                        Production = -1,
+                        Research = -1,
+                        Efficiency = 1,
+                        Growth = 1
+                    }
+                }
+            };
+        }
         private void UseDefaultRaces()
         {
             Races = new List<Race>()
@@ -2967,7 +3722,7 @@ namespace Archspace2
                     Description = "The Ultimate Truth is the all-encompassing, final answer to all the questions of the universe.  Though the world may change, the Ultimate Truth remains unchanging.  This truth represents the will of God, and is the true power on whom one can rely.  Ultimate Truth is unchanging, yet contains in itself eternity, becoming ever changing.  \"Ever changing\" is not a paradox, but rather an attempt to convey the inexpressible Ultimate Truth.  Thus, Ultimate Truth is a perfect whole which cannot be expressed by words, and can only be comprehended by the enlightened ones.  Ultimate truth can also be said to be the Absolute Being in itself.",
                     Type = TechType.Social,
                     Attribute = TechAttribute.Normal,
-                    TechLevel = 10,
+                    TechLevel = 11,
                     Prerequisites = new List<PlayerPrerequisite>()
                     {
                         new PlayerPrerequisite()
@@ -4562,21 +5317,886 @@ namespace Archspace2
                             Value = 1425
                         }
                     }
-                },
-                new Tech()
+                }
+            };
+        }
+        private void UseDefaultWeapons()
+        {
+            Weapons = new List<Weapon>()
+            {
+                new Weapon()
                 {
-                    Id = 1427,
-                    Name = "True Enlightenment",
-                    Description = "True Enlightenment- the final stage of ascension and achieved by few. Many have gone through trials and tribulations, devoting life to prayer, meditation, non-violence and life to charity. True Enlightenment is achieved by dropping all of ones burdens, finding the zone between peace and strife, leaving the cares of mortal life behind and focusing on self-reflection.",
-                    Type = TechType.Life,
-                    Attribute = TechAttribute.Normal,
-                    TechLevel = 11,
+                    Id = 6101,
+                    Name = "Laser",
+                    Description = "The Laser is the basic idea behind all beam weapons. The focusing of light through the correct crystal matrix can make it into an efficient tool or a deadly weapon. This is another of the weapons that all races in the Empire seem to possess. Although not as powerful as some later weapons, the laser is an important weapon for all starting rulers.",
+                    TechLevel = 1,
+                    Type = WeaponType.Beam,
+                    AttackRating = 100,
+                    DamageRoll = 2,
+                    DamageDice = 4,
+                    Space = 25,
+                    CoolingTime = 50,
+                    Range = 1000,
+                    AngleOfFire = 60,
+                    Speed = 10,
                     Prerequisites = new List<PlayerPrerequisite>()
                     {
                         new PlayerPrerequisite()
                         {
                             Type = PrerequisiteType.Tech,
-                            Value = 1426
+                            Value = 1302
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6102,
+                    Name = "Plasma Beam",
+                    Description = "The Plasma Beam is a uses the your knowledge of the differing states of matter to form and project a focused ray of plasma at your enemies. When this matter reaches its target, the reaction is quite deadly. This makes the plasma beam quite effective against enemies who have not yet developed technology which protects from this type of attack.",
+                    TechLevel = 2,
+                    Type = WeaponType.Beam,
+                    AttackRating = 120,
+                    DamageRoll = 3,
+                    DamageDice = 4,
+                    Space = 28,
+                    CoolingTime = 70,
+                    Range = 1000,
+                    AngleOfFire = 60,
+                    Speed = 15,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1307
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldOverheat
+                        },
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.AdditionalDamageToBioArmor,
+                            ModifierType = ModifierType.Proportional,
+                            Amount = 175
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6103,
+                    Name = "Crystal Laser",
+                    Description = "The Crystal Laser uses your knowledge of crystal manipulation to purify the focusing component in your laser weaponry. This newly focused beam is more deadly and more accurate than its predecessor. This new lens does not cool as fast as the originals though, which means you cannot fire as often without risking dangerous temperatures.",
+                    TechLevel = 2,
+                    Type = WeaponType.Beam,
+                    AttackRating = 120,
+                    DamageRoll = 4,
+                    DamageDice = 4,
+                    Space = 30,
+                    CoolingTime = 60,
+                    Range = 1000,
+                    AngleOfFire = 60,
+                    Speed = 10,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1318
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6104,
+                    Name = "Graviton Beam",
+                    Description = "The Graviton Beam is actually a focused projection of many graviton particles. As this projection moves it gathers both speed and mass through attraction to objects in its path. This means that when it hits it has much speed and mass, this, along with the actual effect of the particles on the target itself allow this beam to crush your enemies.",
+                    TechLevel = 3,
+                    Type = WeaponType.Beam,
+                    AttackRating = 144,
+                    DamageRoll = 4,
+                    DamageDice = 4,
+                    Space = 29,
+                    CoolingTime = 55,
+                    Range = 1000,
+                    AngleOfFire = 60,
+                    Speed = 10,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1320
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 25
+                        },
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ArmorPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 25
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6105,
+                    Name = "Psi Blaster",
+                    Description = "The Psi Blaster is a weapon that can go from merely dangerous to outright deadly if used by the correct races. Powered by either a races own ability or by machines cleverly created for the purpose, the psi blaster destroys your enemies with forces that cannot be seen but only felt.",
+                    TechLevel = 3,
+                    Type = WeaponType.Beam,
+                    AttackRating = 144,
+                    DamageRoll = 4,
+                    DamageDice = 7,
+                    Space = 35,
+                    CoolingTime = 72,
+                    Range = 1000,
+                    AngleOfFire = 60,
+                    Speed = 15,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1419
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Race,
+                            Value = 7
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.Psi
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6106,
+                    Name = "Neutron Blaster",
+                    Description = "The Neutron Blaster uses the understanding of sub atomic physics to assemble neutrons which are tailored to rip through hull components. These are then projected along the path of a guiding laser to the enemy. Upon contact, they interact with the hull and can often cripple if not destroy an enemy ship.",
+                    TechLevel = 3,
+                    Type = WeaponType.Beam,
+                    AttackRating = 144,
+                    DamageRoll = 5,
+                    DamageDice = 5,
+                    Space = 38,
+                    CoolingTime = 60,
+                    Range = 1000,
+                    AngleOfFire = 60,
+                    Speed = 15,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1325
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.AdditionalDamageToBioArmor,
+                            ModifierType = ModifierType.Proportional,
+                            Amount = 200
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6107,
+                    Name = "Phasor",
+                    Description = "The Phasor is a deadly weapon that can alter the way in which space-time and the target interact. This can cause a high range of effects, from almost no damage, to complete destruction/dissolution of the component materials of the effected target. The phasor is perhaps on of the better known weapons in the current fighting happening within the Empire.",
+                    TechLevel = 5,
+                    Type = WeaponType.Beam,
+                    AttackRating = 250,
+                    DamageRoll = 12,
+                    DamageDice = 5,
+                    Space = 50,
+                    CoolingTime = 40,
+                    Range = 1000,
+                    AngleOfFire = 180,
+                    Speed = 5,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1332
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldOverheat
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6108,
+                    Name = "Tachyon Beam",
+                    Description = "The Tachyon Beam is a force which alters the probability of the target structure. The desired effect is to cause all of the particles of the structure to \"randomly\" repel each other. If this can be achieved for even an instant it can cause the effected area to explode as all of the particles attempt to put distance between their neighbors.",
+                    TechLevel = 4,
+                    Type = WeaponType.Beam,
+                    AttackRating = 273,
+                    DamageRoll = 5,
+                    DamageDice = 6,
+                    Space = 40,
+                    CoolingTime = 54,
+                    Range = 1000,
+                    AngleOfFire = 60,
+                    Speed = 10,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1219
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ArmorPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 45
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6109,
+                    Name = "Oscillation of Dissonance",
+                    Description = "The Oscillation of Dissonance is the most deadly Beam weapon to be invented. It has the power to rip ships to pieces faster than any other beam weapon. One of the more deadly aspects of this weapon is its ability to ignore almost all armor that your enemies may have on their ships.",
+                    TechLevel = 5,
+                    Type = WeaponType.Beam,
+                    AttackRating = 250,
+                    DamageRoll = 6,
+                    DamageDice = 8,
+                    Space = 50,
+                    CoolingTime = 80,
+                    Range = 1000,
+                    AngleOfFire = 360,
+                    Speed = 15,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1224
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ArmorPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 95
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6110,
+                    Name = "Psi Storm Launcher",
+                    Description = "The Psi Storm Launcher is a weapon often feared not just for the obvious damage it can do to matter, but also for the effects upon minds that survive it. This weapon creates a temporary vortex to the fourth dimension allowing psionic apparitions to manifest in our physical space. They do not always choose to do great damage, but the mental storms this living thoughts create can cause the bravest commanders to retreat.",
+                    TechLevel = 5,
+                    Type = WeaponType.Beam,
+                    AttackRating = 200,
+                    DamageRoll = 7,
+                    DamageDice = 8,
+                    Space = 38,
+                    CoolingTime = 72,
+                    Range = 1200,
+                    AngleOfFire = 120,
+                    Speed = 15,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1424
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.RacialTrait,
+                            Value = RacialTrait.Psi
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.Psi
+                        },
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldDistortion,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 25
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6201,
+                    Name = "Nuclear Missile",
+                    Description = "The Nuclear Missile was in the past one of the most feared weapons known. However, as races leave their first planet, they inevitably discover more powerful means of destruction. The nuclear missile is still a great force for destruction, and is in fact the one missile type that all races seem to have when they first reach the stars.",
+                    TechLevel = 1,
+                    Type = WeaponType.Missile,
+                    AttackRating = 100,
+                    DamageRoll = 5,
+                    DamageDice = 5,
+                    Space = 20,
+                    CoolingTime = 200,
+                    Range = 1500,
+                    AngleOfFire = 180,
+                    Speed = 20,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1301
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6202,
+                    Name = "Fusion Missile",
+                    Description = "The Fusion Missile is a logical progression from the nuclear missile. As a race refines their science, they are able to truly utilize fusion power efficiently. This power can be used for many things. One of these uses is to make more deadly weapons. This is the second type of missile that many races use as its power is a simple upgrade to that of the nuclear missile that proves so effective early in a powers career.",
+                    TechLevel = 2,
+                    Type = WeaponType.Missile,
+                    AttackRating = 120,
+                    DamageRoll = 8,
+                    DamageDice = 10,
+                    Space = 33,
+                    CoolingTime = 300,
+                    Range = 1500,
+                    AngleOfFire = 180,
+                    Speed = 20,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1306
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6203,
+                    Name = "Nova Torpedo",
+                    Description = "The Nova Torpedo is the final stage of the evolution of the nuclear missile. This missile takes initial science of fusion to a new height. With the use of each of these missiles a temporary star is created out of the component atoms of the target. This missile has the capacity for more damage than all but two other weapons. This force can be of great help in a battle, but be warned - the weapon takes a long time to prepare before it can be used again.",
+                    TechLevel = 4,
+                    Type = WeaponType.Missile,
+                    AttackRating = 172,
+                    DamageRoll = 18,
+                    DamageDice = 20,
+                    Space = 40,
+                    CoolingTime = 450,
+                    Range = 1500,
+                    AngleOfFire = 180,
+                    Speed = 20,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1327
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6204,
+                    Name = "Kamikaze Conscious Torpedo",
+                    Description = "The Kamikaze Torpedo has caused demonstrations upon numerous words. This weapon uses the very force that lies behind all living things to track your enemy. Of course, this link is rarely one way, so when this weapon is activated, those who can notice are often said to cringe at the shock this device sends thru the unconsciousness. Some people have begun to argue that this abuse will have repercussions, but few rulers head this. The weapon is too efficient to avoid using it because it gives some sensitive people headaches.",
+                    TechLevel = 3,
+                    Type = WeaponType.Missile,
+                    AttackRating = 200,
+                    DamageRoll = 8,
+                    DamageDice = 10,
+                    Space = 28,
+                    CoolingTime = 330,
+                    Range = 1500,
+                    AngleOfFire = 180,
+                    Speed = 20,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1115
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.Psi
+                        },
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.AdditionalDamageToBioArmor,
+                            ModifierType = ModifierType.Proportional,
+                            Amount = 200
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6205,
+                    Name = "Death Spore",
+                    Description = "The Death Spore might not sound like the most threatening weapon. However, this device has it uses. In this time when more and more races are turning to artificial life forms for many things, the death spore is merely the destructive use of this trend. This weapon is tailored to damage your enemies, and woe be to the enemy who tries to use any sort of living shield to protect themselves, as this life form will use such shielding to fuel itself to even greater destructive heights.",
+                    TechLevel = 3,
+                    Type = WeaponType.Missile,
+                    AttackRating = 172,
+                    DamageRoll = 7,
+                    DamageDice = 7,
+                    Space = 30,
+                    CoolingTime = 280,
+                    Range = 1500,
+                    AngleOfFire = 180,
+                    Speed = 20,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1416
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.AdditionalDamageToBioArmor,
+                            ModifierType = ModifierType.Proportional,
+                            Amount = 700
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6206,
+                    Name = "Anti-Matter Missile",
+                    Description = "The Antimatter Missile seems simple enough. As one developer said while working on this project, \"just imagine what this material will do when it comes into contact with regular matter, without the proper controls. In fact this scientist witnessed it first hand when a containment mistake was made during prototype construction. It goes without saying that there was not enough of him for a proper burial.",
+                    TechLevel = 3,
+                    Type = WeaponType.Missile,
+                    AttackRating = 144,
+                    DamageRoll = 10,
+                    DamageDice = 20,
+                    Space = 38,
+                    CoolingTime = 400,
+                    Range = 1500,
+                    AngleOfFire = 180,
+                    Speed = 20,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1322
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6207,
+                    Name = "Reflexium Missile",
+                    Description = "The Reflexium Missile is the use of an interesting property of reflexium. For some reason any interaction between this metal and most shielding causes great stress to the powering component of shields. This makes this weapon quite effective against those who utilize shielding to a great extent. Of course, the effect of a strong material impacting an object at high speed is nothing to laugh at either.",
+                    TechLevel = 4,
+                    Type = WeaponType.Missile,
+                    AttackRating = 200,
+                    DamageRoll = 12,
+                    DamageDice = 20,
+                    Space = 40,
+                    CoolingTime = 355,
+                    Range = 1500,
+                    AngleOfFire = 180,
+                    Speed = 20,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1330
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldDistortion,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 100
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6208,
+                    Name = "Psionic Pulse Shocker",
+                    Description = "The Psionic Pulse Shocker a deadly method of using psionic forces. This missile is in fact a focusing device for the psionic energies of your crew. They then use their abilities to hasten the entropy within your enemies to dangerous levels. If the enemy is unprepared, this can easily be their undoing.",
+                    TechLevel = 4,
+                    Type = WeaponType.Missile,
+                    AttackRating = 172,
+                    DamageRoll = 10,
+                    DamageDice = 14,
+                    Space = 32,
+                    CoolingTime = 240,
+                    Range = 1700,
+                    AngleOfFire = 180,
+                    Speed = 20,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1422
+                        },
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.RacialTrait,
+                            Value = RacialTrait.Psi
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.Psi
+                        },
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldDistortion,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 75
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6209,
+                    Name = "Time-Wake Homing Missile",
+                    Description = "The Time-Wake Homing Missile is a tricky weapon to figure out. Whether it is in fact tracking its enemies future path, or if it tracks its own future to determine the best path, this missile can be quite deadly and effective. There are even reports of it relocating itself through space/time and thus penetrating enemy shields and armor.",
+                    TechLevel = 5,
+                    Type = WeaponType.Missile,
+                    AttackRating = 250,
+                    DamageRoll = 8,
+                    DamageDice = 21,
+                    Space = 50,
+                    CoolingTime = 275,
+                    Range = 1500,
+                    AngleOfFire = 180,
+                    Speed = 20,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1333
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ArmorPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 30
+                        },
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldDistortion,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 75
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6210,
+                    Name = "Homing Black Hole",
+                    Description = "The Homing Black Hole is easily the single most powerful weapon ever created. This missile calls into being a temporary and small black hole, which can destroy fleets of weak vessels and cripple some of the largest ships in existence. The only drawback to this weapon is that it takes a long time to bring the next shot online.",
+                    TechLevel = 5,
+                    Type = WeaponType.Missile,
+                    AttackRating = 250,
+                    DamageRoll = 40,
+                    DamageDice = 36,
+                    Space = 100,
+                    CoolingTime = 500,
+                    Range = 1500,
+                    AngleOfFire = 180,
+                    Speed = 20,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1335
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6301,
+                    Name = "Rail Gun",
+                    Description = "The Rail Gun uses the basic principle that species have been using for thousands of Millennia. If you throw something at your enemies fast enough, it will hurt them. While this principle has been refined in other ways, the rail gun is still an effective way to harm your enemy. The fact that you are only accelerating simple matter and not charging it means that this type of weapon is especially useful because it can pass through almost any shields that your enemy may use.",
+                    TechLevel = 1,
+                    Type = WeaponType.Projectile,
+                    AttackRating = 50,
+                    DamageRoll = 2,
+                    DamageDice = 4,
+                    Space = 25,
+                    CoolingTime = 30,
+                    Range = 800,
+                    AngleOfFire = 60,
+                    Speed = 5,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1305
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6302,
+                    Name = "Gatling Rail Gun",
+                    Description = "The Gatling Rail Gun is a more effective version of the rail gun. It uses an understanding of inertia in order to direct a larger amount of matter toward your enemy. This means that when you hit you should usually do a greater amount of damage to your enemy. The fact that you have greater control also means there is less heat built up during the shot, so you can fire more often.",
+                    TechLevel = 2,
+                    Type = WeaponType.Projectile,
+                    AttackRating = 60,
+                    DamageRoll = 3,
+                    DamageDice = 4,
+                    Space = 40,
+                    CoolingTime = 15,
+                    Range = 800,
+                    AngleOfFire = 60,
+                    Speed = 5,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1312
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 100
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6303,
+                    Name = "Mass Driver",
+                    Description = "The Mass Driver uses a strong electromagnetic field to propel a projectile towards your enemy at amazing speeds. This weapon does not have as much restraint as the gatling rail gun, however the greater speed and mass allow this weapon to be somewhat more effective both in hitting your enemy and in causing damage.",
+                    TechLevel = 2,
+                    Type = WeaponType.Projectile,
+                    AttackRating = 90,
+                    DamageRoll = 4,
+                    DamageDice = 5,
+                    Space = 30,
+                    CoolingTime = 45,
+                    Range = 800,
+                    AngleOfFire = 60,
+                    Speed = 7,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1319
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 100
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6304,
+                    Name = "Gauss Cannon",
+                    Description = "The Gauss Cannon uses compressed material for the projectile. This material has much greater density and mass, so the force is exerts on its target is much more focused. This means that not only will this weapon pass through shields, but it will even penetrate a portion of your enemies armor.",
+                    TechLevel = 4,
+                    Type = WeaponType.Projectile,
+                    AttackRating = 90,
+                    DamageRoll = 6,
+                    DamageDice = 8,
+                    Space = 45,
+                    CoolingTime = 30,
+                    Range = 600,
+                    AngleOfFire = 60,
+                    Speed = 5,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1319
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 100
+                        },
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ArmorPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 15
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6305,
+                    Name = "Anti-Matter Cannon",
+                    Description = "The Anti-Matter Cannon work on a combination of the principles used to create the rail gun and the anti-matter missile. Firing shots as though they were normal rail gun charges, the projectiles fired are much more deadly, and so the overall weapon becomes one of the most efficient projectile weapons available.",
+                    TechLevel = 3,
+                    Type = WeaponType.Projectile,
+                    AttackRating = 120,
+                    DamageRoll = 6,
+                    DamageDice = 6,
+                    Space = 50,
+                    CoolingTime = 30,
+                    Range = 800,
+                    AngleOfFire = 60,
+                    Speed = 4,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1214
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 100
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6306,
+                    Name = "Autofire Gauss Cannon",
+                    Description = "The Autofire Gauss Cannon improves on the gauss cannon in one significant manner, speed. By using knowledge of space/time you are able to remove the heat from this weapon much faster and thus fire it at a greatly increased rate. It also has a slightly increased ability to make it past enemy defenses.",
+                    TechLevel = 5,
+                    Type = WeaponType.Projectile,
+                    AttackRating = 90,
+                    DamageRoll = 6,
+                    DamageDice = 8,
+                    Space = 50,
+                    CoolingTime = 15,
+                    Range = 600,
+                    AngleOfFire = 60,
+                    Speed = 3,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1333
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 100
+                        },
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ArmorPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 15
+                        }
+                    }
+                },
+                new Weapon()
+                {
+                    Id = 6307,
+                    Name = "Distortion Blaster",
+                    Description = "The Distortion Blaster is one of the most deadly weapons ever to be created. One shot from this monstrous weapon can out-damage some of the weaker weapons. Of course, it fires at speeds almost ten times faster than many missiles, which is why it is so feared. This weapon works by projecting small pieces of material from other dimensions into your enemies midst. These particles have a horrible effect on the enemy as they try to make anything they contact conform to their dimensional laws.",
+                    TechLevel = 5,
+                    Type = WeaponType.Projectile,
+                    AttackRating = 144,
+                    DamageRoll = 10,
+                    DamageDice = 12,
+                    Space = 100,
+                    CoolingTime = 30,
+                    Range = 800,
+                    AngleOfFire = 60,
+                    Speed = 3,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1334
+                        }
+                    },
+                    Effects = new List<FleetEffect>()
+                    {
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ShieldPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 150
+                        },
+                        new FleetEffect()
+                        {
+                            Type = FleetEffectType.ArmorPiercing,
+                            ModifierType = ModifierType.Absolute,
+                            Amount = 40
                         }
                     }
                 }

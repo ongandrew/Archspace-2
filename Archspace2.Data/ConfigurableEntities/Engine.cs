@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Archspace2
 {
@@ -12,7 +11,14 @@ namespace Archspace2
             BattleMobility = new Dictionary<int, int>();
         }
 
+        [JsonProperty("battleSpeed")]
         public Dictionary<int, int> BattleSpeed { get; set; }
+        [JsonProperty("battleMobility")]
         public Dictionary<int, int> BattleMobility { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+        }
     }
 }

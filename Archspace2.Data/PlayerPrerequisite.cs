@@ -11,6 +11,7 @@ namespace Archspace2
     {
         Race,
         RacialTrait,
+        Society,
         Planet,
         Tech,
         Project,
@@ -77,6 +78,8 @@ namespace Archspace2
                     return EvaluateRacePrerequisite(aPlayer);
                 case PrerequisiteType.RacialTrait:
                     return EvaluateRacialTraitPrerequisite(aPlayer);
+                case PrerequisiteType.Society:
+                    return EvaluateSocietyPrerequisite(aPlayer);
                 case PrerequisiteType.Planet:
                     throw new NotImplementedException();
                 case PrerequisiteType.Tech:
@@ -94,6 +97,11 @@ namespace Archspace2
         private bool EvaluateRacialTraitPrerequisite(Player aPlayer)
         {
             return aPlayer.Race.BaseTraits.Contains((RacialTrait)Value);
+        }
+
+        private bool EvaluateSocietyPrerequisite(Player aPlayer)
+        {
+            return aPlayer.Race.SocietyType == (SocietyType)Value;
         }
 
         private bool EvaluateTechPrerequisite(Player aPlayer)

@@ -64,7 +64,7 @@ namespace Archspace2
         DefenseRatingAgainstPsi,
         PsiNeutralizationField,
         SpaceMining,
-
+        PanicModifier,
         ShieldPiercing,
         ArmorPiercing,
         AdditionalDamageToBioArmor,
@@ -72,8 +72,7 @@ namespace Archspace2
         ShieldOverheat,
         Corrosivity,
         Psi,
-        PsiEmpower,
-        PanicModifier
+        PsiEmpower
     };
     public enum ModifierType
     {

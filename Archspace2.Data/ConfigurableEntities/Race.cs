@@ -39,7 +39,7 @@ namespace Archspace2
 
     public class Race : Entity
     {
-        public Race()
+        public Race() : base()
         {
             BaseEmpireRelation = 50;
             BaseFleetEffects = new List<FleetEffect>();
@@ -62,5 +62,10 @@ namespace Archspace2
         public List<RacialTrait> BaseTraits { get; set; }
         [JsonProperty("baseFleetEffects")]
         public List<FleetEffect> BaseFleetEffects { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+        }
     }
 }

@@ -20,5 +20,10 @@ namespace Archspace2
         public Dictionary<int, int> RechargeRate { get; set; }
         [JsonProperty("strength")]
         public Dictionary<int, int> Strength { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+        }
     }
 }
