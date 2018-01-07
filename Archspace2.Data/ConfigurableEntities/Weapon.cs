@@ -4,8 +4,12 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class Weapon : Entity
+    public class Weapon : ShipComponent
     {
+        public Weapon() : base(ComponentCategory.Weapon)
+        {
+        }
+
         public int Space { get; set; }
     }
 }

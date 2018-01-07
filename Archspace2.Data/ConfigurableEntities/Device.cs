@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class Device : Entity
+    public class Device : ShipComponent
     {
+        public Device() : base(ComponentCategory.Device)
+        {
+        }
     }
 }

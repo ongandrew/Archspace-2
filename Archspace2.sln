@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archspace2.Web", "Archspace2.Web\Archspace2.Web.csproj", "{A4B392D3-B8BE-4443-8B5B-2A88C5FBF17E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archspace2.Web", "Archspace2.Web\Archspace2.Web.csproj", "{A4B392D3-B8BE-4443-8B5B-2A88C5FBF17E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archspace2.Data", "Archspace2.Data\Archspace2.Data.csproj", "{4F9CD529-36D1-4608-ABF0-C9BF9291DB71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archspace2.Data", "Archspace2.Data\Archspace2.Data.csproj", "{4F9CD529-36D1-4608-ABF0-C9BF9291DB71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archspace2.Tests", "Archspace2.Tests\Archspace2.Tests.csproj", "{006B84DD-8770-4B0A-8C3E-66D274329463}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{4F9CD529-36D1-4608-ABF0-C9BF9291DB71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F9CD529-36D1-4608-ABF0-C9BF9291DB71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F9CD529-36D1-4608-ABF0-C9BF9291DB71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{006B84DD-8770-4B0A-8C3E-66D274329463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{006B84DD-8770-4B0A-8C3E-66D274329463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{006B84DD-8770-4B0A-8C3E-66D274329463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{006B84DD-8770-4B0A-8C3E-66D274329463}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

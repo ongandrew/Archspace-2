@@ -6,5 +6,6 @@ namespace Archspace2
 {
     public class Race : Entity
     {
+        public ControlModel BaseControlModel { get; set; }
     }
 }
