@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
 
 namespace Archspace2
 {
@@ -9,5 +7,10 @@ namespace Archspace2
         public Device() : base(ComponentCategory.Device)
         {
         }
+
+        [JsonProperty("minimumClass")]
+        public int MinimumClass { get; set; }
+        [JsonProperty("maximumClass")]
+        public int MaximumClass { get; set; }
     }
 }

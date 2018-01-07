@@ -10,6 +10,7 @@ namespace Archspace2
     public enum PrerequisiteType
     {
         Race,
+        RacialTrait,
         Planet,
         Tech,
         Project,
@@ -74,6 +75,8 @@ namespace Archspace2
             {
                 case PrerequisiteType.Race:
                     return EvaluateRacePrerequisite(aPlayer);
+                case PrerequisiteType.RacialTrait:
+                    return EvaluateRacialTraitPrerequisite(aPlayer);
                 case PrerequisiteType.Planet:
                     throw new NotImplementedException();
                 case PrerequisiteType.Tech:
@@ -86,6 +89,11 @@ namespace Archspace2
         private bool EvaluateRacePrerequisite(Player aPlayer)
         {
             return aPlayer.Race.Id == (int)Value;
+        }
+
+        private bool EvaluateRacialTraitPrerequisite(Player aPlayer)
+        {
+            return aPlayer.Race.BaseTraits.Contains((RacialTrait)Value);
         }
 
         private bool EvaluateTechPrerequisite(Player aPlayer)

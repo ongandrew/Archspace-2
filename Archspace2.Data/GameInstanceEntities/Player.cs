@@ -42,8 +42,8 @@ namespace Archspace2
                 TechIdList = value.Select(x => x.Id).SerializeIds();
             }
         }
-
         
         ICollection<Admiral> Commanders { get; set; }
+        ICollection<Planet> Planets { get; set; }
     }
 }

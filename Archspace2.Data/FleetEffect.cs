@@ -72,9 +72,10 @@ namespace Archspace2
         ShieldOverheat,
         Corrosivity,
         Psi,
-        PsiEmpower
+        PsiEmpower,
+        PanicModifier
     };
-    public enum FleetEffectModifierType
+    public enum ModifierType
     {
         Absolute,
         Proportional
@@ -94,7 +95,7 @@ namespace Archspace2
         public FleetEffectType Type { get; set; }
         [JsonProperty("modifierType")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public FleetEffectModifierType? ModifierType { get; set; }
+        public ModifierType? ModifierType { get; set; }
         [JsonProperty("targetType")]
         [JsonConverter(typeof(StringEnumConverter))]
         public FleetEffectTargetType? TargetType { get; set; }
