@@ -45,6 +45,7 @@ namespace Archspace2
             BaseFleetEffects = new List<FleetEffect>();
             BaseTechs = new List<int>();
             BaseTraits = new List<RacialTrait>();
+            AdmiralAbilities = new List<AdmiralRacialAbility>();
         }
 
         [JsonProperty("description")]
@@ -62,6 +63,8 @@ namespace Archspace2
         public List<RacialTrait> BaseTraits { get; set; }
         [JsonProperty("baseFleetEffects")]
         public List<FleetEffect> BaseFleetEffects { get; set; }
+        [JsonProperty("admiralAbilities")]
+        public List<AdmiralRacialAbility> AdmiralAbilities { get; set; }
 
         public override string ToString()
         {

@@ -2392,6 +2392,12 @@ namespace Archspace2
                             Type = FleetEffectType.CommanderSurvival,
                             Amount = 5
                         }
+                    },
+                    AdmiralAbilities = new List<AdmiralRacialAbility>()
+                    {
+                        AdmiralRacialAbility.IrrationalTactics,
+                        AdmiralRacialAbility.Intuition,
+                        AdmiralRacialAbility.LoneWolf
                     }
                 },
                 new Race()
@@ -2434,6 +2440,12 @@ namespace Archspace2
                         RacialTrait.GeneticEngineeringSpecialist,
                         RacialTrait.FragileMindStructure,
                         RacialTrait.GreatSpawningPool
+                    },
+                    AdmiralAbilities = new List<AdmiralRacialAbility>()
+                    {
+                        AdmiralRacialAbility.DnaPoisonReplicater,
+                        AdmiralRacialAbility.BreederMale,
+                        AdmiralRacialAbility.ClonalDouble
                     }
                 },
                 new Race()
@@ -2471,6 +2483,12 @@ namespace Archspace2
                     {
                         RacialTrait.FastManeuver,
                         RacialTrait.Stealth
+                    },
+                    AdmiralAbilities = new List<AdmiralRacialAbility>()
+                    {
+                        AdmiralRacialAbility.ShieldDisrupter,
+                        AdmiralRacialAbility.FamousPrivateer,
+                        AdmiralRacialAbility.CommerceKing
                     }
                 },
                 new Race()
@@ -2502,6 +2520,12 @@ namespace Archspace2
                     {
                         RacialTrait.InformationNetworkSpecialist,
                         RacialTrait.Scavenger
+                    },
+                    AdmiralAbilities = new List<AdmiralRacialAbility>()
+                    {
+                        AdmiralRacialAbility.CyberScanUnit,
+                        AdmiralRacialAbility.TrajectoryAugmentation,
+                        AdmiralRacialAbility.PatternBroadcaster
                     }
                 },
                 new Race()
@@ -2551,6 +2575,12 @@ namespace Archspace2
                         RacialTrait.NoBreath,
                         RacialTrait.EfficientInvestment,
                         RacialTrait.DownloadableCommanderExperience
+                    },
+                    AdmiralAbilities = new List<AdmiralRacialAbility>()
+                    {
+                        AdmiralRacialAbility.CyberScanUnit,
+                        AdmiralRacialAbility.RigidThinking,
+                        AdmiralRacialAbility.ManagementProtocol
                     }
                 },
                 new Race()
@@ -2589,6 +2619,12 @@ namespace Archspace2
                         RacialTrait.NoSpy,
                         RacialTrait.AsteroidManagement,
                         RacialTrait.Stealth
+                    },
+                    AdmiralAbilities = new List<AdmiralRacialAbility>()
+                    {
+                        AdmiralRacialAbility.LyingDormant,
+                        AdmiralRacialAbility.MissileCraters,
+                        AdmiralRacialAbility.MeteorDrones
                     }
                 },
                 new Race()
@@ -2629,6 +2665,12 @@ namespace Archspace2
                         RacialTrait.Diplomat,
                         RacialTrait.TrainedMind,
                         RacialTrait.Pacifist
+                    },
+                    AdmiralAbilities = new List<AdmiralRacialAbility>()
+                    {
+                        AdmiralRacialAbility.MentalGiant,
+                        AdmiralRacialAbility.RetreatShield,
+                        AdmiralRacialAbility.GeneticThrowback
                     }
                 },
                 new Race()
@@ -2669,6 +2711,12 @@ namespace Archspace2
                     {
                         RacialTrait.Psi,
                         RacialTrait.FanaticFleet
+                    },
+                    AdmiralAbilities = new List<AdmiralRacialAbility>()
+                    {
+                        AdmiralRacialAbility.XenophobicFanatic,
+                        AdmiralRacialAbility.MentalGiant,
+                        AdmiralRacialAbility.IrrationalTactics
                     }
                 },
                 new Race()
@@ -2713,6 +2761,12 @@ namespace Archspace2
                     {
                         RacialTrait.HighMorale,
                         RacialTrait.TacticalMastery
+                    },
+                    AdmiralAbilities = new List<AdmiralRacialAbility>()
+                    {
+                        AdmiralRacialAbility.ArtifactCrystal,
+                        AdmiralRacialAbility.TacticalGenius,
+                        AdmiralRacialAbility.Blitzkreig
                     }
                 },
                 new Race()
@@ -2749,6 +2803,12 @@ namespace Archspace2
                     BaseTraits = new List<RacialTrait>()
                     {
                         RacialTrait.NoBreath
+                    },
+                    AdmiralAbilities = new List<AdmiralRacialAbility>()
+                    {
+                        AdmiralRacialAbility.DefensiveMatrix,
+                        AdmiralRacialAbility.PsychicProgenitor,
+                        AdmiralRacialAbility.ArtifactCoolingEngine
                     }
                 }
             };
