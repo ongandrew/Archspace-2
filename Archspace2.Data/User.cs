@@ -6,5 +6,6 @@ namespace Archspace2
 {
     public class User : Entity
     {
+        public string EmailAddress { get; set; }
     }
 }

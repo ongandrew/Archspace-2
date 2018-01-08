@@ -11,6 +11,7 @@ namespace Archspace2
         {
             Armors = new List<Armor>();
             Computers = new List<Computer>();
+            Devices = new List<Device>();
             Engines = new List<Engine>();
             Projects = new List<Project>();
             Races = new List<Race>();
@@ -18,6 +19,8 @@ namespace Archspace2
             ShipClasses = new List<ShipClass>();
             Techs = new List<Tech>();
             Weapons = new List<Weapon>();
+
+            ClusterNames = new List<string>();
         }
 
         [JsonProperty("armors")]
@@ -41,6 +44,9 @@ namespace Archspace2
         [JsonProperty("weapons")]
         public List<Weapon> Weapons { get; set; }
 
+        [JsonProperty("clusterNames")]
+        public List<string> ClusterNames { get; set; }
+
         public void UseDefaults()
         {
             UseDefaultArmors();
@@ -53,6 +59,8 @@ namespace Archspace2
             UseDefaultShipClasses();
             UseDefaultTechs();
             UseDefaultWeapons();
+
+            UseDefaultClusterNames();
         }
 
         private void UseDefaultArmors()
@@ -2398,6 +2406,57 @@ namespace Archspace2
                         AdmiralRacialAbility.IrrationalTactics,
                         AdmiralRacialAbility.Intuition,
                         AdmiralRacialAbility.LoneWolf
+                    },
+                    AdmiralFirstNames = new List<string>()
+                    {
+                        "Tania",
+                        "David",
+                        "Hal",
+                        "Norman",
+                        "Taorin",
+                        "Molly",
+                        "Ivan",
+                        "Mellany",
+                        "Taryn",
+                        "Rock",
+                        "Serra",
+                        "Delilah",
+                        "Zorra",
+                        "Seria",
+                        "Brian",
+                        "Kay",
+                        "Clair",
+                        "Jean",
+                        "Mike",
+                        "Miguel",
+                        "Pablo",
+                        "Dora",
+                        "Johnny",
+                        "Arthur",
+                        "Luke"
+                    },
+                    AdmiralLastNames = new List<string>()
+                    {
+                        "Trokov",
+                        "Shang",
+                        "Struve",
+                        "Kessler",
+                        "Stendel",
+                        "Champion",
+                        "Chefman",
+                        "Carter",
+                        "Cervani",
+                        "Ashray",
+                        "Noran",
+                        "Sergei",
+                        "Forgraves",
+                        "McKintire",
+                        "Parker",
+                        "Baker",
+                        "Dupin",
+                        "Vandike",
+                        "Drought",
+                        "Drake"
                     }
                 },
                 new Race()
@@ -2446,6 +2505,40 @@ namespace Archspace2
                         AdmiralRacialAbility.DnaPoisonReplicater,
                         AdmiralRacialAbility.BreederMale,
                         AdmiralRacialAbility.ClonalDouble
+                    },
+                    AdmiralFirstNames = new List<string>()
+                    {
+                        "Urrhka-truqh",
+                        "Orhmmvorrhaqhu",
+                        "Krhrhuukhahath",
+                        "Orumh",
+                        "Rhudorrhak",
+                        "Zhoelahazekuth",
+                        "Thunzthammharhudz",
+                        "Khohorrdadz",
+                        "Thrildikadz",
+                        "Kvardanz",
+                        "Zdilpotek",
+                        "Mortaksh",
+                        "Kahhruth",
+                        "Arrhundazthallamahak",
+                        "Mmohoth",
+                        "Bintokashredd",
+                        "Mmorrhukrrah"
+                    },
+                    AdmiralLastNames = new List<string>()
+                    {
+                        "Thrrorhkuhatz",
+                        "Bmataurhammazikhhathahat",
+                        "Kvorhhiamadz",
+                        "Zzomdhullahhodaqh",
+                        "Khoshvaprrhothoqh",
+                        "Walrorhkshafkoh",
+                        "Fahqtrapohradz",
+                        "Bahkrrhoatrroph",
+                        "Torriashstoh",
+                        "Zihaarrhud",
+                        "Tworrkatth"
                     }
                 },
                 new Race()
@@ -2489,6 +2582,43 @@ namespace Archspace2
                         AdmiralRacialAbility.ShieldDisrupter,
                         AdmiralRacialAbility.FamousPrivateer,
                         AdmiralRacialAbility.CommerceKing
+                    },
+                    AdmiralFirstNames = new List<string>()
+                    {
+                        "Navarre",
+                        "Neffes",
+                        "Gaviria",
+                        "Fuerzas",
+                        "Carletti",
+                        "Veroniz",
+                        "Montoya",
+                        "Nouvouz",
+                        "Naridad",
+                        "Cervantes",
+                        "Turleza",
+                        "Vazar",
+                        "Fernali",
+                        "Montanya",
+                        "Rodhorigue",
+                        "Tiranos",
+                        "Valdes",
+                        "Esciante"
+                    },
+                    AdmiralLastNames = new List<string>()
+                    {
+                        "Vivouz",
+                        "Mostilloz",
+                        "Vienvenuez",
+                        "Rhomuliges",
+                        "Monjaros",
+                        "Vernardi",
+                        "Jertrali",
+                        "Rozal",
+                        "Janares",
+                        "Toumarillos",
+                        "Nouvau",
+                        "Plait",
+                        "Mosles"
                     }
                 },
                 new Race()
@@ -2526,6 +2656,73 @@ namespace Archspace2
                         AdmiralRacialAbility.CyberScanUnit,
                         AdmiralRacialAbility.TrajectoryAugmentation,
                         AdmiralRacialAbility.PatternBroadcaster
+                    },
+                    AdmiralFirstNames = new List<string>()
+                    {
+                        "Krom-ashur",
+                        "jezrael",
+                        "Skutharka",
+                        "Dahtuashur",
+                        "Noritohs",
+                        "Saglazael",
+                        "Zeanuxh",
+                        "Tangael",
+                        "Solsh-alush",
+                        "Ashutharka",
+                        "Thratch",
+                        "Zinatt",
+                        "Vees",
+                        "Konte",
+                        "Kothlosh",
+                        "Ahkubilis",
+                        "Variablis",
+                        "Stathush",
+                        "Aeteriash",
+                        "Donablis",
+                        "Luxhratch",
+                        "Velutash",
+                        "Semperixh",
+                        "Krethaxhash",
+                        "Rothaxh",
+                        "Veripton",
+                        "Esplosh",
+                        "Thrizriash",
+                        "Nerixhash",
+                        "Lantarixh",
+                        "Surizael",
+                        "Aixh-agla",
+                        "Laeratch",
+                        "Lashloxh",
+                        "Silutash",
+                        "Iblis",
+                        "Temnash",
+                        "Maerixh",
+                        "Menelublis",
+                        "Aglaratch",
+                        "Palankuxh",
+                        "Druxh",
+                        "Jeblis",
+                        "Volublis",
+                        "Nunkaxh",
+                        "Jushtoh",
+                        "Obthuratch",
+                        "Thunkuxh",
+                        "Rudhomente",
+                        "Axiemlosh",
+                        "Elenathriz",
+                        "Pennalis",
+                        "Aglar-sagla",
+                        "Nachaearesh",
+                        "Voraxh",
+                        "Aurumntoh",
+                        "Natohs",
+                        "Niruxh",
+                        "Dahntohs",
+                        "Ubbo-sagla",
+                        "Solsh-imarixh",
+                        "Inarixh",
+                        "Nektublis",
+                        "Ishtlosh"
                     }
                 },
                 new Race()
@@ -2625,6 +2822,66 @@ namespace Archspace2
                         AdmiralRacialAbility.LyingDormant,
                         AdmiralRacialAbility.MissileCraters,
                         AdmiralRacialAbility.MeteorDrones
+                    },
+                    AdmiralFirstNames = new List<string>()
+                    {
+                        "Urm",
+                        "Ro",
+                        "Mmu",
+                        "Rhmmu",
+                        "Yorr",
+                        "Mer",
+                        "Rogg",
+                        "Ttem",
+                        "Rhe",
+                        "Rouh",
+                        "Hymh",
+                        "Hyl",
+                        "Nish",
+                        "Lig",
+                        "Ohr",
+                        "Yim",
+                        "Feh",
+                        "She",
+                        "Loum",
+                        "Tylh",
+                        "Yag",
+                        "Dush",
+                        "Har",
+                        "Mmon",
+                        "Nohr",
+                        "Gosh",
+                        "Rhuo",
+                        "Mau",
+                        "Dahl",
+                        "Morr",
+                        "Bovr",
+                        "Dirr",
+                        "Mula",
+                        "Norr",
+                        "Nil",
+                        "Mou",
+                        "Hodd",
+                        "Houl",
+                        "Gou",
+                        "Naa",
+                        "Geem",
+                        "Kuu",
+                        "Chah",
+                        "Mutho",
+                        "Torh",
+                        "Tla",
+                        "Taar",
+                        "Rhhu",
+                        "Gaah",
+                        "Rhga",
+                        "Haa",
+                        "Lorh",
+                        "Nee",
+                        "Rhoa",
+                        "Seak",
+                        "Thorr",
+                        "Baal"
                     }
                 },
                 new Race()
@@ -2671,6 +2928,69 @@ namespace Archspace2
                         AdmiralRacialAbility.MentalGiant,
                         AdmiralRacialAbility.RetreatShield,
                         AdmiralRacialAbility.GeneticThrowback
+                    },
+                    AdmiralFirstNames = new List<string>()
+                    {
+                        "Vidhyarthi",
+                        "Prakrit",
+                        "Mahavanyak",
+                        "Siddhanta-Chakravarti",
+                        "Prabhupada",
+                        "Vaisnava",
+                        "Sarasvati",
+                        "Samhita",
+                        "Bhartiya",
+                        "Siksastakam",
+                        "Vijayanagara",
+                        "Rashtrakuta",
+                        "Kakatiya",
+                        "Chalukya",
+                        "Hoysala",
+                        "Nirvana",
+                        "Bhudavis",
+                        "Ghina",
+                        "Shivalaya",
+                        "Aitlaya",
+                        "Prasad",
+                        "Subramanyam",
+                        "Lalvwani",
+                        "Mahavir",
+                        "Kundakunda",
+                        "Umaswati",
+                        "Ajivikas",
+                        "Parasanghate",
+                        "Acharya",
+                        "Yashovijay"
+                    },
+                    AdmiralLastNames = new List<string>()
+                    {
+                        "Paraghate",
+                        "Bodhisvaha",
+                        "Paramiddha",
+                        "Visyar-Maitreya",
+                        "Moksha-Sanyas",
+                        "Daivasur-Sampdvibhag",
+                        "Shradhatray",
+                        "Puranas",
+                        "Chakravarti",
+                        "Upadhye",
+                        "Sutrakrtangsutram",
+                        "Isibhasiyaim",
+                        "Uttarajjhaya",
+                        "Dasaveyaliya",
+                        "Suyadanga",
+                        "Ayaranga",
+                        "Cirantanacarya",
+                        "Acarangsutram",
+                        "Mahasvati",
+                        "Jambuvijayji",
+                        "Bhadrabahuswami",
+                        "Padmarajiah",
+                        "Sahitya",
+                        "Gyanpith",
+                        "Samaysara",
+                        "Dhyanastav",
+                        "Dharanendra"
                     }
                 },
                 new Race()
@@ -2717,6 +3037,73 @@ namespace Archspace2
                         AdmiralRacialAbility.XenophobicFanatic,
                         AdmiralRacialAbility.MentalGiant,
                         AdmiralRacialAbility.IrrationalTactics
+                    },
+                    AdmiralFirstNames = new List<string>()
+                    {
+                        "Anedjib",
+                        "Bakare",
+                        "Djoser",
+                        "Khaba",
+                        "Khefren",
+                        "Anedjibka",
+                        "Anubis",
+                        "Nebka",
+                        "Niuserre",
+                        "Sekhen",
+                        "Thoth",
+                        "Unas",
+                        "Ptah",
+                        "Geb",
+                        "Nut",
+                        "Shu",
+                        "Horus",
+                        "Osiris",
+                        "Isis",
+                        "Nepthys",
+                        "Seth",
+                        "Uto",
+                        "Amun",
+                        "Teshut",
+                        "Re",
+                        "Apophis",
+                        "Djedefhor",
+                        "Usermaatre",
+                        "Seputula",
+                        "Muthed",
+                        "Hederased",
+                        "Rakhbat",
+                        "Qeteth",
+                        "Vitesh",
+                        "Menkauhor"
+                    },
+                    AdmiralLastNames = new List<string>()
+                    {
+                        "Selket",
+                        "Wepwawet",
+                        "Sekhbat-Atheb-Sed",
+                        "Merenre",
+                        "Sekhmosis",
+                        "Thutmosis",
+                        "Hatshepsut",
+                        "Qesatchela",
+                        "Setepenre",
+                        "Kheops",
+                        "Seshat",
+                        "Yinepu",
+                        "Serekh",
+                        "Selkheops",
+                        "Nekhbet",
+                        "Setem",
+                        "Djehuty",
+                        "Atman",
+                        "Harsomtus",
+                        "Heb-Sed",
+                        "Hetepheres",
+                        "Netjer",
+                        "Tephnut",
+                        "Maat",
+                        "Taweret",
+                        "Qetesh"
                     }
                 },
                 new Race()
@@ -2767,6 +3154,58 @@ namespace Archspace2
                         AdmiralRacialAbility.ArtifactCrystal,
                         AdmiralRacialAbility.TacticalGenius,
                         AdmiralRacialAbility.Blitzkreig
+                    },
+                    AdmiralFirstNames = new List<string>()
+                    {
+                        "Ja'rod",
+                        "P'Etor",
+                        "Dubelmo",
+                        "Tullj",
+                        "Toq",
+                        "Zu'basha",
+                        "B'etlr",
+                        "Kahlest",
+                        "Mel'zek",
+                        "Nok'zek'bash",
+                        "Nok'tam",
+                        "Be'lesh",
+                        "Kaetak",
+                        "Nil'bash",
+                        "DubelmoHchugh",
+                        "Hogh",
+                        "Qu'",
+                        "Ba'el",
+                        "NgoDHommey",
+                        "Lursa",
+                        "Ja'bash",
+                        "Valkris",
+                        "Tel'Ehleyr",
+                        "MajDaq",
+                        "Khon",
+                        "Kow'Hel",
+                        "Korgh"
+                    },
+                    AdmiralLastNames = new List<string>()
+                    {
+                        "Turas",
+                        "MajQa'",
+                        "Ku'",
+                        "Pehturas'",
+                        "HeHDaq",
+                        "HemHesH",
+                        "QongmeH",
+                        "HeghmeH",
+                        "SoQlIj",
+                        "Sagh",
+                        "Kowron",
+                        "Kell",
+                        "Azetdur",
+                        "Gorkon",
+                        "K'Ehleyr",
+                        "Khon'Tihl",
+                        "Tel'Peh",
+                        "J'Dtan",
+                        "K'mpec"
                     }
                 },
                 new Race()
@@ -6260,6 +6699,300 @@ namespace Archspace2
                         }
                     }
                 }
+            };
+        }
+
+        private void UseDefaultClusterNames()
+        {
+            ClusterNames = new List<string>()
+            {
+                "Aditi"
+                ,"Aglaia"
+                ,"Agni"
+                ,"Akongo"
+                ,"Alako"
+                ,"Allekto"
+                ,"Amentet"
+                ,"Ammon"
+                ,"Amphitrite"
+                ,"Anuket"
+                ,"Aphrodite"
+                ,"Aplu"
+                ,"Arebati"
+                ,"Arma"
+                ,"Arsu"
+                ,"Asnan"
+                ,"Asteria"
+                ,"Atargatis"
+                ,"Atlaua"
+                ,"Atropos"
+                ,"Atum"
+                ,"Baal"
+                ,"Bacab"
+                ,"Bagvarti"
+                ,"Baldur"
+                ,"Behedti"
+                ,"Bel"
+                ,"Bellona"
+                ,"Bhagwan"
+                ,"Boreas"
+                ,"Bragi"
+                ,"Brahma"
+                ,"Bress"
+                ,"Brigantia"
+                ,"Britomartis"
+                ,"Buluga"
+                ,"Candra"
+                ,"Cath"
+                ,"Ceres"
+                ,"Chac"
+                ,"Cheiron"
+                ,"Cihuacoatl"
+                ,"Cinteotl"
+                ,"Cinvat"
+                ,"Concordia"
+                ,"Curche"
+                ,"Dabog"
+                ,"Dagda"
+                ,"Dedun"
+                ,"Dievs"
+                ,"Diomedes"
+                ,"Djata"
+                ,"Dolichenus"
+                ,"Durga"
+                ,"Dyaus"
+                ,"Ea"
+                ,"Egres"
+                ,"Ekchuah"
+                ,"Elkunirsa"
+                ,"Epona"
+                ,"Erato"
+                ,"Esus"
+                ,"Eule"
+                ,"Euphrosine"
+                ,"Euros"
+                ,"Euterpe"
+                ,"Faro"
+                ,"Fjorgyn"
+                ,"Flora"
+                ,"Forseti"
+                ,"Fortuna"
+                ,"Freyja"
+                ,"Frigg"
+                ,"Gaia"
+                ,"Gemini"
+                ,"Govannon"
+                ,"Gwydyon"
+                ,"Haldi"
+                ,"Hazzi"
+                ,"Hekate"
+                ,"Hel"
+                ,"Hephaistos"
+                ,"Hermaphroditos"
+                ,"Hermes"
+                ,"Heruka"
+                ,"Hestia"
+                ,"Hezur"
+                ,"Hinkon"
+                ,"Hoedr"
+                ,"Horai"
+                ,"Horus"
+                ,"Huan"
+                ,"Hubal"
+                ,"Huracan"
+                ,"Idun"
+                ,"Illapa"
+                ,"Indra"
+                ,"Inmar"
+                ,"Inuus"
+                ,"Isara"
+                ,"Isis"
+                ,"Ishtar"
+                ,"Jabru"
+                ,"Jamm"
+                ,"Jarri"
+                ,"Jord"
+                ,"Juno"
+                ,"Juventas"
+                ,"Jyotishka"
+                ,"Kali"
+                ,"Kama"
+                ,"Karta"
+                ,"Kataragama"
+                ,"Klotho"
+                ,"Korrawi"
+                ,"Kotar"
+                ,"Kubera"
+                ,"Kukulcan"
+                ,"Kusuh"
+                ,"Lachesis"
+                ,"Laima"
+                ,"Lakshmi"
+                ,"Laran"
+                ,"Larunda"
+                ,"Laverna"
+                ,"Libera"
+                ,"Lodur"
+                ,"Loki"
+                ,"Lucina"
+                ,"Luna"
+                ,"Mah"
+                ,"Maia"
+                ,"Maitreya"
+                ,"Malakbel"
+                ,"Manannan"
+                ,"Marduk"
+                ,"Marici"
+                ,"Maui"
+                ,"Megaira"
+                ,"Meness"
+                ,"Menhit"
+                ,"Menulis"
+                ,"Metis"
+                ,"Midir"
+                ,"Minerva"
+                ,"Mitra"
+                ,"Morgoth"
+                ,"Moloch"
+                ,"Mugasa"
+                ,"Musisi"
+                ,"Nahhundi"
+                ,"Nammu"
+                ,"Napir"
+                ,"Narisah"
+                ,"Nechbet"
+                ,"Nemesis"
+                ,"Nephthys"
+                ,"Nereus"
+                ,"Nergal"
+                ,"Nerthus"
+                ,"Nirah"
+                ,"Nirrti"
+                ,"Nisaba"
+                ,"Njord"
+                ,"Nortia"
+                ,"Notos"
+                ,"Nun"
+                ,"Nusku"
+                ,"Nzambi"
+                ,"Odin"
+                ,"Ogmios"
+                ,"Okeanos"
+                ,"Olokun"
+                ,"Orcus"
+                ,"Orion"
+                ,"Orpheus"
+                ,"Osiris"
+                ,"Oya"
+                ,"Pachet"
+                ,"Pariacaca"
+                ,"Parjanya"
+                ,"Peitho"
+                ,"Pemba"
+                ,"Perkons"
+                ,"Persaios"
+                ,"Pleiades"
+                ,"Pomona"
+                ,"Pon"
+                ,"Prende"
+                ,"Priapos"
+                ,"Ptah"
+                ,"Pudicitia"
+                ,"Pushan"
+                ,"Ordal"
+                ,"Qaynyan"
+                ,"Quat"
+                ,"Quilla"
+                ,"Quzah"
+                ,"Rat-taui"
+                ,"Raudna"
+                ,"Renenutet"
+                ,"Reshef"
+                ,"Rind"
+                ,"Rongo"
+                ,"Rosmerta"
+                ,"Rudra"
+                ,"Sachmet"
+                ,"Sadrapa"
+                ,"Samvara"
+                ,"Sarasvati"
+                ,"Sedna"
+                ,"Sentait"
+                ,"Sequana"
+                ,"Serket-hetu"
+                ,"Seth"
+                ,"Sethlans"
+                ,"Shosshu"
+                ,"Shurdi"
+                ,"Sif"
+                ,"Silvanus"
+                ,"Singbonga"
+                ,"Sirona"
+                ,"Sitala"
+                ,"Siva"
+                ,"Skanda"
+                ,"Skuld"
+                ,"Sokar"
+                ,"Sol"
+                ,"Soma"
+                ,"Sopdu"
+                ,"Sucellos"
+                ,"Sulmanu"
+                ,"Summamus"
+                ,"Surya"
+                ,"Svarog"
+                ,"Tabiti"
+                ,"Tailtiu"
+                ,"Tapio"
+                ,"Tangaroa"
+                ,"Taranis"
+                ,"Tate"
+                ,"Teisiphone"
+                ,"Tellus"
+                ,"Thaleia"
+                ,"Thanatos"
+                ,"Thesan"
+                ,"Themis"
+                ,"Thor"
+                ,"Turan"
+                ,"Tyche"
+                ,"Ugar"
+                ,"Ukko"
+                ,"Ullr"
+                ,"Unut"
+                ,"Upulvan"
+                ,"Urd"
+                ,"Ushas"
+                ,"Utu"
+                ,"Vali"
+                ,"Varda"
+                ,"Varunya"
+                ,"Vata"
+                ,"Vayu"
+                ,"Veive"
+                ,"Verdandi"
+                ,"Vesta"
+                ,"Virtus"
+                ,"Vishnu"
+                ,"Voer"
+                ,"Volumna"
+                ,"Votan"
+                ,"Vritra"
+                ,"Vulcanus"
+                ,"Wadd"
+                ,"Whiro"
+                ,"Wunekau"
+                ,"Wurunkatte"
+                ,"Xochipilli"
+                ,"Xocotl"
+                ,"Yama"
+                ,"Yarhibol"
+                ,"Yavanna"
+                ,"Yehl"
+                ,"Zalmoxis"
+                ,"Zemyna"
+                ,"Zephyros"
+                ,"Zeus"
             };
         }
 

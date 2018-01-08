@@ -21,6 +21,11 @@ namespace Archspace2
 
         }
         
-        public ICollection<Player> Characters { get; set; }
+        public Player CreateNewPlayer(string aName, Race aRace)
+        {
+
+        }
+
+        public ICollection<Player> Players { get; set; }
     }
 }

@@ -37,6 +37,13 @@ namespace Archspace2
         TacticalMastery
     };
 
+    public enum AdmiralNameStyle
+    {
+        Normal,
+        Evintos,
+        Xesperados
+    }
+
     public class Race : Entity
     {
         public Race() : base()
@@ -46,6 +53,8 @@ namespace Archspace2
             BaseTechs = new List<int>();
             BaseTraits = new List<RacialTrait>();
             AdmiralAbilities = new List<AdmiralRacialAbility>();
+            AdmiralFirstNames = new List<string>();
+            AdmiralLastNames = new List<string>();
         }
 
         [JsonProperty("description")]
@@ -65,6 +74,12 @@ namespace Archspace2
         public List<FleetEffect> BaseFleetEffects { get; set; }
         [JsonProperty("admiralAbilities")]
         public List<AdmiralRacialAbility> AdmiralAbilities { get; set; }
+        [JsonProperty("admiralFirstNames")]
+        public List<string> AdmiralFirstNames { get; set; }
+        [JsonProperty("admiralLastNames")]
+        public List<string> AdmiralLastNames { get; set; }
+        [JsonProperty("admiralNameStyle")]
+        public AdmiralNameStyle AdmiralNameStyle { get; set; }
 
         public override string ToString()
         {

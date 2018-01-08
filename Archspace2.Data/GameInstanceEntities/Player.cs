@@ -12,6 +12,9 @@ namespace Archspace2
             Techs = new List<Tech>();
         }
 
+        public int UserId { get; set; }
+        public User User { get; set; }
+
         public int CouncilId { get; set; }
         public Council Council { get; set; }
 
