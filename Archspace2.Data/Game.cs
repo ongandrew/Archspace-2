@@ -1,34 +1,102 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Archspace2
 {
     public static class Game
     {
-        public static GameConfiguration Configuration { get; }
+        private static bool mInitialized = false;
 
-        public static List<GameInstance> GameInstances
+        private static string mConnectionString;
+        public static DatabaseContext Context
         {
             get
             {
-                using (DatabaseContext databaseContext = new DatabaseContext())
+                if (mConnectionString == null)
                 {
-                    return databaseContext.GameInstances.ToList();
+                    throw new InvalidOperationException("Game engine not running.");
                 }
-            }
-        }
-        public static List<User> Users { get
-            {
-                using (DatabaseContext databaseContext = new DatabaseContext())
+                else
                 {
-                    return databaseContext.Users.ToList();
+                    return new DatabaseContext(mConnectionString);
                 }
             }
         }
 
-        static Game()
+        private static GameConfiguration mGameConfiguration;
+        public static GameConfiguration Configuration {
+            get
+            {
+                if (mGameConfiguration == null)
+                {
+                    throw new InvalidOperationException("Game engine not running.");
+                }
+                else
+                {
+                    return mGameConfiguration;
+                }
+            }
+        }
+
+        private static List<Universe> mUniverses;
+        public static List<Universe> Universes
         {
-            Configuration = new GameConfiguration();
+            get
+            {
+                if (mUniverses == null)
+                {
+                    throw new InvalidOperationException("Game engine not running.");
+                }
+                else
+                {
+                    return mUniverses;
+                }
+            }
+        }
+
+        private static List<User> mUsers;
+        public static List<User> Users
+        {
+            get
+            {
+                if (mUsers == null)
+                {
+                    throw new InvalidOperationException("Game engine not running.");
+                }
+                else
+                {
+                    return mUsers;
+                }
+            }
+        }
+
+        public static async Task InitializeAsync(string aConnectionString, GameConfiguration aGameConfiguration = null)
+        {
+            if (mInitialized)
+            {
+                throw new InvalidOperationException("Game engine has already been initialized.");
+            }
+
+            mConnectionString = aConnectionString ?? throw new InvalidOperationException("Invalid connection string provided.");
+
+            if (aGameConfiguration == null)
+            {
+                mGameConfiguration = GameConfiguration.CreateDefault();
+            }
+            else
+            {
+                mGameConfiguration = aGameConfiguration;
+            }
+
+            await Context.Database.EnsureCreatedAsync();
+
+            using (DatabaseContext databaseContext = Context)
+            {
+                mUniverses = await databaseContext.Universes.ToListAsync();
+                mUsers = await databaseContext.Users.ToListAsync();
+            }
         }
     }
 }

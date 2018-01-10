@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -40,6 +42,11 @@ namespace Archspace2.Web
             app.UseStaticFiles();
 
             app.UseMvcWithDefaultRoute();
+
+            SqlConnectionStringBuilder sqlConnectionStringBuilder = new SqlConnectionStringBuilder();
+            Configuration.GetSection("SqlServer").Bind(sqlConnectionStringBuilder);
+
+            Game.InitializeAsync(sqlConnectionStringBuilder.ToString()).GetAwaiter().GetResult();
         }
     }
 }

@@ -10,10 +10,7 @@ namespace Archspace2
         [TestMethod]
         public void GameConfigurationDefaultsAreCorrect()
         {
-            GameConfiguration gameConfiguration = new GameConfiguration();
-            gameConfiguration.UseDefaults();
-
-            Console.WriteLine(gameConfiguration);
+            Console.WriteLine(Game.Configuration);
         }
     }
 }

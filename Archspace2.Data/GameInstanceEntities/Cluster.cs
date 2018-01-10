@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class Cluster : GameInstanceEntity
+    public class Cluster : UniverseEntity
     {
         ICollection<Planet> Planets { get; set; }
     }

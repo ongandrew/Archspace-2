@@ -12,7 +12,6 @@ namespace Archspace2
         [TestMethod]
         public void AdmiralNamesAreCorrect()
         {
-            Game.Configuration.UseDefaults();
             Admiral admiral = new Admiral();
 
             Console.WriteLine(admiral.Name);

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class Fleet : GameInstanceEntity
+    public class Fleet : UniverseEntity
     {
         public Player Owner { get; set; }
         public Admiral Commander { get; set; }

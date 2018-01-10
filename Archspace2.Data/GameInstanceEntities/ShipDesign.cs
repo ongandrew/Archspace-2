@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class ShipDesign : GameInstanceEntity
+    public class ShipDesign : UniverseEntity
     {
         public int ShipClassId { get; set; }
         [NotMapped]

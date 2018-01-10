@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archspace2.Web", "Archspace
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archspace2.Data", "Archspace2.Data\Archspace2.Data.csproj", "{4F9CD529-36D1-4608-ABF0-C9BF9291DB71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archspace2.Tests", "Archspace2.Tests\Archspace2.Tests.csproj", "{006B84DD-8770-4B0A-8C3E-66D274329463}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archspace2.Tests", "Archspace2.Tests\Archspace2.Tests.csproj", "{006B84DD-8770-4B0A-8C3E-66D274329463}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

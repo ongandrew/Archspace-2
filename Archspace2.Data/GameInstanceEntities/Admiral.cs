@@ -47,7 +47,7 @@ namespace Archspace2
         DefensiveMatrix
     }
 
-    public class Admiral : GameInstanceEntity
+    public class Admiral : UniverseEntity
     {
         public int? OwnerId { get; set; }
         [ForeignKey("OwnerId")]

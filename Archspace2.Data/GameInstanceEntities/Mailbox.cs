@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class Mailbox : GameInstanceEntity
+    public class Mailbox : UniverseEntity
     {
     }
 }

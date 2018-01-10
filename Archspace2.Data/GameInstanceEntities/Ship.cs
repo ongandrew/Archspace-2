@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class Ship : GameInstanceEntity
+    public class Ship : UniverseEntity
     {
         public int DesignId { get; set; }
 

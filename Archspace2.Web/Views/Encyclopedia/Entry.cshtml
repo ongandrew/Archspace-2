@@ -1,0 +1,46 @@
+﻿@using Archspace2;
+@{
+    Layout = "_Layout";
+    string type = (string)ViewData["Type"];
+    int id = (int)ViewData["Id"];
+    dynamic entry = null;
+    switch (type)
+    {
+        case "armor":
+            entry = Game.Configuration.Armors.Single(x => x.Id == id);
+            break;
+        case "computer":
+            entry = Game.Configuration.Computers.Single(x => x.Id == id);
+            break;
+        case "device":
+            entry = Game.Configuration.Devices.Single(x => x.Id == id);
+            break;
+        case "engine":
+            entry = Game.Configuration.Engines.Single(x => x.Id == id);
+            break;
+        case "project":
+            entry = Game.Configuration.Projects.Single(x => x.Id == id);
+            break;
+        case "race":
+            entry = Game.Configuration.Races.Single(x => x.Id == id);
+            break;
+        case "shield":
+            entry = Game.Configuration.Shields.Single(x => x.Id == id);
+            break;
+        case "shipclass":
+            entry = Game.Configuration.ShipClasses.Single(x => x.Id == id);
+            break;
+        case "tech":
+            entry = Game.Configuration.Techs.Single(x => x.Id == id);
+            break;
+        case "weapon":
+            entry = Game.Configuration.Weapons.Single(x => x.Id == id);
+            break;
+        default:
+            break;
+    }
+    ViewData["Title"] = "Encyclopedia";
+}
+
+<h1>@entry.Name</h1>
+<p>@entry.Description</p>

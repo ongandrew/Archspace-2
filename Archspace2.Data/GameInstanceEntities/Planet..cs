@@ -58,7 +58,7 @@ namespace Archspace2
         H2O
     };
 
-    public class Planet : GameInstanceEntity
+    public class Planet : UniverseEntity
     {
         public int ClusterId { get; set; }
         [ForeignKey("ClusterId")]

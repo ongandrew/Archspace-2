@@ -5,11 +5,13 @@ using System.Linq;
 
 namespace Archspace2
 {
-    public class Player : GameInstanceEntity
+    public class Player : UniverseEntity
     {
         public Player()
         {
             Techs = new List<Tech>();
+            Admirals = new List<Admiral>();
+            Planets = new List<Planet>();
         }
 
         public int UserId { get; set; }
@@ -54,7 +56,7 @@ namespace Archspace2
             }
         }
         
-        ICollection<Admiral> Commanders { get; set; }
+        ICollection<Admiral> Admirals { get; set; }
         ICollection<Planet> Planets { get; set; }
     }
 }

@@ -47,7 +47,15 @@ namespace Archspace2
         [JsonProperty("clusterNames")]
         public List<string> ClusterNames { get; set; }
 
-        public void UseDefaults()
+        public static GameConfiguration CreateDefault()
+        {
+            GameConfiguration result = new GameConfiguration();
+            result.UseDefaults();
+
+            return result;
+        }
+
+        private void UseDefaults()
         {
             UseDefaultArmors();
             UseDefaultComputers();
@@ -5803,7 +5811,7 @@ namespace Archspace2
                 new Tech()
                 {
                     Id = 1426,
-                    Name = "Secret of Life",
+                    Name = "Ascension",
                     Description = "Generally speaking, Ascension is the state of enlightenment in which an individual discovers the truth of the universe, and ascends to a level of understanding beyond normal comprehension.  By realizing the fundamental universal truth, one becomes one step closer to the gods, and becomes capable of understanding the existence of all things.  Through this realization, one completely understands what absolute truth is, and this state can be considered ascension.  This state cannot be explained with mere words, and can only be understood by those who have reached the ascension level.  Each species had their own views about the enlightenments for Ascension, and have their according good or evil desires about Ascension, living their whole lives for this purpose.",
                     Type = TechType.Life,
                     Attribute = TechAttribute.Normal,

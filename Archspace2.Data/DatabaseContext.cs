@@ -1,25 +1,39 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Archspace2
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext()
+        protected string mConnectionString;
+
+        public DatabaseContext(string aConnectionString)
         {
-        }
-        public DatabaseContext(DbContextOptions aDbContextOptions) : base(aDbContextOptions)
-        {
+            mConnectionString = aConnectionString;
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder aDbContextOptionsBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            if (!aDbContextOptionsBuilder.IsConfigured)
+            {
+                aDbContextOptionsBuilder.UseSqlServer(mConnectionString);
+            }
         }
 
-        public DbSet<GameInstance> GameInstances { get; set; }
+        protected override void OnModelCreating(ModelBuilder aModelBuilder)
+        {
+            foreach (var entityType in aModelBuilder.Model.GetEntityTypes())
+            {
+                entityType.GetForeignKeys()
+                    .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade)
+                    .ToList()
+                    .ForEach(fk => fk.DeleteBehavior = DeleteBehavior.Restrict);
+            }
+
+            base.OnModelCreating(aModelBuilder);
+        }
+
+        public DbSet<Universe> Universes { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }

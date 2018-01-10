@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class Council : GameInstanceEntity
+    public class Council : UniverseEntity
     {
         public string Slogan { get; set; }
         ICollection<Player> Characters { get; set; }
