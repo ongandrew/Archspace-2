@@ -30,6 +30,9 @@
         case "shipclass":
             entry = Game.Configuration.ShipClasses.Single(x => x.Id == id);
             break;
+        case "spyaction":
+            entry = Game.Configuration.SpyActions.Single(x => x.Id == id);
+            break;
         case "tech":
             entry = Game.Configuration.Techs.Single(x => x.Id == id);
             break;

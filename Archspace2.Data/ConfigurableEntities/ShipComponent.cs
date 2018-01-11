@@ -14,7 +14,7 @@ namespace Archspace2
         Weapon
     }
 
-    public abstract class ShipComponent : Entity
+    public abstract class ShipComponent : Entity, IPlayerUnlockable
     {
         public ShipComponent(ComponentCategory aComponentCategory) : base()
         {

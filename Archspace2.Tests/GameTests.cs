@@ -22,7 +22,7 @@ namespace Archspace2
         }
 
         [TestMethod]
-        public void FailingConfigurationReturnsFailResult()
+        public void DuplicateIdsWithinSameClassFailsValidation()
         {
             GameConfiguration configuration = new GameConfiguration();
             configuration.Armors = new List<Armor>()
@@ -38,7 +38,31 @@ namespace Archspace2
             };
             
             ValidateResult result = configuration.Validate();
-            Assert.IsFalse(result.IsPassResult(), "Repeated Id within category is not picked up.");
+            Assert.IsFalse(result.IsPassResult(), "Repeated Id within category is not identified by validation.");
+        }
+
+        [TestMethod]
+        public void NonExistentTechRequirementFailsValidation()
+        {
+            GameConfiguration configuration = new GameConfiguration();
+            configuration.Armors = new List<Armor>()
+            {
+                new Armor()
+                {
+                    Id = 1,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1000
+                        }
+                    }
+                }
+            };
+
+            ValidateResult result = configuration.Validate();
+            Assert.IsFalse(result.IsPassResult(), "Non-existent tech requirement error not identified by validation.");
         }
     }
 }

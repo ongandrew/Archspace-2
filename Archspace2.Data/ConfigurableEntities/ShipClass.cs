@@ -5,8 +5,13 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class ShipClass : Entity
+    public class ShipClass : Entity, IPlayerUnlockable
     {
+        public ShipClass()
+        {
+            Prerequisites = new List<PlayerPrerequisite>();
+        }
+
         [JsonProperty("Description")]
         public string Description { get; set; }
         [JsonProperty("Class")]
@@ -23,6 +28,9 @@ namespace Archspace2
         public int Cost { get; set; }
         [JsonProperty("Upkeep")]
         public int Upkeep { get; set; }
+
+        [JsonProperty("Prerequisites")]
+        public List<PlayerPrerequisite> Prerequisites { get; set; }
 
         public override string ToString()
         {

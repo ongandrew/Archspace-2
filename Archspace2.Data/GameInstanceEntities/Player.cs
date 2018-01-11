@@ -5,6 +5,14 @@ using System.Linq;
 
 namespace Archspace2
 {
+    public enum ConcentrationMode
+    {
+        Balanced,
+        Industry,
+        Military,
+        Research
+    }
+
     public class Player : UniverseEntity
     {
         public Player()
@@ -15,9 +23,11 @@ namespace Archspace2
         }
 
         public int UserId { get; set; }
+        [ForeignKey("UserId")]
         public User User { get; set; }
 
         public int CouncilId { get; set; }
+        [ForeignKey("CouncilId")]
         public Council Council { get; set; }
 
         public int RaceId { get; set; }
@@ -34,6 +44,8 @@ namespace Archspace2
             }
         }
 
+        public ConcentrationMode ConcentrationMode { get; set; }
+
         public string TechIdList { get; private set; }
         [NotMapped]
         public List<Tech> Techs
@@ -48,19 +60,55 @@ namespace Archspace2
             }
         }
 
+        public string ProjectIdList { get; private set; }
+        [NotMapped]
+        public List<Project> Projects
+        {
+            get
+            {
+                return ProjectIdList.DeserializeIds().Select(x => Game.Configuration.Projects.Single(project => project.Id == x)).ToList();
+            }
+            set
+            {
+                ProjectIdList = value.Select(x => x.Id).SerializeIds();
+            }
+        }
+
         public ControlModel ControlModel
         {
             get
             {
-                return Race.BaseControlModel + Techs.Select(x => x.ControlModelModifier).Aggregate(new ControlModel(), (a, b) => a + b);
+                ControlModel result = Race.BaseControlModel;
+
+                result += Techs.CalculateControlModelModifier();
+                result += Projects.CalculateControlModelModifier();
+                result += Council.Projects.CalculateControlModelModifier();
+
+                if (Planets.Any(x => x.PlanetAttributes.Select(y => y.Type).Contains(PlanetAttributeType.MajorSpaceCrossroute)))
+                {
+                    result.Commerce += 1;
+                }
+
+                result += ConcentrationMode.GetControlModelModifier();
+
+                return result;
             }
         }
 
         public int MailboxId { get; set; }
         [ForeignKey("MailboxId")]
         public Mailbox Mailbox { get; set; }
+
+        public bool EvaluatePrerequisites(IPlayerUnlockable aPlayerUnlockable)
+        {
+            return EvaluatePrerequisites(aPlayerUnlockable.Prerequisites);
+        }
+        public bool EvaluatePrerequisites(List<PlayerPrerequisite> aPrerequisites)
+        {
+            return aPrerequisites.Evaluate(this);
+        }
         
-        ICollection<Admiral> Admirals { get; set; }
-        ICollection<Planet> Planets { get; set; }
+        public ICollection<Admiral> Admirals { get; set; }
+        public ICollection<Planet> Planets { get; set; }
     }
 }

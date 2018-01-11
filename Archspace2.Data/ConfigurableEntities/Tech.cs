@@ -21,7 +21,7 @@ namespace Archspace2
         Innate
     }
 
-    public class Tech : Entity
+    public class Tech : Entity, IPlayerUnlockable, IControlModelModifier
     {
         public Tech()
         {

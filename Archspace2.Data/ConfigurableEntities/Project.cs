@@ -16,7 +16,7 @@ namespace Archspace2
         BlackMarket
     }
 
-    public class Project : Entity
+    public class Project : Entity, IPlayerUnlockable, IControlModelModifier
     {
         public Project() : base()
         {

@@ -9,6 +9,7 @@ namespace Archspace2.Web.Controllers
     [Route("encyclopedia")]
     public class EncyclopediaController : Controller
     {
+#pragma warning disable CS1998
         [Route("")]
         public async Task<IActionResult> Encyclopedia()
         {
@@ -23,5 +24,6 @@ namespace Archspace2.Web.Controllers
 
             return View();
         }
+#pragma warning restore CS1998
     }
 }

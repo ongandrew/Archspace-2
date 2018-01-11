@@ -64,6 +64,7 @@ namespace Archspace2
             }
         }
 
+#pragma warning disable CS1998
         public async Task<Project> AsProjectAsync()
         {
             if (Type == BlackMarketItemType.Project)
@@ -87,5 +88,6 @@ namespace Archspace2
                 throw new InvalidOperationException("Item is not a tech.");
             }
         }
+#pragma warning restore CS1998
     }
 }

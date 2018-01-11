@@ -1,34 +1,12 @@
-﻿using System;
+﻿using Archspace2.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
 
 namespace Archspace2
 {
-    public enum PlanetAttribute
-    {
-        Artifact,
-        MassiveArtifact,
-        Asteroid,
-        Moon,
-        Radiation,
-        SevereRadiation,
-        HostileMonster,
-        ObstinateMicrobe,
-        BeautifulLandscape,
-        BlackHole,
-        Nebula,
-        DarkNebula,
-        VolcanicActivity,
-        IntenseVolcanicActivity,
-        Ocean,
-        IrregularClimate,
-        MajorSpaceRoute,
-        MajorSpaceCrossroute,
-        FrontierArea,
-        GravityControlled
-    }
-
     public enum PlanetSize
     {
         Tiny,
@@ -60,6 +38,11 @@ namespace Archspace2
 
     public class Planet : UniverseEntity
     {
+        public Planet()
+        {
+            PlanetAttributes = new List<PlanetAttribute>();
+        }
+
         public int ClusterId { get; set; }
         [ForeignKey("ClusterId")]
         public Cluster Cluster { get; set; }
@@ -78,5 +61,20 @@ namespace Archspace2
         public Atmosphere Atmosphere { get; set; }
 
         public int Investment { get; set; }
+
+        public string PlanetAttributeList { get; set; }
+
+        [NotMapped]
+        public List<PlanetAttribute> PlanetAttributes
+        {
+            get
+            {
+                return PlanetAttributeList.DeserializeIds().Select(x => Game.Configuration.PlanetAttributes.Single(y => y.Id == x)).ToList();
+            }
+            set
+            {
+                PlanetAttributeList = value.Select(x => x.Id).SerializeIds();
+            }
+        }
     }
 }

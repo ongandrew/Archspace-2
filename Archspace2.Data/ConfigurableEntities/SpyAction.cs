@@ -14,8 +14,13 @@ namespace Archspace2
         Atrocious
     }
 
-    public class SpyAction : Entity
+    public class SpyAction : Entity, IPlayerUnlockable
     {
+        public SpyAction()
+        {
+            Prerequisites = new List<PlayerPrerequisite>();
+        }
+
         [JsonProperty("Description")]
         public string Description { get; set; }
 

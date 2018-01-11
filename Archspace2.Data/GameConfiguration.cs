@@ -6,14 +6,26 @@ using System.Text;
 
 namespace Archspace2
 {
+    public enum Language
+    {
+        English,
+        Korean
+    };
+
     public class GameConfiguration
     {
         public GameConfiguration()
         {
+            Action = new ActionSettings();
+            BlackMarket = new BlackMarketSettings();
+            Mission = new MissionSettings();
+            Planet = new PlanetSettings();
+
             Armors = new List<Armor>();
             Computers = new List<Computer>();
             Devices = new List<Device>();
             Engines = new List<Engine>();
+            PlanetAttributes = new List<PlanetAttribute>();
             Projects = new List<Project>();
             Races = new List<Race>();
             Shields = new List<Shield>();
@@ -24,6 +36,28 @@ namespace Archspace2
 
             ClusterNames = new List<string>();
         }
+        
+        [JsonProperty("Language")]
+        public Language Language { get; set; }
+        [JsonProperty("SecondsPerTurn")]
+        public int SecondsPerTurn { get; set; }
+        [JsonProperty("MaxUsers")]
+        public int MaxUsers { get; set; }
+        [JsonProperty("MinClusterCount")]
+        public int MinClusterCount { get; set; }
+        [JsonProperty("MinCouncilCount")]
+        public int MinCouncilCount { get; set; }
+        [JsonProperty("TechRateModifier")]
+        public double TechRateModifier { get; set; }
+
+        [JsonProperty("Action")]
+        public ActionSettings Action { get; set; }
+        [JsonProperty("BlackMarket")]
+        public BlackMarketSettings BlackMarket { get; set; }
+        [JsonProperty("Mission")]
+        public MissionSettings Mission { get; set; }
+        [JsonProperty("Planet")]
+        public PlanetSettings Planet { get; set; }
 
         [JsonProperty("Armors")]
         public List<Armor> Armors { get; set; }
@@ -33,6 +67,8 @@ namespace Archspace2
         public List<Device> Devices { get; set; }
         [JsonProperty("Engines")]
         public List<Engine> Engines { get; set; }
+        [JsonProperty("PlanetAttributes")]
+        public List<PlanetAttribute> PlanetAttributes { get; set; }
         [JsonProperty("Projects")]
         public List<Project> Projects { get; set; }
         [JsonProperty("Races")]
@@ -66,6 +102,7 @@ namespace Archspace2
             UseDefaultDevices();
             UseDefaultEngines();
             UseDefaultRaces();
+            UseDefaultPlanetAttributes();
             UseDefaultProjects();
             UseDefaultShields();
             UseDefaultShipClasses();
@@ -76,6 +113,20 @@ namespace Archspace2
             UseDefaultClusterNames();
         }
 
+        private void UseDefaultSettings()
+        {
+            Language = Language.English;
+            SecondsPerTurn = 300;
+            MaxUsers = 10000;
+            MinClusterCount = 7;
+            MinCouncilCount = 3;
+            TechRateModifier = 1;
+
+            Action = ActionSettings.CreateDefault();
+            BlackMarket = BlackMarketSettings.CreateDefault();
+            Mission = MissionSettings.CreateDefault();
+            Planet = PlanetSettings.CreateDefault();
+        }
         private void UseDefaultArmors()
         {
             Armors = new List<Armor>()
@@ -1626,6 +1677,208 @@ namespace Archspace2
                             Type = PrerequisiteType.Tech,
                             Value = 1334
                         }
+                    }
+                }
+            };
+        }
+        private void UseDefaultPlanetAttributes()
+        {
+            PlanetAttributes = new List<PlanetAttribute>()
+            {
+                new PlanetAttribute()
+                {
+                    Id = 10000,
+                    Name = "Artifact",
+                    Type = PlanetAttributeType.Artifact,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Research = 10
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10001,
+                    Name = "Massive Artifact",
+                    Type = PlanetAttributeType.MassiveArtifact,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Research = 20
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10002,
+                    Name = "Asteroid",
+                    Type = PlanetAttributeType.Asteroid,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Production = 1
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10003,
+                    Name = "Moon",
+                    Type = PlanetAttributeType.Moon,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Military = 2,
+                        Growth = 3,
+                        Commerce = 1
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10004,
+                    Name = "Radiation",
+                    Type = PlanetAttributeType.Radiation,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Environment = - 1
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10005,
+                    Name = "Severe Radiation",
+                    Type = PlanetAttributeType.SevereRadiation,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Environment = -2
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10006,
+                    Name = "Hostile Monster",
+                    Type = PlanetAttributeType.HostileMonster,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Environment = -1
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10007,
+                    Name = "Obstinate Microbe",
+                    Type = PlanetAttributeType.ObstinateMicrobe,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Environment = -2
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10008,
+                    Name = "Beautiful Landscape",
+                    Type = PlanetAttributeType.BeautifulLandscape,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Commerce = 2,
+                        Spy = -1
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10009,
+                    Name = "Black Hole",
+                    Type = PlanetAttributeType.BlackHole,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Commerce = -2,
+                        Environment = -2,
+                        Production = -1
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10010,
+                    Name = "Nebula",
+                    Type = PlanetAttributeType.Nebula
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10011,
+                    Name = "Dark Nebula",
+                    Type = PlanetAttributeType.DarkNebula,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Environment = -2,
+                        Commerce = -1
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10012,
+                    Name = "Volcanic Activity",
+                    Type = PlanetAttributeType.VolcanicActivity,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Environment = -1,
+                        Production = 2
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10013,
+                    Name = "Intense Volcanic Activity",
+                    Type = PlanetAttributeType.IntenseVolcanicActivity,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Environment = -2,
+                        Production = 5
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10014,
+                    Name = "Ocean",
+                    Type = PlanetAttributeType.Ocean,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Environment = 1,
+                        Growth = 3,
+                        FacilityCost = -5
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10015,
+                    Name = "Irregular Climate",
+                    Type = PlanetAttributeType.IrregularClimate,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Environment = -2
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10016,
+                    Name = "Major Space Route",
+                    Type = PlanetAttributeType.MajorSpaceRoute,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Commerce = 2
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10017,
+                    Name = "Major Space Crossroute",
+                    Type = PlanetAttributeType.MajorSpaceCrossroute,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Commerce = 5
+                    }
+                },
+                new PlanetAttribute()
+                {
+                    Id = 10018,
+                    Name = "Frontier Area",
+                    Type = PlanetAttributeType.FrontierArea,
+                    ControlModelModifier = new ControlModel()
+                    {
+                        Commerce = -2
                     }
                 }
             };
@@ -7268,6 +7521,14 @@ namespace Archspace2
                 {
                     result.Items.AddRange(repeatedIds.Select(x => new ValidateResult.Item() { Severity = Severity.Error, Message = $"Id {x} is repeated within {type.Name} entities." }));
                 }
+            }
+
+            IEnumerable<IPlayerUnlockable> unlockables = entities.Where(x => x.GetType().GetInterfaces().Contains(typeof(IPlayerUnlockable))).Cast<IPlayerUnlockable>();
+            IEnumerable<IPlayerUnlockable> unobtainable = unlockables.Where(x => x.Prerequisites.Where(y => y.Type == PrerequisiteType.Tech).Select(y => y.Value).Cast<int>().Except(Techs.Select(z => z.Id)).Any());
+
+            if (unobtainable.Any())
+            {
+                result.Items.AddRange(unobtainable.Select(x => new ValidateResult.Item() { Severity = Severity.Error, Message = $"{x.GetType().Name} {((Entity)x).Id} requires a tech that is not defined." }));
             }
 
             return result;

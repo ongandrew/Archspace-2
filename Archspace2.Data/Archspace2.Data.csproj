@@ -12,4 +12,8 @@
     <PackageReference Include="Universal.Common" Version="1.5.3.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
 </Project>

@@ -5,10 +5,15 @@ namespace Archspace2
 {
     public class Mailbox : UniverseEntity
     {
+        public Mailbox()
+        {
+            ReceivedMail = new List<MailItem>();
+        }
+
         public int PlayerId { get; set; }
         [ForeignKey("PlayerId")]
         public Player Player { get; set; }
 
-        ICollection<MailItem> MailItems { get; set; }
+        public ICollection<MailItem> ReceivedMail { get; set; }
     }
 }
