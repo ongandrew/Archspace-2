@@ -57,28 +57,28 @@ namespace Archspace2
             AdmiralLastNames = new List<string>();
         }
 
-        [JsonProperty("description")]
+        [JsonProperty("Description")]
         public string Description { get; set; }
-        [JsonProperty("societyType")]
+        [JsonProperty("SocietyType")]
         public SocietyType SocietyType { get; set; }
 
-        [JsonProperty("baseEmpireRelation")]
+        [JsonProperty("BaseEmpireRelation")]
         public int BaseEmpireRelation { get; set; }
-        [JsonProperty("baseControlModel")]
+        [JsonProperty("BaseControlModel")]
         public ControlModel BaseControlModel { get; set; }
-        [JsonProperty("baseTechs")]
+        [JsonProperty("BaseTechs")]
         public List<int> BaseTechs { get; set; }
-        [JsonProperty("baseTraits")]
+        [JsonProperty("BaseTraits")]
         public List<RacialTrait> BaseTraits { get; set; }
-        [JsonProperty("baseFleetEffects")]
+        [JsonProperty("BaseFleetEffects")]
         public List<FleetEffect> BaseFleetEffects { get; set; }
-        [JsonProperty("admiralAbilities")]
+        [JsonProperty("AdmiralAbilities")]
         public List<AdmiralRacialAbility> AdmiralAbilities { get; set; }
-        [JsonProperty("admiralFirstNames")]
+        [JsonProperty("AdmiralFirstNames")]
         public List<string> AdmiralFirstNames { get; set; }
-        [JsonProperty("admiralLastNames")]
+        [JsonProperty("AdmiralLastNames")]
         public List<string> AdmiralLastNames { get; set; }
-        [JsonProperty("admiralNameStyle")]
+        [JsonProperty("AdmiralNameStyle")]
         public AdmiralNameStyle AdmiralNameStyle { get; set; }
 
         public override string ToString()

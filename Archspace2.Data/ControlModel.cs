@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
 namespace Archspace2
 {
-    public struct ControlModel
+    public class ControlModel
     {
         public int Environment { get; set; }
         public int Growth { get; set; }

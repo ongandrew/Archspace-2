@@ -64,9 +64,9 @@ namespace Archspace2
         [ForeignKey("ClusterId")]
         public Cluster Cluster { get; set; }
 
-        public int? OwnerId { get; set; }
-        [ForeignKey("OwnerId")]
-        public Player Owner { get; set; }
+        public int? PlayerId { get; set; }
+        [ForeignKey("PlayerId")]
+        public Player Player { get; set; }
 
         public int Population { get; set; }
 

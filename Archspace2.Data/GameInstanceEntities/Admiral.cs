@@ -49,9 +49,9 @@ namespace Archspace2
 
     public class Admiral : UniverseEntity
     {
-        public int? OwnerId { get; set; }
-        [ForeignKey("OwnerId")]
-        public Player Owner { get; set; }
+        public int? PlayerId { get; set; }
+        [ForeignKey("PlayerId")]
+        public Player Player { get; set; }
 
         public int RaceId { get; set; }
         [NotMapped]
@@ -73,6 +73,10 @@ namespace Archspace2
         public int AttackRating { get; set; }
         public int DefenseRating { get; set; }
         public int DetectionRating { get; set; }
+
+        public int? FleetId { get; set; }
+        [ForeignKey("FleetId")]
+        public Fleet Fleet { get; set; }
 
         public Admiral()
         {

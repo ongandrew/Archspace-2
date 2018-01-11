@@ -11,9 +11,9 @@ namespace Archspace2
         {
         }
 
-        [JsonProperty("attackRating")]
+        [JsonProperty("AttackRating")]
         public int AttackRating { get; set; }
-        [JsonProperty("defenseRating")]
+        [JsonProperty("DefenseRating")]
         public int DefenseRating { get; set; }
 
         public override string ToString()

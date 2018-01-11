@@ -90,6 +90,7 @@ namespace Archspace2
                 mGameConfiguration = aGameConfiguration;
             }
 
+            await Context.Database.EnsureDeletedAsync();
             await Context.Database.EnsureCreatedAsync();
 
             using (DatabaseContext databaseContext = Context)

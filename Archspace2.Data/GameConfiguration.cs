@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Archspace2
@@ -17,34 +18,37 @@ namespace Archspace2
             Races = new List<Race>();
             Shields = new List<Shield>();
             ShipClasses = new List<ShipClass>();
+            SpyActions = new List<SpyAction>();
             Techs = new List<Tech>();
             Weapons = new List<Weapon>();
 
             ClusterNames = new List<string>();
         }
 
-        [JsonProperty("armors")]
+        [JsonProperty("Armors")]
         public List<Armor> Armors { get; set; }
-        [JsonProperty("computers")]
+        [JsonProperty("Computers")]
         public List<Computer> Computers { get; set; }
-        [JsonProperty("devices")]
+        [JsonProperty("Devices")]
         public List<Device> Devices { get; set; }
-        [JsonProperty("engines")]
+        [JsonProperty("Engines")]
         public List<Engine> Engines { get; set; }
-        [JsonProperty("projects")]
+        [JsonProperty("Projects")]
         public List<Project> Projects { get; set; }
-        [JsonProperty("races")]
+        [JsonProperty("Races")]
         public List<Race> Races { get; set; }
-        [JsonProperty("shields")]
+        [JsonProperty("Shields")]
         public List<Shield> Shields { get; set; }
-        [JsonProperty("shipClasses")]
+        [JsonProperty("ShipClasses")]
         public List<ShipClass> ShipClasses { get; set; }
-        [JsonProperty("techs")]
+        [JsonProperty("SpyActions")]
+        public List<SpyAction> SpyActions { get; set; }
+        [JsonProperty("Techs")]
         public List<Tech> Techs { get; set; }
-        [JsonProperty("weapons")]
+        [JsonProperty("Weapons")]
         public List<Weapon> Weapons { get; set; }
 
-        [JsonProperty("clusterNames")]
+        [JsonProperty("ClusterNames")]
         public List<string> ClusterNames { get; set; }
 
         public static GameConfiguration CreateDefault()
@@ -65,6 +69,7 @@ namespace Archspace2
             UseDefaultProjects();
             UseDefaultShields();
             UseDefaultShipClasses();
+            UseDefaultSpyActions();
             UseDefaultTechs();
             UseDefaultWeapons();
 
@@ -1759,7 +1764,7 @@ namespace Archspace2
                 },
                 new Project()
                 {
-                    Id = 7009,
+                    Id = 7010,
                     Name = "Clone Family",
                     Description = "A cluster of clones based on one single organism is called 'Clone Family.' They share the same attributes, outlook and abilities. Grown under the same environment, they manifest their full potential when they are together. They always move together, think together and work together; the whole cluster of clones consider themselves a single entity. Its prowess is unequalled - especially when compared to another organism - but loss of a single clone could well render the whole family useless.",
                     Type = ProjectType.Planet,
@@ -3612,6 +3617,235 @@ namespace Archspace2
                 },
             };
         }
+        private void UseDefaultSpyActions()
+        {
+            SpyActions = new List<SpyAction>()
+            {
+                new SpyAction()
+                {
+                    Id = 8001,
+                    Name = "General Information Gathering",
+                    Description = "The goal of this mission is to collect general information. You can easily conduct number of operations such as the collection of basic statistics or analysis of the status overall without creating any disturbance. This level of information gathering is often considered common and innocuous, thus it rarely becomes a target of anti-espionage organizations.",
+                    Type = SpyType.Acceptable,
+                    Cost = 1000,
+                    Difficulty = 0
+                },
+                new SpyAction()
+                {
+                    Id = 8002,
+                    Name = "Detailed Information Gathering",
+                    Description = "Processing is what makes the collected information useful. By analyzing large amount of information and extracting useful ones out of the mass, the processed data becomes readily useful.",
+                    Type = SpyType.Acceptable,
+                    Cost = 50000,
+                    Difficulty = 0,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1210
+                        }
+                    }
+                },
+                new SpyAction()
+                {
+                    Id = 8003,
+                    Name = "Steal Secret Info",
+                    Description = "This operation focuses on information that are usually hard to obtain by ordinary means. It involves many different methods and means to obtain such classified information, and risky choices are employed at times as well. It can cause diplomatic disturbances, should the operation fail and go detected - rarely it becomes an issue for an elongated period, however.",
+                    Type = SpyType.Ordinary,
+                    Cost = 100000,
+                    Difficulty = 200,
+                   Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1116
+                        }
+                    }
+                },
+                new SpyAction()
+                {
+                    Id = 8004,
+                    Name = "Computer Virus Infiltration",
+                    Description = "This operation involves infiltrating hostile computer virus in the enemy computer network system. It will bring about huge damage, should it succeed.",
+                    Type = SpyType.Ordinary,
+                    Cost = 100000,
+                    Difficulty = 50,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1116
+                        }
+                    }
+                },
+                new SpyAction()
+                {
+                    Id = 8005,
+                    Name = "Devastating Network Worm",
+                    Description = "This operation involves infiltrating devastating network worm in enemy network system. If the target network system has inferior Information Network Ecosystem than yours, this worm can cripple the system overall and cause chronic damage as well.",
+                    Type = SpyType.Hostile,
+                    Cost = 100000,
+                    Difficulty = 150,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1222
+                        }
+                    }
+                },
+                new SpyAction()
+                {
+                    Id = 8006,
+                    Name = "Sabotage",
+                    Description = "Your spy will incite sabotage in the industries of the target. Upon success, the enemy will have to spend massive resource only to build up the lost industries, during which the loss of productive force is crippling.",
+                    Type = SpyType.Hostile,
+                    Cost = 30000,
+                    Difficulty = 100
+                },
+                new SpyAction()
+                {
+                    Id = 8007,
+                    Name = "Incite Riot",
+                    Description = "Your spy will attempt a powerful psi attack upon the population of target planet. With this psi attack, your spy will cause chaos and disturbance. Upon success, this will inflict heavier damage than Sabotage Operation. The real beauty of this operation is that you are manipulating your enemy to attack the very same one.",
+                    Type = SpyType.Hostile,
+                    Cost = 70000,
+                    Difficulty = 140,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1414
+                        }
+                    }
+                },
+                new SpyAction()
+                {
+                    Id = 8008,
+                    Name = "Steal Technology",
+                    Description = "This operation focuses on stealing the cutting-edge technology that you don't currently own. This won't be easy but it's one of the operations that focuses on fortifying yourself than undermining others.",
+                    Type = SpyType.Ordinary,
+                    Cost = 50000,
+                    Difficulty = 150,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1214
+                        }
+                    }
+                },
+                new SpyAction()
+                {
+                    Id = 8009,
+                    Name = "Steal Technology",
+                    Description = "Your spy will spread the new microbe secretly developed by your toxicologists. This will inflict crippling damage to any planet, and it is one of the most effective methods to devastate enemy. When it is detected, however, the employment of such tactic along with the development of such microbe will cause severe diplomatic problem. For this reason, this weapon should be reserved to for the last resort.",
+                    Type = SpyType.Atrocious,
+                    Cost = 100000,
+                    Difficulty = 1416,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1416
+                        }
+                    }
+                },
+                new SpyAction()
+                {
+                    Id = 8010,
+                    Name = "Red Death",
+                    Description = "This is by far the most damaging microbe ever created. This already deadly artificial germ has been cultured in the harshest environment for accelerated evolution. The end product far out-damages the Artificial Disease. This can effectively neutralize any major planet, inflicting deadly damage.",
+                    Type = SpyType.Atrocious,
+                    Cost = 200000,
+                    Difficulty = 150,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1418
+                        }
+                    }
+                },
+                new SpyAction()
+                {
+                    Id = 8011,
+                    Name = "Strike Base",
+                    Description = "You attempt to destroy or neutralize the enemy military base by infiltrating saboteur or commandos. Usually this operation precedes full-scale planetary invasion. Even with such a low success ratio, this is one of the most attractive means available due to the high cost-efficiency.",
+                    Type = SpyType.Hostile,
+                    Cost = 70000,
+                    Difficulty = 150
+                },
+                new SpyAction()
+                {
+                    Id = 8012,
+                    Name = "Meteor Strike",
+                    Description = "You deflect one of the asteroids out of the orbit, and cause that asteroid to crash on enemy planet. This method is relatively safe, especially for a devastating attack as this. Still, many planets have planetary defense system on respective orbits, which will intercept the free-falling meteor. This attack will prove but futile against well defended planet for this reason.",
+                    Type = SpyType.Hostile,
+                    Cost = 20000,
+                    Difficulty = 50,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1316
+                        }
+                    }
+                },
+                new SpyAction()
+                {
+                    Id = 8013,
+                    Name = "EMP Storm",
+                    Description = "You send out a satelite equipped with an anti-matter warhead, which can cause massive EMP storm on the ionosphere of the target planet. Upon the explosion of the warhead, every electronic device breaks down for a certain period of time, practically paralyzing the whole planet for the duration.",
+                    Type = SpyType.Hostile,
+                    Cost = 100000,
+                    Difficulty = 200,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1322
+                        }
+                    }
+                },
+                new SpyAction()
+                {
+                    Id = 8014,
+                    Name = "Stellar Bombardment",
+                    Description = "This is Meteor Strike on a larger scale. This massive attack can send a crippling blow to a planet with weak defensive measures. Even the best-defended planet will have hard time defending against the number of asteroids dashing at them full speed ahead.",
+                    Type = SpyType.Hostile,
+                    Cost = 300000,
+                    Difficulty = 150,
+                    Prerequisites = new List<PlayerPrerequisite>()
+                    {
+                        new PlayerPrerequisite()
+                        {
+                            Type = PrerequisiteType.Tech,
+                            Value = 1323
+                        }
+                    }
+                },
+                new SpyAction()
+                {
+                    Id = 8015,
+                    Name = "Assassination",
+                    Description = "You send out an agent to assassinate important figure in the enemy planet. As an old adage has it, an army of lions led by a lamb never defeats an army of lambs led by a lion. Such is the power of leadership, and disposing a capable leader can be more devastating than decimating the whole fleet of battleships.",
+                    Type = SpyType.Hostile,
+                    Cost = 50000,
+                    Difficulty = 200
+                }
+            };
+        }
         private void UseDefaultTechs()
         {
             Techs = new List<Tech>()
@@ -4643,7 +4877,7 @@ namespace Archspace2
                 },
                 new Tech()
                 {
-                    Id = 1222,
+                    Id = 1223,
                     Name = "Algorithmic Research Computer",
                     Description = "The algorithmic research computer is a sort of evolutionary system research that studies algorithms to predict and solve problems before they occur.  Through this system, much progress was made in the solving of anticipated problems.  This system also became a milestone in the creation of Oracle Computing.",
                     Type = TechType.Information,
@@ -5030,7 +5264,7 @@ namespace Archspace2
                 },
                 new Tech()
                 {
-                    Id = 1319,
+                    Id = 1320,
                     Name = "Core Mining",
                     Description = "Mining, which had previously involved obtaining needed minerals and metals from near the planet's surface, made rapid advancements to enable mining of staple ores such as Fe and Mg possible from the core of the planet.  Though the risks are high, this solved the problem of the lack of minerals on the planet's barren surface.  However, the tragedy of 0-sider planet, which had disappeared due to the extensive mining of its core, was a sad reminder that too much greed leads to self-destruction.",
                     Type = TechType.MatterEnergy,
@@ -7002,6 +7236,41 @@ namespace Archspace2
                 ,"Zephyros"
                 ,"Zeus"
             };
+        }
+
+        public ValidateResult Validate()
+        {
+            ValidateResult result = new ValidateResult();
+
+            List<Entity> entities = new List<Entity>();
+            entities.AddRange(Armors);
+            entities.AddRange(Computers);
+            entities.AddRange(Devices);
+            entities.AddRange(Engines);
+            entities.AddRange(Projects);
+            entities.AddRange(Races);
+            entities.AddRange(Shields);
+            entities.AddRange(ShipClasses);
+            entities.AddRange(SpyActions);
+            entities.AddRange(Techs);
+            entities.AddRange(Weapons);
+
+            IEnumerable<int> repeatedIds = entities.GroupBy(x => x.Id).Where(x => x.Count() > 1).Select(x => x.Key);
+            if (repeatedIds.Any())
+            {
+                result.Items.AddRange(repeatedIds.Select(x => new ValidateResult.Item() { Severity = Severity.Warning, Message = $"Id {x} is repeated across all configurable entities." }));
+            }
+
+            foreach (Type type in entities.Select(x => x.GetType()).Distinct())
+            {
+                repeatedIds = entities.Where(x => x.GetType().Equals(type)).GroupBy(x => x.Id).Where(x => x.Count() > 1).Select(x => x.Key);
+                if (repeatedIds.Any())
+                {
+                    result.Items.AddRange(repeatedIds.Select(x => new ValidateResult.Item() { Severity = Severity.Error, Message = $"Id {x} is repeated within {type.Name} entities." }));
+                }
+            }
+
+            return result;
         }
 
         public override string ToString()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Archspace2
@@ -26,6 +27,10 @@ namespace Archspace2
 
             return player;
         }
+
+        public int BlackMarketId { get; set; }
+        [ForeignKey("BlackMarketId")]
+        public BlackMarket BlackMarket { get; set; }
 
         public ICollection<Player> Players { get; set; }
         public ICollection<Cluster> Clusters { get; set; }

@@ -23,18 +23,18 @@ namespace Archspace2
             Effects = new List<FleetEffect>();
         }
 
-        [JsonProperty("category")]
+        [JsonProperty("Category")]
         [JsonConverter(typeof(StringEnumConverter))]
         public ComponentCategory Category { get; private set; }
 
-        [JsonProperty("techLevel")]
+        [JsonProperty("TechLevel")]
         public int TechLevel { get; set; }
-        [JsonProperty("description")]
+        [JsonProperty("Description")]
         public string Description { get; set; }
 
-        [JsonProperty("prerequisites")]
+        [JsonProperty("Prerequisites")]
         public List<PlayerPrerequisite> Prerequisites { get; set; }
-        [JsonProperty("effects")]
+        [JsonProperty("Effects")]
         public List<FleetEffect> Effects { get; set; }
 
         public override string ToString()

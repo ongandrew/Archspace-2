@@ -55,6 +55,10 @@ namespace Archspace2
                 return Race.BaseControlModel + Techs.Select(x => x.ControlModelModifier).Aggregate(new ControlModel(), (a, b) => a + b);
             }
         }
+
+        public int MailboxId { get; set; }
+        [ForeignKey("MailboxId")]
+        public Mailbox Mailbox { get; set; }
         
         ICollection<Admiral> Admirals { get; set; }
         ICollection<Planet> Planets { get; set; }

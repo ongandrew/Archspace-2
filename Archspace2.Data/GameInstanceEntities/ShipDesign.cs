@@ -106,10 +106,5 @@ namespace Archspace2
                 WeaponIdList = value.Select(x => x.Id).SerializeIds();
             }
         }
-        
-        public bool Validate()
-        {
-            return true;
-        }
     }
 }

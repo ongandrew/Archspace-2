@@ -6,7 +6,6 @@ using System.Text;
 
 namespace Archspace2
 {
-    [ComplexType]
     public class Atmosphere
     {
         [JsonProperty("h2")]

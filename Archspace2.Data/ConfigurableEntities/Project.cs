@@ -24,22 +24,22 @@ namespace Archspace2
             Prerequisites = new List<PlayerPrerequisite>();
         }
 
-        [JsonProperty("type")]
+        [JsonProperty("Type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public ProjectType Type { get; set; }
 
-        [JsonProperty("description")]
+        [JsonProperty("Description")]
         public string Description { get; set; }
 
-        [JsonProperty("cost")]
+        [JsonProperty("Cost")]
         public int Cost { get; set; }
 
-        [JsonProperty("controlModelModifier")]
+        [JsonProperty("ControlModelModifier")]
         public ControlModel ControlModelModifier { get; set; }
-        [JsonProperty("playerEffects")]
+        [JsonProperty("PlayerEffects")]
         public List<PlayerEffect> PlayerEffects { get; set; }
         
-        [JsonProperty("prerequisites")]
+        [JsonProperty("Prerequisites")]
         public List<PlayerPrerequisite> Prerequisites { get; set; }
 
         public override string ToString()

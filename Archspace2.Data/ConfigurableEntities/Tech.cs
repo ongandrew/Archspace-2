@@ -29,22 +29,22 @@ namespace Archspace2
             PlayerEffects = new List<PlayerEffect>();
         }
 
-        [JsonProperty("type")]
+        [JsonProperty("Type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public TechType Type { get; set; }
-        [JsonProperty("attribute")]
+        [JsonProperty("Attribute")]
         [JsonConverter(typeof(StringEnumConverter))]
         public TechAttribute Attribute { get; set; }
 
-        [JsonProperty("controlModelModifier")]
+        [JsonProperty("ControlModelModifier")]
         public ControlModel ControlModelModifier { get; set; }
-        [JsonProperty("description")]
+        [JsonProperty("Description")]
         public string Description { get; set; }
-        [JsonProperty("techLevel")]
+        [JsonProperty("TechLevel")]
         public int TechLevel { get; set; }
-        [JsonProperty("prerequisites")]
+        [JsonProperty("Prerequisites")]
         public List<PlayerPrerequisite> Prerequisites { get; set; }
-        [JsonProperty("playerEffects")]
+        [JsonProperty("PlayerEffects")]
         public List<PlayerEffect> PlayerEffects { get; set; }
 
         public override string ToString()

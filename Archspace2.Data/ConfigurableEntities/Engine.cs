@@ -11,9 +11,9 @@ namespace Archspace2
             BattleMobility = new Dictionary<int, int>();
         }
 
-        [JsonProperty("battleSpeed")]
+        [JsonProperty("BattleSpeed")]
         public Dictionary<int, int> BattleSpeed { get; set; }
-        [JsonProperty("battleMobility")]
+        [JsonProperty("BattleMobility")]
         public Dictionary<int, int> BattleMobility { get; set; }
 
         public override string ToString()

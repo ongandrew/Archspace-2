@@ -30,9 +30,22 @@ namespace Archspace2
                     .ForEach(fk => fk.DeleteBehavior = DeleteBehavior.Restrict);
             }
 
+            aModelBuilder.Entity<Planet>().OwnsOne(x => x.Atmosphere);
+
             base.OnModelCreating(aModelBuilder);
         }
 
+        public DbSet<Admiral> Admirals { get; set; }
+        public DbSet<BlackMarket> BlackMarkets { get; set; }
+        public DbSet<BlackMarketItem> BlackMarketItems { get; set; }
+        public DbSet<Council> Councils { get; set; }
+        public DbSet<Cluster> Clusters { get; set; }
+        public DbSet<Fleet> Fleets { get; set; }
+        public DbSet<Mailbox> Mailboxes { get; set; }
+        public DbSet<MailItem> MailItems { get; set; }
+        public DbSet<Planet> Planets { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<ShipDesign> ShipDesigns { get; set; }
         public DbSet<Universe> Universes { get; set; }
         public DbSet<User> Users { get; set; }
     }

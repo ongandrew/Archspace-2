@@ -17,12 +17,12 @@ namespace Archspace2
         {
         }
 
-        [JsonProperty("type")]
+        [JsonProperty("Type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public ArmorType Type { get; set; }
-        [JsonProperty("hpMultiplier")]
+        [JsonProperty("HpMultiplier")]
         public double HpMultiplier { get; set; }
-        [JsonProperty("defenseRating")]
+        [JsonProperty("DefenseRating")]
         public int DefenseRating { get; set; }
 
         public override string ToString()
