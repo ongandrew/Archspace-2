@@ -31,6 +31,7 @@ namespace Archspace2
             }
 
             aModelBuilder.Entity<Planet>().OwnsOne(x => x.Atmosphere);
+            aModelBuilder.Entity<Planet>().HasMany(x => x.CommercePlanets).WithOne();
 
             base.OnModelCreating(aModelBuilder);
         }

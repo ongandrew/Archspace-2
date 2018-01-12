@@ -53,6 +53,7 @@ namespace Archspace2
         [ForeignKey("PlayerId")]
         public Player Player { get; set; }
 
+        public int Order { get; set; }
         public int Population { get; set; }
 
         public PlanetSize Size { get; set; }
@@ -71,7 +72,42 @@ namespace Archspace2
         public int WasteRate {
             get
             {
-                throw new NotImplementedException();
+                if (Player == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    int efficiency = ControlModel.Efficiency;
+
+                    if (efficiency < -5)
+                    {
+                        efficiency = -5;
+                    }
+                    else if (efficiency > 10)
+                    {
+                        efficiency = 10;
+                    }
+
+                    if (Order < Game.Configuration.Planet.WasteSettings[efficiency].WasteFreePlanetCount)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        int waste = 0;
+                        waste = (int)((1 + Order - Game.Configuration.Planet.WasteSettings[efficiency].WasteFreePlanetCount) * Game.Configuration.Planet.WasteSettings[efficiency].WastePerPlanet);
+
+                        if (waste > 90)
+                        {
+                            return 90;
+                        }
+                        else
+                        {
+                            return waste;
+                        }
+                    }
+                }
             }
         }
         public int MaxPopulation {
@@ -204,6 +240,17 @@ namespace Archspace2
                 await databaseContext.SaveChangesAsync();
             }
         }
+
+        public async Task UpdateTurn()
+        {
+            int labourPoint, usedLabourPoint, RemainingLabourPoint;
+
+            if (Player != null)
+            {
+                labourPoint = CalculateLabourPoint();
+
+            }
+        }
         
         private int CalculateLabourPoint()
         {
@@ -260,6 +307,50 @@ namespace Archspace2
             }
 
             return result;
+        }
+        private void UpdatePopulation()
+        {
+            int growthRatio;
+
+            if (Population == 0)
+            {
+                growthRatio = 0;
+            }
+            else
+            {
+                growthRatio = ((MaxPopulation - Population) * 5 / Population);
+            }
+
+            if (growthRatio < -5)
+            {
+                growthRatio = -5;
+            }
+            else if (growthRatio > 5)
+            {
+                growthRatio = 5;
+            }
+
+            int baseGrowth;
+
+            if (Population > MaxPopulation)
+            {
+                baseGrowth = 0;
+            }
+            else
+            {
+                baseGrowth = 50 + (ControlModel.Growth * 10);
+            }
+
+            if (baseGrowth < 10)
+            {
+                baseGrowth = 10;
+            }
+            else if (baseGrowth > 150)
+            {
+                baseGrowth = 150;
+            }
+
+            Population += (Population * growthRatio / 100) + baseGrowth;
         }
     }
 }
