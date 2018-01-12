@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class Cluster : UniverseEntity
+    public class Empire : UniverseEntity
     {
-        ICollection<Planet> Planets { get; set; }
+        protected Empire()
+        {
+        }
     }
 }

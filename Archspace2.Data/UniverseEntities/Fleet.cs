@@ -23,14 +23,21 @@ namespace Archspace2
     public class Fleet : UniverseEntity
     {
         public int? PlayerId { get; set; }
-        public int AdmiralId { get; set; }
-
-        public MissionType Mission { get; set; }
-        
-
-        [ForeignKey("AdmiralId")]
-        public Admiral Admiral { get; set; }
         [ForeignKey("PlayerId")]
         public Player Player { get; set; }
+
+        public int AdmiralId { get; set; }
+        [ForeignKey("AdmiralId")]
+        public Admiral Admiral { get; set; }
+
+        public int ShipDesignId { get; set; }
+        [ForeignKey("ShipDesignId")]
+        public ShipDesign ShipDesign { get; set; }
+        
+        public MissionType Mission { get; set; }
+
+        protected Fleet()
+        {
+        }
     }
 }

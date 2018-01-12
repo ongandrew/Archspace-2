@@ -40,6 +40,8 @@ namespace Archspace2
         public DbSet<BlackMarketItem> BlackMarketItems { get; set; }
         public DbSet<Council> Councils { get; set; }
         public DbSet<Cluster> Clusters { get; set; }
+        public DbSet<DefenseDeployment> DefenseDeployments { get; set; }
+        public DbSet<DefensePlan> DefensePlans { get; set; }
         public DbSet<Fleet> Fleets { get; set; }
         public DbSet<Mailbox> Mailboxes { get; set; }
         public DbSet<MailItem> MailItems { get; set; }

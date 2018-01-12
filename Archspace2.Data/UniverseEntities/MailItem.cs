@@ -22,7 +22,7 @@ namespace Archspace2
         public bool Sent { get; set; }
         public DateTime? SentDateTime { get; set; }
 
-        public MailItem()
+        protected MailItem()
         {
         }
 

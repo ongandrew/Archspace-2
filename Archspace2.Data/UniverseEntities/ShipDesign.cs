@@ -9,6 +9,10 @@ namespace Archspace2
 {
     public class ShipDesign : UniverseEntity
     {
+        public int? PlayerId { get; set; }
+        [ForeignKey("PlayerId")]
+        public Player Player { get; set; }
+
         public int ShipClassId { get; set; }
         [NotMapped]
         public ShipClass ShipClass

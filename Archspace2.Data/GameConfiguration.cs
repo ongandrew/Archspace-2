@@ -12,7 +12,7 @@ namespace Archspace2
         Korean
     };
 
-    public class GameConfiguration
+    public class GameConfiguration : IValidatable
     {
         public GameConfiguration()
         {
@@ -2643,6 +2643,18 @@ namespace Archspace2
                     Name = "Human",
                     Description = "Though humans have a relatively short life span, the population increase rate of humans is nothing short of astonishing.  As a result, the other species have always been wary of the humans' expansion of power in the universe.  However, even the watchful eyes of the other species cannot easily spot the other strong points of the human species, which lie in the philosophical and social sciences, as well as other literary and cultural developments.  Their never-ending desire to seek the ideal has provided a catalyst not found in other species.",
                     SocietyType = SocietyType.Classism,
+                    HomeAtmosphere = new Atmosphere()
+                    {
+                        H2 = 0,
+                        Cl2 = 0,
+                        CO2 = 0,
+                        O2 = 1,
+                        N2 = 4,
+                        CH4 = 0,
+                        H2O = 0
+                    },
+                    HomeGravity = 1,
+                    HomeTemperature = 300,
                     BaseTechs = new List<int>()
                     {
                         1104,
@@ -2731,6 +2743,18 @@ namespace Archspace2
                     Name = "Targoid",
                     Description = "The Targoid race maintain a totalitarian society, with all of their species originating from one mother body and being controlled by that mother body.  Targoids efficiently produce every type of their race as needed from one mother body through the programming of the DNA of the unborn Targoid embryo.  This system makes it possible to produce any variety of the species, from mouse-sized micro workers to battle creatures over 2 kilometers in length.  Targoid workers are famous for their efficiency in gathering resources and constructing buildings.",
                     SocietyType = SocietyType.Totalism,
+                    HomeAtmosphere = new Atmosphere()
+                    {
+                        H2 = 0,
+                        Cl2 = 0,
+                        CO2 = 1,
+                        O2 = 0,
+                        N2 = 3,
+                        CH4 = 1,
+                        H2O = 0
+                    },
+                    HomeGravity = 1.2,
+                    HomeTemperature = 340,
                     BaseTechs = new List<int>()
                     {
                         1404,
@@ -2813,6 +2837,18 @@ namespace Archspace2
                     Name = "Buckaneer",
                     Description = "A Buckaneer's spaceship is his home and center of life.  They spend the majority of their life roaming space and finding fortune through trade (and sometimes piracy.)  Because they are accustomed to this type of gypsy roaming life, their fleets move swiftly and cannot be traced easily.  Buckaneer merchants possess information and contacts throughout the universe, which are indispensable aids to commerce, and thus hold the majority of trade and business in the universe.  It is common to see Buckaneer crafts that have duplicator systems for needed items built into the ship's interior design.",
                     SocietyType = SocietyType.Personalism,
+                    HomeAtmosphere = new Atmosphere()
+                    {
+                        H2 = 0,
+                        Cl2 = 2,
+                        CO2 = 0,
+                        O2 = 0,
+                        N2 = 3,
+                        CH4 = 0,
+                        H2O = 0
+                    },
+                    HomeGravity = 0.7,
+                    HomeTemperature = 270,
                     BaseTechs = new List<int>()
                     {
                         1208,
@@ -2893,6 +2929,18 @@ namespace Archspace2
                     Name = "Tecanoid",
                     Description = "The Tecanoids sought to find their key to evolution through attaching computers and bionic machinery to their bodies.  As a result of these experiments, the elite forces of their races have obtained extremely strong physical bodies and extraordinary intellect.  On the other hand, the lowest class of their society did not have an opportunity to receive these gifts, and thus became an unstable supporting pillar of the community.  The Tecanoid effort for evolution brought them optimally advanced data processing skills and electronic infiltration technologies, but the species has ultimately sacrificed their humanity for these machines.",
                     SocietyType = SocietyType.Classism,
+                    HomeAtmosphere = new Atmosphere()
+                    {
+                        H2 = 0,
+                        Cl2 = 0,
+                        CO2 = 2,
+                        O2 = 1,
+                        N2 = 2,
+                        CH4 = 0,
+                        H2O = 0
+                    },
+                    HomeGravity = 1.3,
+                    HomeTemperature = 240,
                     BaseTechs = new List<int>()
                     {
                         1204,
@@ -2997,6 +3045,18 @@ namespace Archspace2
                     Name = "Evintos",
                     Description = "Unlike most of the other races of the galaxy, the Evintos are a non-organic life force whose bodies are composed of silicon and gold.  Their nervous system and metabolisms are also radically different from other inhabitants of the universe.  It is believed that they originate from artificial intelligence creatures created in the far ancient ages of the universe, whose technologies remain primarily lost to the world.  Because of their unusual appearance and makeup, they are often rejected by other species.  They possess a rigid social structure, which makes it hard for technological or social innovations to be implemented.  This structure further adds to their drifting differences between other species.  But these weak points are compensated by their mechanically precise and accurate social structure, which makes for extremely high production and manufacturing within their society.",
                     SocietyType = SocietyType.Totalism,
+                    HomeAtmosphere = new Atmosphere()
+                    {
+                        H2 = 0,
+                        Cl2 = 0,
+                        CO2 = 0,
+                        O2 = 0,
+                        N2 = 0,
+                        CH4 = 0,
+                        H2O = 0
+                    },
+                    HomeGravity = 0.8,
+                    HomeTemperature = 300,
                     BaseTechs = new List<int>()
                     {
                         1204,
@@ -3052,6 +3112,18 @@ namespace Archspace2
                     Name = "Agerus",
                     Description = "Even more odd than the Evintos, the Agerus can only be defined as \"planetary life forms.\"  Many scientists doubt their existence, as they have remained largely secluded and withdrawn, having virtually no communication with other species.  Not much is known about this species, whose origin still remains a mystery.  The galaxy battleships that belong to the Agerus are used primarily for defense, and are actually smaller planet forms, which have evolved from spores from the mother planet.  It is not an easy task to classify and differentiate between the children of the Agerus and naturally occurring small planets.",
                     SocietyType = SocietyType.Totalism,
+                    HomeAtmosphere = new Atmosphere()
+                    {
+                        H2 = 3,
+                        Cl2 = 0,
+                        CO2 = 0,
+                        O2 = 0,
+                        N2 = 2,
+                        CH4 = 0,
+                        H2O = 0
+                    },
+                    HomeGravity = 1.5,
+                    HomeTemperature = 370,
                     BaseTechs = new List<int>()
                     {
                         1404,
@@ -3156,6 +3228,18 @@ namespace Archspace2
                     Name = "Bosalian",
                     Description = "Bosalians are peace-loving pacifists who hate conflict and battle.  Their noble philosophies and impartiality have settled many a battles between warring races, and their opinions are held in the highest respect by other races.  Though they are pacifists by nature, they are by no means a weak force in the galaxy.  True to their ideology, which states, \"The universe is one with your being, and you are one within the universe,\" Bosalians can freely use psychic powers.  Even races with limited sensory abilities, such as humanoids, can see the brilliance of the psychic aurora emitted by the Bosalians in their attacks.",
                     SocietyType = SocietyType.Personalism,
+                    HomeAtmosphere = new Atmosphere()
+                    {
+                        H2 = 0,
+                        Cl2 = 0,
+                        CO2 = 0,
+                        O2 = 1,
+                        N2 = 3,
+                        CH4 = 0,
+                        H2O = 1
+                    },
+                    HomeGravity = 2,
+                    HomeTemperature = 350,
                     BaseEmpireRelation = 75,
                     BaseTechs = new List<int>()
                     {
@@ -3265,6 +3349,18 @@ namespace Archspace2
                     Name = "Xeloss",
                     Description = "Much is said about the fanatical religion of the Xeloss, a species that escaped their home planet during the collapse of the Magellan Universe.  The Xeloss are ruthless, and do not hesitate to murder others under their god's name.  Not only do they attack outsiders with their psychic powers, but also they have aptly shown that the individual will sacrifice his basic instinct for survival for the good of their god.  This has added to their already bloody reputation.  No species wishes to readily meet the Xeloss, and they are absolutely correct in their thoughts.",
                     SocietyType = SocietyType.Totalism,
+                    HomeAtmosphere = new Atmosphere()
+                    {
+                        H2 = 0,
+                        Cl2 = 1,
+                        CO2 = 1,
+                        O2 = 0,
+                        N2 = 3,
+                        CH4 = 0,
+                        H2O = 0
+                    },
+                    HomeGravity = 2,
+                    HomeTemperature = 230,
                     BaseEmpireRelation = 20,
                     BaseTechs = new List<int>()
                     {
@@ -3378,6 +3474,18 @@ namespace Archspace2
                     Name = "Xerusian",
                     Description = "Xerusians boast an ancient and traditional military tradition.  Though their troops are small in number, they have always remained the utmost elite forces of the galaxy.  In addition, Xerusians have always had great interest in the matter-energy sciences, which are immediately adapted to military weapons and technologies, and have researched these sciences extensively.  The only things that stand between them and the domination of the galaxy are the inefficient workings of their bureaucracy and the excessive amount of energy lost in the internal conflicts within their machinery.  It should be noted that their extensive battle experiences with the Xeloss, has resulted that they are the only race that have a method of stopping the Xeloss psychic attacks.",
                     SocietyType = SocietyType.Totalism,
+                    HomeAtmosphere = new Atmosphere()
+                    {
+                        H2 = 0,
+                        Cl2 = 1,
+                        CO2 = 0,
+                        O2 = 0,
+                        N2 = 4,
+                        CH4 = 0,
+                        H2O = 0
+                    },
+                    HomeGravity = 1.4,
+                    HomeTemperature = 280,
                     BaseEmpireRelation = 30,
                     BaseTechs = new List<int>()
                     {
@@ -3480,6 +3588,18 @@ namespace Archspace2
                     Name = "Xesperados",
                     Description = "Like the Xeloss or Xerusian, the Xesperados race was a group of military species that escaped the Magellan Galaxy during its collapse.  In their wanderings throughout space, they have been joined by other military species and leaders of rebel races, making the Xesperados an impressive force throughout the galaxy.  The merger of many different species is handicapped by potential problems such as the threat of spies from other races and the complex process of expanding life support capable of sustaining the entire group.  But their open minds and universal acceptance has become a great stimulant to the progress of science, and they are continuing to attract talented researchers of all species.",
                     SocietyType = SocietyType.Personalism,
+                    HomeAtmosphere = new Atmosphere()
+                    {
+                        H2 = 0,
+                        Cl2 = 0,
+                        CO2 = 0,
+                        O2 = 0,
+                        N2 = 0,
+                        CH4 = 0,
+                        H2O = 0
+                    },
+                    HomeGravity = 1,
+                    HomeTemperature = 300,
                     BaseEmpireRelation = 30,
                     BaseTechs = new List<int>()
                     {

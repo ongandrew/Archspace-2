@@ -28,6 +28,10 @@ namespace Archspace2
         [ForeignKey("BidderId")]
         public Player Bidder { get; set; }
 
+        protected BlackMarketItem() : base()
+        {
+        }
+
         public async Task<Admiral> AsAdmiralAsync()
         {
             if (Type == BlackMarketItemType.Fleet)

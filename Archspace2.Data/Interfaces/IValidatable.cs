@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class Empire : UniverseEntity
+    public interface IValidatable
     {
+        ValidateResult Validate();
     }
 }

@@ -24,5 +24,9 @@ namespace Archspace2
         }
 
         ICollection<Player> Players { get; set; }
+
+        protected Council()
+        {
+        }
     }
 }

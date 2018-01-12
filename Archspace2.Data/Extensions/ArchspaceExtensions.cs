@@ -56,5 +56,20 @@ namespace Archspace2.Extensions
                     return new ControlModel();
             }
         }
+
+        public static int GetTotalFactoryCount(this IEnumerable<Planet> tPlanets)
+        {
+            return tPlanets == null || !tPlanets.Any() ? 0 : tPlanets.Sum(x => x.FactoryCount);
+        }
+
+        public static int GetTotalResearchLabCount(this IEnumerable<Planet> tPlanets)
+        {
+            return tPlanets == null || !tPlanets.Any() ? 0 : tPlanets.Sum(x => x.ResearchLabCount);
+        }
+
+        public static int GetTotalMilitaryBaseCount(this IEnumerable<Planet> tPlanets)
+        {
+            return tPlanets == null || !tPlanets.Any() ? 0 : tPlanets.Sum(x => x.MilitaryBaseCount);
+        }
     }
 }

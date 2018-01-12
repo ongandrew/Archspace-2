@@ -51,5 +51,12 @@ namespace Archspace2
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
         }
+
+        public int GetBaseCost()
+        {
+            int researchCost = 20000 * (int)(Math.Pow(2.0, TechLevel));
+
+            return researchCost < 0 ? int.MaxValue : researchCost;
+        }
     }
 }

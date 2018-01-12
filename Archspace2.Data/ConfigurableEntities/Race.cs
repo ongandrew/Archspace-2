@@ -62,6 +62,13 @@ namespace Archspace2
         [JsonProperty("SocietyType")]
         public SocietyType SocietyType { get; set; }
 
+        [JsonProperty("HomeAtmosphere")]
+        public Atmosphere HomeAtmosphere { get; set; }
+        [JsonProperty("HomeGravity")]
+        public double HomeGravity { get; set; }
+        [JsonProperty("HomeTemperature")]
+        public int HomeTemperature { get; set; }
+
         [JsonProperty("BaseEmpireRelation")]
         public int BaseEmpireRelation { get; set; }
         [JsonProperty("BaseControlModel")]

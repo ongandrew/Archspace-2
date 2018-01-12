@@ -8,17 +8,19 @@ namespace Archspace2
 {
     public class Atmosphere
     {
-        [JsonProperty("h2")]
+        [JsonProperty("H2")]
         public int H2 { get; set; }
-        [JsonProperty("cl2")]
+        [JsonProperty("Cl2")]
         public int Cl2 { get; set; }
-        [JsonProperty("co2")]
+        [JsonProperty("CO2")]
         public int CO2 { get; set; }
-        [JsonProperty("o2")]
+        [JsonProperty("O2")]
         public int O2 { get; set; }
-        [JsonProperty("n2")]
+        [JsonProperty("N2")]
         public int N2 { get; set; }
-        [JsonProperty("ch4")]
+        [JsonProperty("CH4")]
         public int CH4 { get; set; }
+        [JsonProperty("H2O")]
+        public int H2O { get; set; }
     }
 }
