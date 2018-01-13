@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Archspace2
@@ -10,11 +11,20 @@ namespace Archspace2
     public class AdmiralTests
     {
         [TestMethod]
-        public void AdmiralNamesAreCorrect()
+        public void CreatingAdmiralsGeneratesRandomProperties()
         {
-            Admiral admiral = new Admiral();
+            List<Admiral> admirals = new List<Admiral>();
 
-            Console.WriteLine(admiral.Name);
+            for (int i = 0; i < 10; i++)
+            {
+                admirals.Add(new Admiral(Game.Universe));
+            }
+
+            Assert.AreNotEqual(0, admirals.Count);
+
+            Assert.AreNotEqual(1, admirals.GroupBy(x => x.Name).Count());
+            Assert.AreNotEqual(1, admirals.GroupBy(x => x.RacialAbility).Count());
+            Assert.AreNotEqual(1, admirals.GroupBy(x => x.SpecialAbility).Count());
         }
     }
 }

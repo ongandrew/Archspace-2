@@ -36,7 +36,7 @@ namespace Archspace2
         
         public MissionType Mission { get; set; }
 
-        protected Fleet()
+        public Fleet(Universe aUniverse) : base(aUniverse)
         {
         }
     }

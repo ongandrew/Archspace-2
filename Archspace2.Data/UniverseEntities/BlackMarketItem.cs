@@ -28,7 +28,7 @@ namespace Archspace2
         [ForeignKey("BidderId")]
         public Player Bidder { get; set; }
 
-        protected BlackMarketItem() : base()
+        protected BlackMarketItem(Universe aUniverse) : base(aUniverse)
         {
         }
 

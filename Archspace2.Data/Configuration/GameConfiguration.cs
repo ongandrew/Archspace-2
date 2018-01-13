@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Archspace2
@@ -20,6 +21,7 @@ namespace Archspace2
             BlackMarket = new BlackMarketSettings();
             Mission = new MissionSettings();
             Planet = new PlanetSettings();
+            Universe = new UniverseSettings();
 
             Armors = new List<Armor>();
             Computers = new List<Computer>();
@@ -33,8 +35,6 @@ namespace Archspace2
             SpyActions = new List<SpyAction>();
             Techs = new List<Tech>();
             Weapons = new List<Weapon>();
-
-            ClusterNames = new List<string>();
         }
         
         [JsonProperty("Language")]
@@ -43,10 +43,6 @@ namespace Archspace2
         public int SecondsPerTurn { get; set; }
         [JsonProperty("MaxUsers")]
         public int MaxUsers { get; set; }
-        [JsonProperty("MinClusterCount")]
-        public int MinClusterCount { get; set; }
-        [JsonProperty("MinCouncilCount")]
-        public int MinCouncilCount { get; set; }
         [JsonProperty("TechRateModifier")]
         public double TechRateModifier { get; set; }
 
@@ -58,6 +54,8 @@ namespace Archspace2
         public MissionSettings Mission { get; set; }
         [JsonProperty("Planet")]
         public PlanetSettings Planet { get; set; }
+        [JsonProperty("Universe")]
+        public UniverseSettings Universe { get; set; }
 
         [JsonProperty("Armors")]
         public List<Armor> Armors { get; set; }
@@ -84,9 +82,6 @@ namespace Archspace2
         [JsonProperty("Weapons")]
         public List<Weapon> Weapons { get; set; }
 
-        [JsonProperty("ClusterNames")]
-        public List<string> ClusterNames { get; set; }
-
         public static GameConfiguration CreateDefault()
         {
             GameConfiguration result = new GameConfiguration();
@@ -97,6 +92,8 @@ namespace Archspace2
 
         private void UseDefaults()
         {
+            UseDefaultSettings();
+
             UseDefaultArmors();
             UseDefaultComputers();
             UseDefaultDevices();
@@ -109,8 +106,6 @@ namespace Archspace2
             UseDefaultSpyActions();
             UseDefaultTechs();
             UseDefaultWeapons();
-
-            UseDefaultClusterNames();
         }
 
         private void UseDefaultSettings()
@@ -118,15 +113,15 @@ namespace Archspace2
             Language = Language.English;
             SecondsPerTurn = 300;
             MaxUsers = 10000;
-            MinClusterCount = 7;
-            MinCouncilCount = 3;
             TechRateModifier = 1;
-
+            
             Action = ActionSettings.CreateDefault();
             BlackMarket = BlackMarketSettings.CreateDefault();
             Mission = MissionSettings.CreateDefault();
             Planet = PlanetSettings.CreateDefault();
+            Universe = UniverseSettings.CreateDefault();
         }
+
         private void UseDefaultArmors()
         {
             Armors = new List<Armor>()
@@ -1910,7 +1905,7 @@ namespace Archspace2
                 new Project()
                 {
                     Id = 7004,
-                    Name = "Earth Elevator",
+                    Name = "Solar Control System",
                     Description = "Long ago, during the expansion of the universe, the technology most needed was the construction of a system to control the characteristics of the solar environment.  As generations progressed, and many sacrifices later, this technology was perfected with the completion of the solar control system.  With the passage of time, a star ages to become a super nova or a white dwarf star, and the surrounding planets also reach their ends.  But the utilization of the solar control system can prevent the aging of a star, as well as making it possible to partially control the environment of surrounding planets that are under the star's influence.",
                     Type = ProjectType.Planet,
                     Cost = 20000,
@@ -2347,7 +2342,7 @@ namespace Archspace2
                 new Project()
                 {
                     Id = 7032,
-                    Name = "Truth Tester",
+                    Name = "Imperial Palace",
                     Description = "As the Empire grew in strength, it became necessary to make a place where overall domestic and diplomatic matters could be discussed. The necessity for the Imperial Palace was manisfested, through the need to proclaim the dignity of the Emperor to its domain in beyond. With the Imperial Palace, the diplomats work with higher degree of pride, and the people would support the military with more enthusiasm. But its maintenance is highly costly; it takes a lot to rear the dignity all over the space.",
                     Type = ProjectType.Fixed,
                     Cost = 300000,
@@ -4117,7 +4112,7 @@ namespace Archspace2
                 new SpyAction()
                 {
                     Id = 8009,
-                    Name = "Steal Technology",
+                    Name = "Artificial Disease",
                     Description = "Your spy will spread the new microbe secretly developed by your toxicologists. This will inflict crippling damage to any planet, and it is one of the most effective methods to devastate enemy. When it is detected, however, the employment of such tactic along with the development of such microbe will cause severe diplomatic problem. For this reason, this weapon should be reserved to for the last resort.",
                     Type = SpyType.Atrocious,
                     Cost = 100000,
@@ -4958,7 +4953,7 @@ namespace Archspace2
                 new Tech()
                 {
                     Id = 1208,
-                    Name = "Non-linear Programming",
+                    Name = "Optical Computer",
                     Description = "As more algebraic algorithms and variables requiring calculation appeared, they required more and more computing power.  The underlying principles of the optical computer were unchanged old principles, but new technology utilizing particles of light to heighten performance and accuracy were added.  Optical science was considered of primary importance in the past, but its reality took time to be realized, due to the characteristics of light particles.  This science contributed largely to the advancement of computer technology.",
                     Type = TechType.Information,
                     Attribute = TechAttribute.Normal,
@@ -7314,300 +7309,6 @@ namespace Archspace2
                         }
                     }
                 }
-            };
-        }
-
-        private void UseDefaultClusterNames()
-        {
-            ClusterNames = new List<string>()
-            {
-                "Aditi"
-                ,"Aglaia"
-                ,"Agni"
-                ,"Akongo"
-                ,"Alako"
-                ,"Allekto"
-                ,"Amentet"
-                ,"Ammon"
-                ,"Amphitrite"
-                ,"Anuket"
-                ,"Aphrodite"
-                ,"Aplu"
-                ,"Arebati"
-                ,"Arma"
-                ,"Arsu"
-                ,"Asnan"
-                ,"Asteria"
-                ,"Atargatis"
-                ,"Atlaua"
-                ,"Atropos"
-                ,"Atum"
-                ,"Baal"
-                ,"Bacab"
-                ,"Bagvarti"
-                ,"Baldur"
-                ,"Behedti"
-                ,"Bel"
-                ,"Bellona"
-                ,"Bhagwan"
-                ,"Boreas"
-                ,"Bragi"
-                ,"Brahma"
-                ,"Bress"
-                ,"Brigantia"
-                ,"Britomartis"
-                ,"Buluga"
-                ,"Candra"
-                ,"Cath"
-                ,"Ceres"
-                ,"Chac"
-                ,"Cheiron"
-                ,"Cihuacoatl"
-                ,"Cinteotl"
-                ,"Cinvat"
-                ,"Concordia"
-                ,"Curche"
-                ,"Dabog"
-                ,"Dagda"
-                ,"Dedun"
-                ,"Dievs"
-                ,"Diomedes"
-                ,"Djata"
-                ,"Dolichenus"
-                ,"Durga"
-                ,"Dyaus"
-                ,"Ea"
-                ,"Egres"
-                ,"Ekchuah"
-                ,"Elkunirsa"
-                ,"Epona"
-                ,"Erato"
-                ,"Esus"
-                ,"Eule"
-                ,"Euphrosine"
-                ,"Euros"
-                ,"Euterpe"
-                ,"Faro"
-                ,"Fjorgyn"
-                ,"Flora"
-                ,"Forseti"
-                ,"Fortuna"
-                ,"Freyja"
-                ,"Frigg"
-                ,"Gaia"
-                ,"Gemini"
-                ,"Govannon"
-                ,"Gwydyon"
-                ,"Haldi"
-                ,"Hazzi"
-                ,"Hekate"
-                ,"Hel"
-                ,"Hephaistos"
-                ,"Hermaphroditos"
-                ,"Hermes"
-                ,"Heruka"
-                ,"Hestia"
-                ,"Hezur"
-                ,"Hinkon"
-                ,"Hoedr"
-                ,"Horai"
-                ,"Horus"
-                ,"Huan"
-                ,"Hubal"
-                ,"Huracan"
-                ,"Idun"
-                ,"Illapa"
-                ,"Indra"
-                ,"Inmar"
-                ,"Inuus"
-                ,"Isara"
-                ,"Isis"
-                ,"Ishtar"
-                ,"Jabru"
-                ,"Jamm"
-                ,"Jarri"
-                ,"Jord"
-                ,"Juno"
-                ,"Juventas"
-                ,"Jyotishka"
-                ,"Kali"
-                ,"Kama"
-                ,"Karta"
-                ,"Kataragama"
-                ,"Klotho"
-                ,"Korrawi"
-                ,"Kotar"
-                ,"Kubera"
-                ,"Kukulcan"
-                ,"Kusuh"
-                ,"Lachesis"
-                ,"Laima"
-                ,"Lakshmi"
-                ,"Laran"
-                ,"Larunda"
-                ,"Laverna"
-                ,"Libera"
-                ,"Lodur"
-                ,"Loki"
-                ,"Lucina"
-                ,"Luna"
-                ,"Mah"
-                ,"Maia"
-                ,"Maitreya"
-                ,"Malakbel"
-                ,"Manannan"
-                ,"Marduk"
-                ,"Marici"
-                ,"Maui"
-                ,"Megaira"
-                ,"Meness"
-                ,"Menhit"
-                ,"Menulis"
-                ,"Metis"
-                ,"Midir"
-                ,"Minerva"
-                ,"Mitra"
-                ,"Morgoth"
-                ,"Moloch"
-                ,"Mugasa"
-                ,"Musisi"
-                ,"Nahhundi"
-                ,"Nammu"
-                ,"Napir"
-                ,"Narisah"
-                ,"Nechbet"
-                ,"Nemesis"
-                ,"Nephthys"
-                ,"Nereus"
-                ,"Nergal"
-                ,"Nerthus"
-                ,"Nirah"
-                ,"Nirrti"
-                ,"Nisaba"
-                ,"Njord"
-                ,"Nortia"
-                ,"Notos"
-                ,"Nun"
-                ,"Nusku"
-                ,"Nzambi"
-                ,"Odin"
-                ,"Ogmios"
-                ,"Okeanos"
-                ,"Olokun"
-                ,"Orcus"
-                ,"Orion"
-                ,"Orpheus"
-                ,"Osiris"
-                ,"Oya"
-                ,"Pachet"
-                ,"Pariacaca"
-                ,"Parjanya"
-                ,"Peitho"
-                ,"Pemba"
-                ,"Perkons"
-                ,"Persaios"
-                ,"Pleiades"
-                ,"Pomona"
-                ,"Pon"
-                ,"Prende"
-                ,"Priapos"
-                ,"Ptah"
-                ,"Pudicitia"
-                ,"Pushan"
-                ,"Ordal"
-                ,"Qaynyan"
-                ,"Quat"
-                ,"Quilla"
-                ,"Quzah"
-                ,"Rat-taui"
-                ,"Raudna"
-                ,"Renenutet"
-                ,"Reshef"
-                ,"Rind"
-                ,"Rongo"
-                ,"Rosmerta"
-                ,"Rudra"
-                ,"Sachmet"
-                ,"Sadrapa"
-                ,"Samvara"
-                ,"Sarasvati"
-                ,"Sedna"
-                ,"Sentait"
-                ,"Sequana"
-                ,"Serket-hetu"
-                ,"Seth"
-                ,"Sethlans"
-                ,"Shosshu"
-                ,"Shurdi"
-                ,"Sif"
-                ,"Silvanus"
-                ,"Singbonga"
-                ,"Sirona"
-                ,"Sitala"
-                ,"Siva"
-                ,"Skanda"
-                ,"Skuld"
-                ,"Sokar"
-                ,"Sol"
-                ,"Soma"
-                ,"Sopdu"
-                ,"Sucellos"
-                ,"Sulmanu"
-                ,"Summamus"
-                ,"Surya"
-                ,"Svarog"
-                ,"Tabiti"
-                ,"Tailtiu"
-                ,"Tapio"
-                ,"Tangaroa"
-                ,"Taranis"
-                ,"Tate"
-                ,"Teisiphone"
-                ,"Tellus"
-                ,"Thaleia"
-                ,"Thanatos"
-                ,"Thesan"
-                ,"Themis"
-                ,"Thor"
-                ,"Turan"
-                ,"Tyche"
-                ,"Ugar"
-                ,"Ukko"
-                ,"Ullr"
-                ,"Unut"
-                ,"Upulvan"
-                ,"Urd"
-                ,"Ushas"
-                ,"Utu"
-                ,"Vali"
-                ,"Varda"
-                ,"Varunya"
-                ,"Vata"
-                ,"Vayu"
-                ,"Veive"
-                ,"Verdandi"
-                ,"Vesta"
-                ,"Virtus"
-                ,"Vishnu"
-                ,"Voer"
-                ,"Volumna"
-                ,"Votan"
-                ,"Vritra"
-                ,"Vulcanus"
-                ,"Wadd"
-                ,"Whiro"
-                ,"Wunekau"
-                ,"Wurunkatte"
-                ,"Xochipilli"
-                ,"Xocotl"
-                ,"Yama"
-                ,"Yarhibol"
-                ,"Yavanna"
-                ,"Yehl"
-                ,"Zalmoxis"
-                ,"Zemyna"
-                ,"Zephyros"
-                ,"Zeus"
             };
         }
 

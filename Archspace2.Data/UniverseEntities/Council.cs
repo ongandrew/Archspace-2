@@ -7,6 +7,15 @@ namespace Archspace2
 {
     public class Council : UniverseEntity
     {
+        public Council(Universe aUniverse) : base(aUniverse)
+        {
+            Players = new List<Player>();
+        }
+
+        public int? SpeakerId { get; set; }
+        [ForeignKey("SpeakerId")]
+        public Player Speaker { get; set; }
+
         public string Slogan { get; set; }
 
         public string ProjectIdList { get; private set; }
@@ -22,11 +31,7 @@ namespace Archspace2
                 ProjectIdList = value.Select(x => x.Id).SerializeIds();
             }
         }
-
-        ICollection<Player> Players { get; set; }
-
-        protected Council()
-        {
-        }
+        
+        public ICollection<Player> Players { get; set; }
     }
 }

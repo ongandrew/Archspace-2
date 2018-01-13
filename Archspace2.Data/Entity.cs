@@ -4,10 +4,10 @@ namespace Archspace2
 {
     public class Entity : IEntity
     {
-        [JsonProperty("id")]
+        [JsonProperty("Id")]
         public int Id { get; set; }
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("Name")]
+        public virtual string Name { get; set; }
 
         public override string ToString()
         {

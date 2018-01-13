@@ -6,7 +6,7 @@ namespace Archspace2
 {
     public class BlackMarket : UniverseEntity
     {
-        protected BlackMarket()
+        public BlackMarket(Universe aUniverse) : base(aUniverse)
         {
         }
 

@@ -22,11 +22,11 @@ namespace Archspace2
         public bool Sent { get; set; }
         public DateTime? SentDateTime { get; set; }
 
-        protected MailItem()
+        public MailItem(Universe aUniverse) : base(aUniverse)
         {
         }
 
-        public MailItem(Player aFromPlayer, Player aToPlayer, string aSubject = null, string aMessage = null) : this()
+        public MailItem(Player aFromPlayer, Player aToPlayer, string aSubject = null, string aMessage = null) : this(aFromPlayer.Universe)
         {
             FromPlayer.Id = aFromPlayer.Id;
             FromPlayer = aFromPlayer;

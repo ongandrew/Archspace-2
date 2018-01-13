@@ -39,7 +39,7 @@ namespace Archspace2
 
     public class Planet : UniverseEntity
     {
-        public Planet()
+        public Planet(Universe aUniverse) : base(aUniverse)
         {
             PlanetAttributes = new List<PlanetAttribute>();
             CommercePlanets = new List<Planet>();
@@ -219,7 +219,22 @@ namespace Archspace2
             }
         }
 
-        public ICollection<Planet> CommercePlanets { get; set; }
+        public string CommercePlanetList { get; set; }
+        [NotMapped]
+        public List<Planet> CommercePlanets
+        {
+            get
+            {
+                using (DatabaseContext databaseContext = Game.Context)
+                {
+                    return CommercePlanetList.DeserializeIds().Select(x => databaseContext.Planets.Single(y => y.Id == x)).ToList();
+                }
+            }
+            set
+            {
+                CommercePlanetList = value.Select(x => x.Id).SerializeIds();
+            }
+        }
 
         public async Task AddAttributeAsync(PlanetAttribute aPlanetAttribute)
         {

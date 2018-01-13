@@ -5,7 +5,7 @@ namespace Archspace2
 {
     public class Mailbox : UniverseEntity
     {
-        protected Mailbox()
+        public Mailbox(Universe aUniverse) : base(aUniverse)
         {
             ReceivedMail = new List<MailItem>();
         }

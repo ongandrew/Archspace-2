@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Universal.Common.Extensions;
 
 namespace Archspace2
 {
     public class Cluster : UniverseEntity
     {
-        protected Cluster()
+        public Cluster(Universe aUniverse) : base(aUniverse)
         {
+            Name = Game.Configuration.Universe.ClusterNames.Except(Game.Universe.Clusters.Select(x => x.Name)).Random();
+            Planets = new List<Planet>();
         }
 
-        ICollection<Planet> Planets { get; set; }
+        public ICollection<Planet> Planets { get; set; }
     }
 }

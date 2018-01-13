@@ -22,6 +22,8 @@ namespace Archspace2.Web
                 .UseKestrel()
                 .UseStartup<Startup>()
                 .UseIISIntegration()
-                 .Build();
+                .UseSetting("detailedErrors", "true")
+                .CaptureStartupErrors(true)
+                .Build();
     }
 }

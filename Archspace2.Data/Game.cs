@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Archspace2
@@ -8,20 +9,16 @@ namespace Archspace2
     public static class Game
     {
         private static bool mInitialized = false;
+        private static Universe mUniverse;
 
         private static string mConnectionString;
         public static DatabaseContext Context
         {
             get
             {
-                if (mConnectionString == null)
-                {
-                    throw new InvalidOperationException("Game engine not running.");
-                }
-                else
-                {
-                    return new DatabaseContext(mConnectionString);
-                }
+                CheckState();
+                
+                return new DatabaseContext(mConnectionString);
             }
         }
 
@@ -29,46 +26,23 @@ namespace Archspace2
         public static GameConfiguration Configuration {
             get
             {
-                if (mGameConfiguration == null)
-                {
-                    throw new InvalidOperationException("Game engine not running.");
-                }
-                else
-                {
-                    return mGameConfiguration;
-                }
+                CheckState();
+
+                return mGameConfiguration;
             }
         }
-
-        private static List<Universe> mUniverses;
-        public static List<Universe> Universes
+        
+        public static Universe Universe
         {
             get
             {
-                if (mUniverses == null)
-                {
-                    throw new InvalidOperationException("Game engine not running.");
-                }
-                else
-                {
-                    return mUniverses;
-                }
-            }
-        }
+                CheckState();
 
-        private static List<User> mUsers;
-        public static List<User> Users
-        {
-            get
+                return mUniverse;
+            }
+            private set
             {
-                if (mUsers == null)
-                {
-                    throw new InvalidOperationException("Game engine not running.");
-                }
-                else
-                {
-                    return mUsers;
-                }
+                mUniverse = value;
             }
         }
 
@@ -90,13 +64,67 @@ namespace Archspace2
                 mGameConfiguration = aGameConfiguration;
             }
 
+            mInitialized = true;
+
             await Context.Database.EnsureDeletedAsync();
             await Context.Database.EnsureCreatedAsync();
 
+            try
+            {
+                Universe universe = await Context.Universes.Where(x => x.FromDate <= DateTime.UtcNow && (x.ToDate == null || DateTime.UtcNow < x.ToDate)).SingleOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException("Could not retrieve entities from database. Check database connection string.", e);
+            }
+        }
+
+        public static async Task<User> CreateNewUserAsync()
+        {
+            CheckState();
+
             using (DatabaseContext databaseContext = Context)
             {
-                mUniverses = await databaseContext.Universes.ToListAsync();
-                mUsers = await databaseContext.Users.ToListAsync();
+                User user = new User();
+
+                databaseContext.Users.Add(user);
+
+                await databaseContext.SaveChangesAsync();
+
+                return user;
+            }
+        }
+
+        public static async Task<Universe> CreateNewUniverseAsync(DateTime aFromDate, DateTime? aToDate = null)
+        {
+            CheckState();
+
+            using (DatabaseContext databaseContext = Context)
+            {
+                Universe universe = new Universe(aFromDate, aToDate);
+
+                if (Universe != null)
+                {
+                    Universe.ToDate = DateTime.UtcNow;
+                }
+
+                Universe = universe;
+
+                databaseContext.Universes.Add(universe);
+                await databaseContext.SaveChangesAsync();
+
+                universe.Initialize();
+                await databaseContext.SaveChangesAsync();
+
+                return universe;
+            }
+        }
+
+        private static void CheckState()
+        {
+            if (!mInitialized)
+            {
+                throw new InvalidOperationException("Game engine not initialized.");
             }
         }
     }

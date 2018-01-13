@@ -8,8 +8,9 @@ namespace Archspace2
 {
     public class DefensePlan : UniverseEntity
     {
-        protected DefensePlan()
+        public DefensePlan(Universe aUniverse) : base(aUniverse)
         {
+            DefenseDeployments = new List<DefenseDeployment>();
         }
 
         public int PlayerId { get; set; }

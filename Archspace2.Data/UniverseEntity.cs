@@ -6,11 +6,18 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class UniverseEntity : Entity
+    public abstract class UniverseEntity : Entity
     {
-        [JsonProperty("universeId")]
         public int UniverseId { get; set; }
-        [JsonIgnore]
+        [ForeignKey("UniverseId")]
         public Universe Universe { get; set; }
+
+        protected UniverseEntity() : base()
+        {
+        }
+        public UniverseEntity(Universe aUniverse) : this()
+        {
+            Universe = aUniverse;
+        }
     }
 }

@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace Archspace2
 {
+    public enum PlayerType
+    {
+        Normal,
+        Bot
+    };
+
     public enum ConcentrationMode
     {
         Balanced,
         Industry,
         Military,
         Research
-    }
+    };
 
     public enum SecurityLevel
     {
@@ -25,19 +31,20 @@ namespace Archspace2
 
     public class Player : UniverseEntity
     {
-        public Player() : base()
+        public Player(Universe aUniverse) : base(aUniverse)
         {
+            Mailbox = new Mailbox(Universe);
             Techs = new List<Tech>();
             Admirals = new List<Admiral>();
             Planets = new List<Planet>();
         }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
 
-        public int CouncilId { get; set; }
-        [ForeignKey("CouncilId")]
+        public PlayerType Type { get; set; }
+        
         public Council Council { get; set; }
 
         public SecurityLevel SecurityLevel { get; set; }
@@ -151,9 +158,7 @@ namespace Archspace2
                 return result;
             }
         }
-
-        public int MailboxId { get; set; }
-        [ForeignKey("MailboxId")]
+        
         public Mailbox Mailbox { get; set; }
 
         public bool EvaluatePrerequisites(IPlayerUnlockable aPlayerUnlockable)

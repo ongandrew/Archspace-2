@@ -6,7 +6,7 @@ namespace Archspace2
 {
     public class Empire : UniverseEntity
     {
-        protected Empire()
+        public Empire(Universe aUniverse) : base(aUniverse)
         {
         }
     }

@@ -33,5 +33,9 @@ namespace Archspace2
         public DefenseDeploymentCommand Command { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
+
+        public DefenseDeployment(Universe aUniverse) : base(aUniverse)
+        {
+        }
     }
 }

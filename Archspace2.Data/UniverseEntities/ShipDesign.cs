@@ -110,5 +110,9 @@ namespace Archspace2
                 WeaponIdList = value.Select(x => x.Id).SerializeIds();
             }
         }
+
+        public ShipDesign(Universe aUniverse) : base(aUniverse)
+        {
+        }
     }
 }
