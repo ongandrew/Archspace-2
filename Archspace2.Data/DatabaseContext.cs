@@ -22,6 +22,11 @@ namespace Archspace2
 
         protected override void OnModelCreating(ModelBuilder aModelBuilder)
         {
+            aModelBuilder.Entity<Admiral>().OwnsOne(x => x.BaseSkills);
+            
+            aModelBuilder.Entity<Planet>().OwnsOne(x => x.Atmosphere);
+            aModelBuilder.Entity<Planet>().HasMany(x => x.CommercePlanets).WithOne();
+
             foreach (var entityType in aModelBuilder.Model.GetEntityTypes())
             {
                 entityType.GetForeignKeys()
@@ -29,17 +34,6 @@ namespace Archspace2
                     .ToList()
                     .ForEach(fk => fk.DeleteBehavior = DeleteBehavior.Restrict);
             }
-
-            aModelBuilder.Entity<Admiral>().OwnsOne(x => x.BaseSkills);
-
-            aModelBuilder.Entity<Council>().HasOne(x => x.Speaker);
-            aModelBuilder.Entity<Council>().HasMany(x => x.Players).WithOne();
-
-            aModelBuilder.Entity<Planet>().OwnsOne(x => x.Atmosphere);
-            aModelBuilder.Entity<Planet>().HasMany(x => x.CommercePlanets).WithOne();
-
-            aModelBuilder.Entity<Player>().HasOne(x => x.Council);
-            aModelBuilder.Entity<Player>().HasOne(x => x.Mailbox);
 
             base.OnModelCreating(aModelBuilder);
         }

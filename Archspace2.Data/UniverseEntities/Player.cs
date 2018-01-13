@@ -34,7 +34,7 @@ namespace Archspace2
         public Player(Universe aUniverse) : base(aUniverse)
         {
             Mailbox = new Mailbox(Universe);
-            Techs = new List<Tech>();
+            mTechs = new List<Tech>();
             Admirals = new List<Admiral>();
             Planets = new List<Planet>();
         }
@@ -45,6 +45,8 @@ namespace Archspace2
 
         public PlayerType Type { get; set; }
         
+        public int CouncilId { get; set; }
+        [ForeignKey("CouncilId")]
         public Council Council { get; set; }
 
         public SecurityLevel SecurityLevel { get; set; }
@@ -86,17 +88,29 @@ namespace Archspace2
             }
         }
 
-        public string TechIdList { get; private set; }
+        public string TechIdList {
+            get
+            {
+                return mTechs.Select(x => x.Id).SerializeIds();
+            }
+            private set
+            {
+                mTechs = value.DeserializeIds().Select(x => Game.Configuration.Techs.Single(tech => tech.Id == x)).ToList();
+            }
+        }
+        [NotMapped]
+        private List<Tech> mTechs { get; set; }
         [NotMapped]
         public List<Tech> Techs
         {
             get
             {
-                return TechIdList.DeserializeIds().Select(x => Game.Configuration.Techs.Single(tech => tech.Id == x)).ToList();
+                return mTechs;
             }
             set
             {
                 TechIdList = value.Select(x => x.Id).SerializeIds();
+                mTechs = value;
             }
         }
 

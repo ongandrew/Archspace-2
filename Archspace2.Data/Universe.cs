@@ -49,11 +49,6 @@ namespace Archspace2
             }
         }
 
-        private void SetUniverse(UniverseEntity aUniverseEntity)
-        {
-            aUniverseEntity.Universe = this;
-        }
-
         private BlackMarket CreateBlackMarket()
         {
             BlackMarket blackMarket = new BlackMarket(this);
@@ -63,12 +58,9 @@ namespace Archspace2
 
         private Player CreateBot()
         {
-            Player bot = new Player(this);
-            SetUniverse(bot);
+            Player bot = CreatePlayer(Game.Configuration.Universe.BotNames.Random(), Game.Configuration.Races.Random());
 
             bot.Type = PlayerType.Bot;
-            bot.Name = Game.Configuration.Universe.BotNames.Random();
-            bot.Council = GetCouncilsWithCapacity().Random();
 
             return bot;
         }
@@ -76,11 +68,14 @@ namespace Archspace2
         public Player CreatePlayer(string aName, Race aRace)
         {
             Player player = new Player(this);
-            SetUniverse(player);
 
             player.Name = aName;
             player.Race = aRace;
             player.Council = GetCouncilsWithCapacity().Random();
+            player.ProductionPoint = 50000;
+            player.Techs = Game.Configuration.Techs.Where(x => x.Attribute == TechAttribute.Basic).ToList();
+            player.Techs.AddRange(Game.Configuration.Techs.Where(x => player.Race.BaseTechs.Contains(x.Id)));
+            player.ConcentrationMode = ConcentrationMode.Balanced;
 
             Players.Add(player);
 

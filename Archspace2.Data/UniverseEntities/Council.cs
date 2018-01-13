@@ -13,8 +13,25 @@ namespace Archspace2
         }
 
         public int? SpeakerId { get; set; }
-        [ForeignKey("SpeakerId")]
-        public Player Speaker { get; set; }
+        [NotMapped]
+        public Player Speaker
+        {
+            get
+            {
+                if (SpeakerId == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return Universe.Players.SingleOrDefault(x => x.Id == SpeakerId);
+                }
+            }
+            set
+            {
+                SpeakerId = value.Id;
+            }
+        }
 
         public string Slogan { get; set; }
 
