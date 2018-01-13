@@ -33,6 +33,9 @@ namespace Archspace2
         public int ShipDesignId { get; set; }
         [ForeignKey("ShipDesignId")]
         public ShipDesign ShipDesign { get; set; }
+
+        public int CurrentShipCount { get; set; }
+        public int MaxShipCount { get; set; }
         
         public MissionType Mission { get; set; }
 

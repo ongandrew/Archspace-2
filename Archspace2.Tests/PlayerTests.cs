@@ -26,5 +26,20 @@ namespace Archspace2
             Assert.AreEqual("Tester", player.Name);
             Assert.AreEqual(race.Id, player.RaceId);
         }
+
+        [TestMethod]
+        public async Task CanUpdateTurn()
+        {
+            User user = await Game.CreateNewUserAsync();
+
+            Assert.IsNotNull(user);
+
+            Race race = Game.Configuration.Races.Random();
+            Player player = await user.CreatePlayerAsync("ResearchTest", race);
+
+            Assert.IsNotNull(player);
+
+            await player.UpdateTurnAsync();
+        }
     }
 }

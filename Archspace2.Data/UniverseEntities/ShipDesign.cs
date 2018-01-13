@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using Universal.Common.Extensions;
 
 namespace Archspace2
 {
@@ -83,36 +84,89 @@ namespace Archspace2
             }
         }
 
-        public string DeviceIdList { get; private set; }
+        public string DeviceIdList {
+            get
+            {
+                return mDevices.Select(x => x.Id).SerializeIds();
+            }
+            set
+            {
+                mDevices = value.DeserializeIds().Select(x => Game.Configuration.Devices.Single(device => device.Id == x)).ToList();
+            }
+        }
+        [NotMapped]
+        private List<Device> mDevices;
         [NotMapped]
         public List<Device> Devices
         {
             get
             {
-                return WeaponIdList.DeserializeIds().Select(x => Game.Configuration.Devices.Single(device => device.Id == x)).ToList();
+                return mDevices;
             }
             set
             {
                 DeviceIdList = value.Select(x => x.Id).SerializeIds();
+                mDevices = value;
             }
         }
 
-        public string WeaponIdList { get; private set; }
+        public string WeaponIdList
+        {
+            get
+            {
+                return mWeapons.Select(x => x.Id).SerializeIds();
+            }
+            set
+            {
+                mWeapons = value.DeserializeIds().Select(x => Game.Configuration.Weapons.Single(weapon => weapon.Id == x)).ToList();
+            }
+        }
+        [NotMapped]
+        private List<Weapon> mWeapons;
         [NotMapped]
         public List<Weapon> Weapons
         {
             get
             {
-                return WeaponIdList.DeserializeIds().Select(x => Game.Configuration.Weapons.Single(weapon => weapon.Id == x)).ToList();
+                return mWeapons;
             }
             set
             {
                 WeaponIdList = value.Select(x => x.Id).SerializeIds();
+                mWeapons = value;
             }
         }
-
+        
         public ShipDesign(Universe aUniverse) : base(aUniverse)
         {
+            mDevices = new List<Device>();
+            mWeapons = new List<Weapon>();
+        }
+
+        public ShipDesign AsInitialShipDesign(int aIndex)
+        {
+            if (aIndex == 0)
+            {
+                Name = "Patrol Boat Mk.I";
+                ShipClassId = 4001;
+                ArmorID = 5101;
+                EngineId = 5401;
+                ComputerId = 5201;
+                ShieldId = 5301;
+                WeaponIdList = "6101";
+            }
+            else if (aIndex == 1)
+            {
+                Name = "Star Corvette Mk.I";
+                ShipClassId = 4002;
+                ArmorID = 5101;
+                EngineId = 5401;
+                ComputerId = 5201;
+                ShieldId = 5301;
+                WeaponIdList = "6301,6201";
+            }
+
+            return this;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Archspace2
 
             for (int i = 0; i < 10; i++)
             {
-                admirals.Add(new Admiral(Game.Universe));
+                admirals.Add(new Admiral(Game.Universe).AsRandomAdmiral());
             }
 
             Assert.AreNotEqual(0, admirals.Count);

@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using Universal.Common.Extensions;
 
 namespace Archspace2
 {
@@ -22,5 +19,13 @@ namespace Archspace2
         public int CH4 { get; set; }
         [JsonProperty("H2O")]
         public int H2O { get; set; }
+
+        public Atmosphere()
+        {
+        }
+        public Atmosphere(Atmosphere aOther)
+        {
+            this.Bind(aOther);
+        }
     }
 }

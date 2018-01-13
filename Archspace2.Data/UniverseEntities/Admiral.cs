@@ -646,19 +646,40 @@ namespace Archspace2
 
         public Admiral(Universe aUniverse) : base(aUniverse)
         {
-            Race = Game.Configuration.Races.Random();
             Experience = 0;
             Level = 1;
+            BaseSkills = new AdmiralSkills();
+        }
 
+        public Admiral AsRandomAdmiral()
+        {
+            AsRacialAdmiral(Game.Configuration.Races.Random());
+
+            return this;
+        }
+
+        public Admiral AsRacialAdmiral(Race aRace)
+        {
+            Race = aRace;
             Name = GenerateName();
             SpecialAbility = typeof(AdmiralSpecialAbility).GetEnumValues().OfType<AdmiralSpecialAbility>().Random();
             RacialAbility = typeof(AdmiralRacialAbility).GetEnumValues().OfType<AdmiralRacialAbility>().Random();
+
+            return this;
+        }
+
+        public Admiral AsPlayerAdmiral(Player aPlayer)
+        {
+            Player = aPlayer;
+            AsRacialAdmiral(aPlayer.Race);
+
+            return this;
         }
 
         private string GenerateName()
         {
             Race race = Race;
-
+            
             if (race.AdmiralNameStyle == AdmiralNameStyle.Xesperados)
             {
                 race = Game.Configuration.Races.Where(x => x.AdmiralNameStyle != AdmiralNameStyle.Xesperados).Random();
@@ -666,17 +687,19 @@ namespace Archspace2
 
             StringBuilder stringBuilder = new StringBuilder();
 
+            int numAlpha = Game.Random.Next(1, 4);
+            int numNum = Game.Random.Next(1, 4);
+
             if (race.AdmiralNameStyle == AdmiralNameStyle.Evintos)
             {
-                Random random = new Random();
-                for (int i = 0; i < random.Next(4); i++)
+                for (int i = 0; i < numAlpha; i++)
                 {
-                    stringBuilder.Append((char)('A' + random.Next(26) - 1));
+                    stringBuilder.Append((char)('A' + Game.Random.Next(0, 25)));
                 }
                 stringBuilder.Append('-');
-                for (int i = 0; i < random.Next(4); i++)
+                for (int i = 0; i < numNum; i++)
                 {
-                    stringBuilder.Append((char)('1' + random.Next(9) - 1));
+                    stringBuilder.Append((char)('1' + Game.Random.Next(0, 8)));
                 }
             }
             else

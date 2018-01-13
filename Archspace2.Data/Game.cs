@@ -22,6 +22,9 @@ namespace Archspace2
             }
         }
 
+        private static Random mRandom = new Random();
+        public static Random Random { get => mRandom; }
+
         private static GameConfiguration mGameConfiguration;
         public static GameConfiguration Configuration {
             get

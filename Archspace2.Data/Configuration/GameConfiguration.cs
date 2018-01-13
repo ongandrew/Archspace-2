@@ -21,6 +21,7 @@ namespace Archspace2
             BlackMarket = new BlackMarketSettings();
             Mission = new MissionSettings();
             Planet = new PlanetSettings();
+            Player = new PlayerSettings();
             Universe = new UniverseSettings();
 
             Armors = new List<Armor>();
@@ -54,6 +55,8 @@ namespace Archspace2
         public MissionSettings Mission { get; set; }
         [JsonProperty("Planet")]
         public PlanetSettings Planet { get; set; }
+        [JsonProperty("Player")]
+        public PlayerSettings Player { get; set; }
         [JsonProperty("Universe")]
         public UniverseSettings Universe { get; set; }
 
@@ -119,6 +122,7 @@ namespace Archspace2
             BlackMarket = BlackMarketSettings.CreateDefault();
             Mission = MissionSettings.CreateDefault();
             Planet = PlanetSettings.CreateDefault();
+            Player = PlayerSettings.CreateDefault();
             Universe = UniverseSettings.CreateDefault();
         }
 
@@ -3099,7 +3103,8 @@ namespace Archspace2
                         AdmiralRacialAbility.CyberScanUnit,
                         AdmiralRacialAbility.RigidThinking,
                         AdmiralRacialAbility.ManagementProtocol
-                    }
+                    },
+                    AdmiralNameStyle = AdmiralNameStyle.Evintos
                 },
                 new Race()
                 {
@@ -3629,7 +3634,8 @@ namespace Archspace2
                         AdmiralRacialAbility.DefensiveMatrix,
                         AdmiralRacialAbility.PsychicProgenitor,
                         AdmiralRacialAbility.ArtifactCoolingEngine
-                    }
+                    },
+                    AdmiralNameStyle = AdmiralNameStyle.Xesperados
                 }
             };
         }

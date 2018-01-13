@@ -39,12 +39,6 @@ namespace Archspace2
 
     public class Planet : UniverseEntity
     {
-        public Planet(Universe aUniverse) : base(aUniverse)
-        {
-            PlanetAttributes = new List<PlanetAttribute>();
-            CommercePlanets = new List<Planet>();
-        }
-
         public int ClusterId { get; set; }
         [ForeignKey("ClusterId")]
         public Cluster Cluster { get; set; }
@@ -197,6 +191,41 @@ namespace Archspace2
             {
                 PlanetAttributeList = value.Select(x => x.Id).SerializeIds();
             }
+        }
+
+        public Planet(Universe aUniverse) : base(aUniverse)
+        {
+            Population = 0;
+            
+            PlanetAttributes = new List<PlanetAttribute>();
+            CommercePlanets = new List<Planet>();
+        }
+
+        public Planet AsHomePlanet(Player aPlayer)
+        {
+            AsRacialPlanet(aPlayer.Race);
+
+            Order = 0;
+            Population = 50000;
+
+            FactoryCount = 30;
+            ResearchLabCount = 10;
+            MilitaryBaseCount = 10;
+
+            Size = PlanetSize.Medium;
+
+            Player = aPlayer;
+
+            return this;
+        }
+
+        public Planet AsRacialPlanet(Race aRace)
+        {
+            Atmosphere = new Atmosphere(aRace.HomeAtmosphere);
+            Gravity = aRace.HomeGravity;
+            Temperature = aRace.HomeTemperature;
+
+            return this;
         }
 
         public async Task ClearCommerceAsync()

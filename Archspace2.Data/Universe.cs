@@ -77,6 +77,43 @@ namespace Archspace2
             player.Techs.AddRange(Game.Configuration.Techs.Where(x => player.Race.BaseTechs.Contains(x.Id)));
             player.ConcentrationMode = ConcentrationMode.Balanced;
 
+            player.Planets.Add(Clusters.Random().CreatePlanet().AsHomePlanet(player));
+
+            ShipDesign shipDesign1 = player.CreateShipDesign().AsInitialShipDesign(0);
+            ShipDesign shipDesign2 = player.CreateShipDesign().AsInitialShipDesign(1);
+            player.ShipDesigns.Add(shipDesign1);
+            player.ShipDesigns.Add(shipDesign2);
+
+            for (int i = 0; i < Game.Configuration.Player.StartingAdmiralCount; i++)
+            {
+                player.Admirals.Add(player.CreateAdmiral().AsPlayerAdmiral(player));
+            }
+
+            Fleet fleet1 = player.CreateFleet();
+            fleet1.Name = "1st Royal Guard Fleet";
+            fleet1.Admiral = player.GetAdmiralPool().Random();
+            fleet1.ShipDesign = shipDesign1;
+            fleet1.CurrentShipCount = 6;
+            fleet1.MaxShipCount = 6;
+
+            Fleet fleet2 = player.CreateFleet();
+            fleet2.Name = "2nd Royal Guard Fleet";
+            fleet2.Admiral = player.GetAdmiralPool().Random();
+            fleet2.ShipDesign = shipDesign1;
+            fleet2.CurrentShipCount = 6;
+            fleet2.MaxShipCount = 6;
+
+            Fleet fleet3 = player.CreateFleet();
+            fleet3.Name = "3rd Royal Guard Fleet";
+            fleet3.Admiral = player.GetAdmiralPool().Random();
+            fleet3.ShipDesign = shipDesign2;
+            fleet3.CurrentShipCount = 6;
+            fleet3.MaxShipCount = 6;
+
+            player.Fleets.Add(fleet1);
+            player.Fleets.Add(fleet2);
+            player.Fleets.Add(fleet3);
+
             Players.Add(player);
 
             return player;

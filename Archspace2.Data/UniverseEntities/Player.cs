@@ -1,4 +1,5 @@
 ﻿using Archspace2.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -31,14 +32,6 @@ namespace Archspace2
 
     public class Player : UniverseEntity
     {
-        public Player(Universe aUniverse) : base(aUniverse)
-        {
-            Mailbox = new Mailbox(Universe);
-            mTechs = new List<Tech>();
-            Admirals = new List<Admiral>();
-            Planets = new List<Planet>();
-        }
-
         public int? UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
@@ -99,7 +92,7 @@ namespace Archspace2
             }
         }
         [NotMapped]
-        private List<Tech> mTechs { get; set; }
+        private List<Tech> mTechs;
         [NotMapped]
         public List<Tech> Techs
         {
@@ -175,6 +168,22 @@ namespace Archspace2
         
         public Mailbox Mailbox { get; set; }
 
+        public ICollection<Admiral> Admirals { get; set; }
+        public ICollection<DefensePlan> DefensePlans { get; set; }
+        public ICollection<Fleet> Fleets { get; set; }
+        public ICollection<Planet> Planets { get; set; }
+        public ICollection<ShipDesign> ShipDesigns { get; set; }
+
+        public Player(Universe aUniverse) : base(aUniverse)
+        {
+            Mailbox = new Mailbox(Universe);
+            mTechs = new List<Tech>();
+            Admirals = new List<Admiral>();
+            Fleets = new List<Fleet>();
+            Planets = new List<Planet>();
+            ShipDesigns = new List<ShipDesign>();
+        }
+
         public bool EvaluatePrerequisites(IPlayerUnlockable aPlayerUnlockable)
         {
             return EvaluatePrerequisites(aPlayerUnlockable.Prerequisites);
@@ -183,32 +192,33 @@ namespace Archspace2
         {
             return aPrerequisites.Evaluate(this);
         }
-        
-        public ICollection<Admiral> Admirals { get; set; }
-        public ICollection<DefensePlan> DefensePlans { get; set; }
-        public ICollection<Planet> Planets { get; set; }
 
-        public async Task AddPlanetAsync(Planet aPlanet)
+        public Admiral CreateAdmiral()
         {
-            using (DatabaseContext databaseContext = Game.Context)
-            {
-                aPlanet.Player = this;
-                Planets.Add(aPlanet);
+            Admiral result = new Admiral(Universe).AsPlayerAdmiral(this);
 
-                await databaseContext.SaveChangesAsync();
-            }
+            return result;
         }
 
-        public async Task RemovePlanetAsync(Planet aPlanet)
+        public Fleet CreateFleet()
         {
-            using (DatabaseContext databaseContext = Game.Context)
-            {
-                aPlanet.Player = null;
-                await aPlanet.ClearCommerceAsync();
-                Planets.Add(aPlanet);
+            Fleet result = new Fleet(Universe);
+            result.Player = this;
 
-                await databaseContext.SaveChangesAsync();
-            }
+            return result;
+        }
+
+        public ShipDesign CreateShipDesign()
+        {
+            ShipDesign result = new ShipDesign(Universe);
+            result.Player = this;
+
+            return result;
+        }
+
+        public List<Admiral> GetAdmiralPool()
+        {
+            return Admirals.Except(from fleet in Fleets select fleet.Admiral).OrderBy(x => x.Id).ToList();
         }
 
         public int GetTargetTechCost()
@@ -249,6 +259,8 @@ namespace Archspace2
                 UpdateResearch();
 
                 UpdateSecurity();
+
+                databaseContext.Players.Update(this);
 
                 await databaseContext.SaveChangesAsync();
             }
