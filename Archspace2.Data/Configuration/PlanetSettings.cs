@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 
 namespace Archspace2
@@ -7,20 +8,13 @@ namespace Archspace2
     {
         public PlanetSettings()
         {
+            ResourceMultipliers = new Dictionary<PlanetResource, int>();
             WasteSettings = new Dictionary<int, WasteSetting>();
         }
-
-        [JsonProperty("UltraPoorMultiplier")]
-        public int UltraPoorMultiplier { get; set; }
-        [JsonProperty("PoorMultiplier")]
-        public int PoorMultiplier { get; set; }
-        [JsonProperty("NormalMultiplier")]
-        public int NormalMultiplier { get; set; }
-        [JsonProperty("RichMultiplier")]
-        public int RichMultiplier { get; set; }
-        [JsonProperty("UltraRichMultiplier")]
-        public int UltraRichMultiplier { get; set; }
-
+        
+        [JsonProperty("ResourceMultipliers")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Dictionary<PlanetResource, int> ResourceMultipliers;
         [JsonProperty("WasteSettings")]
         public Dictionary<int, WasteSetting> WasteSettings { get; set; }
 
@@ -28,11 +22,14 @@ namespace Archspace2
         {
             return new PlanetSettings()
             {
-                UltraPoorMultiplier = 50,
-                PoorMultiplier = 75,
-                NormalMultiplier = 100,
-                RichMultiplier = 175,
-                UltraRichMultiplier = 250,
+                ResourceMultipliers = new Dictionary<PlanetResource, int>()
+                {
+                    [PlanetResource.UltraPoor] = 50,
+                    [PlanetResource.Poor] = 75,
+                    [PlanetResource.Normal] = 100,
+                    [PlanetResource.Rich] = 175,
+                    [PlanetResource.UltraRich] = 250
+                },
                 WasteSettings = new Dictionary<int, WasteSetting>()
                 {
                     [-5] = new WasteSetting() { WasteFreePlanetCount = 3, WastePerPlanet = 25 },

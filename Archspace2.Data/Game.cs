@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Archspace2
@@ -128,6 +129,16 @@ namespace Archspace2
             if (!mInitialized)
             {
                 throw new InvalidOperationException("Game engine not initialized.");
+            }
+        }
+
+        public static async Task LogAsync(string aMessage, LogType aLogType = LogType.Information, [CallerFilePath]string aCallerFilePath = null, [CallerMemberName]string aCallerMemberName = null, [CallerLineNumber]int aCallerLineNumber = 0)
+        {
+            using (DatabaseContext databaseContext = Context)
+            {
+                databaseContext.SystemLogs.Add(new SystemLog(aMessage, aLogType, aCallerFilePath, aCallerMemberName, aCallerLineNumber));
+
+                await databaseContext.SaveChangesAsync();
             }
         }
     }

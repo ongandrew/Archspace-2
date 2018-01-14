@@ -10,7 +10,9 @@ namespace Archspace2
     {
         public Council(Universe aUniverse) : base(aUniverse)
         {
+            FromRelations = new List<CouncilRelation>();
             Players = new List<Player>();
+            ToRelations = new List<CouncilRelation>();
         }
 
         public int? SpeakerId { get; set; }
@@ -49,7 +51,17 @@ namespace Archspace2
                 ProjectIdList = value.Select(x => x.Id).SerializeIds();
             }
         }
+
+        public List<CouncilRelation> Relations
+        {
+            get
+            {
+                return FromRelations.Union(ToRelations).ToList();
+            }
+        }
         
+        public ICollection<CouncilRelation> FromRelations { get; set; }
+        public ICollection<CouncilRelation> ToRelations { get; set; }
         public ICollection<Player> Players { get; set; }
     }
 }

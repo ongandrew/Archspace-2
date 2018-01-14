@@ -52,6 +52,16 @@ namespace Archspace2
         public int ShipProductionInvestment { get; set; }
         public int PlanetInvestmentPool { get; set; }
 
+        private int mHonor;
+        public int Honor
+        {
+            get => mHonor;
+            set
+            {
+                mHonor = value < 0 ? 0 : value > 100 ? 100 : value;
+            }
+        }
+
         public int RaceId { get; set; }
         [NotMapped]
         public Race Race
@@ -67,6 +77,33 @@ namespace Archspace2
         }
 
         public ConcentrationMode ConcentrationMode { get; set; }
+
+        public string ProjectIdList
+        {
+            get
+            {
+                return mProjects.Select(x => x.Id).SerializeIds();
+            }
+            private set
+            {
+                mProjects = value.DeserializeIds().Select(x => Game.Configuration.Projects.Single(project => project.Id == x)).ToList();
+            }
+        }
+        [NotMapped]
+        private List<Project> mProjects;
+        [NotMapped]
+        public List<Project> Projects
+        {
+            get
+            {
+                return mProjects;
+            }
+            set
+            {
+                ProjectIdList = value.Select(x => x.Id).SerializeIds();
+                mProjects = value;
+            }
+        }
 
         public int? TargetTechId { get; set; }
         [NotMapped]
@@ -135,20 +172,6 @@ namespace Archspace2
             }
         }
 
-        public string ProjectIdList { get; private set; }
-        [NotMapped]
-        public List<Project> Projects
-        {
-            get
-            {
-                return ProjectIdList.DeserializeIds().Select(x => Game.Configuration.Projects.Single(project => project.Id == x)).ToList();
-            }
-            set
-            {
-                ProjectIdList = value.Select(x => x.Id).SerializeIds();
-            }
-        }
-
         [NotMapped]
         public ControlModel ControlModel
         {
@@ -196,23 +219,48 @@ namespace Archspace2
         
         public Mailbox Mailbox { get; set; }
 
+        public List<Fleet> GetAlliedFleets()
+        {
+            return FromRelations.Where(x => x.Type == RelationType.Ally).Select(x => x.ToPlayer).Distinct().SelectMany(x => x.Fleets).Where(x => x.Mission.Type == MissionType.DispatchToAlly && x.Mission.Target == Id).ToList();
+        }
+
+        public List<PlayerRelation> Relations
+        {
+            get
+            {
+                return FromRelations.Union(ToRelations).ToList();
+            }
+        }
+
         public ICollection<Admiral> Admirals { get; set; }
         public ICollection<DefensePlan> DefensePlans { get; set; }
+        public ICollection<PlayerEffect> Effects { get; set; }
         public ICollection<Fleet> Fleets { get; set; }
+        public ICollection<NewsItem> NewsItems { get; set; }
         public ICollection<Planet> Planets { get; set; }
-        public ICollection<PlayerEffect> PlayerEffects { get; set; }
+        public ICollection<PlayerRelation> FromRelations { get; set; }
+        public ICollection<PlayerRelation> ToRelations { get; set; }
         public ICollection<ShipDesign> ShipDesigns { get; set; }
 
         public Player(Universe aUniverse) : base(aUniverse)
         {
-            Mailbox = new Mailbox(Universe);
+            mHonor = 50;
+            ProductionPoint = 50000;
+
             mTechs = new List<Tech>();
+            mProjects = new List<Project>();
+            mTraits = new List<RacialTrait>();
+
+            Mailbox = new Mailbox(Universe);
+            NewsItems = new List<NewsItem>();
+
             Admirals = new List<Admiral>();
+            Effects = new List<PlayerEffect>();
             Fleets = new List<Fleet>();
             Planets = new List<Planet>();
-            PlayerEffects = new List<PlayerEffect>();
+            FromRelations = new List<PlayerRelation>();
             ShipDesigns = new List<ShipDesign>();
-            mTraits = new List<RacialTrait>();
+            ToRelations = new List<PlayerRelation>();
         }
 
         public bool EvaluatePrerequisites(IPlayerUnlockable aPlayerUnlockable)
@@ -222,6 +270,15 @@ namespace Archspace2
         public bool EvaluatePrerequisites(List<PlayerPrerequisite> aPrerequisites)
         {
             return aPrerequisites.Evaluate(this);
+        }
+
+        public void AddNews(string aText)
+        {
+            NewsItem newsItem = new NewsItem(Universe);
+            newsItem.Player = this;
+            newsItem.Text = aText;
+
+            NewsItems.Add(newsItem);
         }
 
         public Admiral CreateAdmiral()
@@ -283,44 +340,74 @@ namespace Archspace2
             return cost;
         }
 
-        public async Task UpdateTurnAsync()
+        public void UpdateTurn()
         {
-            using (DatabaseContext databaseContext = Game.Context)
+            Effects = Effects.Where(x => x.RemainingDuration <= 0).ToList();
+
+            if (Effects.Where(x => x.Type == PlayerEffectType.SkipTurn).Any())
             {
-                UpdateResearch();
+                return;
+            }
 
-                UpdateSecurity();
+            ApplyInstantEffects();
 
-                databaseContext.Players.Update(this);
+            UpdateFleets();
+            UpdateResearch();
+        }
 
-                await databaseContext.SaveChangesAsync();
+        private void ApplyInstantEffects()
+        {
+            foreach (PlayerEffect effect in Effects)
+            {
+                effect.Apply();
+            }
+
+            foreach (PlayerEffect instant in Effects.Where(x => x.IsInstant))
+            {
+                Effects.Remove(instant);
+            }
+        }
+
+        private void UpdateFleets()
+        {
+            foreach (Fleet fleet in Fleets)
+            {
+                fleet.UpdateTurn();
             }
         }
 
         private void UpdateResearch()
         {
-            int invest;
-
-            if (Race.BaseTraits.Contains(RacialTrait.EfficientInvestment))
+            if (ResearchInvestment > 0)
             {
-                invest = Planets.GetTotalResearchLabCount() * 10 * 2;
+                int invest;
+
+                if (Race.BaseTraits.Contains(RacialTrait.EfficientInvestment))
+                {
+                    invest = Planets.GetTotalResearchLabCount() * 10 * 2;
+                }
+                else
+                {
+                    invest = Planets.GetTotalResearchLabCount() * 10;
+                }
+
+                int rp = 0;
+
+                if (ResearchInvestment < invest)
+                {
+                    invest = ResearchInvestment;
+                }
+
+                ResearchInvestment -= invest;
+
+                rp = invest / 20;
+                ResearchPoint += rp;
             }
-            else
-            {
-                invest = Planets.GetTotalResearchLabCount();
-            }
+        }
+        
+        private void UpdatePlanets()
+        {
 
-            int rp = 0;
-
-            if (ResearchInvestment < invest)
-            {
-                invest = ResearchInvestment;
-            }
-
-            ResearchInvestment = invest;
-
-            rp = invest / 20;
-            ResearchPoint += rp;
         }
 
         private void UpdateSecurity()
@@ -330,6 +417,16 @@ namespace Archspace2
             {
                 Alertness = 0;
             }
+        }
+
+        public int CalculateTotalEffect(int aBase, PlayerEffectType aPlayerEffectType)
+        {
+            return Effects.Where(x => x.Type == aPlayerEffectType).CalculateTotalEffect(aBase, x => x.Argument1);
+        }
+
+        public bool IsDead()
+        {
+            return Planets.Any();
         }
     }
 }

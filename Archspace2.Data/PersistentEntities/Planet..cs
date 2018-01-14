@@ -58,6 +58,13 @@ namespace Archspace2
         public double Gravity { get; set; }
         public Atmosphere Atmosphere { get; set; }
 
+        public int PrivateerAmount { get; set; }
+        public int PrivateerTimer { get; set; }
+        public int BlockadeTimer { get; set; }
+
+        public Infrastructure Infrastructure { get; set; }
+        public DistributionRatio DistributionRatio { get; set; }
+
         public int Investment { get; set; }
         public int InvestRate { get
             {
@@ -158,10 +165,6 @@ namespace Archspace2
             }
         }
 
-        public int FactoryCount { get; set; }
-        public int ResearchLabCount { get; set; }
-        public int MilitaryBaseCount { get; set; }
-
         public ControlModel ControlModel
         {
             get
@@ -197,6 +200,9 @@ namespace Archspace2
         public Planet(Universe aUniverse) : base(aUniverse)
         {
             Population = 0;
+
+            Infrastructure = new Infrastructure();
+            DistributionRatio = new DistributionRatio();
             
             PlanetAttributes = new List<PlanetAttribute>();
             CommercePlanets = new List<Planet>();
@@ -209,9 +215,9 @@ namespace Archspace2
             Order = 0;
             Population = 50000;
 
-            FactoryCount = 30;
-            ResearchLabCount = 10;
-            MilitaryBaseCount = 10;
+            Infrastructure.Factory = 30;
+            Infrastructure.ResearchLab = 10;
+            Infrastructure.MilitaryBase = 10;
 
             Size = PlanetSize.Medium;
 
@@ -226,6 +232,11 @@ namespace Archspace2
             Gravity = aRace.HomeGravity;
             Temperature = aRace.HomeTemperature;
 
+            return this;
+        }
+
+        public Planet AsRandomPlanet()
+        {
             return this;
         }
 
@@ -266,6 +277,54 @@ namespace Archspace2
             }
         }
 
+        public bool CanPrivateer()
+        {
+            return PrivateerTimer <= 0;
+        }
+
+        public bool IsBlockaded()
+        {
+            return BlockadeTimer > 0;
+        }
+
+        public void StartPrivateer()
+        {
+            TimeSpan timeSpan = TimeSpan.FromHours(6);
+            PrivateerTimer = (int)timeSpan.TotalSeconds / Game.Configuration.SecondsPerTurn;
+        }
+
+        public void ProcessPrivateer()
+        {
+            if (PrivateerTimer <= 0)
+            {
+                return;
+            }
+            else
+            {
+                PrivateerTimer--;
+                if (BlockadeTimer == 0)
+                {
+                    Player.AddNews($"{Name} is now free of pirates.");
+                }
+            }
+        }
+
+        public void ProcessBlockade()
+        {
+            if (BlockadeTimer <= 0)
+            {
+                return;
+            }
+            else
+            {
+                BlockadeTimer--;
+                if (BlockadeTimer == 0)
+                {
+                    Player.AddNews($"The blockade has expired on {Name}.");
+                }
+            }
+        }
+
         public async Task AddAttributeAsync(PlanetAttribute aPlanetAttribute)
         {
             using (DatabaseContext databaseContext = Game.Context)
@@ -286,18 +345,204 @@ namespace Archspace2
             }
         }
 
-        public async Task UpdateTurn()
+        public void StartTerraforming()
         {
-            int labourPoint, usedLabourPoint, RemainingLabourPoint;
 
-            if (Player != null)
+        }
+
+        public void UpdateTurn()
+        {
+            if (IsParalyzed())
             {
-                labourPoint = CalculateLabourPoint();
+                return;
+            }
+            else
+            {
+                int nogadaPoint, 
+                    usedNogadaPoint, 
+                    remainingNogadaPoint;
 
+                ProcessPrivateer();
+                ProcessBlockade();
+
+                Resource newResources;
+                Resource upkeep;
+
+                if (Player != null)
+                {
+                    nogadaPoint = CalculateNogadaPoint();
+                    usedNogadaPoint = ComputeUpkeepAndOutput(nogadaPoint, out newResources, out upkeep);
+
+                    if (!IsBlockaded())
+                    {
+                        newResources.ProductionPoint += CalculateCommerce();
+                    }
+
+                    if (PrivateerAmount > 0)
+                    {
+                        newResources.ProductionPoint -= PrivateerAmount;
+                        PrivateerAmount = 0;
+                    }
+
+                    remainingNogadaPoint = nogadaPoint - usedNogadaPoint;
+
+                    BuildNewInfrastructure(remainingNogadaPoint);
+
+                    // throw new NotImplementedException();
+                }
             }
         }
-        
-        private int CalculateLabourPoint()
+
+        public bool IsParalyzed()
+        {
+            if (Player != null)
+            {
+                if (Player.Effects.Where(x => x.Type == PlayerEffectType.ParalyzePlanet && x.Target == Id).Any())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void BuildNewInfrastructure(int aNogadaPoint)
+        {
+            int militaryBaseNogadaPoint;
+            int researchLabNogadaPoint;
+            int factoryNogadaPoint;
+
+            int buildingCost;
+
+            aNogadaPoint += aNogadaPoint * WasteRate / 100;
+
+            militaryBaseNogadaPoint = aNogadaPoint * DistributionRatio.MilitaryBase / 100;
+            researchLabNogadaPoint = aNogadaPoint * DistributionRatio.ResearchLab / 100;
+            factoryNogadaPoint = aNogadaPoint - researchLabNogadaPoint - militaryBaseNogadaPoint;
+
+            Infrastructure buildingProgress = new Infrastructure()
+            {
+                Factory = factoryNogadaPoint,
+                ResearchLab = researchLabNogadaPoint,
+                MilitaryBase = militaryBaseNogadaPoint
+            };
+
+            buildingCost = Infrastructure.Total() + 5;
+            buildingCost = buildingCost * (10 - ControlModel.FacilityCost) / 10;
+
+            if (buildingCost < (Infrastructure.Total() + 5)/ 2)
+            {
+                buildingCost = (Infrastructure.Total() + 5) / 2;
+            }
+
+            if (buildingProgress.Factory > buildingCost)
+            {
+                buildingProgress.Factory -= buildingCost;
+                Infrastructure.Factory++;
+            }
+
+            if (buildingProgress.MilitaryBase > buildingCost)
+            {
+                buildingProgress.MilitaryBase -= buildingCost;
+                Infrastructure.MilitaryBase++;
+            }
+
+            if (buildingProgress.ResearchLab > buildingCost)
+            {
+                buildingProgress.ResearchLab -= buildingCost;
+                Infrastructure.ResearchLab++;
+            }
+        }
+
+        public int CalculateProductionPointPerTurn()
+        {
+            int nogadaPoint = CalculateNogadaPoint();
+            Resource temp;
+            Resource temp2;
+
+            ComputeUpkeepAndOutput(nogadaPoint, out temp, out temp2);
+
+            return temp.ProductionPoint;
+        }
+
+        public int CalculateResearchPointPerTurn()
+        {
+            int nogadaPoint = CalculateNogadaPoint();
+            Resource temp;
+            Resource temp2;
+
+            ComputeUpkeepAndOutput(nogadaPoint, out temp, out temp2);
+
+            return temp.ResearchPoint;
+        }
+
+        public int CalculateMilitaryPointPerTurn()
+        {
+            int nogadaPoint = CalculateNogadaPoint();
+            Resource temp;
+            Resource temp2;
+
+            ComputeUpkeepAndOutput(nogadaPoint, out temp, out temp2);
+
+            return temp.MilitaryPoint;
+        }
+
+        private int CalculateCommerce()
+        {
+            int productionPoint = 0;
+
+            foreach (Planet commercePlanet in CommercePlanets)
+            {
+                int point = commercePlanet.CalculateProductionPointPerTurn();
+                int commerce = ControlModel.Commerce;
+
+                Player commercePlanetOwner = commercePlanet.Player;
+
+                Council targetCommerceCouncil = commercePlanetOwner.Council;
+
+                if (Player.Council.FromRelations.Where(x => x.Type == RelationType.Subordinary && x.ToCouncilId == targetCommerceCouncil.Id).Any())
+                {
+                    commerce++;
+                }
+
+                if (targetCommerceCouncil.FromRelations.Where(x => x.Type == RelationType.Subordinary && x.ToCouncilId == Player.Council.Id).Any())
+                {
+                    commerce++;
+                }
+
+                if (Player.FromRelations.Where(x => x.Type == RelationType.Ally && x.ToPlayerId == commercePlanetOwner.Id).Any())
+                {
+                    commerce++;
+                }
+
+                if (Player.Council.FromRelations.Where(x => x.Type == RelationType.Ally && x.ToCouncilId == targetCommerceCouncil.Id).Any())
+                {
+                    commerce++;
+                }
+
+                point /= 10;
+                point = point * (100 + (commerce * 10)) / 100;
+
+                if (point > 0)
+                {
+                    productionPoint += point;
+                }
+            }
+
+            int maxPoint = Population * (6 + ControlModel.Commerce);
+
+            if (productionPoint > maxPoint)
+            {
+                productionPoint = maxPoint;
+            }
+            else if (productionPoint < 0)
+            {
+                productionPoint = 0;
+            }
+
+            return productionPoint;
+        }
+        private int CalculateNogadaPoint()
         {
             int labourPoint = (Population / 1000) * 5;
 
@@ -396,6 +641,120 @@ namespace Archspace2
             }
 
             Population += (Population * growthRatio / 100) + baseGrowth;
+        }
+        private int ComputeUpkeepAndOutput(int aNogadaPoint, out Resource aNewResources, out Resource aUpkeep)
+        {
+            int upkeepRatio,
+                activeFactory,
+                factoryNogadaPoint,
+                productionPointPerFactory,
+                productionPoint,
+                activeResearchLab,
+                researchLabNogadaPoint,
+                researchPointPerResearchLab,
+                researchPoint,
+                activeMilitaryBase,
+                militaryBaseNogadaPoint,
+                militaryPointPerMilitaryBase,
+                militaryPoint;
+
+            upkeepRatio = -ControlModel.FacilityCost;
+            if (upkeepRatio < -5)
+            {
+                upkeepRatio = -5;
+            }
+
+            activeFactory = factoryNogadaPoint = Infrastructure.Factory;
+            factoryNogadaPoint = factoryNogadaPoint * (10 + upkeepRatio) / 10;
+
+            if (factoryNogadaPoint > aNogadaPoint)
+            {
+                activeFactory = activeFactory * aNogadaPoint / factoryNogadaPoint;
+                factoryNogadaPoint = aNogadaPoint;
+            }
+
+            aNogadaPoint -= factoryNogadaPoint;
+
+            productionPointPerFactory = 60 + (ControlModel.Production * 10);
+            productionPointPerFactory *= Game.Configuration.Planet.ResourceMultipliers[Resource];
+
+            productionPointPerFactory /= 100;
+
+            if (productionPointPerFactory < 20)
+            {
+                productionPointPerFactory = 20;
+            }
+
+            productionPoint = activeFactory * productionPointPerFactory;
+
+            productionPoint -= productionPoint * WasteRate / 100;
+
+            
+
+            activeResearchLab = researchLabNogadaPoint = Infrastructure.ResearchLab;
+
+            researchLabNogadaPoint = researchLabNogadaPoint * (10 + upkeepRatio) / 10;
+
+            if (researchLabNogadaPoint > aNogadaPoint)
+            {
+                activeResearchLab = activeResearchLab * aNogadaPoint / researchLabNogadaPoint;
+                researchLabNogadaPoint = aNogadaPoint;
+            }
+
+            aNogadaPoint -= researchLabNogadaPoint;
+
+            researchPointPerResearchLab = 10 + ControlModel.Research;
+
+            if (researchPointPerResearchLab < 1)
+            {
+                researchPointPerResearchLab = 1;
+            }
+
+            researchPoint = activeResearchLab * researchPointPerResearchLab;
+            researchPoint -= researchPoint * WasteRate / 100;
+
+            
+
+            activeMilitaryBase = militaryBaseNogadaPoint = ControlModel.Military;
+
+            militaryBaseNogadaPoint = militaryBaseNogadaPoint * (10 + upkeepRatio) / 10;
+
+            if (militaryBaseNogadaPoint > aNogadaPoint)
+            {
+                activeMilitaryBase = activeMilitaryBase * aNogadaPoint / militaryBaseNogadaPoint;
+                militaryBaseNogadaPoint = aNogadaPoint;
+            }
+
+            aNogadaPoint -= militaryBaseNogadaPoint;
+
+            militaryPointPerMilitaryBase = 10 + (ControlModel.Military * 2);
+
+            militaryPoint = activeMilitaryBase * militaryPointPerMilitaryBase;
+
+            militaryPoint -= militaryPoint * WasteRate / 200;
+
+            if (!IsBlockaded())
+            {
+                aNewResources = new Resource()
+                {
+                    ProductionPoint = productionPoint,
+                    ResearchPoint = researchPoint,
+                    MilitaryPoint = militaryPoint
+                };
+            }
+            else
+            {
+                aNewResources = new Resource();
+            }
+
+            aUpkeep = new Resource()
+            {
+                ProductionPoint = activeFactory * (10 + upkeepRatio),
+                ResearchPoint = activeResearchLab * (10 + upkeepRatio),
+                MilitaryPoint = activeMilitaryBase * (10 + upkeepRatio)
+            };
+
+            return factoryNogadaPoint + researchLabNogadaPoint + militaryBaseNogadaPoint;
         }
     }
 }

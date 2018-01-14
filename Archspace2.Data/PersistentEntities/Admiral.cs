@@ -710,5 +710,23 @@ namespace Archspace2
 
             return stringBuilder.ToString();
         }
+
+        public void LevelUp()
+        {
+            throw new NotImplementedException();
+        }
+        public void LevelUp(int aLevels)
+        {
+            for (int i = 0; i < aLevels; i++)
+            {
+                LevelUp();
+            }
+        }
+
+        public void GainExperience(int aExperience)
+        {
+            Experience += aExperience;
+            // throw new NotImplementedException(); Level up logic
+        }
     }
 }

@@ -20,6 +20,13 @@ namespace Archspace2
     [Table("BlackMarketItem")]
     public class BlackMarketItem : UniverseEntity
     {
+        [NotMapped]
+        public override string Name { get; set; }
+
+        public int BlackMarketId { get; set; }
+        [ForeignKey("BlackMarketId")]
+        public BlackMarket BlackMarket { get; set; }
+
         public int ObjectId { get; set; }
         public BlackMarketItemType Type { get; set; }
 
@@ -28,8 +35,8 @@ namespace Archspace2
         public int? BidderId { get; set; }
         [ForeignKey("BidderId")]
         public Player Bidder { get; set; }
-
-        protected BlackMarketItem(Universe aUniverse) : base(aUniverse)
+        
+        public BlackMarketItem(Universe aUniverse) : base(aUniverse)
         {
         }
         

@@ -23,9 +23,31 @@ namespace Archspace2
         protected override void OnModelCreating(ModelBuilder aModelBuilder)
         {
             aModelBuilder.Entity<Admiral>().OwnsOne(x => x.BaseSkills);
+
+            aModelBuilder.Entity<CouncilRelation>()
+                .HasOne(x => x.FromCouncil)
+                .WithMany(x => x.FromRelations);
+
+            aModelBuilder.Entity<CouncilRelation>()
+                .HasOne(x => x.ToCouncil)
+                .WithMany(x => x.ToRelations);
+
+            aModelBuilder.Entity<Fleet>().OwnsOne(x => x.Mission);
             
             aModelBuilder.Entity<Planet>().OwnsOne(x => x.Atmosphere);
+            aModelBuilder.Entity<Planet>().OwnsOne(x => x.DistributionRatio);
+            aModelBuilder.Entity<Planet>().OwnsOne(x => x.Infrastructure);
             aModelBuilder.Entity<Planet>().HasMany(x => x.CommercePlanets).WithOne();
+
+            aModelBuilder.Entity<PlayerEffect>().OwnsOne(x => x.ControlModelModifier);
+
+            aModelBuilder.Entity<PlayerRelation>()
+                .HasOne(x => x.FromPlayer)
+                .WithMany(x => x.FromRelations);
+
+            aModelBuilder.Entity<PlayerRelation>()
+                .HasOne(x => x.ToPlayer)
+                .WithMany(x => x.ToRelations);
 
             foreach (var entityType in aModelBuilder.Model.GetEntityTypes())
             {
@@ -53,5 +75,7 @@ namespace Archspace2
         public DbSet<ShipDesign> ShipDesigns { get; set; }
         public DbSet<Universe> Universes { get; set; }
         public DbSet<User> Users { get; set; }
+
+        public DbSet<SystemLog> SystemLogs { get; set; }
     }
 }

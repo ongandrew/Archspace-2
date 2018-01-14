@@ -83,14 +83,14 @@ namespace Archspace2
         AreaEffectTargetAll
     };
 
-    public class FleetEffect
+    public class FleetEffect : IModifier
     {
         [JsonProperty("Type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public FleetEffectType Type { get; set; }
         [JsonProperty("ModifierType")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public ModifierType? ModifierType { get; set; }
+        public ModifierType ModifierType { get; set; }
         [JsonProperty("TargetType")]
         [JsonConverter(typeof(StringEnumConverter))]
         public FleetEffectTargetType? TargetType { get; set; }

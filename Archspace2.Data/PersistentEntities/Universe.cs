@@ -7,6 +7,7 @@ using Universal.Common.Extensions;
 
 namespace Archspace2
 {
+    [Table("Universe")]
     public sealed class Universe : Entity
     {
         private Universe() : base()
@@ -29,6 +30,8 @@ namespace Archspace2
         public DateTime FromDate { get; set; }
         public DateTime? ToDate { get; set; }
 
+        public int CurrentTurn { get; set; }
+        
         public void Initialize()
         {
             BlackMarket = CreateBlackMarket();
@@ -72,7 +75,6 @@ namespace Archspace2
             player.Name = aName;
             player.Race = aRace;
             player.Council = GetCouncilsWithCapacity().Random();
-            player.ProductionPoint = 50000;
             player.Techs = Game.Configuration.Techs.Where(x => x.Attribute == TechAttribute.Basic).ToList();
             player.Techs.AddRange(Game.Configuration.Techs.Where(x => player.Race.BaseTechs.Contains(x.Id)));
             player.ConcentrationMode = ConcentrationMode.Balanced;

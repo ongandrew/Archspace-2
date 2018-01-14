@@ -39,7 +39,7 @@ namespace Archspace2
 
             Assert.IsNotNull(player);
 
-            await player.UpdateTurnAsync();
+            player.UpdateTurn();
         }
     }
 }
