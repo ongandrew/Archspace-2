@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Archspace2
 {
+    [Table("Mailbox")]
     public class Mailbox : UniverseEntity
     {
         public Mailbox(Universe aUniverse) : base(aUniverse)

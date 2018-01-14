@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Archspace2
 {
+    [Table("MailItem")]
     public class MailItem : UniverseEntity
     {
         public int? FromId { get; set; }

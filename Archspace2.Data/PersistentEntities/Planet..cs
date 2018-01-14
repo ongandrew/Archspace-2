@@ -37,6 +37,7 @@ namespace Archspace2
         H2O
     };
 
+    [Table("Planet")]
     public class Planet : UniverseEntity
     {
         public int ClusterId { get; set; }

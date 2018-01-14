@@ -23,6 +23,7 @@ namespace Archspace2
         StandGround
     }
 
+    [Table("DefenseDeployment")]
     public class DefenseDeployment : UniverseEntity
     {
         public int FleetId { get; set; }

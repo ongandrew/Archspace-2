@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Archspace2
 {
+    [Table("DefensePlan")]
     public class DefensePlan : UniverseEntity
     {
         public DefensePlan(Universe aUniverse) : base(aUniverse)

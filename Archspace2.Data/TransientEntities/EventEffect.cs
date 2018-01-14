@@ -17,8 +17,7 @@ namespace Archspace2
     {
         [JsonProperty("Duration")]
         public int Duration { get; set; }
-        [JsonProperty("Chance")]
-        public int Chance { get; set; }
+
         [JsonProperty("Type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public PlayerEffectType Type { get; set; }

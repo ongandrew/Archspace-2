@@ -8,6 +8,7 @@ using Universal.Common.Extensions;
 
 namespace Archspace2
 {
+    [Table("ShipDesign")]
     public class ShipDesign : UniverseEntity
     {
         public int? PlayerId { get; set; }

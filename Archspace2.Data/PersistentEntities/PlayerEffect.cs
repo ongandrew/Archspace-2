@@ -63,6 +63,7 @@ namespace Archspace2
         Admin
     };
 
+    [Table("PlayerEffect")]
     public class PlayerEffect : UniverseEntity, IPlayerEffect
     {
         public int PlayerId { get; set; }

@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Archspace2
 {
+    [Table("Council")]
     public class Council : UniverseEntity
     {
         public Council(Universe aUniverse) : base(aUniverse)

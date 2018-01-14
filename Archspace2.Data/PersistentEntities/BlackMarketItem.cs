@@ -17,6 +17,7 @@ namespace Archspace2
         Planet
     };
 
+    [Table("BlackMarketItem")]
     public class BlackMarketItem : UniverseEntity
     {
         public int ObjectId { get; set; }
@@ -31,7 +32,7 @@ namespace Archspace2
         protected BlackMarketItem(Universe aUniverse) : base(aUniverse)
         {
         }
-
+        
         public async Task<Admiral> AsAdmiralAsync()
         {
             if (Type == BlackMarketItemType.Fleet)

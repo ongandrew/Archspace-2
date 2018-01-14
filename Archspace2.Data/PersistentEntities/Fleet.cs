@@ -20,6 +20,7 @@ namespace Archspace2
         OnRoute
     }
 
+    [Table("Fleet")]
     public class Fleet : UniverseEntity
     {
         public int? PlayerId { get; set; }

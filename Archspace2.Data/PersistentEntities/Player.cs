@@ -30,6 +30,7 @@ namespace Archspace2
         Impenetrable
     };
 
+    [Table("Player")]
     public class Player : UniverseEntity
     {
         public int? UserId { get; set; }

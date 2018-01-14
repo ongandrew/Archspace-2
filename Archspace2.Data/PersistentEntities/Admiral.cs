@@ -47,6 +47,7 @@ namespace Archspace2
         DefensiveMatrix
     }
 
+    [Table("Admiral")]
     public class Admiral : UniverseEntity
     {
         public int? PlayerId { get; set; }
