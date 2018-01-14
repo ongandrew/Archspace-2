@@ -85,20 +85,20 @@ namespace Archspace2
 
     public class FleetEffect
     {
-        [JsonProperty("type")]
+        [JsonProperty("Type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public FleetEffectType Type { get; set; }
-        [JsonProperty("modifierType")]
+        [JsonProperty("ModifierType")]
         [JsonConverter(typeof(StringEnumConverter))]
         public ModifierType? ModifierType { get; set; }
-        [JsonProperty("targetType")]
+        [JsonProperty("TargetType")]
         [JsonConverter(typeof(StringEnumConverter))]
         public FleetEffectTargetType? TargetType { get; set; }
-        [JsonProperty("amount")]
+        [JsonProperty("Amount")]
         public int? Amount { get; set; }
-        [JsonProperty("period")]
+        [JsonProperty("Period")]
         public int? Period { get; set; }
-        [JsonProperty("range")]
+        [JsonProperty("Range")]
         public int? Range { get; set; }
 
         public override string ToString()

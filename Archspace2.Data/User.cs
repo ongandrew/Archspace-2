@@ -16,9 +16,9 @@ namespace Archspace2
         {
             using (DatabaseContext databaseContext = Game.Context)
             {
-                Player player = Game.Universe.CreatePlayer(aName, aRace);
+                databaseContext.Attach(Game.Universe);
 
-                databaseContext.Universes.Update(Game.Universe);
+                Player player = Game.Universe.CreatePlayer(aName, aRace);
 
                 await databaseContext.SaveChangesAsync();
 

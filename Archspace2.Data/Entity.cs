@@ -2,7 +2,7 @@
 
 namespace Archspace2
 {
-    public class Entity : IEntity
+    public abstract class Entity : IEntity
     {
         [JsonProperty("Id")]
         public int Id { get; set; }
@@ -12,6 +12,21 @@ namespace Archspace2
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
+        }
+
+        public override bool Equals(object aOther)
+        {
+            return Equals((Entity)aOther);
+        }
+
+        protected virtual bool Equals(Entity aOther)
+        {
+            return Id == aOther.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }

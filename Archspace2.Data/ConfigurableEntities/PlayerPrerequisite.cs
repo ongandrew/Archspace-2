@@ -60,14 +60,14 @@ namespace Archspace2
 
     public class PlayerPrerequisite
     {
-        [JsonProperty("type")]
+        [JsonProperty("Type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public PrerequisiteType Type { get; set; }
-        [JsonProperty("operator")]
+        [JsonProperty("Operator")]
         [JsonConverter(typeof(StringEnumConverter))]
         public PrerequisiteOperator? Operator { get; set; }
 
-        [JsonProperty("value")]
+        [JsonProperty("Value")]
         public object Value { get; set; }
 
         public bool Evaluate(Player aPlayer)

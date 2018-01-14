@@ -1684,7 +1684,7 @@ namespace Archspace2
                 }
             };
         }
-        public void UseDefaultEvents()
+        private void UseDefaultEvents()
         {
             Events = new List<Event>()
             {
@@ -1703,7 +1703,7 @@ namespace Archspace2
                         {
                             Type = PlayerEffectType.ChangePlanetResource,
                             Argument1 = -2,
-                            Duration = 0
+                            IsInstant = true
                         }
                     }
                 },
@@ -1762,11 +1762,7 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.LosePlanet,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            },
-                            Duration = 0
+                            IsInstant = true
                         }
                     }
                 },
@@ -1784,11 +1780,7 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.DestroyAllDockedShip,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            },
-                            Duration = 0
+                            IsInstant = true
                         }
                     }
                 },
@@ -1804,20 +1796,12 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.LoseTech,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            },
-                            Duration = 0
+                            IsInstant = true
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.LoseProject,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            },
-                            Duration = 0
+                            IsInstant = true
                         }
                     }
                 },
@@ -1835,44 +1819,24 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 2,
-                            Argument1 = -4,
-                            Duration = 144
+                            Duration = 144,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                                                                                    FacilityCost = -4,
+                                Research = -4,
+                                Production = -4
+                            }
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 3,
-                            Argument1 = -4,
-                            Duration = 144
-                        },
-                        new EventEffect()
-                        {
-                            Type = PlayerEffectType.ChangeControlModel,
-                            Target = 10,
-                            Argument1 = -4,
-                            Duration = 144
-                        },
-                        new EventEffect()
-                        {
-                            Type = PlayerEffectType.ChangeControlModel,
-                            Target = 2,
-                            Argument1 = 2,
-                            Duration = 288
-                        },
-                        new EventEffect()
-                        {
-                            Type = PlayerEffectType.ChangeControlModel,
-                            Target = 3,
-                            Argument1 = 2,
-                            Duration = 288
-                        },
-                        new EventEffect()
-                        {
-                            Type = PlayerEffectType.ChangeControlModel,
-                            Target = 10,
-                            Argument1 = 2,
-                            Duration = 288
+                            Duration = 288,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                FacilityCost = 2,
+                                Research = 2,
+                                Production = 2
+                            }
                         }
                     }
                 },
@@ -1892,18 +1856,16 @@ namespace Archspace2
                             Type = PlayerEffectType.ChangeProduction,
                             ModifierType = ModifierType.Absolute,
                             Argument1 = 50000000,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 2,
-                            Argument1 = 2,
-                            Duration = 288
+                            Duration = 288,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Research = 2
+                            }
                         }
                     }
                 },
@@ -1949,9 +1911,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 3,
-                            Argument1 = 2,
-                            Duration = 288
+                            Duration = 288,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = 2
+                            }
                         }
                     }
                 },
@@ -1969,14 +1933,16 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.GainTech,
-                            Target = 0
+                            IsInstant = true
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 2,
-                            Argument1 = 2,
-                            Duration = 288
+                            Duration = 288,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Research = 2
+                            }
                         }
                     }
                 },
@@ -1995,19 +1961,13 @@ namespace Archspace2
                         {
                             Type = PlayerEffectType.GainCommander,
                             Argument1 = 12,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.GainCommander,
                             Argument1 = 12,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2025,16 +1985,12 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 3,
-                            Argument1 = 3,
-                            Duration = 288
-                        },
-                        new EventEffect()
-                        {
-                            Type = PlayerEffectType.ChangeControlModel,
-                            Target = 7,
-                            Argument1 = 3,
-                            Duration = 288
+                            Duration = 288,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = 3,
+                                Efficiency = 3
+                            }
                         }
                     }
                 },
@@ -2054,24 +2010,22 @@ namespace Archspace2
                             Type = PlayerEffectType.ChangeProduction,
                             ModifierType = ModifierType.Absolute,
                             Argument1 = -200000,
-                            Duration = 0
+                            IsInstant = true
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 6,
-                            Argument1 = 3,
-                            Duration = 288
+                            Duration = 288,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Commerce = 3
+                            }
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.GainCommander,
                             Argument1 = 20,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2117,9 +2071,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 4,
-                            Argument1 = 4,
-                            Duration = 288
+                            Duration = 288,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Military = 4
+                            }
                         }
                     }
                 },
@@ -2137,18 +2093,16 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.GainTech,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 2,
-                            Argument1 = -1,
-                            Duration = 144
+                            Duration = 144,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Research = 1
+                            }
                         }
                     }
                 },
@@ -2166,9 +2120,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 8,
-                            Argument1 = 7,
-                            Duration = 288
+                            Duration = 288,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Genius = 7
+                            }
                         }
                     }
                 },
@@ -2196,21 +2152,13 @@ namespace Archspace2
                             Type = PlayerEffectType.ChangeProduction,
                             ModifierType = ModifierType.Absolute,
                             Argument1 = 1000000,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeEmpireRelation,
                             Argument1 = 5,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2229,11 +2177,7 @@ namespace Archspace2
                         {
                             Type = PlayerEffectType.ChangeEmpireRelation,
                             Argument1 = -30,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2252,31 +2196,19 @@ namespace Archspace2
                         {
                             Type = PlayerEffectType.ChangeEmpireRelation,
                             Argument1 = 30,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.CommanderLevelUp,
                             Argument1 = 1,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeHonor,
                             Argument1 = 5,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2294,11 +2226,7 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.GrantBoon,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2316,11 +2244,7 @@ namespace Archspace2
                             Type = PlayerEffectType.LoseCommander,
                             ModifierType = ModifierType.Proportional,
                             Argument1 = 25,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2336,9 +2260,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangePlanetControlModel,
-                            Argument1 = 1,
-                            Argument2 = 5,
-                            Duration = 96
+                            Duration = 96,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Growth = 5
+                            }
                         }
                     }
                 },
@@ -2356,9 +2282,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangePlanetControlModel,
-                            Argument1 = 3,
-                            Argument2 = 5,
-                            Duration = 96
+                            Duration = 96,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = 5
+                            }
                         }
                     }
                 },
@@ -2376,10 +2304,7 @@ namespace Archspace2
                             Type = PlayerEffectType.ChangePlanetResource,
                             Argument1 = 1,
                             Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2399,18 +2324,16 @@ namespace Archspace2
                             Type = PlayerEffectType.ChangePlanetPopulation,
                             ModifierType = ModifierType.Proportional,
                             Argument1 = -33,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         },
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangePlanetControlModel,
-                            Argument1 = 1,
-                            Argument2 = -7,
-                            Duration = 96
+                            Duration = 96,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Growth = -7
+                            }
                         }
                     }
                 },
@@ -2431,11 +2354,7 @@ namespace Archspace2
                             ModifierType = ModifierType.Proportional,
                             Argument1 = -20,
                             Argument2 = -1,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2460,9 +2379,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangePlanetControlModel,
-                            Argument1 = 3,
-                            Argument2 = -2,
-                            Duration = 3
+                            Duration = 3,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = -2
+                            }
                         },
                         new EventEffect()
                         {
@@ -2488,11 +2409,7 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.LosePlanetGravityControl,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2548,9 +2465,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 3,
-                            Argument1 = -3,
-                            Duration = 144
+                            Duration = 144,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = -3
+                            }
                         }
                     }
                 },
@@ -2583,9 +2502,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 3,
-                            Argument1 = 3,
-                            Duration = 144
+                            Duration = 144,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = 3
+                            }
                         },
                         new EventEffect()
                         {
@@ -2662,9 +2583,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangePlanetControlModel,
-                            Argument1 = 3,
-                            Argument2 = -1,
-                            Duration = 24
+                            Duration = 24,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = -1
+                            }
                         },
                         new EventEffect()
                         {
@@ -2688,9 +2611,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 7,
-                            Argument1 = -2,
-                            Duration = 72
+                            Duration = 72,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Efficiency = -2
+                            }
                         }
                     }
                 },
@@ -2706,9 +2631,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 2,
-                            Argument1 = -5,
-                            Duration = 72
+                            Duration = 72,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Research = -5
+                            }
                         }
                     }
                 },
@@ -2726,23 +2653,13 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 1,
-                            Argument1 = -3,
-                            Duration = 144
-                        },
-                        new EventEffect()
-                        {
-                            Type = PlayerEffectType.ChangeControlModel,
-                            Target = 2,
-                            Argument1 = -3,
-                            Duration = 144
-                        },
-                        new EventEffect()
-                        {
-                            Type = PlayerEffectType.ChangeControlModel,
-                            Target = 4,
-                            Argument1 = 1,
-                            Duration = 144
+                            Duration = 144,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Growth = -3,
+                                Research = -3,
+                                Military = 1
+                            }
                         }
                     }
                 },
@@ -2758,16 +2675,12 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 0,
-                            Argument1 = 3,
-                            Duration = 96
-                        },
-                        new EventEffect()
-                        {
-                            Type = PlayerEffectType.ChangeControlModel,
-                            Target = 9,
-                            Argument1 = -3,
-                            Duration = 96
+                            Duration = 96,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Environment = 3,
+                                Diplomacy = -3
+                            }
                         }
                     }
                 },
@@ -2787,14 +2700,12 @@ namespace Archspace2
                             Type = PlayerEffectType.ChangeControlModel,
                             Target = 3,
                             Argument1 = -3,
-                            Duration = 96
-                        },
-                        new EventEffect()
-                        {
-                            Type = PlayerEffectType.ChangeControlModel,
-                            Target = 9,
-                            Argument1 = -3,
-                            Duration = 96
+                            Duration = 96,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = -3,
+                                Diplomacy = -3
+                            }
                         }
                     }
                 },
@@ -2812,9 +2723,11 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 2,
-                            Argument1 = -3,
-                            Duration = 72
+                            Duration = 72,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Research = -3
+                            }
                         }
                     }
                 },
@@ -2830,11 +2743,7 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.GainTech,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2854,11 +2763,7 @@ namespace Archspace2
                             Type = PlayerEffectType.ChangeProduction,
                             ModifierType = ModifierType.Absolute,
                             Argument1 = 500000,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2876,11 +2781,7 @@ namespace Archspace2
                             Type = PlayerEffectType.ChangeProduction,
                             ModifierType = ModifierType.Absolute,
                             Argument1 = 800000,
-                            Duration = 0,
-                            Attributes = new List<EventEffectAttribute>()
-                            {
-                                EventEffectAttribute.BeginOnly
-                            }
+                            IsInstant = true
                         }
                     }
                 },
@@ -2896,9 +2797,405 @@ namespace Archspace2
                         new EventEffect()
                         {
                             Type = PlayerEffectType.ChangeControlModel,
-                            Target = 6,
-                            Argument1 = -4,
-                            Duration = 48
+                            Duration = 48,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Commerce = -4
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1252,
+                    Type = EventType.System,
+                    Name = "Supercommander Offers You his Help",
+                    Description = "A roving commander with a heroic reputation offers to help you in your cause.",
+                    Duration = 36,
+                    MinHonor = 50,
+                    MaxHonor = 100,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.GainCommander,
+                            Argument1 = 20,
+                            IsInstant = true
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1253,
+                    Type = EventType.System,
+                    Name = "Assassination",
+                    Description = "One of your active commanders is assassinated.",
+                    Duration = 36,
+                    MinHonor = 0,
+                    MaxHonor = 50,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.LoseCommander,
+                            ModifierType = ModifierType.Absolute,
+                            Argument1 = 1,
+                            IsInstant = true
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1254,
+                    Type = EventType.System,
+                    Name = "Assassination",
+                    Description = "One of your fleets has been sabotaged.  All of the ships in this fleet take damage and need repairs.",
+                    Duration = 36,
+                    MinHonor = 0,
+                    MaxHonor = 60,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.DamageFleet,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = 15,
+                            IsInstant = true
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1255,
+                    Type = EventType.System,
+                    RaceList = new List<RaceType>()
+                    {
+                        RaceType.Agerus
+                    }.Cast<int>().ToList(),
+                    RaceListType = ListType.Exclusion,
+                    Name = "Previous Civilization Discovered",
+                    Description = "Your archaeologists discover the remains of a highly advanced civilization on one of your planets.",
+                    Duration = 48,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.GainTech,
+                            IsInstant = true
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Duration = 48,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Research = 2
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1256,
+                    Type = EventType.System,
+                    RaceList = new List<RaceType>()
+                    {
+                        RaceType.Agerus
+                    }.Cast<int>().ToList(),
+                    RaceListType = ListType.Exclusion,
+                    Name = "Silicon Insect Swarm",
+                    Description = "These insects fly in one day on the dark side of your planet.  You are afraid at first what damage they might cause.  Then you realize that all they are eating is scrap material.  When they leave weeks later, your planet has undergone a great change.",
+                    Duration = 36,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangePlanetResource,
+                            Argument1 = 1,
+                            IsInstant = true
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1258,
+                    Type = EventType.System,
+                    RaceList = new List<RaceType>()
+                    {
+                        RaceType.Agerus
+                    }.Cast<int>().ToList(),
+                    RaceListType = ListType.Exclusion,
+                    Name = "Commerce Title Offered",
+                    Description = "You are elected as the guardian of free commerce by the galaxy commerce guild. All you have to do is pay 1,000,000 PP, and you'll have the title.",
+                    Duration = 36,
+                    RequiresResponse = true,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeProduction,
+                            ModifierType = ModifierType.Absolute,
+                            Argument1 = -1000000,
+                            IsInstant = true,
+                            ApplyOn = EventEffectApplyType.AnswerYes
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Duration = 1440,
+                            ApplyOn = EventEffectApplyType.AnswerYes,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Commerce = 1
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Duration = 1152,
+                            ApplyOn = EventEffectApplyType.AnswerYes,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Commerce = 1
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Duration = 864,
+                            ApplyOn = EventEffectApplyType.AnswerYes,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Commerce = 1
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Duration = 576,
+                            ApplyOn = EventEffectApplyType.AnswerYes,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Commerce = 1
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Duration = 288,
+                            ApplyOn = EventEffectApplyType.AnswerYes,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Commerce = 1
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeHonor,
+                            Argument1 = 10,
+                            IsInstant = true,
+                            ApplyOn = EventEffectApplyType.AnswerYes
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1262,
+                    Type = EventType.System,
+                    Name = "Whispers of the Ascended",
+                    Description = "From somewhere, the whispering of those who have ascended is being broadcast to your people's minds. None of your people can understand what the voices are whispering, nor can they determine where the voices are speaking from.  The effect is critical however, because everyone is starting to day-dream, and all industry is stopping, All your fleets are sitting idle.",
+                    Duration = 72,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Duration = 72,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = -5,
+                                Military = -5
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1263,
+                    Type = EventType.System,
+                    Name = "Information Routing Error",
+                    Description = "Your main coordination system had a horrible malfunction.  You learned about it in time to avoid it destroying your empire, but it did cause some problems.",
+                    Duration = 36,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeConcentrationMode,
+                            IsInstant = true
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1264,
+                    Type = EventType.System,
+                    Name = "Horrible Accusations",
+                    Description = "Some unknown party has implicated you in an attempt to remove the magistrate from the Emperor's favor. The Magistrate trusted the party and you could feel his scorn response.",
+                    Duration = 36,
+                    MinHonor = 0,
+                    MaxHonor = 60,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeEmpireRelation,
+                            Argument1 = -15,
+                            IsInstant = true
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1265,
+                    Type = EventType.System,
+                    Name = "Horrible Accusations",
+                    Description = "Some unknown party has implicated you in an attempt to remove the magistrate from the Emperor's favor. However, the Magistrate trusted you.",
+                    Duration = 36,
+                    MinHonor = 40,
+                    MaxHonor = 100,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeEmpireRelation,
+                            Argument1 = 5,
+                            IsInstant = true
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1266,
+                    Type = EventType.System,
+                    Name = "Traitorous Commander",
+                    Description = "One of your commanders has gotten bored with being passed by for promotion.  He has left your system, and takes some money and a ship with him.",
+                    Duration = 36,
+                    MinHonor = 0,
+                    MaxHonor = 40,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.LoseCommander,
+                            ModifierType = ModifierType.Absolute,
+                            Argument1 = 1,
+                            IsInstant = true
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1268,
+                    Type = EventType.System,
+                    Name = "Energy Leech",
+                    Description = "This odd being latches on to one of your fleet groups and drains all ship energy.  Before it can be destroyed, all hands aboard die.  This includes some of your commanders unfortunately.",
+                    Duration = 36,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.KillCommanderAndDisbandFleet,
+                            IsInstant = true
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1269,
+                    Type = EventType.System,
+                    Name = "Archeological Find",
+                    Description = "Your scientists unearth a strange device one day.  Only after intense study do they realize what it is.  This device will help to moderate this planets gravity.",
+                    Duration = 36,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.GainPlanetGravityControl,
+                            IsInstant = true
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1270,
+                    Type = EventType.System,
+                    Name = "Drug Craze",
+                    Description = "New drug craze sweeps your population. People refuse to learn or work, they just want to have sex all the time.",
+                    Duration = 72,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 1,
+                            Argument1 = 2,
+                            Duration = 72,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Growth = 1,
+                                Research = -3,
+                                Production = -3,
+                                Genius = -3
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1271,
+                    Type = EventType.System,
+                    Name = "Slaves Revolt",
+                    Description = "Slaves revolt in almost all of your planets. They are mad and refuse to surrender, so you have no choice but to kill them all. It will take some time before you can rebuild your precious workforce.",
+                    MinHonor = 0,
+                    MaxHonor = 30,
+                    Duration = 72,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Duration = 36,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = -1
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Duration = 72,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = -1
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Duration = 144,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = -1
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Duration = 288,
+                            ControlModelModifier = new ControlModel()
+                            {
+                                Production = -1
+                            }
                         }
                     }
                 }
@@ -3862,7 +4159,7 @@ namespace Archspace2
             {
                 new Race()
                 {
-                    Id = 1,
+                    Id = (int)RaceType.Human,
                     Name = "Human",
                     Description = "Though humans have a relatively short life span, the population increase rate of humans is nothing short of astonishing.  As a result, the other species have always been wary of the humans' expansion of power in the universe.  However, even the watchful eyes of the other species cannot easily spot the other strong points of the human species, which lie in the philosophical and social sciences, as well as other literary and cultural developments.  Their never-ending desire to seek the ideal has provided a catalyst not found in other species.",
                     SocietyType = SocietyType.Classism,
@@ -3962,7 +4259,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = 2,
+                    Id = (int)RaceType.Targoid,
                     Name = "Targoid",
                     Description = "The Targoid race maintain a totalitarian society, with all of their species originating from one mother body and being controlled by that mother body.  Targoids efficiently produce every type of their race as needed from one mother body through the programming of the DNA of the unborn Targoid embryo.  This system makes it possible to produce any variety of the species, from mouse-sized micro workers to battle creatures over 2 kilometers in length.  Targoid workers are famous for their efficiency in gathering resources and constructing buildings.",
                     SocietyType = SocietyType.Totalism,
@@ -4056,7 +4353,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = 3,
+                    Id = (int)RaceType.Buckaneer,
                     Name = "Buckaneer",
                     Description = "A Buckaneer's spaceship is his home and center of life.  They spend the majority of their life roaming space and finding fortune through trade (and sometimes piracy.)  Because they are accustomed to this type of gypsy roaming life, their fleets move swiftly and cannot be traced easily.  Buckaneer merchants possess information and contacts throughout the universe, which are indispensable aids to commerce, and thus hold the majority of trade and business in the universe.  It is common to see Buckaneer crafts that have duplicator systems for needed items built into the ship's interior design.",
                     SocietyType = SocietyType.Personalism,
@@ -4148,7 +4445,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = 4,
+                    Id = (int)RaceType.Tecanoid,
                     Name = "Tecanoid",
                     Description = "The Tecanoids sought to find their key to evolution through attaching computers and bionic machinery to their bodies.  As a result of these experiments, the elite forces of their races have obtained extremely strong physical bodies and extraordinary intellect.  On the other hand, the lowest class of their society did not have an opportunity to receive these gifts, and thus became an unstable supporting pillar of the community.  The Tecanoid effort for evolution brought them optimally advanced data processing skills and electronic infiltration technologies, but the species has ultimately sacrificed their humanity for these machines.",
                     SocietyType = SocietyType.Classism,
@@ -4264,7 +4561,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = 5,
+                    Id = (int)RaceType.Evintos,
                     Name = "Evintos",
                     Description = "Unlike most of the other races of the galaxy, the Evintos are a non-organic life force whose bodies are composed of silicon and gold.  Their nervous system and metabolisms are also radically different from other inhabitants of the universe.  It is believed that they originate from artificial intelligence creatures created in the far ancient ages of the universe, whose technologies remain primarily lost to the world.  Because of their unusual appearance and makeup, they are often rejected by other species.  They possess a rigid social structure, which makes it hard for technological or social innovations to be implemented.  This structure further adds to their drifting differences between other species.  But these weak points are compensated by their mechanically precise and accurate social structure, which makes for extremely high production and manufacturing within their society.",
                     SocietyType = SocietyType.Totalism,
@@ -4332,7 +4629,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = 6,
+                    Id = (int)RaceType.Agerus,
                     Name = "Agerus",
                     Description = "Even more odd than the Evintos, the Agerus can only be defined as \"planetary life forms.\"  Many scientists doubt their existence, as they have remained largely secluded and withdrawn, having virtually no communication with other species.  Not much is known about this species, whose origin still remains a mystery.  The galaxy battleships that belong to the Agerus are used primarily for defense, and are actually smaller planet forms, which have evolved from spores from the mother planet.  It is not an easy task to classify and differentiate between the children of the Agerus and naturally occurring small planets.",
                     SocietyType = SocietyType.Totalism,
@@ -4448,7 +4745,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = 7,
+                    Id = (int)RaceType.Bosalian,
                     Name = "Bosalian",
                     Description = "Bosalians are peace-loving pacifists who hate conflict and battle.  Their noble philosophies and impartiality have settled many a battles between warring races, and their opinions are held in the highest respect by other races.  Though they are pacifists by nature, they are by no means a weak force in the galaxy.  True to their ideology, which states, \"The universe is one with your being, and you are one within the universe,\" Bosalians can freely use psychic powers.  Even races with limited sensory abilities, such as humanoids, can see the brilliance of the psychic aurora emitted by the Bosalians in their attacks.",
                     SocietyType = SocietyType.Personalism,
@@ -4569,7 +4866,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = 8,
+                    Id = (int)RaceType.Xeloss,
                     Name = "Xeloss",
                     Description = "Much is said about the fanatical religion of the Xeloss, a species that escaped their home planet during the collapse of the Magellan Universe.  The Xeloss are ruthless, and do not hesitate to murder others under their god's name.  Not only do they attack outsiders with their psychic powers, but also they have aptly shown that the individual will sacrifice his basic instinct for survival for the good of their god.  This has added to their already bloody reputation.  No species wishes to readily meet the Xeloss, and they are absolutely correct in their thoughts.",
                     SocietyType = SocietyType.Totalism,
@@ -4694,7 +4991,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = 9,
+                    Id = (int)RaceType.Xerusian,
                     Name = "Xerusian",
                     Description = "Xerusians boast an ancient and traditional military tradition.  Though their troops are small in number, they have always remained the utmost elite forces of the galaxy.  In addition, Xerusians have always had great interest in the matter-energy sciences, which are immediately adapted to military weapons and technologies, and have researched these sciences extensively.  The only things that stand between them and the domination of the galaxy are the inefficient workings of their bureaucracy and the excessive amount of energy lost in the internal conflicts within their machinery.  It should be noted that their extensive battle experiences with the Xeloss, has resulted that they are the only race that have a method of stopping the Xeloss psychic attacks.",
                     SocietyType = SocietyType.Totalism,
@@ -4808,7 +5105,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = 10,
+                    Id = (int)RaceType.Xesperados,
                     Name = "Xesperados",
                     Description = "Like the Xeloss or Xerusian, the Xesperados race was a group of military species that escaped the Magellan Galaxy during its collapse.  In their wanderings throughout space, they have been joined by other military species and leaders of rebel races, making the Xesperados an impressive force throughout the galaxy.  The merger of many different species is handicapped by potential problems such as the threat of spies from other races and the complex process of expanding life support capable of sustaining the entire group.  But their open minds and universal acceptance has become a great stimulant to the progress of science, and they are continuing to attract talented researchers of all species.",
                     SocietyType = SocietyType.Personalism,
@@ -8551,6 +8848,7 @@ namespace Archspace2
             entities.AddRange(Computers);
             entities.AddRange(Devices);
             entities.AddRange(Engines);
+            entities.AddRange(Events);
             entities.AddRange(Projects);
             entities.AddRange(Races);
             entities.AddRange(Shields);
