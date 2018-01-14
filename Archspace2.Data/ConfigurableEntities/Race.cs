@@ -5,13 +5,27 @@ using System.Text;
 
 namespace Archspace2
 {
+    public enum RaceType
+    {
+        Human = 1,
+        Targoid,
+        Buckaneer,
+        Tecanoid,
+        Evintos,
+        Agerus,
+        Bosalian,
+        Xeloss,
+        Xerusian,
+        Xesperados
+    }
+
     public enum SocietyType
     {
         Unknown,
         Personalism,
         Classism,
         Totalism
-    }
+    };
 
     public enum RacialTrait
     {
@@ -42,7 +56,7 @@ namespace Archspace2
         Normal,
         Evintos,
         Xesperados
-    }
+    };
 
     public class Race : Entity
     {

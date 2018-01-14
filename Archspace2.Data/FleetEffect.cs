@@ -74,18 +74,14 @@ namespace Archspace2
         Psi,
         PsiEmpower
     };
-    public enum ModifierType
-    {
-        Absolute,
-        Proportional
-    };
+
     public enum FleetEffectTargetType
     {
         LocalEffect,
         AreaEffectTargetAlly,
         AreaEffectTargetEnemy,
         AreaEffectTargetAll
-    }
+    };
 
     public class FleetEffect
     {

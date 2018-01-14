@@ -107,6 +107,33 @@ namespace Archspace2
             }
         }
 
+        public string TraitList
+        {
+            get
+            {
+                return mTraits.Cast<int>().SerializeIds();
+            }
+            private set
+            {
+                mTraits = value.DeserializeIds().Select(x => Enum.Parse(typeof(RacialTrait), x.ToString())).Cast<RacialTrait>().ToList();
+            }
+        }
+        [NotMapped]
+        private List<RacialTrait> mTraits;
+        [NotMapped]
+        public List<RacialTrait> Traits
+        {
+            get
+            {
+                return mTraits;
+            }
+            set
+            {
+                TraitList = value.Cast<int>().SerializeIds();
+                mTraits = value;
+            }
+        }
+
         public string ProjectIdList { get; private set; }
         [NotMapped]
         public List<Project> Projects
@@ -172,6 +199,7 @@ namespace Archspace2
         public ICollection<DefensePlan> DefensePlans { get; set; }
         public ICollection<Fleet> Fleets { get; set; }
         public ICollection<Planet> Planets { get; set; }
+        public ICollection<PlayerEffect> PlayerEffects { get; set; }
         public ICollection<ShipDesign> ShipDesigns { get; set; }
 
         public Player(Universe aUniverse) : base(aUniverse)
@@ -181,7 +209,9 @@ namespace Archspace2
             Admirals = new List<Admiral>();
             Fleets = new List<Fleet>();
             Planets = new List<Planet>();
+            PlayerEffects = new List<PlayerEffect>();
             ShipDesigns = new List<ShipDesign>();
+            mTraits = new List<RacialTrait>();
         }
 
         public bool EvaluatePrerequisites(IPlayerUnlockable aPlayerUnlockable)

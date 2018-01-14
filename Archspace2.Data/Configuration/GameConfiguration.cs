@@ -28,6 +28,7 @@ namespace Archspace2
             Computers = new List<Computer>();
             Devices = new List<Device>();
             Engines = new List<Engine>();
+            Events = new List<Event>();
             PlanetAttributes = new List<PlanetAttribute>();
             Projects = new List<Project>();
             Races = new List<Race>();
@@ -68,6 +69,8 @@ namespace Archspace2
         public List<Device> Devices { get; set; }
         [JsonProperty("Engines")]
         public List<Engine> Engines { get; set; }
+        [JsonProperty("Events")]
+        public List<Event> Events { get; set; }
         [JsonProperty("PlanetAttributes")]
         public List<PlanetAttribute> PlanetAttributes { get; set; }
         [JsonProperty("Projects")]
@@ -101,6 +104,7 @@ namespace Archspace2
             UseDefaultComputers();
             UseDefaultDevices();
             UseDefaultEngines();
+            UseDefaultEvents();
             UseDefaultRaces();
             UseDefaultPlanetAttributes();
             UseDefaultProjects();
@@ -1675,6 +1679,1226 @@ namespace Archspace2
                         {
                             Type = PrerequisiteType.Tech,
                             Value = 1334
+                        }
+                    }
+                }
+            };
+        }
+        public void UseDefaultEvents()
+        {
+            Events = new List<Event>()
+            {
+                new Event()
+                {
+                    Id = 1200,
+                    Type = EventType.Major,
+                    Name = "Scientific Mishap",
+                    Description = "One of your scientists was certain that they had found a way to replicate matter and increase the resources of your planets.  Unfortunately, they were wrong and the experiment had a major impact on the planet they were testing it on.",
+                    Duration = 36,
+                    MinHonor = 0,
+                    MaxHonor = 40,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangePlanetResource,
+                            Argument1 = -2,
+                            Duration = 0
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1202,
+                    Type = EventType.Major,
+                    Name = "Attempted Military Coup",
+                    Description = "The on planet military on one of your planets attempts to take the planet from you.  You are able to put the revolt down yourself, but you must divert critical resources to the effort.",
+                    Duration = 6,
+                    MinHonor = 0,
+                    MaxHonor = 30,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.SetFleetMission,
+                            Argument1 = 8,
+                            Argument2 = 7200,
+                            Duration = 6
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.SetFleetMission,
+                            Argument1 = 8,
+                            Argument2 = 7200,
+                            Duration = 6
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.SetFleetMission,
+                            Argument1 = 8,
+                            Argument2 = 7200,
+                            Duration = 6
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.SetFleetMission,
+                            Argument1 = 8,
+                            Argument2 = 7200,
+                            Duration = 6
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1203,
+                    Type = EventType.Major,
+                    Name = "Succession",
+                    Description = "One of your planets has rebelled and succeeded from your empire!",
+                    Duration = 36,
+                    MinHonor = 0,
+                    MaxHonor = 40,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.LosePlanet,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            },
+                            Duration = 0
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1204,
+                    Type = EventType.Major,
+                    Name = "Dockside Sabotage",
+                    Description = "Somehow, your ship storage docks have been sabotaged.  None of the ships in your pool survived the explosion.",
+                    Duration = 36,
+                    MinHonor = 0,
+                    MaxHonor = 20,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.DestroyAllDockedShip,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            },
+                            Duration = 0
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1206,
+                    Type = EventType.Major,
+                    Name = "Racial Amnesia",
+                    Description = "When those cosmic radiation storms came through, you didn't think it caused any damage.  Unfortunately, that is because you forgot.  In fact, you forgot quite a bit.",
+                    Duration = 36,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.LoseTech,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            },
+                            Duration = 0
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.LoseProject,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            },
+                            Duration = 0
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1209,
+                    Type = EventType.Racial,
+                    RaceListType = ListType.Inclusion,
+                    RaceList = new List<RaceType>() { RaceType.Human }.Cast<int>().ToList(),
+                    Name = "Governmental Collapse",
+                    Description = "The current form of government has been removed through a coup.  For a while, things are rough, but after people adapt, things seem better.  For a while at least.",
+                    Duration = 288,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 2,
+                            Argument1 = -4,
+                            Duration = 144
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 3,
+                            Argument1 = -4,
+                            Duration = 144
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 10,
+                            Argument1 = -4,
+                            Duration = 144
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 2,
+                            Argument1 = 2,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 3,
+                            Argument1 = 2,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 10,
+                            Argument1 = 2,
+                            Duration = 288
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1210,
+                    Type = EventType.Racial,
+                    RaceList = new List<RaceType>() { RaceType.Targoid }.Cast<int>().ToList(),
+                    RaceListType = ListType.Inclusion,
+                    Name = "Colony Lost/Refound",
+                    Description = "One of your research colonies was given too much freedom by the parent mind, and all contact was lost.  This colony was on its own for a while.  When it was regained, the parent mind decided to incorporate all its new knowledge and resources.",
+                    Duration = 288,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeProduction,
+                            ModifierType = ModifierType.Absolute,
+                            Argument1 = 50000000,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 2,
+                            Argument1 = 2,
+                            Duration = 288
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1211,
+                    Type = EventType.Racial,
+                    RaceList = new List<RaceType>() { RaceType.Xeloss }.Cast<int>().ToList(),
+                    RaceListType = ListType.Inclusion,
+                    Name = "Mystic Vision",
+                    Description = "One of your High politicians has been given a vision.  This vision inspires your people and they work with greater ferocity for a while.",
+                    Duration = 288,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeAllCommanderAbility,
+                            Target = 0,
+                            Argument1 = 2,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeAllCommanderAbility,
+                            Target = 1,
+                            Argument1 = 2,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeAllCommanderAbility,
+                            Target = 2,
+                            Argument1 = 2,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeAllCommanderAbility,
+                            Target = 3,
+                            Argument1 = 2,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 3,
+                            Argument1 = 2,
+                            Duration = 288
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1212,
+                    Type = EventType.Racial,
+                    RaceList = new List<RaceType>() { RaceType.Xesperados }.Cast<int>().ToList(),
+                    RaceListType = ListType.Inclusion,
+                    Name = "New Race Joins Up",
+                    Description = "The remains of another race which survived the M-13 collapse join you.  They bring a new technology with them and new ways of thinking.",
+                    Duration = 288,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.GainTech,
+                            Target = 0
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 2,
+                            Argument1 = 2,
+                            Duration = 288
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1213,
+                    Type = EventType.Racial,
+                    RaceList = new List<RaceType>() { RaceType.Agerus }.Cast<int>().ToList(),
+                    RaceListType = ListType.Inclusion,
+                    Name = "New Race Joins Up",
+                    Description = "In your wanderings you encounter a rogue spawn of young Agerus. You bring them under your control and add them to your fleet.",
+                    Duration = 288,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.GainCommander,
+                            Argument1 = 12,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.GainCommander,
+                            Argument1 = 12,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1214,
+                    Type = EventType.Racial,
+                    RaceList = new List<RaceType>() { RaceType.Tecanoid }.Cast<int>().ToList(),
+                    RaceListType = ListType.Inclusion,
+                    Name = "Successful Evintos Infiltration",
+                    Description = "Some of your spies have been able to infiltrate the Evintos in hopes of gaining even more knowledge of how to evolve to a pure machine existence.",
+                    Duration = 288,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 3,
+                            Argument1 = 3,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 7,
+                            Argument1 = 3,
+                            Duration = 288
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1215,
+                    Type = EventType.Racial,
+                    RaceList = new List<RaceType>() { RaceType.Buckaneer }.Cast<int>().ToList(),
+                    RaceListType = ListType.Inclusion,
+                    Name = "Ransom a Famous Pirate",
+                    Description = "You are lucky enough to be in the right place at the right time.  You are able to pay the ransom for a famous pirate who agrees to work for you in repayment.",
+                    Duration = 36,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeProduction,
+                            ModifierType = ModifierType.Absolute,
+                            Argument1 = -200000,
+                            Duration = 0
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 6,
+                            Argument1 = 3,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.GainCommander,
+                            Argument1 = 20,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1216,
+                    Type = EventType.Racial,
+                    RaceList = new List<RaceType>() { RaceType.Bosalian }.Cast<int>().ToList(),
+                    RaceListType = ListType.Inclusion,
+                    Name = "Sabotage Discovered",
+                    Description = "Your scientists after hundreds of years of study are certain they have proof of an important Truth.  They believe they have proven that the reason your people did not Ascend was that there was sabotage from another race.",
+                    Duration = 288,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeAllCommanderAbility,
+                            Target = 0,
+                            Argument1 = 5,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeAllCommanderAbility,
+                            Target = 1,
+                            Argument1 = 5,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeAllCommanderAbility,
+                            Target = 2,
+                            Argument1 = 5,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeAllCommanderAbility,
+                            Target = 3,
+                            Argument1 = 5,
+                            Duration = 288
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 4,
+                            Argument1 = 4,
+                            Duration = 288
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1217,
+                    Type = EventType.Racial,
+                    RaceList = new List<RaceType>() { RaceType.Evintos }.Cast<int>().ToList(),
+                    RaceListType = ListType.Inclusion,
+                    Name = "Past Memory Core Found",
+                    Description = "An old memory core from a lost colony is found.  This core has the knowledge of ages past.",
+                    Duration = 288,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.GainTech,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 2,
+                            Argument1 = -1,
+                            Duration = 144
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1218,
+                    Type = EventType.Racial,
+                    RaceList = new List<RaceType>() { RaceType.Xerusian }.Cast<int>().ToList(),
+                    RaceListType = ListType.Inclusion,
+                    Name = "Military Genius Trained",
+                    Description = "Your military college has produced one of those genius tacticians that are only born once a millennium.  This person becomes the best professor your academies have ever seen.",
+                    Duration = 288,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 8,
+                            Argument1 = 7,
+                            Duration = 288
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1221,
+                    Type = EventType.System,
+                    Name = "Imperial Investigator",
+                    Description = "The Empire has sent an investigator to determine if the Magistrate has been giving accurate reports.  He reports to the Empire on your loyalty and the Empire decides that the magistrate has been reporting accurately.",
+                    Duration = 36
+                },
+                new Event()
+                {
+                    Id = 1222,
+                    Type = EventType.System,
+                    Name = "Imperial Investigator",
+                    Description = "The Empire has sent an investigator to determine if the Magistrate has been giving accurate reports.  He reports to the Empire on your loyalty and the Empire decides that the magistrate has been too humble on your behalf.",
+                    Duration = 36,
+                    MinHonor = 40,
+                    MaxHonor = 100,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeProduction,
+                            ModifierType = ModifierType.Absolute,
+                            Argument1 = 1000000,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeEmpireRelation,
+                            Argument1 = 5,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1223,
+                    Type = EventType.System,
+                    Name = "Imperial Investigator",
+                    Description = "The Empire has sent an investigator to determine if the Magistrate has been giving accurate reports.  He reports to the Empire on your loyalty and the Empire decides that the magistrate has been too kind for one as evil as you.",
+                    Duration = 36,
+                    MinHonor = 0,
+                    MaxHonor = 40,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeEmpireRelation,
+                            Argument1 = -30,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1224,
+                    Type = EventType.System,
+                    Name = "Heroic Rescue",
+                    Description = "One of your commanders succeeds in rescuing a kidnapped child of your magistrate.",
+                    Duration = 36,
+                    MinHonor = 50,
+                    MaxHonor = 100,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeEmpireRelation,
+                            Argument1 = 30,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.CommanderLevelUp,
+                            Argument1 = 1,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeHonor,
+                            Argument1 = 5,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1225,
+                    Type = EventType.System,
+                    Name = "Imperial Gift",
+                    Description = "The Emperor, or the Magistrate in his place, has deemed you worth of a gift.",
+                    Duration = 36,
+                    MinHonor = 40,
+                    MaxHonor = 100,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.GrantBoon,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1226,
+                    Type = EventType.System,
+                    Name = "Imperial Levies",
+                    Description = "The Emperor has decided to improve the fleets of the Magistrate.  To do this, he is calling for all systems to send warriors.  From your system he demands commanders.",
+                    Duration = 36,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.LoseCommander,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = 25,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1227,
+                    Type = EventType.System,
+                    Name = "Population Explosion",
+                    Description = "One of your planets has had a massive population surge.",
+                    Duration = 96,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangePlanetControlModel,
+                            Argument1 = 1,
+                            Argument2 = 5,
+                            Duration = 96
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1228,
+                    Type = EventType.System,
+                    Name = "Workers Stay Overtime",
+                    Description = "Your workers have been inspired by something... no-one is sure what... but they have been working extra lately.",
+                    Duration = 96,
+                    MinHonor = 50,
+                    MaxHonor = 100,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangePlanetControlModel,
+                            Argument1 = 3,
+                            Argument2 = 5,
+                            Duration = 96
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1229,
+                    Type = EventType.System,
+                    Name = "New Resources Discovered",
+                    Description = "Just as you thought that you had exhausted the remains of the main resource of the planet, your scientists discover a large amount of another useful resource.",
+                    Duration = 36,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangePlanetResource,
+                            Argument1 = 1,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1230,
+                    Type = EventType.System,
+                    RaceList = new List<RaceType>() { RaceType.Agerus }.Cast<int>().ToList(),
+                    RaceListType = ListType.Exclusion,
+                    Name = "Rampant Epidemic",
+                    Description = "One of your planets is struck by a meteor which contains the DNA coding for a horrible virus.  This greatly harms your population.",
+                    Duration = 96,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangePlanetPopulation,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = -33,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangePlanetControlModel,
+                            Argument1 = 1,
+                            Argument2 = -7,
+                            Duration = 96
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1231,
+                    Type = EventType.System,
+                    RaceList = new List<RaceType>() { RaceType.Agerus }.Cast<int>().ToList(),
+                    RaceListType = ListType.Exclusion,
+                    Name = "Natural Tectonic Disaster",
+                    Description = "One of your major cities experiences major tectonic shifting resulting in earthquakes and minor volcanic eruptions.  Your scientists are able to warn your population in time, but there is major damage to your buildings.",
+                    Duration = 96,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.PlanetLostBuilding,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = -20,
+                            Argument2 = -1,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1232,
+                    Type = EventType.System,
+                    RaceList = new List<RaceType>() { RaceType.Agerus }.Cast<int>().ToList(),
+                    RaceListType = ListType.Exclusion,
+                    Name = "Freakish Weather",
+                    Description = "One of your planets suffers major storms such as tornadoes and hurricanes.  This wrecks some buildings, kills some people, and reduces production.",
+                    Duration = 3,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangePlanetPopulation,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = -2,
+                            Duration = 3
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangePlanetControlModel,
+                            Argument1 = 3,
+                            Argument2 = -2,
+                            Duration = 3
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.PlanetLostBuilding,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = -2,
+                            Argument2 = -1,
+                            Duration = 3
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1233,
+                    Type = EventType.System,
+                    RaceList = new List<RaceType>() { RaceType.Agerus }.Cast<int>().ToList(),
+                    RaceListType = ListType.Exclusion,
+                    Name = "Radical Terrorists",
+                    Description = "These terrorists have decided that altering the environment is evil, even if it is necessary to live.  To prove they are dedicated, they blow up your gravity control center.",
+                    Duration = 36,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.LosePlanetGravityControl,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1234,
+                    Type = EventType.System,
+                    Name = "Agerus Spawning Frenzy",
+                    Description = "Your system is filled with millions of tiny Agerus spawn.  They are too small to recognize as Agerus, but are in search of a good asteroid belt to colonize.  They clog all ship traffic and their hard bodies constantly strain ship shields.",
+                    Duration = 96,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeShipAbilityOnPlanet,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = 15,
+                            Argument2 = -50,
+                            Duration = 96
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1235,
+                    Type = EventType.System,
+                    Name = "Interstellar Dust Cloud",
+                    Description = "Your system is filled with a fine particulate cloud which moves seemingly of its own will. This cloud has the effect of dispersing beams fired in it.",
+                    Duration = 96,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeShipAbilityOnPlanet,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = 19,
+                            Argument2 = -50,
+                            Duration = 96
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1236,
+                    Type = EventType.System,
+                    Name = "Discrimination Demonstrations",
+                    Description = "A segment of you population demands equal treatment.  They complain for weeks and finally you give in to their demands.  You will let them work, just like all your other subjects. After a while, they decide they don't like work much after all and quit.",
+                    Duration = 120,
+                    MinHonor = 0,
+                    MaxHonor = 50,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 3,
+                            Argument1 = -3,
+                            Duration = 144
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1237,
+                    Type = EventType.System,
+                    Name = "Temporary Wormhole",
+                    Description = "You have found a temporary wormhole.  With you current technology, you can even make it open where you want.  This helps reduce the time it takes for your attacking fleets to travel.",
+                    Duration = 144,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeFleetReturnTime,
+                            Argument1 = -50,
+                            Duration = 144
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1238,
+                    Type = EventType.System,
+                    Name = "Silly Old Game",
+                    Description = "Your people discover an old game from the 'web' days called 'Ultra-Wizard'.  This seems to help morale a lot, but a while later it seems to be affecting your commanders as they all seem to think that a new strategy called 'stacking' would definitely help win battles.",
+                    Duration = 144,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 3,
+                            Argument1 = 3,
+                            Duration = 144
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeAllCommanderAbility,
+                            Target = 9,
+                            Argument1 = -3,
+                            Duration = 144
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1239,
+                    Type = EventType.System,
+                    Name = "Insane Mental Giant",
+                    Description = "Somewhere in your system, someone or something with enormous psychic powers has gone insane.  It has been broadcasting non-stop on all psychic wavelengths.  All you know is that it is reducing the effects of all psychic attacks in your system, and he keeps repeating something about a being known as 'Dora'.",
+                    Duration = 96,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeShipAbilityOnPlanet,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = 32,
+                            Argument2 = 50,
+                            Duration = 96
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1240,
+                    Type = EventType.System,
+                    Name = "Carbon Cloud",
+                    Description = "A large dark cloud rolls into your system one day.  Any ships, which travel through the cloud, build up a large deposit of carbon on their hulls.  This greatly slows them down, but ballistic weapons have less effect as this coating absorbs their force.",
+                    Duration = 96,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeShipAbilityOnPlanet,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = 30,
+                            Argument2 = 20,
+                            Duration = 96
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeShipAbilityOnPlanet,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = 5,
+                            Argument2 = -20,
+                            Duration = 96
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeShipAbilityOnPlanet,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = 6,
+                            Argument2 = -20,
+                            Duration = 96
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1241,
+                    Type = EventType.System,
+                    Name = "Solar Blackout",
+                    Description = "The sun just seemed to disappear one day.  When your scientists went to study why, they found that there were billions of small creatures hurling themselves into the star.  The scientists assume the light from the star will be allowed through in a couple of days.  During the meantime, your planets can survive on their reserve energy.  In fact, the lack of solar rays is allowing some excellent viewings of the galaxy because of a lack of solar interference.",
+                    Duration = 24,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangePlanetControlModel,
+                            Argument1 = 3,
+                            Argument2 = -1,
+                            Duration = 24
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeShipAbilityOnPlanet,
+                            ModifierType = ModifierType.Proportional,
+                            Argument1 = 20,
+                            Argument2 = 20,
+                            Duration = 24
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1242,
+                    Type = EventType.System,
+                    Name = "Industrial Nanite Failure",
+                    Description = "These nanites were originally produced in order to help reduce waste.  There was an error in their programming somewhere.  They have been weakening the end product of many of your critical processes.  This is adding major excess waste.",
+                    Duration = 72,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 7,
+                            Argument1 = -2,
+                            Duration = 72
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1243,
+                    Type = EventType.System,
+                    Name = "Experiment Gone Wrong",
+                    Description = "Your scientists were studying how your brain works and they made a horrible error.  They accidentally irradiated their own brains too much.  Your research capacity drops alarmingly until you can train some new scientists.",
+                    Duration = 72,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 2,
+                            Argument1 = -5,
+                            Duration = 72
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1244,
+                    Type = EventType.System,
+                    Name = "Angry Entertainment",
+                    Description = "The young on your planets have started enjoying a new violent form of entertainment.  There are many accidents and many of them seem to be ignoring education.",
+                    Duration = 144,
+                    MinHonor = 0,
+                    MaxHonor = 60,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 1,
+                            Argument1 = -3,
+                            Duration = 144
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 2,
+                            Argument1 = -3,
+                            Duration = 144
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 4,
+                            Argument1 = 1,
+                            Duration = 144
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1245,
+                    Type = EventType.System,
+                    Name = "Religious Revolution",
+                    Description = "The religion of your systems has been greatly altered by recent events.  The people are in a very good mood for a while and willing to ignore problems with the planet around them.  However, this is because they are now blaming their troubles on those in other systems.",
+                    Duration = 96,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 0,
+                            Argument1 = 3,
+                            Duration = 96
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 9,
+                            Argument1 = -3,
+                            Duration = 96
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1246,
+                    Type = EventType.System,
+                    Name = "Mass Hysteria",
+                    Description = "Your people are convinced that they are being infiltrated by some alien race.  Suspicion is everywhere and people no longer trust anything.",
+                    Duration = 96,
+                    MinHonor = 0,
+                    MaxHonor = 70,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 3,
+                            Argument1 = -3,
+                            Duration = 96
+                        },
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 9,
+                            Argument1 = -3,
+                            Duration = 96
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1247,
+                    Type = EventType.System,
+                    Name = "Computer Virus",
+                    Description = "Your computer system has been corrupted by a presentient form of AI.  This AI is drastically slowing your development progress.",
+                    Duration = 72,
+                    MinHonor = 0,
+                    MaxHonor = 70,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 2,
+                            Argument1 = -3,
+                            Duration = 72
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1248,
+                    Type = EventType.System,
+                    Name = "New Tech Discovered",
+                    Description = "Your scout ships find a relic from earlier in the Empire, and thinking to salvage the materials, return with it.  Upon looting the remains, your engineers discover valuable information in the computers.",
+                    Duration = 36,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.GainTech,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1249,
+                    Type = EventType.System,
+                    Name = "Bribe from a Wealthy Merchant",
+                    Description = "A wealthy trading baron asks to open trade with your planets. In exchange he is offering to help start the local economy by giving you 500k PP.",
+                    Duration = 36,
+                    MinHonor = 0,
+                    MaxHonor = 60,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeProduction,
+                            ModifierType = ModifierType.Absolute,
+                            Argument1 = 500000,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1250,
+                    Type = EventType.System,
+                    Name = "Pirates in Your Trading Lanes",
+                    Description = "There have been pirates sighted in your system. Your scout ships detected a band of roving pirates in your trade lanes.  After dispatching them, you gained 800k PP reward for their deaths.",
+                    Duration = 36,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeProduction,
+                            ModifierType = ModifierType.Absolute,
+                            Argument1 = 800000,
+                            Duration = 0,
+                            Attributes = new List<EventEffectAttribute>()
+                            {
+                                EventEffectAttribute.BeginOnly
+                            }
+                        }
+                    }
+                },
+                new Event()
+                {
+                    Id = 1251,
+                    Type = EventType.System,
+                    Name = "Pirates in Your Trading Lanes",
+                    Description = "There have been pirates sighted in your system. Your trading lanes are under attack by pirates.  All commerce you are under is reduced.",
+                    Duration = 48,
+                    Effects = new List<EventEffect>()
+                    {
+                        new EventEffect()
+                        {
+                            Type = PlayerEffectType.ChangeControlModel,
+                            Target = 6,
+                            Argument1 = -4,
+                            Duration = 48
                         }
                     }
                 }
