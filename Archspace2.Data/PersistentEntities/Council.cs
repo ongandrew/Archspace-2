@@ -10,6 +10,8 @@ namespace Archspace2
     {
         public Council(Universe aUniverse) : base(aUniverse)
         {
+            mProjects = new List<Project>();
+
             FromRelations = new List<CouncilRelation>();
             Players = new List<Player>();
             ToRelations = new List<CouncilRelation>();
@@ -38,17 +40,30 @@ namespace Archspace2
 
         public string Slogan { get; set; }
 
-        public string ProjectIdList { get; private set; }
+        public string ProjectIdList
+        {
+            get
+            {
+                return mProjects.Select(x => x.Id).SerializeIds();
+            }
+            private set
+            {
+                mProjects = value.DeserializeIds().Select(x => Game.Configuration.Projects.Single(project => project.Id == x)).ToList();
+            }
+        }
+        [NotMapped]
+        private List<Project> mProjects;
         [NotMapped]
         public List<Project> Projects
         {
             get
             {
-                return ProjectIdList.DeserializeIds().Select(x => Game.Configuration.Projects.Single(project => project.Id == x)).ToList();
+                return mProjects;
             }
             set
             {
                 ProjectIdList = value.Select(x => x.Id).SerializeIds();
+                mProjects = value;
             }
         }
 

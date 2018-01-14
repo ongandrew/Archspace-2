@@ -20,6 +20,7 @@ namespace Archspace2
     {
         public Project() : base()
         {
+            ControlModelModifier = new ControlModel();
             PlayerEffects = new List<PlayerEffect>();
             Prerequisites = new List<PlayerPrerequisite>();
         }

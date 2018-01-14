@@ -25,6 +25,7 @@ namespace Archspace2
     {
         public Tech()
         {
+            ControlModelModifier = new ControlModel();
             Prerequisites = new List<PlayerPrerequisite>();
             PlayerEffects = new List<PlayerEffect>();
         }

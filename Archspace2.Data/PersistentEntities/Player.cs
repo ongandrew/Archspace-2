@@ -353,6 +353,7 @@ namespace Archspace2
 
             UpdateFleets();
             UpdateResearch();
+            UpdatePlanets();
         }
 
         private void ApplyInstantEffects()
@@ -407,7 +408,10 @@ namespace Archspace2
         
         private void UpdatePlanets()
         {
-
+            foreach (Planet planet in Planets)
+            {
+                planet.UpdateTurn();
+            }
         }
 
         private void UpdateSecurity()

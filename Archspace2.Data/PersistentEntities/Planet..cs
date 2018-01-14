@@ -66,9 +66,22 @@ namespace Archspace2
         public DistributionRatio DistributionRatio { get; set; }
 
         public int Investment { get; set; }
-        public int InvestRate { get
+        public int InvestRate
+        {
+            get
             {
-                throw new NotImplementedException();
+                if (Player == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    int rate = 0;
+                    int investMaxPP = 0;
+
+                    return 0;
+                    // throw new NotImplementedException();
+                }
             }
         }
         public int WasteRate {

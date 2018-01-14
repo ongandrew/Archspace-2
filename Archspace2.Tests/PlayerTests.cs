@@ -39,7 +39,14 @@ namespace Archspace2
 
             Assert.IsNotNull(player);
 
-            player.UpdateTurn();
+            using (DatabaseContext context = Game.Context)
+            {
+                context.Attach(player);
+
+                player.UpdateTurn();
+
+                await context.SaveChangesAsync();
+            }
         }
     }
 }
