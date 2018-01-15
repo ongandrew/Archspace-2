@@ -46,8 +46,7 @@ namespace Archspace2
         public SecurityLevel SecurityLevel { get; set; }
         public int Alertness { get; set; }
 
-        public int ProductionPoint { get; set; }
-        public int ResearchPoint { get; set; }
+        public Resource Resource { get; set; }
         public int ResearchInvestment { get; set; }
         public int ShipProductionInvestment { get; set; }
         public int PlanetInvestmentPool { get; set; }
@@ -206,7 +205,7 @@ namespace Archspace2
                     }
                 }
 
-                if (Planets.Any(x => x.PlanetAttributes.Select(y => y.Type).Contains(PlanetAttributeType.MajorSpaceCrossroute)))
+                if (Planets.Any(x => x.Attributes.Select(y => y.Type).Contains(PlanetAttributeType.MajorSpaceCrossroute)))
                 {
                     result.Commerce += 1;
                 }
@@ -245,7 +244,10 @@ namespace Archspace2
         public Player(Universe aUniverse) : base(aUniverse)
         {
             mHonor = 50;
-            ProductionPoint = 50000;
+            Resource = new Resource()
+            {
+                ProductionPoint = 50000
+            };
 
             mTechs = new List<Tech>();
             mProjects = new List<Project>();
@@ -353,7 +355,13 @@ namespace Archspace2
 
             UpdateFleets();
             UpdateResearch();
-            UpdatePlanets();
+            PlanetUpdateTurnResult planetResult = UpdatePlanets();
+
+            planetResult.Income.MilitaryPoint = Effects.Where(x => x.Type == PlayerEffectType.ProduceMpPerTurn).CalculateTotalEffect(planetResult.Income.MilitaryPoint, x => x.Argument1);
+
+            planetResult.Income.ResearchPoint = Effects.Where(x => x.Type == PlayerEffectType.ProduceRpPerTurn).CalculateTotalEffect(planetResult.Income.ResearchPoint, x => x.Argument1);
+            
+            Resource.ResearchPoint += planetResult.Income.ResearchPoint;
         }
 
         private void ApplyInstantEffects()
@@ -402,16 +410,20 @@ namespace Archspace2
                 ResearchInvestment -= invest;
 
                 rp = invest / 20;
-                ResearchPoint += rp;
+                Resource.ResearchPoint += rp;
             }
         }
         
-        private void UpdatePlanets()
+        private PlanetUpdateTurnResult UpdatePlanets()
         {
+            PlanetUpdateTurnResult result = new PlanetUpdateTurnResult();
+
             foreach (Planet planet in Planets)
             {
-                planet.UpdateTurn();
+                result += planet.UpdateTurn();
             }
+
+            return result;
         }
 
         private void UpdateSecurity()

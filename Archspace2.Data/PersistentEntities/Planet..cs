@@ -26,17 +26,6 @@ namespace Archspace2
         UltraRich
     };
 
-    public enum GasType
-    {
-        H2,
-        Cl2,
-        CO2,
-        O2,
-        N2,
-        CH4,
-        H2O
-    };
-
     [Table("Planet")]
     public class Planet : UniverseEntity
     {
@@ -58,6 +47,9 @@ namespace Archspace2
         public double Gravity { get; set; }
         public Atmosphere Atmosphere { get; set; }
 
+        public bool Terraforming { get; set; }
+        public int TerraformingTimer { get; set; }
+
         public int PrivateerAmount { get; set; }
         public int PrivateerTimer { get; set; }
         public int BlockadeTimer { get; set; }
@@ -65,6 +57,7 @@ namespace Archspace2
         public Infrastructure Infrastructure { get; set; }
         public DistributionRatio DistributionRatio { get; set; }
 
+        public bool UsePlanetInvestmentPool { get; set; }
         public int Investment { get; set; }
         public int InvestRate
         {
@@ -72,15 +65,60 @@ namespace Archspace2
             {
                 if (Player == null)
                 {
-                    return 0;
+                    return -1;
                 }
                 else
                 {
                     int rate = 0;
                     int investMaxPP = 0;
 
-                    return 0;
-                    // throw new NotImplementedException();
+                    if (Player.Traits.Contains(RacialTrait.EfficientInvestment))
+                    {
+                        investMaxPP = MaxInvestProduction / 2;
+                    }
+                    else
+                    {
+                        investMaxPP = MaxInvestProduction;
+                    }
+
+                    if (investMaxPP != 0 && (Investment != 0 || UsePlanetInvestmentPool))
+                    {
+                        int invest = 0;
+
+                        if (investMaxPP < Investment)
+                        {
+                            invest = investMaxPP;
+                            Investment -= invest;
+                        }
+                        else
+                        {
+                            invest = Investment;
+                            Investment -= invest;
+
+                            if (UsePlanetInvestmentPool)
+                            {
+                                int investPool = Player.PlanetInvestmentPool;
+                                if (invest + investPool >= investMaxPP)
+                                {
+                                    Player.PlanetInvestmentPool += invest - investMaxPP;
+                                    invest = investMaxPP;
+                                }
+                                else
+                                {
+                                    Player.PlanetInvestmentPool = 0;
+                                    invest += investPool;
+                                }
+                            }
+                        }
+
+                        rate = (int)(invest * (100 - WasteRate) / investMaxPP);
+                    }
+                    else
+                    {
+                        rate = 0;
+                    }
+
+                    return rate;
                 }
             }
         }
@@ -185,7 +223,7 @@ namespace Archspace2
                 ControlModel result = new ControlModel();
 
                 result += CalculateEnvironmentModifier();
-                result += PlanetAttributes.CalculateControlModelModifier();
+                result += Attributes.CalculateControlModelModifier();
 
                 if (Player != null)
                 {
@@ -198,7 +236,7 @@ namespace Archspace2
 
         public string PlanetAttributeList { get; set; }
         [NotMapped]
-        public List<PlanetAttribute> PlanetAttributes
+        public List<PlanetAttribute> Attributes
         {
             get
             {
@@ -217,7 +255,7 @@ namespace Archspace2
             Infrastructure = new Infrastructure();
             DistributionRatio = new DistributionRatio();
             
-            PlanetAttributes = new List<PlanetAttribute>();
+            Attributes = new List<PlanetAttribute>();
             CommercePlanets = new List<Planet>();
         }
 
@@ -342,7 +380,7 @@ namespace Archspace2
         {
             using (DatabaseContext databaseContext = Game.Context)
             {
-                PlanetAttributes.Add(aPlanetAttribute);
+                Attributes.Add(aPlanetAttribute);
 
                 await databaseContext.SaveChangesAsync();
             }
@@ -352,7 +390,7 @@ namespace Archspace2
         {
             using (DatabaseContext databaseContext = Game.Context)
             {
-                PlanetAttributes.Remove(aPlanetAttribute);
+                Attributes.Remove(aPlanetAttribute);
 
                 await databaseContext.SaveChangesAsync();
             }
@@ -360,14 +398,22 @@ namespace Archspace2
 
         public void StartTerraforming()
         {
-
+            Terraforming = true;
+            TerraformingTimer = 0;
         }
 
-        public void UpdateTurn()
+        public void StopTerraforming()
         {
+            Terraforming = false;
+            TerraformingTimer = 0;
+        }
+
+        public PlanetUpdateTurnResult UpdateTurn()
+        {
+            PlanetUpdateTurnResult result = new PlanetUpdateTurnResult();
+
             if (IsParalyzed())
             {
-                return;
             }
             else
             {
@@ -401,9 +447,30 @@ namespace Archspace2
 
                     BuildNewInfrastructure(remainingNogadaPoint);
 
-                    // throw new NotImplementedException();
+                    ProcessPopulationGrowth();
+
+                    ProcessTerraforming();
+
+                    if (UsePlanetInvestmentPool)
+                    {
+                        int investMaxPP;
+
+                        if (Player.Traits.Contains(RacialTrait.EfficientInvestment))
+                        {
+                            investMaxPP = MaxInvestProduction / 2;
+                        }
+                        else
+                        {
+                            investMaxPP = MaxInvestProduction;
+                        }
+                    }
+
+                    result.Income = newResources;
+                    result.Upkeep = upkeep;
                 }
             }
+
+            return result;
         }
 
         public bool IsParalyzed()
@@ -604,14 +671,14 @@ namespace Archspace2
 
             result.Environment -= Math.Abs(Temperature - Player.Race.HomeTemperature);
 
-            if (!PlanetAttributes.Where(x => x.Type == PlanetAttributeType.GravityControlled).Any())
+            if (!Attributes.Where(x => x.Type == PlanetAttributeType.GravityControlled).Any())
             {
                 result.Environment -= (int)(Math.Abs(Player.Race.HomeGravity - Gravity)/0.2);
             }
 
             return result;
         }
-        private void UpdatePopulation()
+        private void ProcessPopulationGrowth()
         {
             int growthRatio;
 
@@ -655,6 +722,183 @@ namespace Archspace2
 
             Population += (Population * growthRatio / 100) + baseGrowth;
         }
+        private void ProcessTerraforming()
+        {
+            if (Terraforming)
+            {
+                TerraformingTimer++;
+                int neededTurns = (24 * 3600)/(Game.Configuration.SecondsPerTurn) 
+                    - (((24 * 3600) / (Game.Configuration.SecondsPerTurn)) * (InvestRate/25)/10);
+
+                if (TerraformingTimer >= neededTurns)
+                {
+                    TerraformingTimer = 0;
+
+                    if (TryTerraformAtmosphere())
+                    {
+                        return;
+                    }
+                    else if (TryTerraformTemperature())
+                    {
+                        return;
+                    }
+                    else if (TryTerraformGravity())
+                    {
+                        return;
+                    }
+                    else if (TryTerraformNegativeAttributes())
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        StopTerraforming();
+                        Player.AddNews($"The terraforming of {Name} is completed.");
+                    }
+                }
+            }
+        }
+
+        private bool TryTerraformAtmosphere()
+        {
+            if (Player.Traits.Contains(RacialTrait.NoBreath))
+            {
+                return false;
+            }
+            
+            if (Atmosphere == Player.Race.HomeAtmosphere)
+            {
+                return false;
+            }
+            else
+            {
+                Dictionary<GasType, int> currentDictionary = Atmosphere.AsDictionary();
+                Dictionary<GasType, int> homeDictionary = Player.Race.HomeAtmosphere.AsDictionary();
+                
+                GasType? decreasingGas =
+                (from current in currentDictionary.AsEnumerable()
+                 join home in homeDictionary.AsEnumerable()
+                 on current.Key equals home.Key
+                 where current.Value > home.Value
+                 select current.Key).First();
+
+                GasType? increasingGas =
+                (from current in currentDictionary.AsEnumerable()
+                    join home in homeDictionary.AsEnumerable()
+                    on current.Key equals home.Key
+                    where current.Value < home.Value
+                    select current.Key).FirstOrDefault();
+
+                if (decreasingGas != null && increasingGas != null)
+                {
+                    Atmosphere.Change(decreasingGas.Value, increasingGas.Value);
+
+                    Player.AddNews($"Terraforming: {decreasingGas.Value} has been decreased and {increasingGas.Value} has been increased on {Name}");
+                }
+                else if (increasingGas != null)
+                {
+                    Atmosphere[increasingGas.Value]++;
+
+                    Player.AddNews($"Terraforming: {increasingGas.Value} has been generated on {Name}");
+                }
+                else
+                {
+                    Atmosphere[increasingGas.Value]++;
+
+                    Player.AddNews($"Terraforming: {decreasingGas.Value} has been removed on {Name}");
+                }
+
+                return true;
+            }
+        }
+        private bool TryTerraformTemperature()
+        {
+            int homeTemperature = Player.Race.HomeTemperature;
+
+            if (Math.Abs(Temperature - homeTemperature) < 50)
+            {
+                return false;
+            }
+            else
+            {
+                if (Temperature > homeTemperature)
+                {
+                    Temperature -= 25 + Game.Random.Next(1, 50);
+
+                    Player.AddNews($"Terraforming: The temperature has gone down to {Temperature} K on {Name}.");
+                }
+                else
+                {
+                    Temperature += 25 + Game.Random.Next(1, 50);
+
+                    Player.AddNews($"Terraforming: The temperature has gone up to {Temperature} K on {Name}.");
+
+                }
+
+                return true;
+            }
+        }
+        private bool TryTerraformGravity()
+        {
+            double homeGravity = Player.Race.HomeGravity;
+
+            if (Math.Abs(Gravity - homeGravity) < 0.2)
+            {
+                return false;
+            }
+            else if (Attributes.Contains(PlanetAttributeType.GravityControlled))
+            {
+                return false;
+            }
+            else if (!Player.Techs.Any(x => x.Name == "Gravity Control"))
+            {
+                return true;
+            }
+            else
+            {
+                Attributes.Add(PlanetAttributeType.GravityControlled.ToPlanetAttribute());
+
+                Player.AddNews($"Terraforming : You set up a gravity control unit on {Name}.");
+
+                return true;
+            }
+        }
+        private bool TryTerraformNegativeAttributes()
+        {
+            if (!Attributes.Any(x => x.Type == PlanetAttributeType.Radiation || x.Type == PlanetAttributeType.HostileMonster || x.Type == PlanetAttributeType.ObstinateMicrobe))
+            {
+                return false;
+            }
+            else if (Attributes.Contains(PlanetAttributeType.Radiation) && Player.Techs.Any(x => x.Name == "Solar Manipulation"))
+            {
+                Attributes.RemoveAll(x => x.Type == PlanetAttributeType.Radiation);
+
+                Player.AddNews($"Terraforming : You clear the radiation of {Name} using solar manipulation.");
+
+                return true;
+            }
+            else if (Attributes.Contains(PlanetAttributeType.HostileMonster) && Player.Techs.Any(x => x.Name == "Primitive Language"))
+            {
+                Attributes.RemoveAll(x => x.Type == PlanetAttributeType.HostileMonster);
+
+                Player.AddNews($"Terraforming : You control the hostile monster of {Name} using primitive language.");
+
+                return true;
+            }
+            else if (Attributes.Contains(PlanetAttributeType.ObstinateMicrobe) && Player.Techs.Any(x => x.Name == "Genetic Therapy"))
+            {
+                Attributes.RemoveAll(x => x.Type == PlanetAttributeType.ObstinateMicrobe);
+
+                Player.AddNews($"Terraforming : You destroy the obstinate microbe on {Name} using genetic therapy.");
+
+                return true;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         private int ComputeUpkeepAndOutput(int aNogadaPoint, out Resource aNewResources, out Resource aUpkeep)
         {
             int upkeepRatio,
@@ -725,8 +969,6 @@ namespace Archspace2
 
             researchPoint = activeResearchLab * researchPointPerResearchLab;
             researchPoint -= researchPoint * WasteRate / 100;
-
-            
 
             activeMilitaryBase = militaryBaseNogadaPoint = ControlModel.Military;
 

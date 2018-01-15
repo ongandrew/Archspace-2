@@ -85,5 +85,15 @@ namespace Archspace2.Extensions
 
             return result;
         }
+
+        public static bool Contains(this IEnumerable<PlanetAttribute> tEnumerable, PlanetAttributeType aPlanetAttributeType)
+        {
+            return tEnumerable.Any(x => x.Type == aPlanetAttributeType);
+        }
+
+        public static PlanetAttribute ToPlanetAttribute(this PlanetAttributeType tPlanetAttributeType)
+        {
+            return Game.Configuration.PlanetAttributes.Single(x => x.Type == tPlanetAttributeType);
+        }
     }
 }

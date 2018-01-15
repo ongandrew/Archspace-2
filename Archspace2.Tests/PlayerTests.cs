@@ -43,7 +43,8 @@ namespace Archspace2
             {
                 context.Attach(player);
 
-                player.UpdateTurn();
+                await Task.Run(() =>
+                player.UpdateTurn());
 
                 await context.SaveChangesAsync();
             }

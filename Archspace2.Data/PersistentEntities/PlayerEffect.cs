@@ -188,10 +188,10 @@ namespace Archspace2
                             }
                             else
                             {
-                                diffProduction = Player.ProductionPoint * (Argument1 / 100);
+                                diffProduction = Player.Resource.ProductionPoint * (Argument1 / 100);
                             }
 
-                            Player.ProductionPoint += diffProduction;
+                            Player.Resource.ProductionPoint += diffProduction;
                         }
                         break;
                     case PlayerEffectType.ChangeAllCommanderAbility:
@@ -293,9 +293,9 @@ namespace Archspace2
                         {
                             Planet planet = Player.Planets.SingleOrDefault(x => x.Id == Target);
 
-                            if (planet != null && planet.PlanetAttributes.Where(x => x.Type == PlanetAttributeType.GravityControlled).Any())
+                            if (planet != null && planet.Attributes.Where(x => x.Type == PlanetAttributeType.GravityControlled).Any())
                             {
-                                planet.PlanetAttributes.RemoveAll(x => x.Type == PlanetAttributeType.GravityControlled);
+                                planet.Attributes.RemoveAll(x => x.Type == PlanetAttributeType.GravityControlled);
                             }
                         }
                         break;
@@ -303,9 +303,9 @@ namespace Archspace2
                         {
                             Planet planet = Player.Planets.SingleOrDefault(x => x.Id == Target);
 
-                            if (planet != null && !planet.PlanetAttributes.Where(x => x.Type == PlanetAttributeType.GravityControlled).Any())
+                            if (planet != null && !planet.Attributes.Where(x => x.Type == PlanetAttributeType.GravityControlled).Any())
                             {
-                                planet.PlanetAttributes.Add(Game.Configuration.PlanetAttributes.Single(x => x.Type == PlanetAttributeType.GravityControlled));
+                                planet.Attributes.Add(Game.Configuration.PlanetAttributes.Single(x => x.Type == PlanetAttributeType.GravityControlled));
                             }
                         }
                         break;

@@ -7468,7 +7468,7 @@ namespace Archspace2
                 {
                     Id = 1401,
                     Name = "Genetic Science",
-                    Description = "As physics had approached the micro level through quantum physics, biological sciences began to pay closer attention to the micro level of life, genetics.  As the small universe of this world was slowly discovered, some mysteries of life were solved, and at the same time, many new mysteries presented themselves.  The most basic genetic research became the foundations for new areas of study, such as genetic engineering, genetic theraphy, and the genetic computer.  Genetics also influenced other parts of biology, and as the field of genetics developed further, so did the other fields of life sciences.",
+                    Description = "As physics had approached the micro level through quantum physics, biological sciences began to pay closer attention to the micro level of life, genetics.  As the small universe of this world was slowly discovered, some mysteries of life were solved, and at the same time, many new mysteries presented themselves.  The most basic genetic research became the foundations for new areas of study, such as genetic engineering, genetic therapy, and the genetic computer.  Genetics also influenced other parts of biology, and as the field of genetics developed further, so did the other fields of life sciences.",
                     Type = TechType.Life,
                     Attribute = TechAttribute.Basic,
                     TechLevel = 1

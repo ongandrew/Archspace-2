@@ -78,6 +78,7 @@ namespace Archspace2
             player.Techs = Game.Configuration.Techs.Where(x => x.Attribute == TechAttribute.Basic).ToList();
             player.Techs.AddRange(Game.Configuration.Techs.Where(x => player.Race.BaseTechs.Contains(x.Id)));
             player.ConcentrationMode = ConcentrationMode.Balanced;
+            player.Traits.AddRange(aRace.BaseTraits);
 
             player.Planets.Add(Clusters.Random().CreatePlanet().AsHomePlanet(player));
 
