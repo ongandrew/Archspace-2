@@ -48,8 +48,9 @@ namespace Archspace2
 
         public Resource Resource { get; set; }
         public int ResearchInvestment { get; set; }
-        public int ShipProductionInvestment { get; set; }
         public int PlanetInvestmentPool { get; set; }
+
+        public Shipyard Shipyard { get; set; }
 
         private int mHonor;
         public int Honor
@@ -100,7 +101,6 @@ namespace Archspace2
             set
             {
                 ProjectIdList = value.Select(x => x.Id).SerializeIds();
-                mProjects = value;
             }
         }
 
@@ -140,7 +140,6 @@ namespace Archspace2
             set
             {
                 TechIdList = value.Select(x => x.Id).SerializeIds();
-                mTechs = value;
             }
         }
 
@@ -167,7 +166,6 @@ namespace Archspace2
             set
             {
                 TraitList = value.Cast<int>().SerializeIds();
-                mTraits = value;
             }
         }
 
@@ -252,8 +250,9 @@ namespace Archspace2
             mTechs = new List<Tech>();
             mProjects = new List<Project>();
             mTraits = new List<RacialTrait>();
-
-            Mailbox = new Mailbox(Universe);
+            
+            Shipyard = new Shipyard(this);
+            Mailbox = new Mailbox(this);
             NewsItems = new List<NewsItem>();
 
             Admirals = new List<Admiral>();
@@ -362,6 +361,19 @@ namespace Archspace2
             planetResult.Income.ResearchPoint = Effects.Where(x => x.Type == PlayerEffectType.ProduceRpPerTurn).CalculateTotalEffect(planetResult.Income.ResearchPoint, x => x.Argument1);
             
             Resource.ResearchPoint += planetResult.Income.ResearchPoint;
+
+            int balance = planetResult.Income.ProductionPoint;
+
+            int securityUpkeep = CalculateSecurityUpkeep(balance);
+            balance -= securityUpkeep;
+            balance -= planetResult.Upkeep.ProductionPoint;
+
+            // This seems to allow double spending, but is in the original code.
+            balance -= Shipyard.CalculateShipProduction(planetResult.Income.ProductionPoint);
+
+            Shipyard.ShipProduction += Shipyard.CalculateRealShipProduction(planetResult.Income.ProductionPoint);
+
+            Shipyard.BuildShips(planetResult.Income.ProductionPoint);
         }
 
         private void ApplyInstantEffects()
@@ -426,7 +438,7 @@ namespace Archspace2
             return result;
         }
 
-        private void UpdateSecurity()
+        private void UpdateSecurity(int aIncome)
         {
             Alertness -= 5;
             if (Alertness < 0)
@@ -435,6 +447,33 @@ namespace Archspace2
             }
         }
 
+        private int CalculateSecurityUpkeep(int aIncome)
+        {
+            int upkeep = 0;
+
+            switch (SecurityLevel)
+            {
+                case SecurityLevel.Loose:
+                    upkeep = (int)(aIncome * 2.5 / 100);
+                    break;
+                case SecurityLevel.Wary:
+                    upkeep = (aIncome * 5 / 100);
+                    break;
+                case SecurityLevel.Alerted:
+                    upkeep = (aIncome * 10 / 100);
+                    break;
+                case SecurityLevel.Impenetrable:
+                    upkeep = (aIncome * 20 / 100);
+                    break;
+                case SecurityLevel.Defenseless:
+                default:
+                    upkeep = 0;
+                    break;
+            }
+
+            return upkeep;
+        }
+        
         public int CalculateTotalEffect(int aBase, PlayerEffectType aPlayerEffectType)
         {
             return Effects.Where(x => x.Type == aPlayerEffectType).CalculateTotalEffect(aBase, x => x.Argument1);

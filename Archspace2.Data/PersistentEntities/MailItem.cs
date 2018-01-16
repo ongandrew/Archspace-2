@@ -9,6 +9,9 @@ namespace Archspace2
     [Table("MailItem")]
     public class MailItem : UniverseEntity
     {
+        [NotMapped]
+        public override string Name { get; set; }
+
         public int? FromId { get; set; }
         [ForeignKey("FromId")]
         public Player FromPlayer { get; set; }
