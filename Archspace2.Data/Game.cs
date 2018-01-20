@@ -129,6 +129,25 @@ namespace Archspace2
             }
         }
 
+        public static async Task LoadUniverseAsync()
+        {
+            CheckState();
+
+            using (DatabaseContext databaseContext = Context)
+            {
+                Universe universe = await databaseContext.Universes.Where(x => x.FromDate <= DateTime.UtcNow && (DateTime.UtcNow < x.ToDate || x.ToDate == null)).SingleAsync();
+
+                if (universe != null)
+                {
+                    Universe = universe;
+                }
+                else
+                {
+                    throw new InvalidOperationException("No valid universe exists in the database.");
+                }
+            }
+        }
+
         private static void CheckState()
         {
             if (!mInitialized)
@@ -169,7 +188,8 @@ namespace Archspace2
                 Timer timer = new Timer();
                 timer.Elapsed += new ElapsedEventHandler(UpdateUniverseEvent);
 
-                timer.Interval = Configuration.SecondsPerTurn * 1000;
+                timer.Interval = 15000;
+                //timer.Interval = Configuration.SecondsPerTurn * 1000;
                 timer.AutoReset = true;
                 timer.Start();
             }

@@ -11,7 +11,7 @@ namespace Archspace2.Web.Controllers
     [Route("game")]
     public class GameController : Controller
     {
-        [HttpPost]
+        //[HttpPost]
         [Route("universe")]
         public async Task<IActionResult> CreateUniverse()
         {
@@ -24,6 +24,15 @@ namespace Archspace2.Web.Controllers
         public async Task<IActionResult> Start()
         {
             Game.Start();
+
+            return Ok();
+        }
+
+        [Route("load")]
+        public async Task<IActionResult> Load()
+        {
+            await Game.LoadUniverseAsync();
+
             return Ok();
         }
     }
