@@ -244,6 +244,9 @@ namespace Archspace2
         public ICollection<PlayerRelation> ToRelations { get; set; }
         public ICollection<ShipDesign> ShipDesigns { get; set; }
 
+        private Player()
+        {
+        }
         public Player(Universe aUniverse) : base(aUniverse)
         {
             mHonor = 50;
@@ -396,6 +399,8 @@ namespace Archspace2
 
             Resource.ProductionPoint += totalIncome.ProductionPoint;
 
+            UpdateTech();
+
             UpdateAdmiralPool();
 
             UpdateEffects();
@@ -528,19 +533,19 @@ namespace Archspace2
             if (target != null)
             {
                 int cost = GetTechCost(target);
-                
+
                 if (Resource.ResearchPoint >= cost)
                 {
                     Resource.ResearchPoint -= cost;
-
+                    DiscoverTech(target);
                 }
             }
         }
 
-        private void DiscoverTech(Tech aTech)
+        public void DiscoverTech(Tech aTech)
         {
             Techs.Add(aTech);
-            AddNews($"You have discovered {aTech}.");
+            AddNews($"You have discovered {aTech.Name}.");
         }
         
         private PlanetUpdateTurnResult UpdatePlanets()

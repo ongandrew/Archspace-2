@@ -11,18 +11,6 @@ namespace Archspace2
         Normal
     };
 
-    public enum DefenseDeploymentCommand
-    {
-        Normal,
-        Formation,
-        Penetrate,
-        Flank,
-        Reserve,
-        Free,
-        Assault,
-        StandGround
-    }
-
     [Table("DefenseDeployment")]
     public class DefenseDeployment : UniverseEntity
     {
@@ -34,7 +22,7 @@ namespace Archspace2
         public Fleet Fleet { get; set; }
 
         public DefenseDeploymentType Type { get; set; }
-        public DefenseDeploymentCommand Command { get; set; }
+        public Command Command { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
 

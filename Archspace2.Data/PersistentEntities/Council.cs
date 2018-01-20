@@ -8,16 +8,7 @@ namespace Archspace2
     [Table("Council")]
     public class Council : UniverseEntity
     {
-        public Council(Universe aUniverse) : base(aUniverse)
-        {
-            mProjects = new List<Project>();
-
-            Resource = new Resource();
-
-            FromRelations = new List<CouncilRelation>();
-            Players = new List<Player>();
-            ToRelations = new List<CouncilRelation>();
-        }
+        public int Honor { get; set; }
 
         public int? SpeakerId { get; set; }
         [NotMapped]
@@ -81,5 +72,16 @@ namespace Archspace2
         public ICollection<CouncilRelation> FromRelations { get; set; }
         public ICollection<CouncilRelation> ToRelations { get; set; }
         public ICollection<Player> Players { get; set; }
+
+        public Council(Universe aUniverse) : base(aUniverse)
+        {
+            mProjects = new List<Project>();
+
+            Resource = new Resource();
+
+            FromRelations = new List<CouncilRelation>();
+            Players = new List<Player>();
+            ToRelations = new List<CouncilRelation>();
+        }
     }
 }

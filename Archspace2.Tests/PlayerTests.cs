@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace Archspace2
             Assert.IsNotNull(user);
 
             Race race = Game.Configuration.Races.Random();
-            Player player = await user.CreatePlayerAsync("ResearchTest", race);
+            Player player = await user.CreatePlayerAsync("TurnTest", race);
 
             Assert.IsNotNull(player);
 
@@ -47,6 +48,70 @@ namespace Archspace2
                 player.UpdateTurn());
 
                 await context.SaveChangesAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task CanResearchTech()
+        {
+            User user = await Game.CreateNewUserAsync();
+
+            Assert.IsNotNull(user);
+
+            Race race = Game.Configuration.Races.Random();
+            Player player = await user.CreatePlayerAsync("ResearchTechTest", race);
+
+            Assert.IsNotNull(player);
+
+            player.Resource.ResearchPoint = 1000000;
+            List<Tech> before = player.Techs.ToList();
+
+            using (DatabaseContext context = Game.Context)
+            {
+                context.Attach(player);
+
+                await Task.Run(() =>
+                player.UpdateTurn());
+
+                List<Tech> after = player.Techs.ToList();
+
+                await context.SaveChangesAsync();
+
+                Assert.IsTrue(after.Count > before.Count, "Could not research tech despite having enough RP.");
+            }
+        }
+
+        [TestMethod]
+        public async Task CanDiscoverTech()
+        {
+            User user = await Game.CreateNewUserAsync();
+
+            Assert.IsNotNull(user);
+
+            Race race = Game.Configuration.Races.Random();
+            Player player = await user.CreatePlayerAsync("DiscoverTech", race);
+
+            Assert.IsNotNull(player);
+
+            using (DatabaseContext context = Game.Context)
+            {
+                context.Attach(player);
+
+                await Task.Run(() =>
+                player.UpdateTurn());
+                player.DiscoverTech(Game.Configuration.Techs.Single(x => x.Id == 1335));
+
+                List<Tech> after = player.Techs.ToList();
+
+                await context.SaveChangesAsync();
+
+                Assert.IsTrue(player.Techs.Any(x => x.Id == 1335));
+
+                player = await context.Players.Where(x => x.Name == "DiscoverTech").SingleOrDefaultAsync();
+
+                Assert.IsNotNull(player);
+
+                Assert.IsTrue(player.Techs.Any(x => x.Id == 1335));
             }
         }
     }
