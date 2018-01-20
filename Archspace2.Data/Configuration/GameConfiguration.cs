@@ -50,6 +50,8 @@ namespace Archspace2
 
         [JsonProperty("Action")]
         public ActionSettings Action { get; set; }
+        [JsonProperty("Admiral")]
+        public AdmiralSettings Admiral { get; set; }
         [JsonProperty("Battle")]
         public BattleSettings Battle { get; set; }
         [JsonProperty("BlackMarket")]
@@ -125,6 +127,7 @@ namespace Archspace2
             TechRateModifier = 1;
             
             Action = ActionSettings.CreateDefault();
+            Admiral = AdmiralSettings.CreateDefault();
             Battle = BattleSettings.CreateDefault();
             BlackMarket = BlackMarketSettings.CreateDefault();
             Mission = MissionSettings.CreateDefault();

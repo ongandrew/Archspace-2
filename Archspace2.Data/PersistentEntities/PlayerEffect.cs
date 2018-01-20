@@ -235,7 +235,7 @@ namespace Archspace2
 
                             if (admiral != null)
                             {
-                                admiral.LevelUp(Target);
+                                admiral.GiveLevels(Target);
                             }
                         }
                         break;
@@ -366,7 +366,7 @@ namespace Archspace2
                     case PlayerEffectType.GainCommander:
                         {
                             Admiral admiral = Player.CreateAdmiral().AsPlayerAdmiral(Player);
-                            admiral.LevelUp(Argument1);
+                            admiral.GiveLevels(Argument1);
 
                             Player.Admirals.Add(admiral);
                         }

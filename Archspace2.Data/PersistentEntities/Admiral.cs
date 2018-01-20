@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Archspace2.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,6 +8,27 @@ using Universal.Common.Extensions;
 
 namespace Archspace2
 {
+    public enum ArmadaClass
+    {
+        A = 0,
+        B,
+        C,
+        D
+    };
+
+    public enum StartingCircumstance
+    {
+        Supercommander,
+        Excellent,
+        VeryGood,
+        Good,
+        Average,
+        Poor,
+        Bad,
+        VeryBad,
+        CannonFodder
+    };
+
     public enum AdmiralSpecialAbility
     {
         EngineeringSpecialist,
@@ -68,10 +90,67 @@ namespace Archspace2
             }
         }
 
+        public StartingCircumstance StartingCircumstance { get; set; }
         public int Level { get; set; }
         public int Experience { get; set; }
         public AdmiralSpecialAbility SpecialAbility { get; set; }
         public AdmiralRacialAbility RacialAbility { get; set; }
+
+        public ArmadaClass ArmadaClass { get; set; }
+        public int BaseFleetCapacity { get; set; }
+        public int FleetCapacity
+        {
+            get
+            {
+                return BaseFleetCapacity;
+            }
+        }
+        public int BaseEfficiency { get; set; }
+        public int Efficiency
+        {
+            get
+            {
+                int result = BaseEfficiency;
+
+                if (RacialAbility == AdmiralRacialAbility.ClonalDouble)
+                {
+                    if (Level <= 7)
+                    {
+                        result -= 10;
+                    }
+                    else if (Level <= 13)
+                    {
+                        result -= 5;
+                    }
+                }
+                else if (RacialAbility == AdmiralRacialAbility.PsychicProgenitor)
+                {
+                    if (Level <= 12)
+                    {
+                        result -= 10;
+                    }
+                    else if (Level <= 17)
+                    {
+                        result -= 5;
+                    }
+                }
+                else if (RacialAbility == AdmiralRacialAbility.RetreatShield)
+                {
+                    result -= Level * 2;
+                }
+                else if (RacialAbility == AdmiralRacialAbility.BreederMale)
+                {
+                    result += Level / 2;
+                }
+
+                if (result > 100)
+                {
+                    result = 0;
+                }
+
+                return result;
+            }
+        }
         
         public AdmiralSkills BaseSkills { get; set; }
         [NotMapped]
@@ -650,6 +729,9 @@ namespace Archspace2
             Experience = 0;
             Level = 1;
             BaseSkills = new AdmiralSkills();
+            ArmadaClass = Enum.GetValues(typeof(ArmadaClass)).Cast<ArmadaClass>().Random();
+            BaseFleetCapacity = Game.Random.Next(1, 6) + 5;
+            BaseEfficiency = Game.Random.Next(1, 31) + 24;
         }
 
         public Admiral AsRandomAdmiral()
@@ -663,8 +745,11 @@ namespace Archspace2
         {
             Race = aRace;
             Name = GenerateName();
+            StartingCircumstance = GenerateStartingCircumstance();
             SpecialAbility = typeof(AdmiralSpecialAbility).GetEnumValues().OfType<AdmiralSpecialAbility>().Random();
             RacialAbility = typeof(AdmiralRacialAbility).GetEnumValues().OfType<AdmiralRacialAbility>().Random();
+
+            AssignStartingStats();
 
             return this;
         }
@@ -673,6 +758,10 @@ namespace Archspace2
         {
             Player = aPlayer;
             AsRacialAdmiral(aPlayer.Race);
+
+            StartingCircumstance = GenerateStartingCircumstance(Player.ControlModel.Genius);
+
+            AssignStartingStats();
 
             return this;
         }
@@ -711,15 +800,81 @@ namespace Archspace2
             return stringBuilder.ToString();
         }
 
+        private void UpdateStats()
+        {
+            BaseFleetCapacity += Game.Configuration.Admiral.LevelSettings[Level].AdditionalFleetCommanding;
+
+            if (RacialAbility == AdmiralRacialAbility.BreederMale)
+            {
+                if (Level == 2 || Level == 6 || Level == 11 || Level == 16 || Level == 20)
+                {
+                    BaseFleetCapacity += 1;
+                }
+            }
+
+            int additional = Enum.GetValues(typeof(StartingCircumstance)).Length - (int)StartingCircumstance;
+
+            BaseSkills.Blockade += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.BreakBlockade += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.Detection += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.Interpretation += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.Maneuver += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.Privateer += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.Raid += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.SiegePlanet += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.SiegeRepel += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
+
+            switch (StartingCircumstance)
+            {
+                case StartingCircumstance.Supercommander:
+                    BaseEfficiency += Game.Random.Dice(2, 4);
+                    break;
+                case StartingCircumstance.Excellent:
+                    BaseEfficiency += Game.Random.Next(1, 8);
+                    break;
+                case StartingCircumstance.VeryGood:
+                    BaseEfficiency += Game.Random.Dice(2, 3);
+                    break;
+                case StartingCircumstance.Good:
+                    BaseEfficiency += Game.Random.Next(1, 6);
+                    break;
+                case StartingCircumstance.Average:
+                    BaseEfficiency += Game.Random.Dice(2, 2);
+                    break;
+                case StartingCircumstance.Poor:
+                    BaseEfficiency += Game.Random.Dice(1, 4);
+                    break;
+                default:
+                    BaseEfficiency += Game.Random.Dice(1, 3);
+                    break;
+            }
+        }
+
         public void LevelUp()
         {
-            throw new NotImplementedException();
-        }
-        public void LevelUp(int aLevels)
-        {
-            for (int i = 0; i < aLevels; i++)
+            if (Level >= Game.Configuration.Admiral.MaxLevel)
             {
-                LevelUp();
+                return;
+            }
+            else if (Experience < Game.Configuration.Admiral.LevelSettings[Level].RequiredExperience)
+            {
+                return;
+            }
+
+            do
+            {
+                Level++;
+                UpdateStats();
+            }
+            while (Experience < Game.Configuration.Admiral.LevelSettings[Level].RequiredExperience && Level < Game.Configuration.Admiral.MaxLevel);
+        }
+        public void GiveLevels(int aLevels)
+        {
+            for (int i = 0; i < aLevels && Level < Game.Configuration.Admiral.MaxLevel; i++)
+            {
+                Level++;
+                Experience = Game.Configuration.Admiral.LevelSettings[Level].RequiredExperience;
+                UpdateStats();
             }
         }
 
@@ -727,6 +882,57 @@ namespace Archspace2
         {
             Experience += aExperience;
             // throw new NotImplementedException(); Level up logic
+        }
+
+        private StartingCircumstance GenerateStartingCircumstance()
+        {
+            return GenerateStartingCircumstance(Game.Random.Next(-5, 15));
+        }
+
+        private StartingCircumstance GenerateStartingCircumstance(int aGenius)
+        {
+            Dictionary<StartingCircumstance, int> weights = new Dictionary<StartingCircumstance, int>(Game.Configuration.Admiral.StartingCircumstanceWeights);
+
+            List<StartingCircumstance> weightKeys = weights.Keys.ToList();
+            foreach (var weightKey in weightKeys)
+            {
+                weights[weightKey] += (Enum.GetValues(typeof(StartingCircumstance)).Length - (int)(weightKey)) * aGenius;
+
+                if (weights[weightKey] < 0)
+                {
+                    weights[weightKey] = 0;
+                }
+            }
+
+            int total = weights.Sum(x => x.Value);
+            int random = Game.Random.Next(1, total);
+            int current = 0;
+
+            foreach (StartingCircumstance sc in (Enum.GetValues(typeof(StartingCircumstance)).Cast<StartingCircumstance>().OrderByDescending(x => x))) 
+            {
+                current += weights[sc];
+                if (random <= current)
+                {
+                    return sc;
+                }
+            }
+
+            return StartingCircumstance.Average;
+        }
+
+        private void AssignStartingStats()
+        {
+            int amount = Enum.GetValues(typeof(StartingCircumstance)).Length - (int)StartingCircumstance + 2;
+
+            BaseSkills.Blockade = -3 + Game.Random.Next(1, amount);
+            BaseSkills.BreakBlockade = -3 + Game.Random.Next(1, amount);
+            BaseSkills.Detection = -3 + Game.Random.Next(1, amount);
+            BaseSkills.Interpretation = -3 + Game.Random.Next(1, amount);
+            BaseSkills.Maneuver = -3 + Game.Random.Next(1, amount);
+            BaseSkills.Privateer = -3 + Game.Random.Next(1, amount);
+            BaseSkills.Raid = -3 + Game.Random.Next(1, amount);
+            BaseSkills.SiegePlanet = -3 + Game.Random.Next(1, amount);
+            BaseSkills.SiegeRepel = -3 + Game.Random.Next(1, amount);
         }
     }
 }
