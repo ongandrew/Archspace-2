@@ -46,6 +46,14 @@ namespace Archspace2
                 return CurrentShipCount * ShipDesign.ShipClass.Upkeep;
             }
         }
+
+        public int Power
+        {
+            get
+            {
+                return ShipDesign.Power * CurrentShipCount;
+            }
+        }
         
         public FleetStatus Status { get; set; }
         public Mission Mission { get; set; }
@@ -78,9 +86,7 @@ namespace Archspace2
                     throw new IndexOutOfRangeException("Invalid mission type.");
             }
         }
-
-
-
+        
         public void TryFindPlanet()
         {
             if (Game.Random.Next(1, 100) <= Game.Configuration.Mission.ExpeditionChance[Math.Min(Player.Planets.Count, Game.Configuration.Mission.ExpeditionChance.Keys.Max())])

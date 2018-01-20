@@ -85,7 +85,8 @@ namespace Archspace2
             }
         }
 
-        public string DeviceIdList {
+        public string DeviceIdList
+        {
             get
             {
                 return mDevices.Select(x => x.Id).SerializeIds();
@@ -137,7 +138,32 @@ namespace Archspace2
                 mWeapons = value;
             }
         }
-        
+
+        public int Power
+        {
+            get
+            {
+                int totalLevel = 0;
+
+                List<ShipComponent> components = new List<ShipComponent>()
+            {
+                Armor,
+                Engine,
+                Computer,
+                Shield
+            };
+                components.AddRange(Weapons);
+                components.AddRange(Devices);
+
+                foreach (ShipComponent component in components)
+                {
+                    totalLevel += component.TechLevel;
+                }
+
+                return ShipClass.Class * totalLevel;
+            }
+        }
+
         public ShipDesign(Universe aUniverse) : base(aUniverse)
         {
             mDevices = new List<Device>();

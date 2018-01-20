@@ -3,15 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace Archspace2
 {
     public static class Game
     {
         private static bool mInitialized = false;
+        private static bool mRunning = false;
+        private static Thread mMainThread;
         private static Universe mUniverse;
-
+        
         private static string mConnectionString;
         public static DatabaseContext Context
         {
@@ -139,6 +144,46 @@ namespace Archspace2
                 databaseContext.SystemLogs.Add(new SystemLog(aMessage, aLogType, aCallerFilePath, aCallerMemberName, aCallerLineNumber));
 
                 await databaseContext.SaveChangesAsync();
+            }
+        }
+
+        public static void Start()
+        {
+            CheckState();
+
+            mRunning = true;
+
+            if (mMainThread != null)
+            {
+                mMainThread.Abort();
+            }
+
+            mMainThread = new Thread(() => Run());
+            mMainThread.Start();
+        }
+
+        private static void Run()
+        {
+            if (mRunning)
+            {
+                Timer timer = new Timer();
+                timer.Elapsed += new ElapsedEventHandler(UpdateUniverseEvent);
+
+                timer.Interval = Configuration.SecondsPerTurn * 1000;
+                timer.AutoReset = true;
+                timer.Start();
+            }
+        }
+
+        private static async void UpdateUniverseEvent(object source, ElapsedEventArgs e)
+        {
+            using (DatabaseContext context = Context)
+            {
+                context.Attach(Universe);
+
+                Universe.UpdateTurn();
+
+                await context.SaveChangesAsync();
             }
         }
     }

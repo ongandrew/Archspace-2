@@ -6,8 +6,8 @@ namespace Archspace2
 {
     public class BattleFleet
     {
-        public int X;
-        public int Y;
+        public int X { get; set; }
+        public int Y { get; set; }
 
         private double mAngle;
         public double Angle
@@ -29,6 +29,16 @@ namespace Archspace2
                     mAngle -= 360;
                 }
             }
+        }
+
+        public string Name { get; set; }
+        public Fleet Fleet { get; set; }
+
+        public List<BattleShip> Ships { get; set; }
+
+        public BattleFleet()
+        {
+            Ships = new List<BattleShip>();
         }
 
         public void Turn(double aAngle)
@@ -159,5 +169,82 @@ namespace Archspace2
                 return delta;
             }
         }
+
+        public void Rotate(double aAngle)
+        {
+            double newX;
+            double newY;
+
+            newX = (Math.Cos(aAngle) * X) - (Math.Sin(aAngle) * Y);
+            newY = (Math.Sin(aAngle) * X) + (Math.Cos(aAngle) * Y);
+        }
+
+        public void Rotate(double aAngle, BattleFleet aFixedPoint)
+        {
+            X -= aFixedPoint.X;
+            Y -= aFixedPoint.Y;
+
+            Rotate(aAngle);
+
+            X += aFixedPoint.X;
+            Y += aFixedPoint.Y;
+        }
+
+        public void Move(int aDeltaX, int aDeltaY)
+        {
+            X += aDeltaX;
+            Y += aDeltaY;
+
+            if (X < 0)
+            {
+                X = 0;
+            }
+            if (X > Game.Configuration.Battle.MaxX)
+            {
+                X = Game.Configuration.Battle.MaxX;
+            }
+            if (Y < 0)
+            {
+                Y = 0;
+            }
+            if (Y > Game.Configuration.Battle.MaxY)
+            {
+                Y = Game.Configuration.Battle.MaxY;
+            }
+        }
+        
+        public void Move(int aLength)
+        {
+            double dX = aLength * Math.Cos(Angle);
+            double dY = aLength * Math.Sin(Angle);
+
+            Move((int)dX, (int)dY);
+        }
+
+        public bool AtBorder()
+        {
+            if (X <= 0 || X >= Game.Configuration.Battle.MaxX ||
+                Y <= 0 || Y >= Game.Configuration.Battle.MaxY)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /*
+        public int CalculateDangerRating(BattleFleet aEnemyFleet)
+        {
+            int result = 0;
+            int distance = Distance(aEnemyFleet);
+
+            if (distance == 0)
+            {
+                result = aEnemyFleet.Power;
+            }
+        }
+        */
     }
 }

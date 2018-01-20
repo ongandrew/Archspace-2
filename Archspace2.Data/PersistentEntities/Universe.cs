@@ -140,5 +140,11 @@ namespace Archspace2
                 player.Update();
             }
         }
+
+        public void UpdateTurn()
+        {
+            CurrentTurn++;
+            Update();
+        }
     }
 }
