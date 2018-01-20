@@ -25,5 +25,10 @@ namespace Archspace2
         public int Target { get; set; }
 
         public int TerminateTurn { get; set; }
+
+        public void Delay(int aTurns)
+        {
+            TerminateTurn += aTurns;
+        }
     }
 }

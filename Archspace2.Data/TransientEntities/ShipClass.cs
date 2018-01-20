@@ -27,7 +27,7 @@ namespace Archspace2
         [JsonProperty("Cost")]
         public int Cost { get; set; }
         [JsonProperty("Upkeep")]
-        public int Upkeep { get; set; }
+        public double Upkeep { get; set; }
 
         [JsonProperty("Prerequisites")]
         public List<PlayerPrerequisite> Prerequisites { get; set; }

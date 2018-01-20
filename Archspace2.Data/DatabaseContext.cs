@@ -24,6 +24,8 @@ namespace Archspace2
         {
             aModelBuilder.Entity<Admiral>().OwnsOne(x => x.BaseSkills);
 
+            aModelBuilder.Entity<Council>().OwnsOne(x => x.Resource);
+
             aModelBuilder.Entity<CouncilRelation>()
                 .HasOne(x => x.FromCouncil)
                 .WithMany(x => x.FromRelations);

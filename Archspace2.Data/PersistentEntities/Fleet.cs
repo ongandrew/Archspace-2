@@ -38,6 +38,14 @@ namespace Archspace2
         private int mExperience;
         public int Experience { get => mExperience; set => 
                 mExperience = value < 0 ? 0 : value > 100 ? 100 : value; }
+
+        public double Upkeep
+        {
+            get
+            {
+                return CurrentShipCount * ShipDesign.ShipClass.Upkeep;
+            }
+        }
         
         public FleetStatus Status { get; set; }
         public Mission Mission { get; set; }

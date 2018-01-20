@@ -5391,7 +5391,7 @@ namespace Archspace2
                     WeaponSlotCount = 1,
                     DeviceSlotCount = 0,
                     Cost = 100,
-                    Upkeep = 2
+                    Upkeep = 1.8
                 },
                 new ShipClass()
                 {
@@ -5404,7 +5404,7 @@ namespace Archspace2
                     WeaponSlotCount = 2,
                     DeviceSlotCount = 0,
                     Cost = 309,
-                    Upkeep = 3
+                    Upkeep = 3.24
                 },
                 new ShipClass()
                 {
@@ -5417,7 +5417,7 @@ namespace Archspace2
                     WeaponSlotCount = 2,
                     DeviceSlotCount = 1,
                     Cost = 936,
-                    Upkeep = 6
+                    Upkeep = 5.83
                 },
                 new ShipClass()
                 {
@@ -5430,7 +5430,7 @@ namespace Archspace2
                     WeaponSlotCount = 3,
                     DeviceSlotCount = 1,
                     Cost = 2884,
-                    Upkeep = 11
+                    Upkeep = 10.50
                 },
                 new ShipClass()
                 {
@@ -5443,7 +5443,7 @@ namespace Archspace2
                     WeaponSlotCount = 4,
                     DeviceSlotCount = 2,
                     Cost = 8836,
-                    Upkeep = 19
+                    Upkeep = 18.90
                 },
                 new ShipClass()
                 {
@@ -5456,7 +5456,7 @@ namespace Archspace2
                     WeaponSlotCount = 4,
                     DeviceSlotCount = 2,
                     Cost = 26896,
-                    Upkeep = 34
+                    Upkeep = 34.01
                 },
                 new ShipClass()
                 {
@@ -5469,7 +5469,7 @@ namespace Archspace2
                     WeaponSlotCount = 5,
                     DeviceSlotCount = 2,
                     Cost = 82369,
-                    Upkeep = 61
+                    Upkeep = 61.22
                 },
                 new ShipClass()
                 {
@@ -5482,7 +5482,7 @@ namespace Archspace2
                     WeaponSlotCount = 5,
                     DeviceSlotCount = 3,
                     Cost = 252506,
-                    Upkeep = 110
+                    Upkeep = 110.20
                 },
                 new ShipClass()
                 {
@@ -5495,7 +5495,7 @@ namespace Archspace2
                     WeaponSlotCount = 6,
                     DeviceSlotCount = 4,
                     Cost = 773696,
-                    Upkeep = 198
+                    Upkeep = 198.36
                 },
                 new ShipClass()
                 {
@@ -5508,7 +5508,7 @@ namespace Archspace2
                     WeaponSlotCount = 7,
                     DeviceSlotCount = 4,
                     Cost = 2371600,
-                    Upkeep = 357
+                    Upkeep = 357.05
                 },
             };
         }

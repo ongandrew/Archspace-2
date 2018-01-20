@@ -376,5 +376,15 @@ namespace Archspace2
                 }
             }
         }
+
+        public void UpdateTurn()
+        {
+            RemainingDuration--;
+            if (RemainingDuration <= 0)
+            {
+                Player.Effects.Remove(this);
+                Player = null;
+            }
+        }
     }
 }

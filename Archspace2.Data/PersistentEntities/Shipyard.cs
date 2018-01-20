@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -160,6 +161,20 @@ namespace Archspace2
                 {
                     return (int)(CalculateShipProduction(aIncome) * (100 + (50 * bonusRatio) / 100));
                 }
+            }
+        }
+
+        public void ChangeShipPool(ShipDesign aShipDesign, int aAmount)
+        {
+            ShipPool[aShipDesign] += aAmount;
+
+            if (ShipPool[aShipDesign] == 0)
+            {
+                ShipPool.Remove(aShipDesign);
+            }
+            else if (ShipPool[aShipDesign] < 0)
+            {
+                throw new InvalidOperationException();
             }
         }
     }

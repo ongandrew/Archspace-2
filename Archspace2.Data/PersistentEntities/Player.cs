@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Universal.Common.Extensions;
 
 namespace Archspace2
 {
@@ -62,7 +63,11 @@ namespace Archspace2
             }
         }
 
+        public int AdmiralTimer { get; set; }
+        public int HonorTimer { get; set; }
+
         public int RaceId { get; set; }
+        public int Turn { get; set; }
         [NotMapped]
         public Race Race
         {
@@ -310,9 +315,9 @@ namespace Archspace2
             return Admirals.Except(from fleet in Fleets select fleet.Admiral).OrderBy(x => x.Id).ToList();
         }
 
-        public int GetTargetTechCost()
+        public int GetTechCost(Tech aTech)
         {
-            int baseCost = TargetTech.GetBaseCost();
+            int baseCost = aTech.GetBaseCost();
 
             int discount = 0;
             if (TargetTech == null)
@@ -341,6 +346,15 @@ namespace Archspace2
             return cost;
         }
 
+        public void Update()
+        {
+            while (Turn < Universe.CurrentTurn)
+            {
+                UpdateTurn();
+                Turn++;
+            }
+        }
+
         public void UpdateTurn()
         {
             Effects = Effects.Where(x => x.RemainingDuration <= 0).ToList();
@@ -355,25 +369,36 @@ namespace Archspace2
             UpdateFleets();
             UpdateResearch();
             PlanetUpdateTurnResult planetResult = UpdatePlanets();
+            Resource totalIncome = CalculateTotalIncome(planetResult.Income);
+            Resource totalUpkeep = CalculateTotalUpkeep(planetResult.Upkeep);
 
-            planetResult.Income.MilitaryPoint = Effects.Where(x => x.Type == PlayerEffectType.ProduceMpPerTurn).CalculateTotalEffect(planetResult.Income.MilitaryPoint, x => x.Argument1);
+            Resource balance = totalIncome;
 
-            planetResult.Income.ResearchPoint = Effects.Where(x => x.Type == PlayerEffectType.ProduceRpPerTurn).CalculateTotalEffect(planetResult.Income.ResearchPoint, x => x.Argument1);
+            Resource.ResearchPoint += totalIncome.ResearchPoint;
+
+            totalUpkeep += CalculateSecurityUpkeep(balance);
+            balance.ProductionPoint -= totalUpkeep.ProductionPoint;
+            totalUpkeep.ProductionPoint = 0;
             
-            Resource.ResearchPoint += planetResult.Income.ResearchPoint;
+            balance.ProductionPoint -= Shipyard.CalculateShipProduction(totalIncome.ProductionPoint);
 
-            int balance = planetResult.Income.ProductionPoint;
+            Shipyard.ShipProduction += Shipyard.CalculateRealShipProduction(totalIncome.ProductionPoint);
 
-            int securityUpkeep = CalculateSecurityUpkeep(balance);
-            balance -= securityUpkeep;
-            balance -= planetResult.Upkeep.ProductionPoint;
+            Shipyard.BuildShips(totalIncome.ProductionPoint);
 
-            // This seems to allow double spending, but is in the original code.
-            balance -= Shipyard.CalculateShipProduction(planetResult.Income.ProductionPoint);
+            totalUpkeep += CalculateFleetUpkeep();
 
-            Shipyard.ShipProduction += Shipyard.CalculateRealShipProduction(planetResult.Income.ProductionPoint);
+            PayFleetUpkeep(balance, totalUpkeep);
 
-            Shipyard.BuildShips(planetResult.Income.ProductionPoint);
+            // RepairDamageShips(); throw new NotImplementedException();
+
+            PayCouncilTax(balance);
+
+            Resource.ProductionPoint += totalIncome.ProductionPoint;
+
+            UpdateAdmiralPool();
+
+            UpdateEffects();
         }
 
         private void ApplyInstantEffects()
@@ -389,11 +414,63 @@ namespace Archspace2
             }
         }
 
+        private void UpdateAdmiralPool()
+        {
+            if (Admirals.Count >= Game.Configuration.Player.MaxAdmiralCount)
+            {
+                return;
+            }
+            else
+            {
+                AdmiralTimer++;
+
+                int military = ControlModel.Military;
+
+                int createTime = Game.Configuration.Player.CreateAdmiralPeriod - (military * Game.Configuration.Player.AdmiralMilitaryBonus);
+
+                if (createTime < Game.Configuration.Player.MinCreateAdmiralPeriod)
+                {
+                    createTime = Game.Configuration.Player.MinCreateAdmiralPeriod;
+                }
+
+                if (AdmiralTimer < createTime)
+                {
+                    return;
+                }
+                else
+                {
+                    Admiral admiral = CreateAdmiral().AsPlayerAdmiral(this);
+                    Admirals.Add(admiral);
+
+                    AdmiralTimer = 0;
+                }
+            }
+        }
+
+        private void UpdateEffects()
+        {
+            foreach (PlayerEffect effect in Effects)
+            {
+                effect.UpdateTurn();
+            }
+        }
+
         private void UpdateFleets()
         {
             foreach (Fleet fleet in Fleets)
             {
                 fleet.UpdateTurn();
+            }
+        }
+
+        private void UpdateHonor()
+        {
+            HonorTimer++;
+
+            if (HonorTimer > Game.Configuration.Player.HonorIncreasePeriod)
+            {
+                Honor++;
+                HonorTimer = 0;
             }
         }
 
@@ -425,6 +502,46 @@ namespace Archspace2
                 Resource.ResearchPoint += rp;
             }
         }
+
+        private void UpdateSecurity(int aIncome)
+        {
+            Alertness -= 5;
+            if (Alertness < 0)
+            {
+                Alertness = 0;
+            }
+        }
+
+        private void UpdateTech()
+        {
+            Tech target = TargetTech;
+
+            if (target == null)
+            {
+                IEnumerable<Tech> availableTechs = Game.Configuration.Techs.Where(x => x.Prerequisites.Evaluate(this));
+                if (availableTechs.Any())
+                {
+                    target = availableTechs.Random();
+                }
+            }
+
+            if (target != null)
+            {
+                int cost = GetTechCost(target);
+                
+                if (Resource.ResearchPoint >= cost)
+                {
+                    Resource.ResearchPoint -= cost;
+
+                }
+            }
+        }
+
+        private void DiscoverTech(Tech aTech)
+        {
+            Techs.Add(aTech);
+            AddNews($"You have discovered {aTech}.");
+        }
         
         private PlanetUpdateTurnResult UpdatePlanets()
         {
@@ -438,32 +555,194 @@ namespace Archspace2
             return result;
         }
 
-        private void UpdateSecurity(int aIncome)
+        private Resource CalculateFleetUpkeep()
         {
-            Alertness -= 5;
-            if (Alertness < 0)
+            Resource result = new Resource();
+
+            int upkeep = 0;
+            foreach (Fleet fleet in Fleets)
             {
-                Alertness = 0;
+                if (fleet.Status == FleetStatus.Deactivated)
+                {
+                    if (int.MaxValue - upkeep < fleet.Upkeep/10)
+                    {
+                        upkeep = int.MaxValue;
+                        break;
+                    }
+                    else
+                    {
+                        upkeep += (int)fleet.Upkeep / 10;
+                    }
+                }
+                else
+                {
+                    if (int.MaxValue - upkeep < fleet.Upkeep)
+                    {
+                        upkeep = int.MaxValue;
+                        break;
+                    }
+                    else
+                    {
+                        upkeep += (int)fleet.Upkeep;
+                    }
+                }
+            }
+
+            foreach (KeyValuePair<ShipDesign, int> dockedShipItem in Shipyard.ShipPool)
+            {
+                int shipUpkeep = dockedShipItem.Value * (int)dockedShipItem.Key.ShipClass.Upkeep;
+
+                if (int.MaxValue - upkeep < shipUpkeep)
+                {
+                    upkeep = int.MaxValue;
+                    break;
+                }
+                else
+                {
+                    upkeep += shipUpkeep;
+                }
+            }
+
+            result.MilitaryPoint = upkeep;
+
+            return result;
+        }
+
+        private void PayFleetUpkeep(Resource aIncome, Resource aUpkeep)
+        {
+            int upkeep = aUpkeep.MilitaryPoint;
+            int income = aIncome.MilitaryPoint;
+            int balance = aIncome.ProductionPoint;
+
+            if (upkeep > income)
+            {
+                upkeep -= income;
+                aIncome.MilitaryPoint = 0;
+
+                upkeep *= 20;
+
+                if (balance + Resource.ProductionPoint < upkeep)
+                {
+                    List<Fleet> candidateFleetList = Fleets.Where(x => x.Status != FleetStatus.Deactivated).ToList();
+
+                    if (candidateFleetList.Any())
+                    {
+                        Fleet deactivated = candidateFleetList.Random();
+
+                        deactivated.Status = FleetStatus.Deactivated;
+
+                        AddNews($"You are in financial difficulty to supply the whole upkeep of your fleets.\nFleet {deactivated.Name} has been deactivated.");
+                    }
+                    else
+                    {
+                        AddNews($"You are in financial difficulty to supply the whole upkeep of your fleets.\nShips are being scrapped for income.");
+
+                        int scrap = 0;
+
+                        if (Shipyard.ShipPool.Any())
+                        {
+                            foreach (KeyValuePair<ShipDesign, int> dockedShipType in Shipyard.ShipPool)
+                            {
+                                int numberScrapped = dockedShipType.Value / 10;
+
+                                if (numberScrapped < 0)
+                                {
+                                    numberScrapped = 1;
+                                }
+
+                                scrap += dockedShipType.Key.ShipClass.Cost * numberScrapped / 10;
+
+                                Shipyard.ChangeShipPool(dockedShipType.Key, -numberScrapped);
+
+                                aIncome.ProductionPoint += scrap;
+                            }
+                        }
+                        else
+                        {
+                            Fleet disbandFleet = Fleets.Random();
+                            Shipyard.ShipPool[disbandFleet.ShipDesign] += disbandFleet.CurrentShipCount;
+
+                            disbandFleet.Player = null;
+                            disbandFleet.Admiral = null;
+                            Fleets.Remove(disbandFleet);
+                            disbandFleet.Admiral.Fleet = null;
+                        }
+                    }
+
+                    foreach (Fleet fleet in Fleets.Where(x => x.Status ==  FleetStatus.Deactivated && x.Mission.Type != MissionType.None))
+                    {
+                        fleet.Mission.Delay(1);
+                    }
+                }
+                else
+                {
+                    ReactivateFleets();
+                    if (aIncome.ProductionPoint >= upkeep)
+                    {
+                        aIncome.ProductionPoint -= upkeep;
+                    }
+                    else if (aIncome.ProductionPoint + Resource.ProductionPoint >= upkeep)
+                    {
+                        upkeep -= aIncome.ProductionPoint;
+                        aIncome.ProductionPoint = 0;
+
+                        Resource.ProductionPoint -= upkeep;
+                    }
+                    aIncome.MilitaryPoint = 0;
+                }
+            }
+            else
+            {
+                ReactivateFleets();
+                aIncome.MilitaryPoint = 0;
             }
         }
 
-        private int CalculateSecurityUpkeep(int aIncome)
+        private void PayCouncilTax(Resource aBalance)
+        {
+            if (aBalance.ProductionPoint > 100)
+            {
+                int tax = aBalance.ProductionPoint * 5 / 100;
+
+                Council.Resource.ProductionPoint += tax;
+                aBalance.ProductionPoint -= tax;
+            }
+        }
+        
+        private Resource CalculateTotalIncome(Resource aBaseIncome)
+        {
+            Resource total = new Resource(aBaseIncome);
+
+            total.ResearchPoint = Effects.Where(x => x.Type == PlayerEffectType.ProduceRpPerTurn).CalculateTotalEffect(aBaseIncome.ResearchPoint, x => x.Argument1);
+
+            total.MilitaryPoint = Effects.Where(x => x.Type == PlayerEffectType.ProduceMpPerTurn).CalculateTotalEffect(aBaseIncome.MilitaryPoint, x => x.Argument1);
+
+            return total;
+        }
+
+        private Resource CalculateTotalUpkeep(Resource aBaseUpkeep)
+        {
+            return new Resource(aBaseUpkeep);
+        }
+
+        private Resource CalculateSecurityUpkeep(Resource aBalance)
         {
             int upkeep = 0;
+            int income = aBalance.ProductionPoint;
 
             switch (SecurityLevel)
             {
                 case SecurityLevel.Loose:
-                    upkeep = (int)(aIncome * 2.5 / 100);
+                    upkeep = (int)(income * 2.5 / 100);
                     break;
                 case SecurityLevel.Wary:
-                    upkeep = (aIncome * 5 / 100);
+                    upkeep = (income * 5 / 100);
                     break;
                 case SecurityLevel.Alerted:
-                    upkeep = (aIncome * 10 / 100);
+                    upkeep = (income * 10 / 100);
                     break;
                 case SecurityLevel.Impenetrable:
-                    upkeep = (aIncome * 20 / 100);
+                    upkeep = (income * 20 / 100);
                     break;
                 case SecurityLevel.Defenseless:
                 default:
@@ -471,7 +750,25 @@ namespace Archspace2
                     break;
             }
 
-            return upkeep;
+            return new Resource() { ProductionPoint = upkeep };
+        }
+
+        private void ReactivateFleets()
+        {
+            foreach (Fleet fleet in Fleets)
+            {
+                if (fleet.Status == FleetStatus.Deactivated)
+                {
+                    if (fleet.Mission.Type == MissionType.None)
+                    {
+                        fleet.Status = FleetStatus.StandBy;
+                    }
+                    else
+                    {
+                        fleet.Status = FleetStatus.UnderMission;
+                    }
+                }
+            }
         }
         
         public int CalculateTotalEffect(int aBase, PlayerEffectType aPlayerEffectType)

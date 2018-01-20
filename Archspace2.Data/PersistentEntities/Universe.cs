@@ -31,7 +31,11 @@ namespace Archspace2
         public DateTime? ToDate { get; set; }
 
         public int CurrentTurn { get; set; }
-        
+
+        public ICollection<Cluster> Clusters { get; set; }
+        public ICollection<Council> Councils { get; set; }
+        public ICollection<Player> Players { get; set; }
+
         public void Initialize()
         {
             BlackMarket = CreateBlackMarket();
@@ -71,6 +75,8 @@ namespace Archspace2
         public Player CreatePlayer(string aName, Race aRace)
         {
             Player player = new Player(this);
+
+            player.Turn = CurrentTurn;
 
             player.Name = aName;
             player.Race = aRace;
@@ -127,8 +133,12 @@ namespace Archspace2
             return Councils.ToList();
         }
         
-        public ICollection<Cluster> Clusters { get; set; }
-        public ICollection<Council> Councils { get; set; }
-        public ICollection<Player> Players { get; set; }
+        public void Update()
+        {
+            foreach (Player player in Players)
+            {
+                player.Update();
+            }
+        }
     }
 }

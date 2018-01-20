@@ -17,6 +17,13 @@ namespace Archspace2
             MilitaryPoint = 0;
         }
 
+        public Resource(Resource aResource)
+        {
+            ProductionPoint = aResource.ProductionPoint;
+            ResearchPoint = aResource.ResearchPoint;
+            MilitaryPoint = aResource.MilitaryPoint;
+        }
+        
         public static Resource operator -(Resource aResource)
         {
             return new Resource()
