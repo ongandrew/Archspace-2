@@ -23,9 +23,16 @@ namespace Archspace2.Web.Controllers
         [Route("start")]
         public async Task<IActionResult> Start()
         {
-            Game.Start();
+            try
+            {
+                Game.Start();
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
         }
 
         [Route("load")]

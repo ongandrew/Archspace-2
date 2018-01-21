@@ -523,7 +523,7 @@ namespace Archspace2
 
             if (target == null)
             {
-                IEnumerable<Tech> availableTechs = Game.Configuration.Techs.Where(x => x.Prerequisites.Evaluate(this));
+                IEnumerable<Tech> availableTechs = Game.Configuration.Techs.Where(x => x.Prerequisites.Evaluate(this)).Except(Techs);
                 if (availableTechs.Any())
                 {
                     target = availableTechs.Random();

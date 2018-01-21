@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewData["Title"] = "Admin";
+    Layout = "_LayoutGame";
+}
+
+<button onclick="createUniverseAsync().then(() => { console.log('Universe created!') }).catch((reason) => console.log(reason))">Create Universe</button>
+<button onclick="startGameAsync().then(() => { console.log('Game started!') }).catch((reason) => console.log(reason))">Start Game</button>
+
+@section Scripts {
+    <script src="~/js/api.js"></script>
+}
+

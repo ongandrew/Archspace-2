@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Archspace2.Web</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+
+    </nav>
+
+    <div class="content row">
+        <div class="sidebar col-sm-2">
+            <img src="~/images/archspace.jpg" />
+            <ul>
+                <li><a href="~/archspace/main">MAIN</a></li>
+                <li>
+                    <a href="#domestic" data-toggle="collapse">DOMESTIC</a>
+                    <div id="domestic" class="collapse">
+                        <ul>
+                            <li><a>Concentration Mode</a></li>
+                            <li><a>Planet Management</a></li>
+                            <li><a>Planet Invest Pool</a></li>
+                            <li><a>Research</a></li>
+                            <li><a>Project</a></li>
+                            <li><a>Whitebook</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#diplomacy" data-toggle="collapse">DIPLOMACY</a>
+                    <div id="diplomacy" class="collapse">
+                        <ul>
+                            <li><a>Status List</a></li>
+                            <li><a>Management</a></li>
+                            <li><a>Read Message</a></li>
+                            <li><a>Send Message</a></li>
+                            <li><a>Inspect Other Player</a></li>
+                            <li><a>Special Operation</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#empire" data-toggle="collapse">EMPIRE DIPL.</a>
+                    <div id="empire" class="collapse">
+                        <ul>
+                            <li><a>Bribe</a></li>
+                            <li><a>Bounties</a></li>
+                            <li><a>Request Boon</a></li>
+                            <li><a>Request Mediation</a></li>
+                            <li><a>Invade Empire</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#fleet" data-toggle="collapse">FLEET</a>
+                    <div id="fleet" class="collapse">
+                        <ul>
+                            <li><a>Ship Design</a></li>
+                            <li><a>Ship Building</a></li>
+                            <li><a>Fleet Commander</a></li>
+                            <li><a>Ship Pool</a></li>
+                            <li><a>Form a New Fleet</a></li>
+                            <li><a>Reassignment</a></li>
+                            <li><a>Expedition</a></li>
+                            <li><a>Mission</a></li>
+                            <li><a>Recall</a></li>
+                            <li><a>Disband</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#war" data-toggle="collapse">WAR</a>
+                    <div id="war" class="collapse">
+                        <ul>
+                            <li><a>Siege Planet</a></li>
+                            <li><a>Blockade</a></li>
+                            <li><a>Raid</a></li>
+                            <li><a>Privateer</a></li>
+                            <li><a>Defense Plan</a></li>
+                            <li><a>Battle Report</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#council" data-toggle="collapse">COUNCIL</a>
+                    <div id="council" class="collapse">
+                        <ul>
+                            <li><a>Council Vote</a></li>
+                            <li><a>Admission Request</a></li>
+                            <li><a>Independence Declaration</a></li>
+                            <li><a>Donation</a></li>
+                            <li><a>Diplomatic Status</a></li>
+                            <li><a>Speaker Menu</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#info" data-toggle="collapse">INFO</a>
+                    <div id="info" class="collapse">
+                        <ul>
+                            <li><a>Clusters</a></li>
+                            <li><a>Ranking</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#black-market" data-toggle="collapse">BLACK MARKET</a>
+                    <div id="black-market" class="collapse">
+                        <ul>
+                            <li><a>The Tech Deck</a></li>
+                            <li><a>The Fleet Deck</a></li>
+                            <li><a>Officer's Lounge</a></li>
+                            <li><a>Rare Goods Office</a></li>
+                            <li><a>Leaser's Office</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#forum" data-toggle="collapse">FORUM</a>
+                    <div id="forum" class="collapse">
+                        <ul>
+                            <li><a>Council Forum</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#help" data-toggle="collapse">HELP</a>
+                    <div id="help" class="collapse">
+                        <ul>
+                            <li><a href="~/encyclopedia">Encyclopedia</a></li>
+                            <li><a>Archspace Wiki</a></li>
+                            <li><a>Developer Blog</a></li>
+                            <li><a>FAQ</a></li>
+                            <li><a>Rules</a></li>
+                            <li><a>Retire</a></li>
+                        </ul>
+                    </div>
+                </li>
+                @if (true)
+                {
+                <li>
+                    <a href="#admin" data-toggle="collapse">ADMIN</a>
+                    <div id="admin" class="collapse">
+                        <ul>
+                            <li><a href="~/archspace/admin">Administration</a></li>
+                        </ul>
+                    </div>
+                </li>
+                }
+            </ul>
+        </div>
+
+        <div class="col-sm-10" role="main">
+            @RenderBody()
+        </div>
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

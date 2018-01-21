@@ -91,10 +91,5 @@ namespace Archspace2
             AttackingFleets.InitializeBonuses(Type, Side.Offense);
             DefendingFleets.InitializeBonuses(Type, Side.Defense);
         }
-
-        private void AddAdmiralBonuses()
-        {
-
-        }
     }
 }
