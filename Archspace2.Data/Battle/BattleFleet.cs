@@ -179,7 +179,7 @@ namespace Archspace2
 
         public List<FleetEffect> StaticEffects { get; set; }
 
-        public BattleFleet(Battle aBattle, Player aPlayer, Fleet aFleet)
+        public BattleFleet(Player aPlayer, Fleet aFleet)
         {
             Attributes = new HashSet<BattleFleetAttribute>();
             Turrets = new List<Turret>();
@@ -252,6 +252,12 @@ namespace Archspace2
             InitializeCommon();
 
             Ships = new List<Ship>();
+        }
+        public BattleFleet(DefenseDeployment aDefenseDeployment) : this(aDefenseDeployment.Fleet.Player, aDefenseDeployment.Fleet)
+        {
+            X = aDefenseDeployment.X;
+            Y = aDefenseDeployment.Y;
+            IsCapital = aDefenseDeployment.Type == DefenseDeploymentType.Capital;
         }
 
         public void InitializeCommon()

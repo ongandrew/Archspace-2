@@ -17,6 +17,10 @@ namespace Archspace2
         [NotMapped]
         public override string Name { get; set; }
 
+        public int DefensePlanId { get; set; }
+        [ForeignKey("DefensePlanId")]
+        public DefensePlan DefensePlan { get; set; }
+
         public int FleetId { get; set; }
         [ForeignKey("FleetId")]
         public Fleet Fleet { get; set; }

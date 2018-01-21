@@ -31,6 +31,12 @@ namespace Archspace2
             }
         }
 
+        public void SetVector(int aX, int aY, double aAngle)
+        {
+            X = aX;
+            Y = aY;
+            Angle = aAngle;
+        }
 
         public void Turn(double aAngle)
         {

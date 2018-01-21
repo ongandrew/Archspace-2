@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Archspace2
 {
@@ -12,14 +9,18 @@ namespace Archspace2
         [JsonProperty("TargetFleetId")]
         public int TargetFleetId { get; set; }
 
-        public HitEvent()
+        [JsonProperty("TotalDamage")]
+        public int TotalDamage { get; set; }
+        [JsonProperty("SunkCount")]
+        public int SunkCount { get; set; }
+
+        public HitEvent(int aTurn) : base(aTurn, BattleRecordEventType.Hit)
         {
-            Type = BattleRecordEventType.Hit;
         }
 
-        public HitEvent(BattleFleet aFiringFleet, BattleFleet aTargetFleet, int aTotalDamage, int aSunkCount) : this()
+        public HitEvent(int aTurn, BattleFleet aFiringFleet, BattleFleet aTargetFleet, int aTotalDamage, int aSunkCount) : this(aTurn)
         {
-            throw new NotImplementedException();
+            Turn = aTurn;
         }
     }
 }

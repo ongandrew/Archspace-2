@@ -21,12 +21,11 @@ namespace Archspace2
         [JsonProperty("Quantity")]
         public int Quantity { get; set; }
 
-        public FireEvent()
+        public FireEvent(int aTurn) : base(aTurn, BattleRecordEventType.Fire)
         {
-            Type = BattleRecordEventType.Fire;
         }
 
-        public FireEvent(BattleFleet aFiringFleet, BattleFleet aTargetFleet, Turret aTurret) : this()
+        public FireEvent(int aTurn, BattleFleet aFiringFleet, BattleFleet aTargetFleet, Turret aTurret) : this(aTurn)
         {
             FiringFleetId = aFiringFleet.Fleet.Id;
             TargetFleetId = aTargetFleet.Fleet.Id;

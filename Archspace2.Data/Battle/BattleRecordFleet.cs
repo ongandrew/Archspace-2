@@ -15,6 +15,8 @@ namespace Archspace2
         public int X { get; set; }
         [JsonProperty("Y")]
         public int Y { get; set; }
+        [JsonProperty("Angle")]
+        public double Angle { get; set; }
 
         [JsonProperty("Admiral")]
         public Entity Admiral { get; set; }
@@ -22,6 +24,12 @@ namespace Archspace2
         [JsonProperty("Command")]
         [JsonConverter(typeof(StringEnumConverter))]
         public Command Command { get; set; }
+
+        [JsonProperty]
+        public bool IsCapital { get; set; }
+
+        [JsonProperty("MaxShips")]
+        public int MaxShips { get; set; }
 
         public BattleRecordFleet()
         {
@@ -42,8 +50,13 @@ namespace Archspace2
 
             X = aBattleFleet.X;
             Y = aBattleFleet.Y;
+            Angle = aBattleFleet.Angle;
 
             Command = aBattleFleet.Command;
+
+            MaxShips = aBattleFleet.MaxShipCount;
+
+            IsCapital = aBattleFleet.IsCapital;
         }
     }
 }

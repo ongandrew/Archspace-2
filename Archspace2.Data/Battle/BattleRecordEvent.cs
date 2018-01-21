@@ -19,5 +19,11 @@ namespace Archspace2
         public BattleRecordEventType Type { get; set; }
         [JsonProperty("Turn")]
         public int Turn { get; set; }
+
+        public BattleRecordEvent(int aTurn, BattleRecordEventType aType)
+        {
+            Turn = aTurn;
+            Type = aType;
+        }
     }
 }

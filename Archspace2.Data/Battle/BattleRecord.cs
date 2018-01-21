@@ -31,16 +31,22 @@ namespace Archspace2
         [JsonProperty("Battlefield")]
         public Entity Battlefield { get; set; }
 
+        [JsonProperty("BattleOccurred")]
         public bool BattleOccurred { get; set; }
+
+        [JsonProperty("Events")]
+        public List<BattleRecordEvent> Events { get; set; }
 
         public BattleRecord()
         {
             Attacker = new Belligerent();
             Defender = new Belligerent();
             Battlefield = new Entity();
+
+            Events = new List<BattleRecordEvent>();
         }
         
-        public BattleRecord(Player aAttacker, Player aDefender, BattleType aBattleType, Planet aBattlefield) : this()
+        public BattleRecord(Player aAttacker, Player aDefender, BattleType aBattleType, Planet aBattlefield, List<BattleFleet> aAttackingFleets, List<BattleFleet> aDefendingFleets) : this()
         {
             UniverseId = aBattlefield.UniverseId;
             Attacker.Id = aAttacker.Id;
@@ -86,6 +92,16 @@ namespace Archspace2
             }
 
             BattleOccurred = false;
+
+            foreach (BattleFleet fleet in aAttackingFleets)
+            {
+                Attacker.Fleets.Add(new BattleRecordFleet(fleet));
+            }
+
+            foreach (BattleFleet fleet in aDefendingFleets)
+            {
+                Defender.Fleets.Add(new BattleRecordFleet(fleet));
+            }
         }
     }
 }
