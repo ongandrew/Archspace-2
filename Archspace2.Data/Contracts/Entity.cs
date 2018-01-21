@@ -2,7 +2,7 @@
 
 namespace Archspace2
 {
-    public abstract class Entity : IEntity
+    public class Entity : IEntity
     {
         [JsonProperty("Id")]
         public int Id { get; set; }

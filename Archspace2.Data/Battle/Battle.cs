@@ -49,8 +49,8 @@ namespace Archspace2
 
             Battlefield = aBattlefield;
 
-            AttackingFleets = new BattleGroup() { Owner = aAttacker, Side = Side.Offense };
-            DefendingFleets = new BattleGroup() { Owner = aDefender, Side = Side.Defense };
+            AttackingFleets = new BattleGroup(aAttacker, Side.Offense);
+            DefendingFleets = new BattleGroup(aDefender, Side.Defense);
 
             Record = new BattleRecord(Attacker, Defender, Type, Battlefield);
         }

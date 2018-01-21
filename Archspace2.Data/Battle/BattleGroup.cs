@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Archspace2
@@ -20,9 +21,21 @@ namespace Archspace2
         public int Speed { get; set; }
 
         public BattleFleet CapitalFleet { get; set; }
+        public Formation Formation { get; set; }
 
-        public BattleGroup() : base()
+        public int Power
         {
+            get
+            {
+                return this.Sum(x => x.Power);
+            }
+        }
+
+        public BattleGroup(Player aOwner, Side aSide) : base()
+        {
+            Side = aSide;
+            Owner = aOwner;
+            Formation = new Formation();
         }
     }
 }
