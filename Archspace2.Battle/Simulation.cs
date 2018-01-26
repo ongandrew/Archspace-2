@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Archspace2.Battle
 {
@@ -24,7 +25,7 @@ namespace Archspace2.Battle
         EmpireCapitalPlanet
     };
 
-    public class Simulator
+    public class Simulation
     {
         protected int Turn { get; set; }
         public BattleType Type { get; set; }
@@ -39,7 +40,7 @@ namespace Archspace2.Battle
 
         public Record Record { get; set; }
 
-        public Simulator(BattleType aBattleType, Player aAttacker, Player aDefender, Battlefield aBattlefield, List<Deployment> aAttackerInitialDeployments, List<Deployment> aDefenderInitialDeployment)
+        public Simulation(BattleType aBattleType, Player aAttacker, Player aDefender, Battlefield aBattlefield, List<Deployment> aAttackerInitialDeployments, List<Deployment> aDefenderInitialDeployment)
         {
             Turn = 0;
             Type = aBattleType;
@@ -60,16 +61,42 @@ namespace Archspace2.Battle
         {
             foreach (Deployment deployment in aAttackerDeployments)
             {
-                deployment.Deploy();
+                deployment.Deploy(this);
             }
 
             foreach (Deployment deployment in aDefenderDeployments)
             {
-                deployment.Deploy();
+                deployment.Deploy(this);
             }
 
             //AttackingFleets.InitializeBonuses(Type, Side.Offense);
             //DefendingFleets.InitializeBonuses(Type, Side.Defense);
+        }
+
+        public void Run()
+        {
+
+
+        }
+
+        private void RunTurn()
+        {
+            if (Turn > 1800 || AttackingFleets.TrueForAll(x => x.IsDisabled()) || DefendingFleets.TrueForAll(x => x.IsDisabled()))
+            {
+
+            }
+
+            Record.BattleOccurred = true;
+            
+            foreach (Fleet fleet in AttackingFleets.Union(DefendingFleets))
+            {
+                fleet.DynamicsEffects.Clear();
+            }
+
+            foreach (Fleet fleet in AttackingFleets.Union(DefendingFleets))
+            {
+                fleet.ApplyDynamicEffects(AttackingFleets, DefendingFleets);
+            }
         }
     }
 }

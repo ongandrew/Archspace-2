@@ -15,12 +15,27 @@ namespace Archspace2.Battle
             Side = aSide;
             Owner = aOwner;
         }
-
-
+        
         public void AutoDeploy(List<Fleet> aFleets)
         {
 
         }
+
+        public int CalculateFormationSpeed()
+        {
+            int result = 10000;
+
+            foreach (Fleet fleet in this)
+            {
+                if (fleet.Command == Command.Formation && !fleet.IsDisabled() && fleet.Speed < result)
+                {
+                    result = fleet.Speed;
+                }
+            }
+
+            return result;
+        }
+
         /*
         public void DeployByPlan(DefensePlan aDefensePlan)
         {

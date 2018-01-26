@@ -41,6 +41,8 @@ namespace Archspace2.Battle
 
     public class Fleet : Unit
     {
+        public Simulation Battle { get; set; }
+
         public Player Owner { get; set; }
         public List<Ship> Ships { get; set; }
 
@@ -135,7 +137,7 @@ namespace Archspace2.Battle
                 return 20 * result;
             }
         }
-
+        
         private int CalculateActiveRatio()
         {
             int count = 0;
@@ -154,9 +156,11 @@ namespace Archspace2.Battle
         public bool IsCapital { get; set; }
 
         public List<FleetEffect> StaticEffects { get; set; }
+        public List<FleetEffect> DynamicsEffects { get; set; }
 
         public Fleet()
         {
+            Battle = null;
             Attributes = new HashSet<FleetAttribute>();
             Turrets = new List<Turret>();
             Ships = new List<Ship>();
@@ -172,6 +176,432 @@ namespace Archspace2.Battle
             RedZoneRadius = 0;
 
             IsCapital = false;
+        }
+
+        public bool IsDisabled()
+        {
+            if (Status == FleetStatus.Retreated || Status == FleetStatus.RetreatedThisTurn || Status == FleetStatus.Annihilated || Status == FleetStatus.AnnihilatedThisTurn)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int CalculatePenetrationRatio(Armada aEnemyArmada)
+        {
+            int penetratedPower = 0; 
+            int unpenetratedPower = 0;
+
+            foreach (Fleet fleet in aEnemyArmada)
+            {
+                if (!fleet.IsDisabled())
+                {
+                    if (X > fleet.X)
+                    {
+                        penetratedPower += fleet.Power;
+                    }
+                    else
+                    {
+                        unpenetratedPower += fleet.Power;
+                    }
+                }
+            }
+
+            if (penetratedPower + unpenetratedPower == 0)
+            {
+                return 100;
+            }
+            else
+            {
+                return Math.Max(100 * penetratedPower / (penetratedPower + unpenetratedPower), 1);
+            }
+        }
+
+        public void ApplyDynamicEffects(Armada aAlliedArmada, Armada aEnemyArmada)
+        {
+            if (IsDisabled())
+            {
+                return;
+            }
+            else
+            {
+                if (Owner.Traits.Contains(RacialTrait.TrainedMind))
+                {
+                    DynamicsEffects.Add(new FleetEffect()
+                    {
+                        Type = FleetEffectType.NeverBerserk
+                    });
+                }
+                if (Owner.Traits.Contains(RacialTrait.FanaticFleet))
+                {
+                    DynamicsEffects.Add(new FleetEffect()
+                    {
+                        Type = FleetEffectType.NeverRetreatRout
+                    });
+                }
+                if (Owner.Traits.Contains(RacialTrait.FragileMindStructure))
+                {
+                    DynamicsEffects.Add(new FleetEffect()
+                    {
+                        Type = FleetEffectType.PsiDefense,
+                        ModifierType = ModifierType.Proportional,
+                        Amount = aAlliedArmada.CapitalFleet.IsDisabled() ? 50 : 25
+                    });
+                }
+
+                switch (Status)
+                {
+                    case FleetStatus.Berserk:
+                        {
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.Speed,
+                                Amount = 20,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.Mobility,
+                                Amount = -10,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.AttackRating,
+                                Amount = -10,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.DefenseRating,
+                                Amount = -10,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.CoolingTime,
+                                Amount = -40,
+                                ModifierType = ModifierType.Proportional
+                            });
+                        }
+                        break;
+                    case FleetStatus.Disorder:
+                        {
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.Speed,
+                                Amount = -20,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.Mobility,
+                                Amount = -20,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.AttackRating,
+                                Amount = -10,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.DefenseRating,
+                                Amount = -10,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.CoolingTime,
+                                Amount = 20,
+                                ModifierType = ModifierType.Proportional
+                            });
+                        }
+                        break;
+                    case FleetStatus.Rout:
+                        {
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.Speed,
+                                Amount = 25,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.Mobility,
+                                Amount = 25,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.DefenseRating,
+                                Amount = -25,
+                                ModifierType = ModifierType.Proportional
+                            });
+                        }
+                        break;
+                    case FleetStatus.Retreat:
+                        {
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.Speed,
+                                Amount = 10,
+                                ModifierType = ModifierType.Proportional
+                            });
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                switch (Command)
+                {
+                    case Command.Formation:
+                        {
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.DefenseRating,
+                                Amount = 10,
+                                ModifierType = ModifierType.Proportional
+                            });
+                        }
+                        break;
+                    case Command.Free:
+                        {
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.Speed,
+                                Amount = 5,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.Mobility,
+                                Amount = 5,
+                                ModifierType = ModifierType.Proportional
+                            });
+                        }
+                        break;
+                    case Command.StandGround:
+                        {
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.AttackRating,
+                                Amount = 10,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.DefenseRating,
+                                Amount = 20,
+                                ModifierType = ModifierType.Proportional
+                            });
+                        }
+                        break;
+                    case Command.Assault:
+                        {
+                            if (Substatus == FleetSubstatus.Penetration)
+                            {
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Speed,
+                                    Amount = 20,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Mobility,
+                                    Amount = 20,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.AttackRating,
+                                    Amount = -10,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.DefenseRating,
+                                    Amount = -10,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.CoolingTime,
+                                    Amount = -10,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                            }
+                            if (Substatus == FleetSubstatus.Charge)
+                            {
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Speed,
+                                    Amount = 5,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Mobility,
+                                    Amount = 5,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.AttackRating,
+                                    Amount = 5,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.DefenseRating,
+                                    Amount = -10,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                            }
+                        }
+                        break;
+                    case Command.Penetrate:
+                        {
+                            if (Substatus == FleetSubstatus.Penetration)
+                            {
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Speed,
+                                    Amount = 20,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Mobility,
+                                    Amount = 20,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.AttackRating,
+                                    Amount = -10,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.DefenseRating,
+                                    Amount = -10,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                            }
+                            if (Substatus == FleetSubstatus.Charge)
+                            {
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Speed,
+                                    Amount = 5,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Mobility,
+                                    Amount = 5,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.AttackRating,
+                                    Amount = 5,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.DefenseRating,
+                                    Amount = -10,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                            }
+                        }
+                        break;
+                    case Command.Flank:
+                        {
+                            if (Substatus == FleetSubstatus.Charge)
+                            {
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Speed,
+                                    Amount = 5,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Mobility,
+                                    Amount = 5,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.AttackRating,
+                                    Amount = 5,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.DefenseRating,
+                                    Amount = -10,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                            }
+                            else
+                            {
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Speed,
+                                    Amount = 20,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.Mobility,
+                                    Amount = 20,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.AttackRating,
+                                    Amount = -10,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                                DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = FleetEffectType.DefenseRating,
+                                    Amount = -10,
+                                    ModifierType = ModifierType.Proportional
+                                });
+                            }
+                        }
+                        break;
+                    case Command.Normal:
+                        {
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.Mobility,
+                                Amount = -5,
+                                ModifierType = ModifierType.Proportional
+                            });
+                            DynamicsEffects.Add(new FleetEffect()
+                            {
+                                Type = FleetEffectType.DefenseRating,
+                                Amount = 5,
+                                ModifierType = ModifierType.Proportional
+                            });
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         public RecordFleet ToRecordFleet()
