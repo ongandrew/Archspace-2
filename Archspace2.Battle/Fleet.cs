@@ -41,8 +41,6 @@ namespace Archspace2.Battle
 
     public class Fleet : Unit
     {
-        public Simulation Battle { get; set; }
-
         public Player Owner { get; set; }
         public List<Ship> Ships { get; set; }
 
@@ -93,6 +91,13 @@ namespace Archspace2.Battle
         public int MaxShieldStrength { get; set; }
         public int ShieldRechargeRate { get; set; }
 
+        public bool Detected { get; set; }
+        protected int mEngagementTimer { get; set; }
+        public bool Encountered { get; set; }
+
+        public Fleet TargetEnemy { get; set; }
+        public List<Fleet> EncounteredEnemies { get; set; }
+        
         public HashSet<FleetAttribute> Attributes { get; set; }
 
         public int HP
@@ -160,11 +165,13 @@ namespace Archspace2.Battle
 
         public Fleet()
         {
-            Battle = null;
             Attributes = new HashSet<FleetAttribute>();
             Turrets = new List<Turret>();
             Ships = new List<Ship>();
             StaticEffects = new List<FleetEffect>();
+            DynamicsEffects = new List<FleetEffect>();
+            TargetEnemy = null;
+            EncounteredEnemies = new List<Fleet>();
 
             Command = Command.Normal;
             Status = FleetStatus.None;
@@ -220,7 +227,50 @@ namespace Archspace2.Battle
             }
         }
 
-        public void ApplyDynamicEffects(Armada aAlliedArmada, Armada aEnemyArmada)
+        public void Engage()
+        {
+            mEngagementTimer = 50;
+        }
+
+        public void Disengage()
+        {
+            mEngagementTimer = 0;
+        }
+
+        public bool IsEngaged()
+        {
+            return mEngagementTimer > 0;
+        }
+
+        public void RunTurn()
+        {
+            if (IsDisabled())
+            {
+                return;
+            }
+            else
+            {
+                if (mEngagementTimer > 0)
+                {
+                    mEngagementTimer--;
+                }
+
+                if (!IsEngaged())
+                {
+                    Detected = false;
+                }
+
+                Encountered = false;
+                EncounteredEnemies.Clear();
+
+                if (TargetEnemy != null && TargetEnemy.IsDisabled())
+                {
+                    TargetEnemy = null;
+                }
+            }
+        }
+
+        public void ApplyDynamicEffects(Armada aAlliedArmada)
         {
             if (IsDisabled())
             {

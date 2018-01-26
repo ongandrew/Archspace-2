@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Archspace2.Battle
 {
     public class Armada : List<Fleet>
     {
-        public Side Side { get; set; }
         public Player Owner { get; set; }
-        public Fleet CapitalFleet { get; set; }
-
-        public Armada(Player aOwner, Side aSide) : base()
+        public Fleet CapitalFleet
         {
-            Side = aSide;
+            get
+            {
+                return this.Single(x => x.IsCapital == true);
+            }
+        }
+
+        public Armada(Player aOwner) : base()
+        {
             Owner = aOwner;
         }
         

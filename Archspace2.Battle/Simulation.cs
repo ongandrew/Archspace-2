@@ -27,7 +27,9 @@ namespace Archspace2.Battle
 
     public class Simulation
     {
-        protected int Turn { get; set; }
+        protected bool mCompleted;
+        public int CurrentTurn { get; protected set; }
+        
         public BattleType Type { get; set; }
 
         public Player Attacker { get; set; }
@@ -39,51 +41,40 @@ namespace Archspace2.Battle
         public Battlefield Battlefield { get; set; }
 
         public Record Record { get; set; }
-
-        public Simulation(BattleType aBattleType, Player aAttacker, Player aDefender, Battlefield aBattlefield, List<Deployment> aAttackerInitialDeployments, List<Deployment> aDefenderInitialDeployment)
+        
+        public Simulation(BattleType aBattleType, Player aAttacker, Player aDefender, Battlefield aBattlefield, Armada aAttaackingFleets, Armada aDefendingFleets)
         {
-            Turn = 0;
+            CurrentTurn = 0;
             Type = aBattleType;
             Attacker = aAttacker;
             Defender = aDefender;
 
             Battlefield = aBattlefield;
 
-            AttackingFleets = new Armada(aAttacker, Side.Offense);
-            DefendingFleets = new Armada(aDefender, Side.Defense);
-
-            InitializeBattleFleets(aAttackerInitialDeployments, aDefenderInitialDeployment);
+            AttackingFleets = aAttaackingFleets;
+            DefendingFleets = aDefendingFleets;
 
             Record = new Record(Attacker, Defender, Type, Battlefield, AttackingFleets, DefendingFleets);
         }
-        
-        public void InitializeBattleFleets(List<Deployment> aAttackerDeployments, List<Deployment> aDefenderDeployments)
+
+        public bool IsComplete()
         {
-            foreach (Deployment deployment in aAttackerDeployments)
-            {
-                deployment.Deploy(this);
-            }
-
-            foreach (Deployment deployment in aDefenderDeployments)
-            {
-                deployment.Deploy(this);
-            }
-
-            //AttackingFleets.InitializeBonuses(Type, Side.Offense);
-            //DefendingFleets.InitializeBonuses(Type, Side.Defense);
+            return mCompleted;
         }
 
         public void Run()
         {
-
-
+            while (!mCompleted)
+            {
+                RunTurn();
+            }
         }
 
-        private void RunTurn()
+        public void RunTurn()
         {
-            if (Turn > 1800 || AttackingFleets.TrueForAll(x => x.IsDisabled()) || DefendingFleets.TrueForAll(x => x.IsDisabled()))
+            if (CurrentTurn > 1800 || AttackingFleets.TrueForAll(x => x.IsDisabled()) || DefendingFleets.TrueForAll(x => x.IsDisabled()))
             {
-
+                mCompleted = true;
             }
 
             Record.BattleOccurred = true;
@@ -93,10 +84,17 @@ namespace Archspace2.Battle
                 fleet.DynamicsEffects.Clear();
             }
 
-            foreach (Fleet fleet in AttackingFleets.Union(DefendingFleets))
+            foreach (Fleet fleet in AttackingFleets)
             {
-                fleet.ApplyDynamicEffects(AttackingFleets, DefendingFleets);
+                fleet.ApplyDynamicEffects(AttackingFleets);
             }
+
+            foreach (Fleet fleet in DefendingFleets)
+            {
+                fleet.ApplyDynamicEffects(DefendingFleets);
+            }
+
+
         }
     }
 }
