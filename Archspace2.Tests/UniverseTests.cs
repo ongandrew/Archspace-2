@@ -26,5 +26,22 @@ namespace Archspace2
 
             Assert.AreNotEqual(currentUniverse.Id, newUniverse.Id);
         }
+
+        [TestMethod]
+        public async Task CanUpdateManyTurns()
+        {
+            using (DatabaseContext context = Game.Context)
+            {
+                context.Attach(Game.Universe);
+
+                for (int i = 0; i < 10000; i++)
+                {
+                    Game.Universe.UpdateTurn();
+                }
+
+                await context.SaveChangesAsync();
+            }
+            
+        }
     }
 }

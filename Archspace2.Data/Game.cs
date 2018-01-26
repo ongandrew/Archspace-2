@@ -197,13 +197,20 @@ namespace Archspace2
 
         private static async void UpdateUniverseEvent(object source, ElapsedEventArgs e)
         {
-            using (DatabaseContext context = Context)
+            try
             {
-                context.Attach(Universe);
+                using (DatabaseContext context = Context)
+                {
+                    context.Attach(Universe);
 
-                Universe.UpdateTurn();
+                    Universe.UpdateTurn();
 
-                await context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
+                }
+            }
+            catch (Exception exception)
+            {
+                await LogAsync(exception.ToString(), LogType.Error);
             }
         }
     }

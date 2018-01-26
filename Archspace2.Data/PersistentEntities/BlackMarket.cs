@@ -8,9 +8,6 @@ namespace Archspace2
     [Table("BlackMarket")]
     public class BlackMarket : UniverseEntity
     {
-        [NotMapped]
-        public override string Name { get; set; }
-
         public ICollection<BlackMarketItem> BlackMarketItems { get; set; }
 
         public BlackMarketItem AddListing(Planet aPlanet)

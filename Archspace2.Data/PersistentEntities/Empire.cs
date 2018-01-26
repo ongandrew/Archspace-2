@@ -8,9 +8,6 @@ namespace Archspace2
     [Table("Empire")]
     public class Empire : UniverseEntity
     {
-        [NotMapped]
-        public override string Name { get; set; }
-
         public Empire(Universe aUniverse) : base(aUniverse)
         {
         }

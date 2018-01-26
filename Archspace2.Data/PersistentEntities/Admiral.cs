@@ -1,4 +1,5 @@
-﻿using Archspace2.Extensions;
+﻿using Archspace2.Battle;
+using Archspace2.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -29,49 +30,10 @@ namespace Archspace2
         CannonFodder
     };
 
-    public enum AdmiralSpecialAbility
-    {
-        EngineeringSpecialist,
-        ShieldSystemSpecialist,
-        MissileSpecialist,
-        BallisticExpert,
-        EnergySystemSpecialist
-    };
-
-    public enum AdmiralRacialAbility
-    {
-        IrrationalTactics,
-        Intuition,
-        LoneWolf,
-        DnaPoisonReplicater,
-        BreederMale,
-        ClonalDouble,
-        XenophobicFanatic,
-        MentalGiant,
-        ArtifactCrystal,
-        PsychicProgenitor,
-        ArtifactCoolingEngine,
-        LyingDormant,
-        MissileCraters,
-        MeteorDrones,
-        CyberScanUnit,
-        TrajectoryAugmentation,
-        PatternBroadcaster,
-        FamousPrivateer,
-        CommerceKing,
-        RetreatShield,
-        GeneticThrowback,
-        RigidThinking,
-        ManagementProtocol,
-        Blitzkreig,
-        TacticalGenius,
-        ShieldDisrupter,
-        DefensiveMatrix
-    }
-
     [Table("Admiral")]
     public class Admiral : UniverseEntity
     {
+        public string Name { get; set; }
         public int? PlayerId { get; set; }
         [ForeignKey("PlayerId")]
         public Player Player { get; set; }

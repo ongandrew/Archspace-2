@@ -7,9 +7,6 @@ namespace Archspace2
 {
     public class ShipBuildOrder : UniverseEntity
     {
-        [NotMapped]
-        public override string Name { get; set; }
-
         public int ShipyardId { get; set; }
         public Shipyard Shipyard { get; set; }
 

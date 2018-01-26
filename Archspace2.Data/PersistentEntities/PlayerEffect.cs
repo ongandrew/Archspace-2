@@ -8,56 +8,6 @@ using Universal.Common.Extensions;
 
 namespace Archspace2
 {
-    public enum PlayerEffectType
-    {
-        ChangePlanetResource,
-        SwitchPlanetOrder,
-        SetFleetMission,
-        LosePlanet,
-        DestroyAllDockedShip,
-        WinAndGainPlanet,
-        LoseTech,
-        LoseProject,
-        PlanetLostBuilding,
-        SkipTurn,
-        ChangeControlModel,
-        ChangeProduction,
-        ChangeAllCommanderAbility,
-        GainTech,
-        GainFleet,
-        GainProject,
-        GainSecretProject,
-        GuardedByImperialFleet,
-        ChangeEmpireRelation,
-        CommanderLevelUp,
-        GrantBoon,
-        LoseCommander,
-        ChangePlanetControlModel,
-        ChangePlanetPopulation,
-        LosePlanetGravityControl,
-        GainPlanetGravityControl,
-        ChangeShipAbilityOnPlanet,
-        ChangeFleetReturnTime,
-        DamageFleet,
-        ChangeHonor,
-        ShowPlayer,
-        CouncilDeclareTotalWar,
-        WinOrLosePlanet,
-        ChangeConcentrationMode,
-        RecruitEnemyCommander,
-        KillCommanderAndDisbandFleet,
-        InvasionFromEmpire,
-        GainCommander,
-        ParalyzePlanet,
-        ProduceMpPerTurn,
-        ProduceRpPerTurn,
-        ConsumePpPerTurn,
-        ImperialRetribution,
-        EnemyMoraleModifier,
-        GainAbility,
-        LoseAbility
-    };
-
     public enum PlayerEffectSource
     {
         Spy,
@@ -67,7 +17,7 @@ namespace Archspace2
     };
 
     [Table("PlayerEffect")]
-    public class PlayerEffect : UniverseEntity, IPlayerEffect
+    public class PlayerEffectInstance : UniverseEntity, IPlayerEffect
     {
         public int PlayerId { get; set; }
         [ForeignKey("PlayerId")]
@@ -86,7 +36,7 @@ namespace Archspace2
 
         public bool IsInstant { get; set; }
 
-        public PlayerEffect(Universe aUniverse) : base(aUniverse)
+        public PlayerEffectInstance(Universe aUniverse) : base(aUniverse)
         {
             ControlModelModifier = new ControlModel();
         }

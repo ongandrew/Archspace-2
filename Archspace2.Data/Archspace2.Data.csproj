@@ -12,4 +12,13 @@
     <PackageReference Include="Universal.Common" Version="1.5.3.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Archspace2.Battle\Archspace2.Battle.csproj" />
+    <ProjectReference Include="..\Archspace2.Core\Archspace2.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Battle\" />
+  </ItemGroup>
+
 </Project>

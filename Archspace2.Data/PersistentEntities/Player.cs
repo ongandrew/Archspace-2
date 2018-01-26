@@ -34,6 +34,8 @@ namespace Archspace2
     [Table("Player")]
     public class Player : UniverseEntity
     {
+        public string Name { get; set; }
+
         public int? UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
@@ -236,7 +238,7 @@ namespace Archspace2
 
         public ICollection<Admiral> Admirals { get; set; }
         public ICollection<DefensePlan> DefensePlans { get; set; }
-        public ICollection<PlayerEffect> Effects { get; set; }
+        public ICollection<PlayerEffectInstance> Effects { get; set; }
         public ICollection<Fleet> Fleets { get; set; }
         public ICollection<NewsItem> NewsItems { get; set; }
         public ICollection<Planet> Planets { get; set; }
@@ -264,7 +266,7 @@ namespace Archspace2
             NewsItems = new List<NewsItem>();
 
             Admirals = new List<Admiral>();
-            Effects = new List<PlayerEffect>();
+            Effects = new List<PlayerEffectInstance>();
             Fleets = new List<Fleet>();
             Planets = new List<Planet>();
             FromRelations = new List<PlayerRelation>();
@@ -408,12 +410,12 @@ namespace Archspace2
 
         private void ApplyInstantEffects()
         {
-            foreach (PlayerEffect effect in Effects)
+            foreach (PlayerEffectInstance effect in Effects)
             {
                 effect.Apply();
             }
 
-            foreach (PlayerEffect instant in Effects.Where(x => x.IsInstant))
+            foreach (PlayerEffectInstance instant in Effects.Where(x => x.IsInstant))
             {
                 Effects.Remove(instant);
             }
@@ -454,7 +456,7 @@ namespace Archspace2
 
         private void UpdateEffects()
         {
-            foreach (PlayerEffect effect in Effects)
+            foreach (PlayerEffectInstance effect in Effects)
             {
                 effect.UpdateTurn();
             }
@@ -784,6 +786,17 @@ namespace Archspace2
         public bool IsDead()
         {
             return Planets.Any();
+        }
+
+        public Battle.Player ToBattlePlayer()
+        {
+            Battle.Player result = new Battle.Player();
+
+            result.Id = Id;
+            result.Name = Name;
+            result.Race = Race;
+
+            return result;
         }
     }
 }

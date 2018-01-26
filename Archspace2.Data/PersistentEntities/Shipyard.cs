@@ -8,9 +8,6 @@ namespace Archspace2
 {
     public class Shipyard : UniverseEntity
     {
-        [NotMapped]
-        public override string Name { get; set; }
-
         public int PlayerId { get; set; }
         public Player Player { get; set; }
 

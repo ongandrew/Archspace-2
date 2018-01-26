@@ -17,7 +17,7 @@ namespace Archspace2
             sqlConnectionStringBuilder.DataSource = ".";
             sqlConnectionStringBuilder.InitialCatalog = "Archspace 2 Tests";
             sqlConnectionStringBuilder.IntegratedSecurity = true;
-
+            
             await Game.InitializeAsync(sqlConnectionStringBuilder.ToString());
             await Game.CreateNewUniverseAsync(DateTime.UtcNow, DateTime.UtcNow.AddYears(1));
         }

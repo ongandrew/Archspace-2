@@ -20,9 +20,6 @@ namespace Archspace2
     [Table("BlackMarketItem")]
     public class BlackMarketItem : UniverseEntity
     {
-        [NotMapped]
-        public override string Name { get; set; }
-
         public int BlackMarketId { get; set; }
         [ForeignKey("BlackMarketId")]
         public BlackMarket BlackMarket { get; set; }

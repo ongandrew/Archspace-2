@@ -29,6 +29,7 @@ namespace Archspace2
     [Table("Planet")]
     public class Planet : UniverseEntity
     {
+        public string Name { get; set; }
         public int ClusterId { get; set; }
         [ForeignKey("ClusterId")]
         public Cluster Cluster { get; set; }

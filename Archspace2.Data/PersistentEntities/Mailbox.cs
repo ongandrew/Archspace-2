@@ -6,9 +6,6 @@ namespace Archspace2
     [Table("Mailbox")]
     public class Mailbox : UniverseEntity
     {
-        [NotMapped]
-        public override string Name { get; set; }
-
         public int PlayerId { get; set; }
         [ForeignKey("PlayerId")]
         public Player Player { get; set; }

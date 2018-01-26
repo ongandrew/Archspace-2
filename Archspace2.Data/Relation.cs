@@ -17,9 +17,6 @@ namespace Archspace2
 
     public abstract class Relation : UniverseEntity
     {
-        [NotMapped]
-        public override string Name { get; set; }
-
         public RelationType Type { get; set; }
         public int ExpiryTurn { get; set; }
 

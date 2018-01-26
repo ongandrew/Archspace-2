@@ -14,9 +14,6 @@ namespace Archspace2
     [Table("DefenseDeployment")]
     public class DefenseDeployment : UniverseEntity
     {
-        [NotMapped]
-        public override string Name { get; set; }
-
         public int DefensePlanId { get; set; }
         [ForeignKey("DefensePlanId")]
         public DefensePlan DefensePlan { get; set; }

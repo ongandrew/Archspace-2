@@ -11,6 +11,8 @@ namespace Archspace2
     [Table("ShipDesign")]
     public class ShipDesign : UniverseEntity
     {
+        public string Name { get; set; }
+
         public int? PlayerId { get; set; }
         [ForeignKey("PlayerId")]
         public Player Player { get; set; }

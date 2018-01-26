@@ -43,7 +43,7 @@ namespace Archspace2
 
             aModelBuilder.Entity<Player>().OwnsOne(x => x.Resource);
 
-            aModelBuilder.Entity<PlayerEffect>().OwnsOne(x => x.ControlModelModifier);
+            aModelBuilder.Entity<PlayerEffectInstance>().OwnsOne(x => x.ControlModelModifier);
 
             aModelBuilder.Entity<PlayerRelation>()
                 .HasOne(x => x.FromPlayer)
