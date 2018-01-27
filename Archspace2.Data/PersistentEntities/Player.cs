@@ -405,6 +405,8 @@ namespace Archspace2
 
             UpdateAdmiralPool();
 
+            UpdateHonor();
+
             UpdateEffects();
         }
 
