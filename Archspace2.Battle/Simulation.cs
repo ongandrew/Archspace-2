@@ -35,14 +35,14 @@ namespace Archspace2.Battle
         public Player Attacker { get; set; }
         public Player Defender { get; set; }
 
-        public Armada AttackingFleets { get; set; }
-        public Armada DefendingFleets { get; set; }
+        public Armada AttackingFleets { get; protected set; }
+        public Armada DefendingFleets { get; protected set; }
 
-        public Battlefield Battlefield { get; set; }
+        public Battlefield Battlefield { get; protected set; }
 
         public Record Record { get; set; }
         
-        public Simulation(BattleType aBattleType, Player aAttacker, Player aDefender, Battlefield aBattlefield, Armada aAttaackingFleets, Armada aDefendingFleets)
+        public Simulation(BattleType aBattleType, Player aAttacker, Player aDefender, Battlefield aBattlefield, Armada aAttackingFleets, Armada aDefendingFleets)
         {
             CurrentTurn = 0;
             Type = aBattleType;
@@ -51,8 +51,44 @@ namespace Archspace2.Battle
 
             Battlefield = aBattlefield;
 
-            AttackingFleets = aAttaackingFleets;
+            
+            AttackingFleets = aAttackingFleets;
             DefendingFleets = aDefendingFleets;
+
+            if (Battlefield != null)
+            {
+                Battlefield.Battle = this;
+            }
+
+            if (AttackingFleets != null)
+            {
+                AttackingFleets.Battle = this;
+                foreach (Fleet fleet in AttackingFleets)
+                {
+                    fleet.Battle = this;
+                    fleet.Armada = AttackingFleets;
+
+                    foreach (Turret turret in fleet.Turrets)
+                    {
+                        turret.Fleet = fleet;
+                    }
+                }
+            }
+
+            if (DefendingFleets != null)
+            {
+                DefendingFleets.Battle = this;
+                foreach (Fleet fleet in DefendingFleets)
+                {
+                    fleet.Battle = this;
+                    fleet.Armada = DefendingFleets;
+
+                    foreach (Turret turret in fleet.Turrets)
+                    {
+                        turret.Fleet = fleet;
+                    }
+                }
+            }
 
             Record = new Record(Attacker, Defender, Type, Battlefield, AttackingFleets, DefendingFleets);
         }

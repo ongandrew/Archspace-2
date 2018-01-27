@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Archspace2.Battle
 {
-    public abstract class Unit : NamedEntity, IUnit
+    public class Unit : NamedEntity, IUnit
     {
         public double X { get; set; }
         public double Y { get; set; }
@@ -31,7 +31,16 @@ namespace Archspace2.Battle
             }
         }
 
-        public void SetVector(int aX, int aY, double aDirection)
+        public Unit()
+        {
+        }
+
+        public Unit(double aX, double aY)
+        {
+            SetVector(aX, aY, 0);
+        }
+
+        public void SetVector(double aX, double aY, double aDirection)
         {
             X = aX;
             Y = aY;
@@ -77,7 +86,7 @@ namespace Archspace2.Battle
             }
         }
 
-        public bool IsInRange(Unit aUnit, int aDistance, int aDirection)
+        public bool IsInRange(Unit aUnit, double aDistance, double aDirection)
         {
             if (Distance(aUnit) > aDistance)
             {
@@ -187,7 +196,7 @@ namespace Archspace2.Battle
             Y += aFixedPoint.Y;
         }
 
-        public void Move(int aDeltaX, int aDeltaY)
+        public void Move(double aDeltaX, double aDeltaY)
         {
             X += aDeltaX;
             Y += aDeltaY;
@@ -210,12 +219,12 @@ namespace Archspace2.Battle
             }
         }
 
-        public void Move(int aLength)
+        public void Move(double aLength)
         {
             double dX = aLength * Math.Cos(Direction);
             double dY = aLength * Math.Sin(Direction);
 
-            Move((int)dX, (int)dY);
+            Move(dX, dY);
         }
 
         public bool AtBorder()
@@ -231,7 +240,7 @@ namespace Archspace2.Battle
             }
         }
 
-        public bool OnPath(Unit aPoint, double aLeftX, double aRightX, double aTopY, double aBottomY)
+        public bool OnPath(Unit aPoint, BoundingBox aBoundingBox)
         {
             double dX = aPoint.X - X;
             double dY = aPoint.Y - Y;
@@ -239,7 +248,51 @@ namespace Archspace2.Battle
             double newX = dX * Math.Cos(-Direction) - dY * Math.Sin(-Direction);
             double newY = dX * Math.Sin(-Direction) + dY * Math.Cos(-Direction);
 
-            if (newX > aLeftX && newX < aRightX && newY > aBottomY && newY < aTopY)
+            if (newX > aBoundingBox.LeftX && newX < aBoundingBox.RightX && newY > aBoundingBox.BottomY && newY < aBoundingBox.TopY)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool PathMeetsBorder(BoundingBox aBoundingBox)
+        {
+            Unit topLeft = new Unit(X + aBoundingBox.LeftX, Y + aBoundingBox.TopY);
+            Unit topRight = new Unit(X + aBoundingBox.RightX, Y + aBoundingBox.TopY);
+            Unit bottomLeft = new Unit(X + aBoundingBox.LeftX, Y + aBoundingBox.BottomY);
+            Unit bottomRight = new Unit(X + aBoundingBox.RightX, Y + aBoundingBox.BottomY);
+
+            topLeft.Rotate(Direction, this);
+            topRight.Rotate(Direction, this);
+            bottomLeft.Rotate(Direction, this);
+            bottomRight.Rotate(Direction, this);
+
+            if (topLeft.AtBorder() || topRight.AtBorder() || bottomLeft.AtBorder() || bottomRight.AtBorder())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool PathMeetsVerticalBorder(BoundingBox aBoundingBox)
+        {
+            Unit topLeft = new Unit(X + aBoundingBox.LeftX, Y + aBoundingBox.TopY);
+            Unit topRight = new Unit(X + aBoundingBox.RightX, Y + aBoundingBox.TopY);
+            Unit bottomLeft = new Unit(X + aBoundingBox.LeftX, Y + aBoundingBox.BottomY);
+            Unit bottomRight = new Unit(X + aBoundingBox.RightX, Y + aBoundingBox.BottomY);
+
+            topLeft.Rotate(Direction, this);
+            topRight.Rotate(Direction, this);
+            bottomLeft.Rotate(Direction, this);
+            bottomRight.Rotate(Direction, this);
+
+            if (topLeft.X <= 0 || topLeft.X >= 10000 || topRight.X <= 0 || topRight.X >= 10000 || bottomLeft.X <= 0 || bottomLeft.X >= 10000 || bottomRight.X <= 0 || bottomRight.X >= 0)
             {
                 return true;
             }

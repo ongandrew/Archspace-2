@@ -6,5 +6,6 @@ namespace Archspace2.Battle
 {
     public class Battlefield : NamedEntity
     {
+        public Simulation Battle { get; set; }
     }
 }

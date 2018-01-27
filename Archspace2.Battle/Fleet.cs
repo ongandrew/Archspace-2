@@ -50,6 +50,18 @@ namespace Archspace2.Battle
 
     public class Fleet : Unit
     {
+        protected static HashSet<FleetStatus> AbnormalStatuses = new HashSet<FleetStatus>()
+        {
+            FleetStatus.Berserk,
+            FleetStatus.Disorder,
+            FleetStatus.Panic,
+            FleetStatus.Retreat,
+            FleetStatus.Rout
+        };
+
+        public Simulation Battle { get; set; }
+        public Armada Armada { get; set; }
+        
         public Player Owner { get; set; }
         public List<Ship> Ships { get; set; }
 
@@ -60,6 +72,8 @@ namespace Archspace2.Battle
         
         public double Morale { get; set; }
         public int StatusTurns { get; set; }
+
+        public int Experience { get; set; }
 
         public int ActiveShipCount
         {
@@ -112,12 +126,77 @@ namespace Archspace2.Battle
             }
         }
 
+        public BoundingBox Path
+        {
+            get
+            {
+                double leftX = 0;
+                double rightX = 0;
+                double topY = 0;
+                double bottomY = 0;
+
+                switch (Command)
+                {
+                    case Command.Normal:
+                        topY = 750;
+                        bottomY = -750;
+                        rightX = 1500;
+                        break;
+                    case Command.Formation:
+                        topY = 750;
+                        bottomY = -750;
+                        rightX = 1500;
+                        break;
+                    case Command.Penetrate:
+                        topY = 250;
+                        bottomY = -250;
+                        rightX = 1000;
+                        break;
+                    case Command.Flank:
+                        topY = 200;
+                        bottomY = -200;
+                        break;
+                    case Command.Reserve:
+                        topY = 750;
+                        bottomY = -750;
+                        break;
+                    case Command.StandGround:
+                        topY = 750;
+                        bottomY = -750;
+                        rightX = 1500;
+                        break;
+                    case Command.Assault:
+                        topY = 200;
+                        bottomY = -200;
+                        break;
+                    case Command.Free:
+                        topY = 750;
+                        bottomY = -750;
+                        rightX = 1500;
+                        break;
+                    default:
+                        topY = 750;
+                        bottomY = -750;
+                        rightX = 1500;
+                        break;
+                }
+
+                return new BoundingBox()
+                {
+                    LeftX = leftX,
+                    RightX = rightX,
+                    TopY = topY,
+                    BottomY = bottomY
+                };
+            }
+        }
+
         public int Speed
         {
             get
             {
                 int result = Engine.BattleSpeed[ShipClass.Class];
-                result = StaticEffects.Where(x => x.Type == FleetEffectType.Speed).CalculateTotalEffect(result, x => x.Amount.Value);
+                result = StaticEffects.OfType(FleetEffectType.Speed).CalculateTotalEffect(result, x => x.Amount.Value);
 
                 return result;
             }
@@ -128,7 +207,7 @@ namespace Archspace2.Battle
             get
             {
                 int result = Engine.BattleMobility[ShipClass.Class];
-                result = StaticEffects.Where(x => x.Type == FleetEffectType.Mobility).CalculateTotalEffect(result, x => x.Amount.Value);
+                result = StaticEffects.OfType(FleetEffectType.Mobility).CalculateTotalEffect(result, x => x.Amount.Value);
 
                 return result / 5000.0;
             }
@@ -140,8 +219,8 @@ namespace Archspace2.Battle
             {
                 int result = 20 + Computer.TechLevel + Admiral.Skills.Detection;
 
-                result = StaticEffects.Where(x => x.Type == FleetEffectType.Computer).CalculateTotalEffect(result, x => x.Amount.Value);
-                result = StaticEffects.Where(x => x.Type == FleetEffectType.DetectionRange).CalculateTotalEffect(result, x => x.Amount.Value);
+                result = StaticEffects.OfType(FleetEffectType.Computer).CalculateTotalEffect(result, x => x.Amount.Value);
+                result = StaticEffects.OfType(FleetEffectType.DetectionRange).CalculateTotalEffect(result, x => x.Amount.Value);
 
                 return 20 * result;
             }
@@ -166,6 +245,13 @@ namespace Archspace2.Battle
 
         public List<FleetEffect> StaticEffects { get; set; }
         public List<FleetEffect> DynamicsEffects { get; set; }
+        public IEnumerable<FleetEffect> Effects
+        {
+            get
+            {
+                return StaticEffects.Union(DynamicsEffects);
+            }
+        }
 
         public Fleet()
         {
@@ -276,6 +362,8 @@ namespace Archspace2.Battle
 
                 RechargeShields();
                 RepairHulls();
+                CoolWeapons();
+                RecoverStatus();
             }
         }
 
@@ -295,7 +383,7 @@ namespace Archspace2.Battle
 
         private void RepairHulls()
         {
-            if (StaticEffects.Union(DynamicsEffects).Any(x => x.Type ==  FleetEffectType.NonRepairable))
+            if (Effects.OfType(FleetEffectType.NonRepairable).Any())
             {
                 return;
             }
@@ -314,10 +402,29 @@ namespace Archspace2.Battle
             }
         }
 
+        private void CoolWeapons()
+        {
+            foreach (Turret turret in Turrets)
+            {
+                turret.Cool();
+            }
+        }
+
+        private void RecoverStatus()
+        {
+            StatusTurns--;
+            
+            if (StatusTurns <= 0 && AbnormalStatuses.Contains(Status))
+            {
+                Status = FleetStatus.None;
+                Command = Command.Free;
+            } 
+        }
+
         public int CalculateShieldRechargeRate()
         {
             int rechargeAmount = Shield.RechargeRate[ShipClass.Class];
-            rechargeAmount = StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.ShieldRechargeRate).CalculateTotalEffect(rechargeAmount, x => x.Amount.Value);
+            rechargeAmount = Effects.OfType(FleetEffectType.ShieldRechargeRate).CalculateTotalEffect(rechargeAmount, x => x.Amount.Value);
 
             return rechargeAmount;
         }
@@ -339,9 +446,9 @@ namespace Archspace2.Battle
 
         public int CalculateRepairRate()
         {
-            int baseRepair = StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.Repair).CalculateTotalEffect(CalculateMaxHp(), x => x.Amount.Value) - CalculateMaxHp();
+            int baseRepair = Effects.OfType(FleetEffectType.Repair).CalculateTotalEffect(CalculateMaxHp(), x => x.Amount.Value) - CalculateMaxHp();
 
-            return StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.RepairSpeed).CalculateTotalEffect(baseRepair, x => x.Amount.Value);
+            return Effects.OfType(FleetEffectType.RepairSpeed).CalculateTotalEffect(baseRepair, x => x.Amount.Value);
         }
 
         public void ApplyDynamicEffects(Armada aAlliedArmada)
@@ -802,7 +909,7 @@ namespace Archspace2.Battle
                     double distance = Distance(enemyFleet);
                     double effectiveDistance = distance * (100 + (5 - enemyFleet.ShipClass.Class * 5) / 100);
 
-                    effectiveDistance = enemyFleet.StaticEffects.Union(enemyFleet.DynamicsEffects).Where(x => x.Type == FleetEffectType.Stealth).CalculateTotalEffect((int)effectiveDistance, x => x.Amount.Value);
+                    effectiveDistance = enemyFleet.Effects.OfType(FleetEffectType.Stealth).CalculateTotalEffect((int)effectiveDistance, x => x.Amount.Value);
 
                     if (effectiveDistance < DetectionRange)
                     {
@@ -831,61 +938,15 @@ namespace Archspace2.Battle
 
             return false;
         }
+        
+        public bool PathMeetsVerticalBorder()
+        {
+            return PathMeetsVerticalBorder(Path);
+        }
 
         public bool OnPath(Unit aUnit)
         {
-            double leftX = 0;
-            double rightX = 0;
-            double topY = 0;
-            double bottomY = 0;
-
-            switch (Command)
-            {
-                case Command.Normal:
-                    topY = 750;
-                    bottomY = -750;
-                    rightX = 1500;
-                    break;
-                case Command.Formation:
-                    topY = 750;
-                    bottomY = -750;
-                    rightX = 1500;
-                    break;
-                case Command.Penetrate:
-                    topY = 250;
-                    bottomY = -250;
-                    rightX = 1000;
-                    break;
-                case Command.Flank:
-                    topY = 200;
-                    bottomY = -200;
-                    break;
-                case Command.Reserve:
-                    topY = 750;
-                    bottomY = -750;
-                    break;
-                case Command.StandGround:
-                    topY = 750;
-                    bottomY = -750;
-                    rightX = 1500;
-                    break;
-                case Command.Assault:
-                    topY = 200;
-                    bottomY = -200;
-                    break;
-                case Command.Free:
-                    topY = 750;
-                    bottomY = -750;
-                    rightX = 1500;
-                    break;
-                default:
-                    topY = 750;
-                    bottomY = -750;
-                    rightX = 1500;
-                    break;
-            }
-
-            return OnPath(aUnit, leftX, rightX, topY, bottomY);
+            return OnPath(aUnit, Path);
         }
 
         public bool TakeDamage(int aDamageAmount, bool aIsPsi = false, DamageDistribution aDistribution = DamageDistribution.First)
@@ -893,7 +954,7 @@ namespace Archspace2.Battle
             int damage = aDamageAmount;
             if (aIsPsi)
             {
-                damage = StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.PsiDefense).CalculateTotalEffect(damage, x => x.Amount.Value);
+                damage = Effects.OfType(FleetEffectType.PsiDefense).CalculateTotalEffect(damage, x => x.Amount.Value);
             }
 
             if (aDistribution == DamageDistribution.First || aDistribution == DamageDistribution.Random)
@@ -938,7 +999,7 @@ namespace Archspace2.Battle
 
                 if (aIsPsi)
                 {
-                    psiMoraleDrop = psiMoraleDrop + StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.PsiDefense).CalculateTotalEffect(-psiMoraleDrop, x => x.Amount.Value);
+                    psiMoraleDrop = psiMoraleDrop + Effects.OfType(FleetEffectType.PsiDefense).CalculateTotalEffect(-psiMoraleDrop, x => x.Amount.Value);
 
                     moraleDrop += psiMoraleDrop;
                 }
@@ -958,6 +1019,191 @@ namespace Archspace2.Battle
             }
             
             return false;
+        }
+
+        public void RunBerserk(Armada aAlliedArmada, Armada aEnemyArmada)
+        {
+            if (AtBorder())
+            {
+                Status = FleetStatus.RetreatedThisTurn;
+                return;
+            }
+
+            Fleet frontalFleet = null;
+            double delta = 360;
+            double lowestDelta = 360;
+
+            foreach (Fleet fleet in aAlliedArmada.Union(aEnemyArmada).Where(x => x != this))
+            {
+                if (fleet.IsDisabled() || !IsInFiringRange(fleet))
+                {
+                    continue;
+                }
+
+                delta = DeltaDirection(fleet);
+
+                if (delta > 180)
+                {
+                    delta = 360 - delta;
+                }
+
+                if (delta < lowestDelta)
+                {
+                    lowestDelta = delta;
+                    frontalFleet = fleet;
+                }
+            }
+
+            if (frontalFleet != null)
+            {
+                
+            }
+        }
+
+        public void Attack(Fleet aEnemy)
+        {
+            Decloak();
+            aEnemy.Decloak();
+
+            foreach (Turret turret in Turrets)
+            {
+                if (turret.IsReady())
+                {
+                    turret.Fire();
+                }
+
+                if (aEnemy.Status == FleetStatus.AnnihilatedThisTurn)
+                {
+                    break;
+                }
+            }
+        }
+
+        public void Fire(Turret aTurret, Fleet aEnemy)
+        {
+            if (!aTurret.IsReady() || aTurret.Fleet != this)
+            {
+                return;
+            }
+
+            Engage();
+            aEnemy.Engage();
+
+            int attackRating;
+            int defenseRating;
+            int hitChance;
+
+            attackRating = aTurret.CalculateAttackRating();
+            defenseRating = aEnemy.CalculateDefenseRating(aTurret);
+
+            if (defenseRating > attackRating)
+            {
+                hitChance = attackRating * 100 / defenseRating / 2;
+            }
+            else
+            {
+                hitChance = 100 - (defenseRating * 100 / attackRating / 2);
+            }
+
+            if (hitChance < 5)
+            {
+                hitChance = 5;
+            }
+            else if (hitChance > 95)
+            {
+                hitChance = 95;
+            }
+
+            Battle.Record.AddFireEvent(this, aEnemy, aTurret, hitChance);
+
+            int critChance = 0;
+
+            double sideDirection = aEnemy.DeltaDirection(this);
+
+            if (sideDirection > 180)
+            {
+                sideDirection = 360 - sideDirection;
+            }
+
+            if (sideDirection >= 0 && sideDirection <= 45)
+            {
+                critChance = 5;
+            }
+            else if (sideDirection >45 && sideDirection < 135)
+            {
+                critChance = 10;
+            }
+            else
+            {
+                critChance = 20;
+            }
+
+            critChance = aTurret.Effects.OfType(FleetEffectType.ArmorPiercing).CalculateTotalEffect(critChance, x => x.Amount.Value);
+            critChance = Effects.OfType(FleetEffectType.CriticalHit).CalculateTotalEffect(critChance, x => x.Amount.Value);
+            critChance -= critChance + Effects.OfType(FleetEffectType.ImpenetrableArmor).CalculateTotalEffect(-critChance, x => x.Amount.Value);
+
+            throw new NotImplementedException();
+        }
+
+        public bool IsInFiringRange(Fleet aEnemy, bool aIgnoreCooldown = false)
+        {
+            if (!aEnemy.Detected || aEnemy.IsDisabled())
+            {
+                return false;
+            }
+            else
+            {
+                if (Turrets.Where(x => (x.IsReady() || aIgnoreCooldown) && IsInRange(aEnemy, x.Range, x.AngleOfFire / 2)).Any())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public int CalculateBaseDefenseRating()
+        {
+            int armorDefenseRating = Armor.DefenseRating;
+            int computerDefenseRating = Computer.DefenseRating;
+            int mobilityBase = (int)(50.0 * Mobility);
+
+            computerDefenseRating = Effects.OfType(FleetEffectType.Computer).CalculateTotalEffect(computerDefenseRating, x => x.Amount.Value);
+            armorDefenseRating = Effects.OfType(FleetEffectType.ArmorDefenseRating).CalculateTotalEffect(armorDefenseRating, x => x.Amount.Value);
+
+            int defenseRating = (mobilityBase + armorDefenseRating) * (100 + computerDefenseRating + Experience) / 100;
+
+            defenseRating = Effects.OfType(FleetEffectType.DefenseRating).CalculateTotalEffect(defenseRating, x => x.Amount.Value);
+
+            return defenseRating;
+        }
+
+        public int CalculateDefenseRating(Turret aTurret)
+        {
+            int defenseRating = CalculateBaseDefenseRating();
+
+            switch (aTurret.Type)
+            {
+                case WeaponType.Beam:
+                    defenseRating = Effects.OfType(FleetEffectType.DefenseRatingAgainstBeam).CalculateTotalEffect(defenseRating, x => x.Amount.Value);
+                    break;
+                case WeaponType.Missile:
+                    defenseRating = Effects.OfType(FleetEffectType.DefenseRatingAgainstMissile).CalculateTotalEffect(defenseRating, x => x.Amount.Value);
+                    break;
+                case WeaponType.Projectile:
+                    defenseRating = Effects.OfType(FleetEffectType.DefenseRatingAgainstProjectile).CalculateTotalEffect(defenseRating, x => x.Amount.Value);
+                    break;
+            }
+
+            return defenseRating;
+        }
+
+        public void Decloak()
+        {
+            Attributes.Remove(FleetAttribute.CompleteCloaking);
+            Attributes.Remove(FleetAttribute.WeakCloaking);
         }
 
         public RecordFleet ToRecordFleet()

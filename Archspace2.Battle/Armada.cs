@@ -5,9 +5,20 @@ using System.Text;
 
 namespace Archspace2.Battle
 {
+    public enum FormationStatus
+    {
+        None,
+        Disband,
+        Encounter,
+        Reformation
+    };
+
     public class Armada : List<Fleet>
     {
+        public Simulation Battle { get; set; }
         public Player Owner { get; set; }
+        public FormationStatus FormationStatus { get; set; }
+
         public Fleet CapitalFleet
         {
             get
@@ -43,6 +54,8 @@ namespace Archspace2.Battle
 
         public void RunAI(Armada aEnemyArmada)
         {
+            FormationStatus newStatus = FormationStatus.None;
+
             foreach (Fleet fleet in this)
             {
                 if (fleet.IsDisabled() || fleet.Command != Command.Formation)
@@ -50,9 +63,34 @@ namespace Archspace2.Battle
                     continue;
                 }
 
-                throw new NotImplementedException();
+                if (fleet.PathMeetsVerticalBorder())
+                {
+                    newStatus = FormationStatus.Disband;
+                    break;
+                }
+                if (fleet.Encountered)
+                {
+                    newStatus = FormationStatus.Encounter;
+                    break;
+                }
+            }
+
+            FormationStatus = newStatus;
+
+            foreach (Fleet fleet in this)
+            {
+                if (fleet.IsDisabled())
+                {
+                    continue;
+                }
+                else
+                {
+                    
+                }
             }
         }
+
+
 
         /*
         public void DeployByPlan(DefensePlan aDefensePlan)

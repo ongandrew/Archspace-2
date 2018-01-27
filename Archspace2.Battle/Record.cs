@@ -8,6 +8,9 @@ namespace Archspace2.Battle
 {
     public class Record
     {
+        [JsonProperty("Battle")]
+        public Simulation Battle { get; set; }
+
         [JsonProperty("Id")]
         public int Id { get; set; }
 
@@ -99,6 +102,20 @@ namespace Archspace2.Battle
             {
                 Defender.Fleets.Add(new RecordFleet());
             }
+        }
+
+        public void AddFireEvent(Fleet aFiringFleet, Fleet aTargetFleet, Turret aTurret, int aHitChance)
+        {
+            FireEvent fireEvent = new FireEvent(Battle.CurrentTurn)
+            {
+                FiringFleetId = aFiringFleet.Id,
+                TargetFleetId = aTargetFleet.Id,
+                Weapon = aTurret.Name,
+                WeaponType = aTurret.Type,
+                Quantity = aTurret.Number * aFiringFleet.ActiveShipCount
+            };
+
+            Events.Add(fireEvent);
         }
     }
 }
