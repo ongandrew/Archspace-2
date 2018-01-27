@@ -310,7 +310,16 @@ namespace Archspace2
             Player.ToBattlePlayer();
             result.Power = Power;
 
-            result.MaxHP = (int)(ShipDesign.ShipClass.BaseHp * ShipDesign.Armor.HpMultiplier);
+            result.Armor = ShipDesign.Armor;
+            result.Shield = ShipDesign.Shield;
+            result.Computer = ShipDesign.Computer;
+            result.Engine = ShipDesign.Engine;
+            result.Devices = ShipDesign.Devices;
+            
+            foreach (Weapon weapon in ShipDesign.Weapons)
+            {
+                result.Turrets.Add(new Battle.Turret(weapon, ShipDesign.ShipClass.Space/weapon.Space));
+            }
 
             result.MaxShipCount = CurrentShipCount;
 
@@ -1024,17 +1033,12 @@ namespace Archspace2
             }
 
             result.ShieldSolidity = result.Shield.Deflection;
-            result.MaxShieldStrength = result.Shield.Strength[result.ShipClass.Class];
-            result.ShieldRechargeRate = result.Shield.RechargeRate[result.ShipClass.Class];
 
             result.ShieldSolidity = result.StaticEffects.Where(x => x.Type == FleetEffectType.ShieldSolidity).CalculateTotalEffect(result.ShieldSolidity, x => x.Amount.Value);
-            result.MaxShieldStrength = result.StaticEffects.Where(x => x.Type == FleetEffectType.ShieldStrength).CalculateTotalEffect(result.MaxShieldStrength, x => x.Amount.Value);
-
-            result.MaxHP = result.StaticEffects.Where(x => x.Type == FleetEffectType.Hp).CalculateTotalEffect(result.MaxHP, x => x.Amount.Value);
 
             for (int i = 0; i < MaxShipCount; i++)
             {
-                result.Ships.Add(new Battle.Ship() { HP = result.MaxHP, ShieldStrength = result.MaxShieldStrength });
+                result.Ships.Add(new Battle.Ship() { HP = result.CalculateMaxHp(), ShieldStrength = result.CalculateMaxShieldStrength() });
             }
 
             if (result.StaticEffects.Any(x => x.Type == FleetEffectType.CompleteCloaking))

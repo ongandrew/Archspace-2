@@ -230,5 +230,23 @@ namespace Archspace2.Battle
                 return false;
             }
         }
+
+        public bool OnPath(Unit aPoint, double aLeftX, double aRightX, double aTopY, double aBottomY)
+        {
+            double dX = aPoint.X - X;
+            double dY = aPoint.Y - Y;
+
+            double newX = dX * Math.Cos(-Direction) - dY * Math.Sin(-Direction);
+            double newY = dX * Math.Sin(-Direction) + dY * Math.Cos(-Direction);
+
+            if (newX > aLeftX && newX < aRightX && newY > aBottomY && newY < aTopY)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

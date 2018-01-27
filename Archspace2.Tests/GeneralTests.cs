@@ -3,6 +3,7 @@ using Archspace2.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Archspace2
 {
@@ -48,6 +49,43 @@ namespace Archspace2
             TestEnum thirdTest = TestEnum.Cypherus.ModifyByInt(-8);
 
             Assert.AreEqual(TestEnum.Test, thirdTest);
+        }
+
+        [TestMethod]
+        public void CalculateTotalEffectReturnsCorrectValue()
+        {
+            List<FleetEffect> effects = new List<FleetEffect>()
+            {
+                new FleetEffect()
+                {
+                    Type = FleetEffectType.AttackRating,
+                    Amount = 20
+                },
+                new FleetEffect()
+                {
+                    Type = FleetEffectType.AttackRating,
+                    Amount = 20,
+                    ModifierType = ModifierType.Proportional
+                }
+            };
+
+            int test1 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(0, x => x.Amount.Value);
+
+            Assert.AreEqual(20, test1, "Wrong amount calculated when there is not based effect.");
+
+            int test2 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(20, x => x.Amount.Value);
+
+            Assert.AreEqual(44, test2, "Wrong amount calculated when a base value is non-zero.");
+
+            effects.Clear();
+
+            int test3 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(0, x => x.Amount.Value);
+
+            Assert.AreEqual(0, test3, "Wrong amount calculated when the list is empty.");
+
+            int test4 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(20, x => x.Amount.Value);
+
+            Assert.AreEqual(20, test4, "Wrong amount calculated when the list is empty.");
         }
     }
 }

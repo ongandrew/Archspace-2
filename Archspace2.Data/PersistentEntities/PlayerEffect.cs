@@ -8,14 +8,6 @@ using Universal.Common.Extensions;
 
 namespace Archspace2
 {
-    public enum PlayerEffectSource
-    {
-        Spy,
-        Event,
-        Project,
-        Admin
-    };
-
     [Table("PlayerEffect")]
     public class PlayerEffectInstance : UniverseEntity, IPlayerEffect
     {

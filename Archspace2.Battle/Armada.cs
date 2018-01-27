@@ -41,6 +41,19 @@ namespace Archspace2.Battle
             return result;
         }
 
+        public void RunAI(Armada aEnemyArmada)
+        {
+            foreach (Fleet fleet in this)
+            {
+                if (fleet.IsDisabled() || fleet.Command != Command.Formation)
+                {
+                    continue;
+                }
+
+                throw new NotImplementedException();
+            }
+        }
+
         /*
         public void DeployByPlan(DefensePlan aDefensePlan)
         {

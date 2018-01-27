@@ -55,8 +55,8 @@ namespace Archspace2
         BerserkModifier,
         Efficiency,
         Trained,
-        Damage,
-        PsiDamage,
+        DamageOverTime,
+        PsiDamageOverTime,
         PsiStaticDamage,
         CriticalHit,
         Misinterpret,
@@ -82,7 +82,8 @@ namespace Archspace2
         LocalEffect,
         AreaEffectTargetAlly,
         AreaEffectTargetEnemy,
-        AreaEffectTargetAll
+        AreaEffectTargetAll,
+        AreaLocalEffect
     };
 
     public class FleetEffect : IModifier
@@ -95,7 +96,7 @@ namespace Archspace2
         public ModifierType ModifierType { get; set; }
         [JsonProperty("TargetType")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public FleetEffectTargetType? TargetType { get; set; }
+        public FleetEffectTargetType TargetType { get; set; }
         [JsonProperty("Amount")]
         public int? Amount { get; set; }
         [JsonProperty("Period")]

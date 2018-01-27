@@ -945,7 +945,7 @@ namespace Archspace2
                     {
                         new FleetEffect()
                         {
-                            Type = FleetEffectType.PsiDamage,
+                            Type = FleetEffectType.PsiDamageOverTime,
                             ModifierType = ModifierType.Absolute,
                             Amount = 400,
                             Range = 875,

@@ -87,14 +87,39 @@ namespace Archspace2.Battle
             foreach (Fleet fleet in AttackingFleets)
             {
                 fleet.ApplyDynamicEffects(AttackingFleets);
+                fleet.ApplyAreaEffects(AttackingFleets, DefendingFleets);
             }
 
             foreach (Fleet fleet in DefendingFleets)
             {
                 fleet.ApplyDynamicEffects(DefendingFleets);
+                fleet.ApplyAreaEffects(DefendingFleets, AttackingFleets);
             }
 
+            foreach (Fleet fleet in AttackingFleets)
+            {
+                fleet.EncounterEnemyFleets(DefendingFleets);
+            }
 
+            foreach (Fleet fleet in DefendingFleets)
+            {
+                fleet.EncounterEnemyFleets(AttackingFleets);
+            }
+
+            foreach (Fleet fleet in AttackingFleets.Union(DefendingFleets))
+            {
+                int damage = fleet.StaticEffects.Union(fleet.DynamicsEffects).Where(x => x.Type == FleetEffectType.DamageOverTime).CalculateTotalEffect(0, x => x.Amount.Value);
+                int psiDamage = fleet.StaticEffects.Union(fleet.DynamicsEffects).Where(x => x.Type == FleetEffectType.PsiDamageOverTime).CalculateTotalEffect(0, x => x.Amount.Value);
+
+                if (damage > 0)
+                {
+                    fleet.TakeDamage(damage, false, DamageDistribution.Random);
+                }
+                if (psiDamage > 0)
+                {
+                    fleet.TakeDamage(psiDamage, true, DamageDistribution.Random);
+                }
+            }
         }
     }
 }

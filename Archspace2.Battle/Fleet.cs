@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Universal.Common.Extensions;
 
 namespace Archspace2.Battle
 {
@@ -39,6 +40,14 @@ namespace Archspace2.Battle
         CompleteBreak
     };
 
+    public enum DamageDistribution
+    {
+        First,
+        Random,
+        All,
+        Continuous
+    };
+
     public class Fleet : Unit
     {
         public Player Owner { get; set; }
@@ -48,9 +57,8 @@ namespace Archspace2.Battle
         public FleetStatus Status { get; set; }
         public FleetSubstatus Substatus { get; set; }
         public FleetMorale MoraleStatus { get; set; }
-
-        public int MaxHP { get; set; }
-        public int Morale { get; set; }
+        
+        public double Morale { get; set; }
         public int StatusTurns { get; set; }
 
         public int ActiveShipCount
@@ -85,11 +93,7 @@ namespace Archspace2.Battle
         public List<Device> Devices { get; set; }
         public List<Turret> Turrets { get; set; }
 
-        public int RedZoneRadius { get; set; }
-
         public int ShieldSolidity { get; set; }
-        public int MaxShieldStrength { get; set; }
-        public int ShieldRechargeRate { get; set; }
 
         public bool Detected { get; set; }
         protected int mEngagementTimer { get; set; }
@@ -151,7 +155,7 @@ namespace Archspace2.Battle
             {
                 count += ship.HP;
             }
-            count = count * 100 / (MaxShipCount * MaxHP);
+            count = count * 100 / (MaxShipCount * CalculateMaxHp());
 
             return count;
         }
@@ -180,7 +184,6 @@ namespace Archspace2.Battle
             MoraleStatus = FleetMorale.Normal;
 
             StatusTurns = 0;
-            RedZoneRadius = 0;
 
             IsCapital = false;
         }
@@ -267,7 +270,78 @@ namespace Archspace2.Battle
                 {
                     TargetEnemy = null;
                 }
+
+                // throw new NotImplementedException()
+                // Charge periodic effects
+
+                RechargeShields();
+                RepairHulls();
             }
+        }
+
+        private void RechargeShields()
+        {
+            int rechargeRate = CalculateShieldRechargeRate();
+            int maxShieldStrength = CalculateMaxShieldStrength();
+
+            foreach (Ship ship in Ships)
+            {
+                if (ship.HP > 0)
+                {
+                    ship.ShieldStrength = Math.Min(ship.ShieldStrength + rechargeRate, maxShieldStrength);
+                }
+            }
+        }
+
+        private void RepairHulls()
+        {
+            if (StaticEffects.Union(DynamicsEffects).Any(x => x.Type ==  FleetEffectType.NonRepairable))
+            {
+                return;
+            }
+            else
+            {
+                int repairRate = CalculateRepairRate();
+                int maxHp = CalculateMaxHp();
+
+                foreach (Ship ship in Ships)
+                {
+                    if (ship.HP > 0)
+                    {
+                        ship.HP = Math.Min(ship.HP + repairRate, maxHp);
+                    }
+                }
+            }
+        }
+
+        public int CalculateShieldRechargeRate()
+        {
+            int rechargeAmount = Shield.RechargeRate[ShipClass.Class];
+            rechargeAmount = StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.ShieldRechargeRate).CalculateTotalEffect(rechargeAmount, x => x.Amount.Value);
+
+            return rechargeAmount;
+        }
+
+        public int CalculateMaxShieldStrength()
+        {
+            int maxShieldStrength = Shield.Strength[ShipClass.Class];
+            maxShieldStrength = StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.ShieldStrength).CalculateTotalEffect(maxShieldStrength, x => x.Amount.Value);
+
+            return maxShieldStrength;
+        }
+
+        public int CalculateMaxHp()
+        {
+            int baseHp = (int)(ShipClass.BaseHp * Armor.HpMultiplier);
+
+            return StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.Hp).CalculateTotalEffect(baseHp, x => x.Amount.Value);
+        }
+
+        public int CalculateRepairRate()
+        {
+            int baseRepair = StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.Repair).CalculateTotalEffect(CalculateMaxHp(), x => x.Amount.Value) - CalculateMaxHp();
+
+            return StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.RepairSpeed).CalculateTotalEffect(baseRepair, x => x.Amount.Value);
         }
 
         public void ApplyDynamicEffects(Armada aAlliedArmada)
@@ -652,6 +726,238 @@ namespace Archspace2.Battle
                         break;
                 }
             }
+        }
+
+        public void ApplyAreaEffects(Armada aAlliedArmada, Armada aEnemyArmada)
+        {
+            foreach (FleetEffect effect in StaticEffects.Where(x => x.TargetType == FleetEffectTargetType.AreaEffectTargetEnemy || x.TargetType == FleetEffectTargetType.AreaEffectTargetAll))
+            {
+                foreach (Fleet fleet in aEnemyArmada)
+                {
+                    if (fleet.IsDisabled())
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if (Distance(fleet) <= effect.Range)
+                        {
+                            FleetEffect currentEffect = fleet.DynamicsEffects.Where(x => x.TargetType == FleetEffectTargetType.AreaLocalEffect && x.Type == effect.Type && x.Amount == effect.Amount && x.ModifierType == effect.ModifierType).SingleOrDefault();
+
+                            if (effect == null)
+                            {
+                                fleet.DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = effect.Type,
+                                    Amount = effect.Amount,
+                                    ModifierType = effect.ModifierType,
+                                    TargetType = FleetEffectTargetType.AreaLocalEffect
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach (FleetEffect effect in StaticEffects.Where(x => x.TargetType == FleetEffectTargetType.AreaEffectTargetAlly || x.TargetType == FleetEffectTargetType.AreaEffectTargetAll))
+            {
+                foreach (Fleet fleet in aAlliedArmada)
+                {
+                    if (fleet.IsDisabled())
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if (Distance(fleet) <= effect.Range)
+                        {
+                            FleetEffect currentEffect = fleet.DynamicsEffects.Where(x => x.TargetType == FleetEffectTargetType.AreaLocalEffect && x.Type == effect.Type && x.Amount == effect.Amount && x.ModifierType == effect.ModifierType).SingleOrDefault();
+
+                            if (effect == null)
+                            {
+                                fleet.DynamicsEffects.Add(new FleetEffect()
+                                {
+                                    Type = effect.Type,
+                                    Amount = effect.Amount,
+                                    ModifierType = effect.ModifierType,
+                                    TargetType = FleetEffectTargetType.AreaLocalEffect
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void EncounterEnemyFleets(Armada aEnemyArmada)
+        {
+            foreach (Fleet enemyFleet in aEnemyArmada)
+            {
+                if (enemyFleet.IsDisabled() || !CanSee(enemyFleet))
+                {
+                    continue;
+                }
+                else
+                {
+                    double distance = Distance(enemyFleet);
+                    double effectiveDistance = distance * (100 + (5 - enemyFleet.ShipClass.Class * 5) / 100);
+
+                    effectiveDistance = enemyFleet.StaticEffects.Union(enemyFleet.DynamicsEffects).Where(x => x.Type == FleetEffectType.Stealth).CalculateTotalEffect((int)effectiveDistance, x => x.Amount.Value);
+
+                    if (effectiveDistance < DetectionRange)
+                    {
+                        enemyFleet.Detected = true;
+                    }
+
+                    if (OnPath(enemyFleet))
+                    {
+                        EncounteredEnemies.Add(enemyFleet);
+                    }
+                }
+            }
+        }
+
+        public bool CanSee(Fleet aEnemyFleet)
+        {
+            if (!aEnemyFleet.Attributes.Any(x => x == FleetAttribute.CompleteCloaking || x == FleetAttribute.WeakCloaking) || Attributes.Any(x => x == FleetAttribute.CompleteCloakingDetection))
+            {
+                return true;
+            }
+
+            if (aEnemyFleet.Attributes.Any(x => x == FleetAttribute.WeakCloaking) && Attributes.Any(x => x == FleetAttribute.WeakCloakingDetection))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool OnPath(Unit aUnit)
+        {
+            double leftX = 0;
+            double rightX = 0;
+            double topY = 0;
+            double bottomY = 0;
+
+            switch (Command)
+            {
+                case Command.Normal:
+                    topY = 750;
+                    bottomY = -750;
+                    rightX = 1500;
+                    break;
+                case Command.Formation:
+                    topY = 750;
+                    bottomY = -750;
+                    rightX = 1500;
+                    break;
+                case Command.Penetrate:
+                    topY = 250;
+                    bottomY = -250;
+                    rightX = 1000;
+                    break;
+                case Command.Flank:
+                    topY = 200;
+                    bottomY = -200;
+                    break;
+                case Command.Reserve:
+                    topY = 750;
+                    bottomY = -750;
+                    break;
+                case Command.StandGround:
+                    topY = 750;
+                    bottomY = -750;
+                    rightX = 1500;
+                    break;
+                case Command.Assault:
+                    topY = 200;
+                    bottomY = -200;
+                    break;
+                case Command.Free:
+                    topY = 750;
+                    bottomY = -750;
+                    rightX = 1500;
+                    break;
+                default:
+                    topY = 750;
+                    bottomY = -750;
+                    rightX = 1500;
+                    break;
+            }
+
+            return OnPath(aUnit, leftX, rightX, topY, bottomY);
+        }
+
+        public bool TakeDamage(int aDamageAmount, bool aIsPsi = false, DamageDistribution aDistribution = DamageDistribution.First)
+        {
+            int damage = aDamageAmount;
+            if (aIsPsi)
+            {
+                damage = StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.PsiDefense).CalculateTotalEffect(damage, x => x.Amount.Value);
+            }
+
+            if (aDistribution == DamageDistribution.First || aDistribution == DamageDistribution.Random)
+            {
+                Ship ship = null;
+
+                if (aDistribution == DamageDistribution.First)
+                {
+                    ship = Ships.Where(x => x.HP > 0).FirstOrDefault();
+                }
+                else if (aDistribution == DamageDistribution.Random)
+                {
+                    ship = Ships.Where(x => x.HP > 0).RandomOrDefault();
+                }
+
+                if (ship == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    if (ship.ShieldStrength < damage)
+                    {
+                        damage -= ship.ShieldStrength;
+                        ship.ShieldStrength = 0;
+
+                        ship.HP -= damage;
+                        if (ship.HP < 0)
+                        {
+                            damage += ship.HP;
+                            ship.HP = 0;
+                        }
+                    }
+                    else
+                    {
+                        ship.ShieldStrength -= damage;
+                    }
+                }
+
+                double moraleDrop = damage * 2 * 100.0 / (CalculateMaxHp() * MaxShipCount);
+                double psiMoraleDrop = moraleDrop;
+
+                if (aIsPsi)
+                {
+                    psiMoraleDrop = psiMoraleDrop + StaticEffects.Union(DynamicsEffects).Where(x => x.Type == FleetEffectType.PsiDefense).CalculateTotalEffect(-psiMoraleDrop, x => x.Amount.Value);
+
+                    moraleDrop += psiMoraleDrop;
+                }
+
+                Morale -= moraleDrop;
+
+                if (ship.HP <= 0)
+                {
+                    ship.HP = 0;
+                    if (ActiveShipCount <= 0)
+                    {
+                        Status = FleetStatus.AnnihilatedThisTurn;
+                    }
+
+                    return true;
+                }
+            }
+            
+            return false;
         }
 
         public RecordFleet ToRecordFleet()
