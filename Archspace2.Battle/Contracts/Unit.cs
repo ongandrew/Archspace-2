@@ -40,6 +40,15 @@ namespace Archspace2.Battle
             SetVector(aX, aY, 0);
         }
 
+        public Unit(double aX, double aY, double aDirection)
+        {
+            SetVector(aX, aY, aDirection);
+        }
+
+        public Unit(Unit aUnit) : this(aUnit.X, aUnit.Y, aUnit.Direction)
+        {
+        }
+
         public void SetVector(double aX, double aY, double aDirection)
         {
             X = aX;
@@ -181,8 +190,8 @@ namespace Archspace2.Battle
             double newX;
             double newY;
 
-            newX = (Math.Cos(aDirection) * X) - (Math.Sin(aDirection) * Y);
-            newY = (Math.Sin(aDirection) * X) + (Math.Cos(aDirection) * Y);
+            newX = (Math.Cos(aDirection * Math.PI / 180) * X) - (Math.Sin(aDirection * Math.PI / 180) * Y);
+            newY = (Math.Sin(aDirection * Math.PI / 180) * X) + (Math.Cos(aDirection * Math.PI / 180) * Y);
         }
 
         public void Rotate(double aDirection, Unit aFixedPoint)
@@ -221,8 +230,8 @@ namespace Archspace2.Battle
 
         public void Move(double aLength)
         {
-            double dX = aLength * Math.Cos(Direction);
-            double dY = aLength * Math.Sin(Direction);
+            double dX = aLength * Math.Cos(Direction * Math.PI / 180);
+            double dY = aLength * Math.Sin(Direction * Math.PI / 180);
 
             Move(dX, dY);
         }
@@ -245,8 +254,8 @@ namespace Archspace2.Battle
             double dX = aPoint.X - X;
             double dY = aPoint.Y - Y;
 
-            double newX = dX * Math.Cos(-Direction) - dY * Math.Sin(-Direction);
-            double newY = dX * Math.Sin(-Direction) + dY * Math.Cos(-Direction);
+            double newX = dX * Math.Cos(-Direction * Math.PI / 180) - dY * Math.Sin(-Direction * Math.PI / 180);
+            double newY = dX * Math.Sin(-Direction * Math.PI / 180) + dY * Math.Cos(-Direction * Math.PI / 180);
 
             if (newX > aBoundingBox.LeftX && newX < aBoundingBox.RightX && newY > aBoundingBox.BottomY && newY < aBoundingBox.TopY)
             {

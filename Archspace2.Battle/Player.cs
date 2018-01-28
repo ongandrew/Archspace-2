@@ -9,9 +9,17 @@ namespace Archspace2.Battle
         public Race Race { get; set; }
         public List<RacialTrait> Traits { get; set; }
 
-        public Player()
+        internal Player()
         {
             Traits = new List<RacialTrait>();
+        }
+
+        public Player(int aId, string aName, Race aRace, List<RacialTrait> aTraits)
+        {
+            Id = aId;
+            Name = aName;
+            Race = aRace;
+            Traits = aTraits;
         }
     }
 }

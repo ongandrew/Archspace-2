@@ -2,16 +2,16 @@
 
 namespace Archspace2.Battle
 {
-    public class DisabledFleetEvent : RecordEvent
+    public class FleetDisabledEvent : RecordEvent
     {
         [JsonProperty("DisabledFleetId")]
         public int DisabledFleetId { get; set; }
 
-        public DisabledFleetEvent(int aTurn) : base(aTurn, RecordEventType.DisableFleet)
+        public FleetDisabledEvent(int aTurn) : base(aTurn, RecordEventType.FleetDisabled)
         {
         }
 
-        public DisabledFleetEvent(int aTurn, Fleet aFleet) : this(aTurn)
+        public FleetDisabledEvent(int aTurn, Fleet aFleet) : this(aTurn)
         {
             DisabledFleetId = aFleet.Id;
         }

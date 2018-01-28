@@ -957,5 +957,10 @@ namespace Archspace2
                     return 0;
             }
         }
+
+        public Battle.Admiral ToBattleAdmiral()
+        {
+            return new Battle.Admiral(Id, Name, Level, SpecialAbility, RacialAbility, Efficiency, Skills);
+        }
     }
 }

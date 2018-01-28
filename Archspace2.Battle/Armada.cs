@@ -15,9 +15,10 @@ namespace Archspace2.Battle
 
     public class Armada : List<Fleet>
     {
-        public Simulation Battle { get; set; }
+        public Battle Battle { get; set; }
         public Player Owner { get; set; }
         public FormationStatus FormationStatus { get; set; }
+        public Side Side { get; set; }
 
         public Fleet CapitalFleet
         {
@@ -52,7 +53,7 @@ namespace Archspace2.Battle
             return result;
         }
 
-        public void RunAI(Armada aEnemyArmada)
+        public void RunTurn(Armada aEnemyArmada)
         {
             FormationStatus newStatus = FormationStatus.None;
 
@@ -85,12 +86,251 @@ namespace Archspace2.Battle
                 }
                 else
                 {
-                    
+                    if (fleet.Status == FleetStatus.Berserk)
+                    {
+                        fleet.RunBerserk(this, aEnemyArmada);
+                    }
+                    else if (fleet.Status == FleetStatus.Disorder)
+                    {
+                        fleet.RunDisorder(this, aEnemyArmada);
+                    }
+                    else if (fleet.Status == FleetStatus.Panic)
+                    {
+                        fleet.RunPanic(this, aEnemyArmada);
+                    }
+                    else if (fleet.Status == FleetStatus.Rout)
+                    {
+                        fleet.RunRout(this, aEnemyArmada);
+                    }
+                    else if (fleet.Status == FleetStatus.Retreat)
+                    {
+                        fleet.RunRetreat(this, aEnemyArmada);
+                    }
+                    else if (fleet.Command == Command.Formation)
+                    {
+                        fleet.RunFormation(this, aEnemyArmada);
+                    }
+                    else if (fleet.Command == Command.Free)
+                    {
+                        fleet.RunFree(this, aEnemyArmada);
+                    }
+                    else if (fleet.Command == Command.StandGround)
+                    {
+                        fleet.RunStandGround(this, aEnemyArmada);
+                    }
+                    else if (fleet.Command == Command.Assault)
+                    {
+                        fleet.RunAssault(this, aEnemyArmada);
+                    }
+                    else if (fleet.Command == Command.Penetrate)
+                    {
+                        fleet.RunPenetrate(this, aEnemyArmada);
+                    }
+                    else if (fleet.Command == Command.Flank)
+                    {
+                        fleet.RunFlank(this, aEnemyArmada);
+                    }
+                    else if (fleet.Command == Command.Normal)
+                    {
+                        fleet.RunNormal(this, aEnemyArmada);
+                    }
+                    else
+                    {
+                    }
+                }
+
+                if (Battle.CurrentTurn % 10 == 0)
+                {
+                    Battle.Record.AddMovementEvent(fleet);
                 }
             }
         }
 
+        public void UpdateMorale(double aMoraleUp, double aCapitalMorale, double aFleetMorale)
+        {
+            foreach (Fleet fleet in this)
+            {
+                if (fleet.IsDisabled())
+                {
+                    continue;
+                }
 
+                double moraleUp = aMoraleUp;
+                if (fleet.Admiral.RacialAbility == AdmiralRacialAbility.LoneWolf)
+                {
+                    if (fleet.Admiral.Level <= 12)
+                    {
+                        moraleUp += (aCapitalMorale / 2) + aFleetMorale;
+                    }
+                    else if (fleet.Admiral.Level <= 17)
+                    {
+                        moraleUp += aFleetMorale;
+                    }
+                }
+                else
+                {
+                    moraleUp += aCapitalMorale + aFleetMorale;
+                }
+
+                fleet.Morale += moraleUp;
+
+                FleetMorale previousStatus = fleet.MoraleStatus;
+
+                int weakMoraleBreak = 75 + fleet.MoraleModifier;
+                int normalMoraleBreak = 50 + fleet.MoraleModifier;
+                int completeMoraleBreak = 25 + fleet.MoraleModifier;
+
+                if (fleet.Morale < completeMoraleBreak)
+                {
+                    fleet.MoraleStatus = FleetMorale.CompleteBreak;
+                    if (previousStatus < FleetMorale.NormalBreak)
+                    {
+                        if (Battle.Random.Next(1, 100) <= 50)
+                        {
+                            if (fleet.Effects.OfType(FleetEffectType.NeverRetreatRout).Any())
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                fleet.Status = FleetStatus.Rout;
+                            }
+                        }
+                        else
+                        {
+                            fleet.Status = FleetStatus.Panic;
+                            fleet.StatusTurns = 100 - (int)fleet.Morale;
+                        }
+                    }
+                    else if (previousStatus == FleetMorale.NormalBreak)
+                    {
+                        if (Battle.Random.Next(1, 100) <= 50)
+                        {
+                            if (fleet.Effects.OfType(FleetEffectType.NeverRetreatRout).Any())
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                fleet.Status = FleetStatus.Rout;
+                            }
+                        }
+                        else
+                        {
+                            if (Battle.Random.Next(1, 50) <= 20 + fleet.BerserkModifier)
+                            {
+                                if (fleet.Effects.OfType(FleetEffectType.NeverBerserk).Any())
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    fleet.Status = FleetStatus.Berserk;
+                                    fleet.StatusTurns = 100 - (int)fleet.Morale;
+                                }
+                            }
+                            else
+                            {
+                                fleet.Status = FleetStatus.Disorder;
+                                fleet.StatusTurns = 200 - (int)fleet.Morale - fleet.Efficiency;
+                            }
+                        }
+                    }
+                }
+                else if (fleet.Morale < normalMoraleBreak)
+                {
+                    fleet.MoraleStatus = FleetMorale.NormalBreak;
+                    if (previousStatus == FleetMorale.Normal)
+                    {
+                        if (Battle.Random.Next(1, 100) <= 50)
+                        {
+                            fleet.Status = FleetStatus.Panic;
+                            fleet.StatusTurns = 100 - (int)fleet.Morale;
+                        }
+                        else
+                        {
+                            if (Battle.Random.Next(1, 50) <= 20 + fleet.BerserkModifier)
+                            {
+                                if (fleet.Effects.OfType(FleetEffectType.NeverBerserk).Any())
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    fleet.Status = FleetStatus.Berserk;
+                                    fleet.StatusTurns = 100 - (int)fleet.Morale;
+                                }
+                            }
+                            else
+                            {
+                                fleet.Status = FleetStatus.Disorder;
+                                fleet.StatusTurns = 200 - (int)fleet.Morale - fleet.Efficiency;
+                            }
+                        }
+                    }
+                    else if (previousStatus == FleetMorale.WeakBreak)
+                    {
+                        if (Battle.Random.Next(1, 100) <= 40)
+                        {
+                            if (fleet.Effects.OfType(FleetEffectType.NeverRetreatRout).Any())
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                fleet.Status = FleetStatus.Retreat;
+                            }
+                        }
+                        else
+                        {
+                            if (Battle.Random.Next(1, 60) <= 10 + fleet.BerserkModifier)
+                            {
+                                if (fleet.Effects.OfType(FleetEffectType.NeverBerserk).Any())
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    fleet.Status = FleetStatus.Berserk;
+                                    fleet.StatusTurns = 100 - (int)fleet.Morale;
+                                }
+                            }
+                            else
+                            {
+                                fleet.Status = FleetStatus.Disorder;
+                                fleet.StatusTurns = 200 - (int)fleet.Morale - fleet.Efficiency;
+                            }
+                        }
+                    }
+                }
+                else if (fleet.Morale < weakMoraleBreak)
+                {
+                    fleet.MoraleStatus = FleetMorale.WeakBreak;
+                    if (previousStatus == FleetMorale.Normal)
+                    {
+                        if (Battle.Random.Next(1, 100) <= 80)
+                        {
+                            fleet.Command = Command.Free;
+                        }
+                        else
+                        {
+                            fleet.Status = FleetStatus.Disorder;
+                            fleet.StatusTurns = 200 - (int)fleet.Morale - fleet.Efficiency;
+                        }
+                    }
+                }
+                else
+                {
+                    fleet.MoraleStatus = FleetMorale.Normal;
+                }
+
+                if (fleet.MoraleStatus < previousStatus)
+                {
+                    fleet.Command = Command.Free;
+                    fleet.Status = FleetStatus.None;
+                }
+            }
+        }
 
         /*
         public void DeployByPlan(DefensePlan aDefensePlan)

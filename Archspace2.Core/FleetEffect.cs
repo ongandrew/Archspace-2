@@ -98,7 +98,7 @@ namespace Archspace2
         [JsonConverter(typeof(StringEnumConverter))]
         public FleetEffectTargetType TargetType { get; set; }
         [JsonProperty("Amount")]
-        public int? Amount { get; set; }
+        public int Amount { get; set; }
         [JsonProperty("Period")]
         public int? Period { get; set; }
         [JsonProperty("Range")]

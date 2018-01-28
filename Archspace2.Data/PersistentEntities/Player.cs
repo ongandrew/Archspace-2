@@ -792,11 +792,7 @@ namespace Archspace2
 
         public Battle.Player ToBattlePlayer()
         {
-            Battle.Player result = new Battle.Player();
-
-            result.Id = Id;
-            result.Name = Name;
-            result.Race = Race;
+            Battle.Player result = new Battle.Player(Id, Name, Race, Traits);
 
             return result;
         }

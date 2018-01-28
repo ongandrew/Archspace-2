@@ -69,21 +69,21 @@ namespace Archspace2
                 }
             };
 
-            int test1 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(0, x => x.Amount.Value);
+            int test1 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(0, x => x.Amount);
 
             Assert.AreEqual(20, test1, "Wrong amount calculated when there is not based effect.");
 
-            int test2 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(20, x => x.Amount.Value);
+            int test2 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(20, x => x.Amount);
 
             Assert.AreEqual(44, test2, "Wrong amount calculated when a base value is non-zero.");
 
             effects.Clear();
 
-            int test3 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(0, x => x.Amount.Value);
+            int test3 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(0, x => x.Amount);
 
             Assert.AreEqual(0, test3, "Wrong amount calculated when the list is empty.");
 
-            int test4 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(20, x => x.Amount.Value);
+            int test4 = effects.Where(x => x.Type == FleetEffectType.AttackRating).CalculateTotalEffect(20, x => x.Amount);
 
             Assert.AreEqual(20, test4, "Wrong amount calculated when the list is empty.");
         }

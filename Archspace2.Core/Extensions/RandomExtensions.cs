@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Archspace2.Extensions
+namespace Archspace2
 {
     public static class RandomExtensions
     {
