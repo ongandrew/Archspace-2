@@ -77,6 +77,8 @@ namespace Archspace2.Battle
                     fleet.Battle = this;
                     fleet.Armada = AttackingFleets;
                 }
+
+                AttackingFleets.ApplyArmadaStaticEffects();
             }
 
             if (DefendingFleets != null)
@@ -88,6 +90,8 @@ namespace Archspace2.Battle
                     fleet.Battle = this;
                     fleet.Armada = DefendingFleets;
                 }
+
+                DefendingFleets.ApplyArmadaStaticEffects();
             }
 
             Record = new Record(this, Attacker, Defender, Type, Battlefield, AttackingFleets, DefendingFleets);

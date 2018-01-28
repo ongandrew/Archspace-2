@@ -124,4 +124,12 @@
         EnhancedPsi,
         EnhancedMobility
     };
+
+    public enum ArmadaClass
+    {
+        A = 0,
+        B,
+        C,
+        D
+    };
 }

@@ -32,11 +32,6 @@ namespace Archspace2.Battle
         {
             Owner = aOwner;
         }
-        
-        public void AutoDeploy(List<Fleet> aFleets)
-        {
-
-        }
 
         public int CalculateFormationSpeed()
         {
@@ -332,6 +327,48 @@ namespace Archspace2.Battle
             }
         }
 
+        public void ApplyArmadaStaticEffects()
+        {
+            Admiral capitalAdmiral = CapitalFleet.Admiral;
+
+            int skill = capitalAdmiral.CalculateArmadaCommanderSkillBonus(Battle.Type, Side);
+            int efficiency = capitalAdmiral.CalculateArmadaCommanderEfficiencyBonus();
+
+            foreach (Fleet fleet in this)
+            {
+                int totalSkill = Side == Side.Offense ? fleet.Admiral.Attack + skill : fleet.Admiral.Defense + skill;
+                int totalEfficiency = efficiency + fleet.Admiral.Efficiency;
+
+                fleet.StaticEffects.Add(new FleetEffect()
+                {
+                    Type = Side == Side.Offense ? FleetEffectType.AttackRating : FleetEffectType.DefenseRating,
+                    Amount = totalSkill * 3,
+                    ModifierType = ModifierType.Proportional
+                });
+
+                fleet.StaticEffects.Add(new FleetEffect()
+                {
+                    Type = FleetEffectType.Efficiency,
+                    Amount = totalEfficiency,
+                    ModifierType = ModifierType.Absolute
+                });
+
+                fleet.StaticEffects.Add(new FleetEffect()
+                {
+                    Type = FleetEffectType.Speed,
+                    Amount = fleet.Admiral.Skills.Maneuver,
+                    ModifierType = ModifierType.Proportional
+                });
+
+                fleet.StaticEffects.Add(new FleetEffect()
+                {
+                    Type = FleetEffectType.Mobility,
+                    Amount = fleet.Admiral.Skills.Maneuver,
+                    ModifierType = ModifierType.Proportional
+                });
+            }
+        }
+
         /*
         public void DeployByPlan(DefensePlan aDefensePlan)
         {
@@ -362,49 +399,6 @@ namespace Archspace2.Battle
 
                     Add(battleFleet);
                 }
-            }
-        }
-        */
-        /*
-        public void AddArmadaCommanderBonuses(BattleType aBattleType, Side aSide)
-        {
-            Admiral capitalAdmiral = this.Where(x => x.IsCapital).Single().Admiral;
-
-            int skill = capitalAdmiral.CalculateArmadaCommanderSkillBonus(aBattleType, aSide);
-            int efficiency = capitalAdmiral.ArmadaCommanderEfficiencyBonus;
-
-            foreach (Fleet fleet in this)
-            {
-                int totalSkill = aSide == Side.Offense ? fleet.Admiral.Attack + skill : fleet.Admiral.Defense + skill;
-                int totalEfficiency = efficiency + fleet.Admiral.Efficiency;
-
-                fleet.StaticEffects.Add(new FleetEffect()
-                {
-                    Type = aSide == Side.Offense ? FleetEffectType.AttackRating : FleetEffectType.DefenseRating,
-                    Amount = totalSkill * 3,
-                    ModifierType = ModifierType.Proportional
-                });
-
-                fleet.StaticEffects.Add(new FleetEffect()
-                {
-                    Type = FleetEffectType.Efficiency,
-                    Amount = totalEfficiency,
-                    ModifierType = ModifierType.Absolute
-                });
-
-                fleet.StaticEffects.Add(new FleetEffect()
-                {
-                    Type = FleetEffectType.Speed,
-                    Amount = fleet.Admiral.Skills.Maneuver,
-                    ModifierType = ModifierType.Proportional
-                });
-
-                fleet.StaticEffects.Add(new FleetEffect()
-                {
-                    Type = FleetEffectType.Mobility,
-                    Amount = fleet.Admiral.Skills.Maneuver,
-                    ModifierType = ModifierType.Proportional
-                });
             }
         }
         */

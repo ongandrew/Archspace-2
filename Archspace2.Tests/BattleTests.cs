@@ -37,9 +37,10 @@ namespace Archspace2.Battle
                     {
                         Game.Configuration.Weapons.Single(x => x.Name == "Laser")
                     },
-                    new Admiral(0, "Attacking Admiral", 1, AdmiralSpecialAbility.EnergySystemSpecialist, AdmiralRacialAbility.ArtifactCoolingEngine, 100, new AdmiralSkills()),
+                    new Admiral(0, "Attacking Admiral", 1, AdmiralSpecialAbility.EnergySystemSpecialist, AdmiralRacialAbility.ArtifactCoolingEngine, 100, 5, 5, new AdmiralSkills(), ArmadaClass.C),
                     6,
-                    600
+                    600,
+                    true
                     )
                 );
 
@@ -60,9 +61,10 @@ namespace Archspace2.Battle
                     {
                         Game.Configuration.Weapons.Single(x => x.Name == "Laser")
                     },
-                    new Admiral(1, "Defending Admiral", 1, AdmiralSpecialAbility.EnergySystemSpecialist, AdmiralRacialAbility.ArtifactCoolingEngine, 100, new AdmiralSkills()),
+                    new Admiral(1, "Defending Admiral", 1, AdmiralSpecialAbility.EnergySystemSpecialist, AdmiralRacialAbility.ArtifactCoolingEngine, 100, 5, 5, new AdmiralSkills(), ArmadaClass.C),
                     6,
-                    600
+                    600,
+                    true
                     )
             );
 
@@ -89,7 +91,7 @@ namespace Archspace2.Battle
                 {
                                     Game.Configuration.Weapons.Single(x => x.Name == "Laser")
                 },
-                new Admiral(0, "Attacking Admiral", 1, AdmiralSpecialAbility.EnergySystemSpecialist, AdmiralRacialAbility.ArtifactCoolingEngine, 100, new AdmiralSkills()),
+                new Admiral(0, "Attacking Admiral", 1, AdmiralSpecialAbility.EnergySystemSpecialist, AdmiralRacialAbility.ArtifactCoolingEngine, 100, 5, 5, new AdmiralSkills(), ArmadaClass.C),
                 6,
                 600
                 );
@@ -128,7 +130,7 @@ namespace Archspace2.Battle
                     {
                         Game.Configuration.Weapons.Single(x => x.Name == "Laser")
                     },
-                    new Admiral(0, "Attacking Admiral", 1, AdmiralSpecialAbility.EnergySystemSpecialist, AdmiralRacialAbility.ArtifactCoolingEngine, 100, new AdmiralSkills()),
+                    new Admiral(0, "Attacking Admiral", 1, AdmiralSpecialAbility.EnergySystemSpecialist, AdmiralRacialAbility.ArtifactCoolingEngine, 100, 5, 5, new AdmiralSkills(), ArmadaClass.C),
                     6,
                     600,
                     true
@@ -154,7 +156,7 @@ namespace Archspace2.Battle
                     {
                         Game.Configuration.Weapons.Single(x => x.Name == "Laser")
                     },
-                    new Admiral(1, "Defending Admiral", 1, AdmiralSpecialAbility.EnergySystemSpecialist, AdmiralRacialAbility.ArtifactCoolingEngine, 100, new AdmiralSkills()),
+                    new Admiral(1, "Defending Admiral", 1, AdmiralSpecialAbility.EnergySystemSpecialist, AdmiralRacialAbility.ArtifactCoolingEngine, 100, 5, 5, new AdmiralSkills(), ArmadaClass.C),
                     6,
                     600,
                     true
