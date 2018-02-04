@@ -1,0 +1,26 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Research";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    Current: @(player.TargetTech != null ? player.TargetTech.Name : "None")
+
+    Researched Technologies:
+    @foreach (Tech tech in player.Techs)
+    {
+    <p>@tech.Name</p>
+    }
+    Available Technologies:
+    @foreach (Tech tech in player.GetAvailableTechs())
+    {
+    <p>@tech.Name</p>
+    }
+    Locked Technologies:
+    @foreach (Tech tech in player.GetLockedTechs())
+    {
+    <p>@tech.Name</p>
+    }
+</main>

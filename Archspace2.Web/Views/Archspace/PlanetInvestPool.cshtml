@@ -1,0 +1,10 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Planet Investment Pool";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    Amount: @(player.PlanetInvestmentPool)
+</main>

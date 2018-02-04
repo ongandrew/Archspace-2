@@ -283,6 +283,16 @@ namespace Archspace2
             return aPrerequisites.Evaluate(this);
         }
 
+        public List<Tech> GetAvailableTechs()
+        {
+            return Game.Configuration.Techs.Where(x => x.Prerequisites.Evaluate(this)).Except(Techs).ToList();
+        }
+
+        public List<Tech> GetLockedTechs()
+        {
+            return Game.Configuration.Techs.Except(Techs).Except(GetAvailableTechs()).ToList();
+        }
+
         public void AddNews(string aText)
         {
             NewsItem newsItem = new NewsItem(Universe);

@@ -44,6 +44,24 @@ namespace Archspace2.Web
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
         }
 
+        [Route("planet_invest_pool")]
+        public async Task<IActionResult> PlanetInvestPool()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("planet_management")]
+        public async Task<IActionResult> PlanetManagement()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("research")]
+        public async Task<IActionResult> Research()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
         [Route("admin")]
         public async Task<IActionResult> Admin()
         {

@@ -1,0 +1,13 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Planet Management";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    @foreach (Planet planet in player.Planets)
+    {
+    <p>@planet.Name</p>
+    }
+</main>
