@@ -21,7 +21,7 @@ namespace Archspace2
             Assert.IsNotNull(user);
 
             Race race = Game.Configuration.Races.Random();
-            Player player = await user.CreatePlayerAsync("Tester", race);
+            Player player = user.CreatePlayer("Tester", race);
 
             Assert.IsNotNull(player);
             Assert.AreEqual("Tester", player.Name);
@@ -36,7 +36,7 @@ namespace Archspace2
             Assert.IsNotNull(user);
 
             Race race = Game.Configuration.Races.Random();
-            Player player = await user.CreatePlayerAsync("TurnTest", race);
+            Player player = user.CreatePlayer("TurnTest", race);
 
             Assert.IsNotNull(player);
 
@@ -59,7 +59,7 @@ namespace Archspace2
             Assert.IsNotNull(user);
 
             Race race = Game.Configuration.Races.Random();
-            Player player = await user.CreatePlayerAsync("ResearchTechTest", race);
+            Player player = user.CreatePlayer("ResearchTechTest", race);
 
             Assert.IsNotNull(player);
 
@@ -89,7 +89,7 @@ namespace Archspace2
             Assert.IsNotNull(user);
 
             Race race = Game.Configuration.Races.Random();
-            Player player = await user.CreatePlayerAsync("DiscoverTech", race);
+            Player player = user.CreatePlayer("DiscoverTech", race);
 
             Assert.IsNotNull(player);
 

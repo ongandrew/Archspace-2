@@ -10,9 +10,7 @@
     @RenderSection("Styles", required: false)
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-
-    </nav>
+    @Html.Partial("~/Views/Shared/_Navbar.cshtml")
 
     <div class="content row">
         <div class="sidebar col-sm-2">
@@ -23,7 +21,7 @@
                     <a href="#domestic" data-toggle="collapse">DOMESTIC</a>
                     <div id="domestic" class="collapse">
                         <ul>
-                            <li><a>Concentration Mode</a></li>
+                            <li><a href="~/archspace/concentration_mode">Concentration Mode</a></li>
                             <li><a>Planet Management</a></li>
                             <li><a>Planet Invest Pool</a></li>
                             <li><a>Research</a></li>
@@ -144,14 +142,14 @@
                 </li>
                 @if (true)
                 {
-                <li>
-                    <a href="#admin" data-toggle="collapse">ADMIN</a>
-                    <div id="admin" class="collapse">
-                        <ul>
-                            <li><a href="~/archspace/admin">Administration</a></li>
-                        </ul>
-                    </div>
-                </li>
+                    <li>
+                        <a href="#admin" data-toggle="collapse">ADMIN</a>
+                        <div id="admin" class="collapse">
+                            <ul>
+                                <li><a href="~/archspace/admin">Administration</a></li>
+                            </ul>
+                        </div>
+                    </li>
                 }
             </ul>
         </div>

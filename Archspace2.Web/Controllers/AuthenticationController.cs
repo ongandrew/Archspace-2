@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 
-namespace Archspace2.Web.Controllers
+namespace Archspace2.Web
 {
     [Route("authentication")]
     public class AuthenticationController : Controller

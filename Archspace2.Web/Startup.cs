@@ -103,6 +103,10 @@ namespace Archspace2.Web
                     OnRemoteFailure = async (context) =>
                     {
                         await Game.LogAsync("Remote Failure");
+                    },
+                    OnTicketReceived = async (context) =>
+                    {
+                        await Game.AddOrUpdateUserAsync(context.Principal);
                     }
                 }
                 ;

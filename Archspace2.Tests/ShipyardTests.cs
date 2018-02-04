@@ -19,7 +19,7 @@ namespace Archspace2
             Assert.IsNotNull(user);
 
             Race race = Game.Configuration.Races.Random();
-            Player player = await user.CreatePlayerAsync("Shipqueuer", race);
+            Player player = user.CreatePlayer("Shipqueuer", race);
 
             Assert.IsNotNull(player);
 

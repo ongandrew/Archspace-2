@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Archspace2
 {
@@ -53,6 +55,10 @@ namespace Archspace2
                 .HasOne(x => x.ToPlayer)
                 .WithMany(x => x.ToRelations);
 
+            aModelBuilder.Entity<User>()
+                .HasIndex(x => x.Email)
+                .IsUnique();
+
             foreach (var entityType in aModelBuilder.Model.GetEntityTypes())
             {
                 entityType.GetForeignKeys()
@@ -81,5 +87,11 @@ namespace Archspace2
         public DbSet<User> Users { get; set; }
 
         public DbSet<SystemLog> SystemLogs { get; set; }
+
+        public async Task<User> GetUserAsync(ClaimsPrincipal aClaimsPrincipal)
+        {
+            string email = aClaimsPrincipal.FindFirstValue(ClaimTypes.Email);
+            return await Users.SingleAsync(x => x.Email == email);
+        }
     }
 }

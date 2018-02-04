@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Archspace2
@@ -15,18 +13,27 @@ namespace Archspace2
         {
         }
 
-        public async Task<Player> CreatePlayerAsync(string aName, Race aRace)
+        public User(ClaimsPrincipal aClaimsPrincipal)
         {
-            using (DatabaseContext databaseContext = Game.Context)
-            {
-                databaseContext.Attach(Game.Universe);
+            Email = aClaimsPrincipal.FindFirstValue(ClaimTypes.Email);
+        }
 
-                Player player = Game.Universe.CreatePlayer(aName, aRace);
+        public Player CreatePlayer(string aName, Race aRace)
+        {
+            Player player = Game.Universe.CreatePlayer(aName, aRace);
+            player.User = this;
+            
+            return player;
+        }
 
-                await databaseContext.SaveChangesAsync();
+        public Player CreatePlayer(string aName, RaceType aRace)
+        {
+            return CreatePlayer(aName, Game.Configuration.Races.Single(x => x.Id == (int)aRace));
+        }
 
-                return player;
-            }
+        public Player GetPlayer()
+        {
+            return Game.Universe.Players.SingleOrDefault(x => x.User != null && x.User.Id == Id);
         }
     }
 }

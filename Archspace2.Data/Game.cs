@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -22,8 +23,6 @@ namespace Archspace2
         {
             get
             {
-                CheckState();
-                
                 return new DatabaseContext(mConnectionString);
             }
         }
@@ -35,8 +34,6 @@ namespace Archspace2
         public static GameConfiguration Configuration {
             get
             {
-                CheckState();
-
                 return mGameConfiguration;
             }
         }
@@ -45,8 +42,6 @@ namespace Archspace2
         {
             get
             {
-                CheckState();
-
                 return mUniverse;
             }
             private set
@@ -81,6 +76,10 @@ namespace Archspace2
             try
             {
                 Universe universe = await Context.Universes.Where(x => x.FromDate <= DateTime.UtcNow && (x.ToDate == null || DateTime.UtcNow < x.ToDate)).SingleOrDefaultAsync();
+                if (universe == null)
+                {
+                    await CreateNewUniverseAsync(DateTime.UtcNow);
+                }
             }
             catch (Exception e)
             {
@@ -90,8 +89,6 @@ namespace Archspace2
 
         public static async Task<User> CreateNewUserAsync()
         {
-            CheckState();
-
             using (DatabaseContext databaseContext = Context)
             {
                 User user = new User();
@@ -106,8 +103,6 @@ namespace Archspace2
 
         public static async Task<Universe> CreateNewUniverseAsync(DateTime aFromDate, DateTime? aToDate = null)
         {
-            CheckState();
-
             using (DatabaseContext databaseContext = Context)
             {
                 Universe universe = new Universe(aFromDate, aToDate);
@@ -131,8 +126,6 @@ namespace Archspace2
 
         public static async Task LoadUniverseAsync()
         {
-            CheckState();
-
             using (DatabaseContext databaseContext = Context)
             {
                 Universe universe = await databaseContext.Universes.Where(x => x.FromDate <= DateTime.UtcNow && (DateTime.UtcNow < x.ToDate || x.ToDate == null)).SingleAsync();
@@ -148,11 +141,13 @@ namespace Archspace2
             }
         }
 
-        private static void CheckState()
+        public static async Task LogAsync(Exception aException, LogType aLogType = LogType.Error, [CallerFilePath]string aCallerFilePath = null, [CallerMemberName]string aCallerMemberName = null, [CallerLineNumber]int aCallerLineNumber = 0)
         {
-            if (!mInitialized)
+            using (DatabaseContext databaseContext = Context)
             {
-                throw new InvalidOperationException("Game engine not initialized.");
+                databaseContext.SystemLogs.Add(new SystemLog(aException.ToString(), aLogType, aCallerFilePath, aCallerMemberName, aCallerLineNumber));
+
+                await databaseContext.SaveChangesAsync();
             }
         }
 
@@ -168,8 +163,6 @@ namespace Archspace2
 
         public static void Start()
         {
-            CheckState();
-
             mRunning = true;
 
             if (mMainThread != null)
@@ -179,6 +172,38 @@ namespace Archspace2
 
             mMainThread = new Thread(() => Run());
             mMainThread.Start();
+        }
+
+        public static async Task AddOrUpdateUserAsync(ClaimsPrincipal aClaimsPrincipal)
+        {
+            using (DatabaseContext context = GetContext())
+            {
+                string email = aClaimsPrincipal.FindFirstValue(ClaimTypes.Email);
+
+                if (email == null)
+                {
+                    throw new InvalidOperationException("No email claim in claims principal.");
+                }
+                else
+                {
+                    if (context.Users.Any(x => x.Email == email))
+                    {
+                        User user = context.Users.Single(x => x.Email == email);
+                        user.Email = email;
+                    }
+                    else
+                    {
+                        context.Users.Add(new User(aClaimsPrincipal));
+                    }
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public static DatabaseContext GetContext()
+        {
+            return new DatabaseContext(mConnectionString);
         }
 
         private static void Run()

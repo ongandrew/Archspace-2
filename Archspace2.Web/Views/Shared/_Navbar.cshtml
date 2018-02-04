@@ -1,0 +1,12 @@
+﻿<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        @if (Context.User.Identity.IsAuthenticated)
+        {
+        <button class="btn btn-danger navbar-btn navbar-right" onclick="location.href='/authentication/signout'">Logout</button>
+        }
+        else
+        {
+        <button class="btn btn-success navbar-btn navbar-right" onclick="location.href='archspace'">Login</button>
+        }
+    </div>
+</nav>

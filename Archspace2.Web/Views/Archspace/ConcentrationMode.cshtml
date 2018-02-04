@@ -1,0 +1,22 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Main";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    Current: @(player.ConcentrationMode.ToString())
+    <form method="post" action="@Url.Action("ChangeConcentrationMode", "Player")">
+        <div class="form-group">
+            <label for="mode">Select list:</label>
+            <select class="form-control" id="mode" name="mode">
+                @foreach (ConcentrationMode mode in Enum.GetValues(typeof(ConcentrationMode)))
+                {
+                <option value="@mode">@mode.ToString()</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-default">Create</button>
+        </div>
+    </form>
+</main>

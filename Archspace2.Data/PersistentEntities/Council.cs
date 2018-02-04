@@ -8,6 +8,7 @@ namespace Archspace2
     [Table("Council")]
     public class Council : UniverseEntity
     {
+        public string Name { get; set; }
         public int Honor { get; set; }
 
         public int? SpeakerId { get; set; }
