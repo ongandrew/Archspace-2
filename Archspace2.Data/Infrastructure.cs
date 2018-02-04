@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Archspace2
 {
-    public class Infrastructure : IBuildings
+    public class Infrastructure
     {
         public int Factory { get; set; }
         public int ResearchLab { get; set; }

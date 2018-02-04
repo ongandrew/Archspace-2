@@ -5,3 +5,12 @@
 }
 
 <a href="archspace"><img class="splash" src="~/images/archspace.jpg" /></a>
+
+@if (Context.User.Identity.IsAuthenticated)
+{
+    <li><a asp-area="" asp-controller="Home" asp-action="Logout">Logout</a></li>
+}
+else
+{
+    <li><a asp-area="" asp-controller="Home" asp-action="Protected">Login</a></li>
+}

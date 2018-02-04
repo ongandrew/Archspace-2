@@ -2,7 +2,7 @@
 
 namespace Archspace2
 {
-    public class DistributionRatio : IBuildings
+    public class DistributionRatio
     {
         public DistributionRatio()
         {
@@ -27,11 +27,6 @@ namespace Archspace2
                 ResearchLab = aResearchLab;
                 MilitaryBase = aMilitaryBase;
             }
-        }
-
-        public int Total()
-        {
-            return Factory + ResearchLab + MilitaryBase;
         }
     }
 }
