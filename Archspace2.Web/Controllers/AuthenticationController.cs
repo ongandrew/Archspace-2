@@ -21,7 +21,7 @@ namespace Archspace2.Web
             if (result.Succeeded)
             {
                 await HttpContext.SignInAsync(result.Principal);
-                return Ok();
+                return RedirectToAction("Index", "Archspace");
             }
             else
             {
@@ -33,7 +33,7 @@ namespace Archspace2.Web
         public async Task<IActionResult> Signout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Ok();
+            return RedirectToAction("Index", "Archspace");
         }
     }
 }

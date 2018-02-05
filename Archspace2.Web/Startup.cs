@@ -107,6 +107,13 @@ namespace Archspace2.Web
                     OnTicketReceived = async (context) =>
                     {
                         await Game.AddOrUpdateUserAsync(context.Principal);
+                    },
+                    OnRedirectToIdentityProvider = async (context) =>
+                    {
+                        if (!context.Request.IsHttps)
+                        {
+                            context.Request.Scheme = "https";
+                        }
                     }
                 }
                 ;

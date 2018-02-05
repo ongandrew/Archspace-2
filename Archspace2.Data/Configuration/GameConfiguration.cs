@@ -6897,7 +6897,7 @@ namespace Archspace2
                 new Tech()
                 {
                     Id = 1307,
-                    Name = "Fusion Power",
+                    Name = "Plasma Mechanics",
                     Description = "Matters exist not only as solids, liquids, and gases, but as plasma.  In its plasma state, matters exhibit characteristics not portrayed in its other states.  Understanding these characteristics and manipulating plasma for useful purposes is the role of plasma mechanics.",
                     Type = TechType.MatterEnergy,
                     Attribute = TechAttribute.Normal,

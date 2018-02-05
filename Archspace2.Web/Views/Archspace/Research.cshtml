@@ -6,21 +6,89 @@
 }
 
 <main>
-    Current: @(player.TargetTech != null ? player.TargetTech.Name : "None")
+    <table>
+        <tr><td>@(player.TargetTech != null ? player.TargetTech.Name : "Free Research")</td></tr>
+        <tr><td>@(player.TargetTech != null ? $"{player.Resource.ResearchPoint}/{player.GetTechCost(player.TargetTech)}" : "No one knows the progress of free research.")</td></tr>
+    </table>
 
-    Researched Technologies:
-    @foreach (Tech tech in player.Techs)
-    {
-    <p>@tech.Name</p>
-    }
-    Available Technologies:
-    @foreach (Tech tech in player.GetAvailableTechs())
-    {
-    <p>@tech.Name</p>
-    }
-    Locked Technologies:
-    @foreach (Tech tech in player.GetLockedTechs())
-    {
-    <p>@tech.Name</p>
-    }
+    <form method="post" action="@Url.Action("ChangeTargetTech", "Player")">
+        <div class="form-group">
+            <label for="targetTech">Select list:</label>
+            <select class="form-control" id="target-tech" name="id">
+                <option value=0>None</option>
+                @foreach (Tech tech in player.GetAvailableTechs())
+                {
+                    <option value=@tech.Id @if (player.TargetTech != null && player.TargetTech.Id == tech.Id) { <text> selected</text> }>@tech.Name</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-default">Change</button>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-4">
+            <table>
+                <thead>
+                    <tr><td>Information</td></tr>
+                </thead>
+                <tbody>
+                    @foreach (Tech tech in player.Techs.Where(x => x.Type == TechType.Information))
+                    {
+                    <tr><td>@tech.Name</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-4">
+            <table>
+                <thead>
+                    <tr><td>Life</td></tr>
+                </thead>
+                <tbody>
+                    @foreach (Tech tech in player.Techs.Where(x => x.Type == TechType.Life))
+                    {
+                    <tr><td>@tech.Name</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-4">
+            <table>
+                <thead>
+                    <tr><td>Matter-Energy</td></tr>
+                </thead>
+                <tbody>
+                    @foreach (Tech tech in player.Techs.Where(x => x.Type == TechType.MatterEnergy))
+                    {
+                    <tr><td>@tech.Name</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-4">
+            <table>
+                <thead>
+                    <tr><td>Social</td></tr>
+                </thead>
+                <tbody>
+                    @foreach (Tech tech in player.Techs.Where(x => x.Type == TechType.Social))
+                    {
+                    <tr><td>@tech.Name</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+
 </main>

@@ -62,6 +62,12 @@ namespace Archspace2.Web
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
         }
 
+        [Route("project")]
+        public async Task<IActionResult> Project()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
         [Route("admin")]
         public async Task<IActionResult> Admin()
         {

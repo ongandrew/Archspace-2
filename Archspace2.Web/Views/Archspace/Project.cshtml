@@ -1,0 +1,34 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Project";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    <h2>Purchased Projects</h2>
+    <p>@string.Join(", ", player.Projects.Select(x => x.Name))</p>
+
+    <h2>Available Projects</h2>
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Type</td>
+                <td>Cost</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Project project in player.GetAvailableProjects())
+            {
+            <tr>
+                <td>@project.Name</td>
+                <td>@project.Type.ToString()</td>
+                <td>@player.GetProjectCost(project)</td>
+                <td><input type="checkbox" value=@project.Id  /></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</main>

@@ -293,6 +293,39 @@ namespace Archspace2
             return Game.Configuration.Techs.Except(Techs).Except(GetAvailableTechs()).ToList();
         }
 
+        public List<Project> GetAvailableProjects()
+        {
+            return Game.Configuration.Projects.Where(x => x.Prerequisites.Evaluate(this) && (x.Type == ProjectType.Ending || x.Type == ProjectType.Fixed || x.Type == ProjectType.Planet || x.Type == ProjectType.Secret)).Except(Projects).ToList();
+        }
+
+        public void PurchaseProject(int aProjectId)
+        {
+            Project project = Game.Configuration.Projects.Where(x => x.Id == aProjectId).SingleOrDefault();
+
+            if (project != null)
+            {
+                int cost = GetProjectCost(project);
+
+                if (Resource.ProductionPoint >= cost)
+                {
+                    Resource.ProductionPoint -= cost;
+                    Projects.Add(project);
+                }
+            }
+        }
+
+        public int GetProjectCost(Project aProject)
+        {
+            if (aProject.Type == ProjectType.Planet)
+            {
+                return aProject.Cost * Planets.Count;
+            }
+            else
+            {
+                return aProject.Cost;
+            }
+        }
+
         public void AddNews(string aText)
         {
             NewsItem newsItem = new NewsItem(Universe);
