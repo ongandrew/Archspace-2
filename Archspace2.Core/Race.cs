@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace Archspace2
@@ -101,6 +102,9 @@ namespace Archspace2
         public List<string> AdmiralLastNames { get; set; }
         [JsonProperty("AdmiralNameStyle")]
         public AdmiralNameStyle AdmiralNameStyle { get; set; }
+
+        [JsonProperty("Color")]
+        public Color Color { get; set; }
 
         public override string ToString()
         {

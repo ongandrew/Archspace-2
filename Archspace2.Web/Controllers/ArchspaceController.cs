@@ -13,7 +13,7 @@ namespace Archspace2.Web
     {
         [Route("")]
         [Route("main")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Main()
         {
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
         }
@@ -64,6 +64,12 @@ namespace Archspace2.Web
 
         [Route("project")]
         public async Task<IActionResult> Project()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("whitebook")]
+        public async Task<IActionResult> Whitebook()
         {
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
         }

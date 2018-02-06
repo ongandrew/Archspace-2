@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -4261,7 +4262,8 @@ namespace Archspace2
                         "Vandike",
                         "Drought",
                         "Drake"
-                    }
+                    },
+                    Color = Color.FromArgb(42, 23, 69)
                 },
                 new Race()
                 {
@@ -4355,7 +4357,8 @@ namespace Archspace2
                         "Torriashstoh",
                         "Zihaarrhud",
                         "Tworrkatth"
-                    }
+                    },
+                    Color = Color.FromArgb(15, 50, 0)
                 },
                 new Race()
                 {
@@ -4447,7 +4450,8 @@ namespace Archspace2
                         "Nouvau",
                         "Plait",
                         "Mosles"
-                    }
+                    },
+                    Color = Color.FromArgb(70, 39, 0)
                 },
                 new Race()
                 {
@@ -4563,7 +4567,8 @@ namespace Archspace2
                         "Inarixh",
                         "Nektublis",
                         "Ishtlosh"
-                    }
+                    },
+                    Color = Color.FromArgb(0, 58, 72)
                 },
                 new Race()
                 {
@@ -4631,7 +4636,8 @@ namespace Archspace2
                         AdmiralRacialAbility.RigidThinking,
                         AdmiralRacialAbility.ManagementProtocol
                     },
-                    AdmiralNameStyle = AdmiralNameStyle.Evintos
+                    AdmiralNameStyle = AdmiralNameStyle.Evintos,
+                    Color = Color.FromArgb(49, 49, 49)
                 },
                 new Race()
                 {
@@ -4747,7 +4753,8 @@ namespace Archspace2
                         "Seak",
                         "Thorr",
                         "Baal"
-                    }
+                    },
+                    Color = Color.FromArgb(84, 30, 30)
                 },
                 new Race()
                 {
@@ -4868,7 +4875,8 @@ namespace Archspace2
                         "Samaysara",
                         "Dhyanastav",
                         "Dharanendra"
-                    }
+                    },
+                    Color = Color.FromArgb(72, 54, 0)
                 },
                 new Race()
                 {
@@ -4993,7 +5001,8 @@ namespace Archspace2
                         "Maat",
                         "Taweret",
                         "Qetesh"
-                    }
+                    },
+                    Color = Color.FromArgb(90, 0, 0)
                 },
                 new Race()
                 {
@@ -5107,7 +5116,8 @@ namespace Archspace2
                         "Tel'Peh",
                         "J'Dtan",
                         "K'mpec"
-                    }
+                    },
+                    Color = Color.FromArgb(0, 52, 46)
                 },
                 new Race()
                 {
@@ -5162,7 +5172,8 @@ namespace Archspace2
                         AdmiralRacialAbility.PsychicProgenitor,
                         AdmiralRacialAbility.ArtifactCoolingEngine
                     },
-                    AdmiralNameStyle = AdmiralNameStyle.Xesperados
+                    AdmiralNameStyle = AdmiralNameStyle.Xesperados,
+                    Color = Color.FromArgb(62, 62, 0)
                 }
             };
         }

@@ -302,7 +302,7 @@ namespace Archspace2
         {
             Project project = Game.Configuration.Projects.Where(x => x.Id == aProjectId).SingleOrDefault();
 
-            if (project != null)
+            if (project != null && EvaluatePrerequisites(project))
             {
                 int cost = GetProjectCost(project);
 

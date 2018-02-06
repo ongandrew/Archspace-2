@@ -9,26 +9,29 @@
     <h2>Purchased Projects</h2>
     <p>@string.Join(", ", player.Projects.Select(x => x.Name))</p>
 
-    <h2>Available Projects</h2>
-    <table>
-        <thead>
-            <tr>
-                <td>Name</td>
-                <td>Type</td>
-                <td>Cost</td>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (Project project in player.GetAvailableProjects())
-            {
-            <tr>
-                <td>@project.Name</td>
-                <td>@project.Type.ToString()</td>
-                <td>@player.GetProjectCost(project)</td>
-                <td><input type="checkbox" value=@project.Id  /></td>
-            </tr>
-            }
-        </tbody>
-    </table>
+    <form action="@Url.Action("PurchaseProjects", "Player")" method="post">
+        <h2>Available Projects</h2>
+        <table>
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Type</td>
+                    <td>Cost</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Project project in player.GetAvailableProjects())
+                {
+                <tr>
+                    <td>@project.Name</td>
+                    <td>@project.Type.ToString()</td>
+                    <td>@player.GetProjectCost(project)</td>
+                    <td><input name="ids" type="checkbox" value=@project.Id /></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-default">Purchase</button>
+    </form>
 </main>

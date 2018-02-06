@@ -141,6 +141,16 @@ namespace Archspace2
             }
         }
 
+        public static async Task LogAsync(object aObject, LogType aLogType = LogType.Information, [CallerFilePath]string aCallerFilePath = null, [CallerMemberName]string aCallerMemberName = null, [CallerLineNumber]int aCallerLineNumber = 0)
+        {
+            using (DatabaseContext databaseContext = Context)
+            {
+                databaseContext.SystemLogs.Add(new SystemLog(aObject.ToString(), aLogType, aCallerFilePath, aCallerMemberName, aCallerLineNumber));
+
+                await databaseContext.SaveChangesAsync();
+            }
+        }
+
         public static async Task LogAsync(Exception aException, LogType aLogType = LogType.Error, [CallerFilePath]string aCallerFilePath = null, [CallerMemberName]string aCallerMemberName = null, [CallerLineNumber]int aCallerLineNumber = 0)
         {
             using (DatabaseContext databaseContext = Context)

@@ -48,7 +48,7 @@ namespace Archspace2.Web
                     await context.SaveChangesAsync();
                 }
 
-                return RedirectToAction("Index", "Archspace");
+                return RedirectToAction("Main", "Archspace");
             }
             catch (Exception e)
             {
@@ -110,6 +110,36 @@ namespace Archspace2.Web
                     await context.SaveChangesAsync();
 
                     return RedirectToAction("Research", "Archspace");
+                }
+            }
+            catch (Exception e)
+            {
+                await Game.LogAsync(e);
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [Route("purchase_projects")]
+        public async Task<IActionResult> PurchaseProjects([FromForm]int[] ids)
+        {
+            try
+            {
+                using (DatabaseContext context = Game.GetContext())
+                {
+                    context.Attach(Game.Universe);
+
+                    User user = await context.GetUserAsync(User);
+                    Player player = Game.Universe.Players.Where(x => x.User != null && x.User.Id == user.Id).Single();
+
+                    foreach (int id in ids)
+                    {
+                        player.PurchaseProject(id);
+                    }
+
+                    await context.SaveChangesAsync();
+
+                    return RedirectToAction("Project", "Archspace");
                 }
             }
             catch (Exception e)

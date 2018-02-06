@@ -6,5 +6,47 @@
 }
 
 <main>
+    <table>
+        <tr>
+            <td>Environment</td>
+            <td>@player.ControlModel.Environment</td>
+            <td>Growth</td>
+            <td>@player.ControlModel.Growth</td>
+            <td>Research</td>
+            <td>@player.ControlModel.Research</td>
+        </tr>
+        <tr>
+            <td>Production</td>
+            <td>@player.ControlModel.Production</td>
+            <td>Military</td>
+            <td>@player.ControlModel.Military</td>
+            <td>Spy</td>
+            <td>@player.ControlModel.Spy</td>
+        </tr>
+        <tr>
+            <td>Commerce</td>
+            <td>@player.ControlModel.Commerce</td>
+            <td>Efficiency</td>
+            <td>@player.ControlModel.Efficiency</td>
+            <td>Genius</td>
+            <td>@player.ControlModel.Genius</td>
+        </tr>
+        <tr>
+            <td>Diplomacy</td>
+            <td>@player.ControlModel.Diplomacy</td>
+            <td>Facility Cost</td>
+            <td>@player.ControlModel.FacilityCost</td>
+        </tr>
+    </table>
 
+    <table>
+        <tr>
+            <td>Factory</td>
+            <td>@player.Planets.Sum(x => x.Infrastructure.Factory)</td>
+            <td>Research Lab</td>
+            <td>@player.Planets.Sum(x => x.Infrastructure.ResearchLab)</td>
+            <td>Military Base</td>
+            <td>@player.Planets.Sum(x => x.Infrastructure.MilitaryBase)</td>
+        </tr>
+    </table>
 </main>

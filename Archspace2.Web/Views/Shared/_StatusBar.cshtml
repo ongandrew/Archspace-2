@@ -1,4 +1,5 @@
 ﻿@using Archspace2
+@using Archspace2.Web
 @{
     Player player = (Player)ViewData["Player"];
 }
@@ -8,7 +9,7 @@
 <table>
     <tr>
         <td>
-            <div align="center">
+            <div align="center" style="background-color: @player.Race.Color.ToHtml()">
                 <img src="~/images/races/@(player.Race.Name.ToLowerInvariant())/small_symbol.gif" /> @player.Race.Name PP: @player.Resource.ProductionPoint Planets: @player.Planets.Count  Population: @player.Planets.Sum(x => x.Population)
             </div>
         </td>
