@@ -9,7 +9,7 @@ namespace Archspace2.Web
 {
     [Authorize]
     [Route("archspace")]
-    public class ArchspaceController : Controller
+    public class ArchspaceController : ControllerBase
     {
         [Route("")]
         [Route("main")]
@@ -79,31 +79,12 @@ namespace Archspace2.Web
         {
             return View();
         }
-        
-        protected async Task<bool> HasCharacter()
-        {
-            User user = await GetUserAsync();
-            return user.GetPlayer() != null;
-        }
-
-        protected async Task<Player> GetCharacterAsync()
-        {
-            return (await GetUserAsync()).GetPlayer();
-        }
-
-        protected async Task<User> GetUserAsync()
-        {
-            using (DatabaseContext context = Game.GetContext())
-            {
-                return await context.GetUserAsync(User);
-            }
-        }
 
         protected async Task<IActionResult> RedirectToCreationOrReturnViewWithPlayerDataAsync()
         {
             if (!await HasCharacter())
             {
-                return RedirectToAction("Create");
+                return RedirectToAction("Create", "Archspace");
             }
             else
             {

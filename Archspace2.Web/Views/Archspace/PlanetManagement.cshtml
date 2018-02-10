@@ -8,6 +8,27 @@
 <main>
     @foreach (Planet planet in player.Planets)
     {
-    <p>@planet.Name</p>
+    <table>
+        <tr>
+            <td><a href="@Url.Action("ViewDetail", "Planet", new { id = planet.Id })">@planet.Name</a></td>
+        </tr>
+        <tr>
+            <td>Size</td>
+            <td>@planet.Size.ToString()</td>
+            <td>Resource</td>
+            <td>@planet.Resource.ToString()</td>
+            <td>Population</td>
+            <td>@planet.Population</td>
+        </tr>
+        <tr>
+            <td>Factory</td>
+            <td>@planet.Infrastructure.Factory</td>
+            <td>Research Lab</td>
+            <td>@planet.Infrastructure.ResearchLab</td>
+            <td>Factory</td>
+            <td>@planet.Infrastructure.MilitaryBase</td>
+        </tr>
+    </table>
+    
     }
 </main>

@@ -1,0 +1,220 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Planet Details";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    Planet planet = (Planet)ViewData["Planet"];
+}
+
+
+<main>
+    <div>
+        <h2>@planet.Name</h2>
+    </div>
+
+    <div>
+        <table>
+            <tr>
+                <td>
+                    Population
+                </td>
+                <td>
+                    @planet.Population
+                </td>
+                <td>
+                    Max Population
+                </td>
+                <td>
+                    @planet.MaxPopulation
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    PP Per Turn
+                </td>
+                <td>
+                    @planet.CalculateProductionPointPerTurn()
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Commerce With
+                </td>
+                <td>
+                    @string.Join(", ", planet.CommercePlanets.Select(x => x.Name))
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Temperature
+                </td>
+                <td>
+                    @planet.Temperature
+                </td>
+                <td>
+                    Waste Rate
+                </td>
+                <td>
+                    @planet.WasteRate
+                </td>
+                <td>
+                    Atmosphere
+                </td>
+                <td>
+                    @foreach (var entry in planet.Atmosphere.AsDictionary())
+                    {
+                        if (entry.Value != 0)
+                        {
+                            <text>
+                            @entry.Key.ToString(): @(entry.Value * 20)%
+                            </text>
+                        }
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Resource
+                </td>
+                <td>
+                    @planet.Resource.ToString()
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Gravity
+                </td>
+                <td>
+                    @planet.Gravity
+                </td>
+                <td>
+                    Attributes
+                </td>
+                <td>
+                    @string.Join("<br>", planet.Attributes.Select(x => x.Name))
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Buildings
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Factory
+                </td>
+                <td>
+                    @planet.Infrastructure.Factory
+                </td>
+                <td>
+                    Research Lab
+                </td>
+                <td>
+                    @planet.Infrastructure.ResearchLab
+                </td>
+                <td>
+                    Military Base
+                </td>
+                <td>
+                    @planet.Infrastructure.MilitaryBase
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>
+                    Distribution Ratio
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Factory
+                </td>
+                <td id="ratio-factory-controls">
+                    <input onclick="decreaseDistributionRatio('factory')" type="image" src="~/images/planets/planet_arrow_left.gif" />
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <img src="~/images/planets/@((planet.DistributionRatio.Factory/10) > i ? "planet_check.gif" : "planet_box.gif")" />
+                    }
+                    <input onclick="increaseDistributionRatio('factory')" type="image" src="~/images/planets/planet_arrow_right.gif" />
+                </td>
+                <td id="ratio-factory">
+                    @(planet.DistributionRatio.Factory)%
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Research Lab
+                </td>
+                <td id="ratio-research-lab-controls">
+                    <input onclick="decreaseDistributionRatio('research-lab')" type="image" src="~/images/planets/planet_arrow_left.gif" />
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <img src="~/images/planets/@((planet.DistributionRatio.ResearchLab/10) > i ? "planet_check.gif" : "planet_box.gif")" />
+                    }
+                    <input onclick="increaseDistributionRatio('research-lab')" type="image" src="~/images/planets/planet_arrow_right.gif" />
+                </td>
+                <td id="ratio-research-lab">
+                    @(planet.DistributionRatio.ResearchLab)"%
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Military Base
+                </td>
+                <td id="ratio-military-base-controls">
+                    <input onclick="decreaseDistributionRatio('military-base')" type="image" src="~/images/planets/planet_arrow_left.gif" />
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <img src="~/images/planets/@((planet.DistributionRatio.MilitaryBase/10) > i ? "planet_check.gif" : "planet_box.gif")" />
+                    }
+                    <input onclick="increaseDistributionRatio('military-base')" type="image" src="~/images/planets/planet_arrow_right.gif" />
+                </td>
+                <td id="ratio-military-base">
+                    @(planet.DistributionRatio.MilitaryBase)%
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" onclick="changeDistributionRatioAsync()">Change</button>
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>
+                    Investment
+                </td>
+                <td>
+                    @planet.Investment
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Amount to Invest
+                </td>
+                <td>
+                    <form method="post" action="@Url.Action("ChangeInvestment", "Planet", new { id = planet.Id })">
+                        <input type="text" name="amount" />
+                        <button type="submit">Invest</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/planetDetail.js"></script>
+    <script>
+        var id = @planet.Id;
+    </script>
+}

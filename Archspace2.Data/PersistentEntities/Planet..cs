@@ -60,69 +60,7 @@ namespace Archspace2
 
         public bool UsePlanetInvestmentPool { get; set; }
         public int Investment { get; set; }
-        public int InvestRate
-        {
-            get
-            {
-                if (Player == null)
-                {
-                    return -1;
-                }
-                else
-                {
-                    int rate = 0;
-                    int investMaxPP = 0;
 
-                    if (Player.Traits.Contains(RacialTrait.EfficientInvestment))
-                    {
-                        investMaxPP = MaxInvestProduction / 2;
-                    }
-                    else
-                    {
-                        investMaxPP = MaxInvestProduction;
-                    }
-
-                    if (investMaxPP != 0 && (Investment != 0 || UsePlanetInvestmentPool))
-                    {
-                        int invest = 0;
-
-                        if (investMaxPP < Investment)
-                        {
-                            invest = investMaxPP;
-                            Investment -= invest;
-                        }
-                        else
-                        {
-                            invest = Investment;
-                            Investment -= invest;
-
-                            if (UsePlanetInvestmentPool)
-                            {
-                                int investPool = Player.PlanetInvestmentPool;
-                                if (invest + investPool >= investMaxPP)
-                                {
-                                    Player.PlanetInvestmentPool += invest - investMaxPP;
-                                    invest = investMaxPP;
-                                }
-                                else
-                                {
-                                    Player.PlanetInvestmentPool = 0;
-                                    invest += investPool;
-                                }
-                            }
-                        }
-
-                        rate = (int)(invest * (100 - WasteRate) / investMaxPP);
-                    }
-                    else
-                    {
-                        rate = 0;
-                    }
-
-                    return rate;
-                }
-            }
-        }
         public int WasteRate {
             get
             {
@@ -209,13 +147,6 @@ namespace Archspace2
                 return result;
             }
         }
-        public int MaxInvestProduction
-        {
-            get
-            {
-                return (int)((((double)Population) * ((double)MaxPopulation)) / 1000000.0);
-            }
-        }
 
         public ControlModel ControlModel
         {
@@ -272,6 +203,7 @@ namespace Archspace2
             Infrastructure.MilitaryBase = 10;
 
             Size = PlanetSize.Medium;
+            Resource = PlanetResource.Normal;
 
             Player = aPlayer;
 
@@ -452,19 +384,7 @@ namespace Archspace2
 
                     ProcessTerraforming();
 
-                    if (UsePlanetInvestmentPool)
-                    {
-                        int investMaxPP;
-
-                        if (Player.Traits.Contains(RacialTrait.EfficientInvestment))
-                        {
-                            investMaxPP = MaxInvestProduction / 2;
-                        }
-                        else
-                        {
-                            investMaxPP = MaxInvestProduction;
-                        }
-                    }
+                    ProcessInvestment();
 
                     result.Income = newResources;
                     result.Upkeep = upkeep;
@@ -568,6 +488,81 @@ namespace Archspace2
             return temp.MilitaryPoint;
         }
 
+        public int CalculateUsableInvestment()
+        {
+            if (Player == null)
+            {
+                return 0;
+            }
+            else
+            {
+                int investMaxPP = 0;
+
+                if (Player.Traits.Contains(RacialTrait.EfficientInvestment))
+                {
+                    investMaxPP = CalculateMaxInvestmentProudction() / 2;
+                }
+                else
+                {
+                    investMaxPP = CalculateMaxInvestmentProudction();
+                }
+
+                if (investMaxPP != 0 && (Investment != 0 || UsePlanetInvestmentPool))
+                {
+                    int invest = 0;
+
+                    if (investMaxPP < Investment)
+                    {
+                        invest = investMaxPP;
+                    }
+                    else
+                    {
+                        invest = Investment;
+
+                        if (UsePlanetInvestmentPool)
+                        {
+                            int investPool = Player.PlanetInvestmentPool;
+                            if (invest + investPool >= investMaxPP)
+                            {
+                                invest = investMaxPP;
+                            }
+                            else
+                            {
+                                invest += investPool;
+                            }
+                        }
+                    }
+
+                    return invest;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+        public int CalculateMaxInvestmentProudction()
+        {
+            return (int)((((double)Population) * ((double)MaxPopulation)) / 1000000.0);
+        }
+
+        public int CalculateInvestRate()
+        {
+            int investMaxPP = 0;
+
+            if (Player.Traits.Contains(RacialTrait.EfficientInvestment))
+            {
+                investMaxPP = CalculateMaxInvestmentProudction() / 2;
+            }
+            else
+            {
+                investMaxPP = CalculateMaxInvestmentProudction();
+            }
+
+            return (int)(CalculateUsableInvestment() * (100 - WasteRate) / investMaxPP);
+        }
+
         private int CalculateCommerce()
         {
             int productionPoint = 0;
@@ -638,7 +633,7 @@ namespace Archspace2
 
             labourPoint -= labourPoint * WasteRate / 100;
 
-            int bonusRatio = ((int)(InvestRate / 20)) * 10;
+            int bonusRatio = ((int)(CalculateInvestRate() / 20)) * 10;
             labourPoint = labourPoint + (int)(labourPoint * bonusRatio / 100);
 
             return labourPoint;
@@ -723,13 +718,14 @@ namespace Archspace2
 
             Population += (Population * growthRatio / 100) + baseGrowth;
         }
+
         private void ProcessTerraforming()
         {
             if (Terraforming)
             {
                 TerraformingTimer++;
                 int neededTurns = (24 * 3600)/(Game.Configuration.SecondsPerTurn) 
-                    - (((24 * 3600) / (Game.Configuration.SecondsPerTurn)) * (InvestRate/25)/10);
+                    - (((24 * 3600) / (Game.Configuration.SecondsPerTurn)) * (CalculateInvestRate()/25)/10);
 
                 if (TerraformingTimer >= neededTurns)
                 {
@@ -758,6 +754,38 @@ namespace Archspace2
                     }
                 }
             }
+        }
+
+        private void ProcessInvestment()
+        {
+            if (Player == null)
+            {
+                return;
+            }
+            else
+            {
+                int investment = CalculateUsableInvestment();
+
+                if (investment <= Investment)
+                {
+                    Investment -= investment;
+                }
+                else
+                {
+                    investment -= Investment;
+                    Investment = 0;
+
+                    if (investment <= Player.PlanetInvestmentPool)
+                    {
+                        Player.PlanetInvestmentPool -= investment;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Overspending detected in investment.");
+                    }
+                }
+            }
+            
         }
 
         private bool TryTerraformAtmosphere()
