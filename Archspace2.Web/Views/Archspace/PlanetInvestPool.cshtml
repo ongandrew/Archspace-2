@@ -7,4 +7,28 @@
 
 <main>
     Amount: @(player.PlanetInvestmentPool)
+    <form method="post" action="@Url.Action("ChangeInvestmentPool", "Player")">
+        <input name="amount" type="text" value=0 />
+        <button type="submit">Submit</button>
+    </form>
+    <form method="post" action="@Url.Action("ChangeInvestmentPoolUsage", "Player")">
+        <table>
+            <thead>
+                <tr>
+                    <td>Planet</td>
+                    <td>Use Investment Pool</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Planet planet in player.Planets)
+                {
+                <tr>
+                    <td><a href="@Url.Action("ViewDetail", "Planet", new { id = planet.Id })">@planet.Name</a></td>
+                    <td><input name="ids" type="checkbox" value=@planet.Id @if (planet.UsePlanetInvestmentPool) { <text>checked</text> }/></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit">Submit</button>
+    </form>
 </main>
