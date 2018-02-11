@@ -37,6 +37,22 @@ namespace Archspace2.Web
             }
         }
 
+        [Route("create")]
+        public async Task<IActionResult> Create()
+        {
+            if (!await HasCharacter())
+            {
+                return RedirectToAction("Create", "Archspace");
+            }
+            else
+            {
+                Player player = await GetCharacterAsync();
+                ViewData["Player"] = player;
+
+                return View();
+            }
+        }
+
         [HttpPost]
         [Route("build")]
         public async Task<IActionResult> Build([FromForm]ShipBuildOrderForm aForm)

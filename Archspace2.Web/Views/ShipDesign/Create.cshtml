@@ -1,0 +1,110 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Create Design";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    <div>
+        Name
+        <input type="text" id="name" value="" />
+    </div>
+
+    <div>
+        Class
+        <select id="ship-class" onchange="loadShipClassOptions()">
+            @foreach (ShipClass shipClass in Game.Configuration.ShipClasses.Where(x => player.EvaluatePrerequisites(x)))
+            {
+            <option value=@shipClass.Id>@shipClass.Name</option>
+            }
+        </select>
+    </div>
+    
+
+    <div>
+        Computer
+        <select id="computer">
+            @foreach (Computer computer in Game.Configuration.Computers.Where(x => player.EvaluatePrerequisites(x)))
+            {
+                <option value=@computer.Id>@computer.Name</option>
+            }
+        </select>
+    </div>
+    <div>
+        Engine
+        <select id="engine">
+            @foreach (Engine engine in Game.Configuration.Engines.Where(x => player.EvaluatePrerequisites(x)))
+            {
+                <option value=@engine.Id>@engine.Name</option>
+            }
+        </select>
+    </div>
+    <div>
+        Armor
+        <select id="armor">
+            @foreach (Armor armor in Game.Configuration.Armors.Where(x => player.EvaluatePrerequisites(x)))
+            {
+                <option value=@armor.Id>@armor.Name</option>
+            }
+        </select>
+    </div>
+    <div>
+        Shields
+        <select id="shields">
+            @foreach (Shield shield in Game.Configuration.Shields.Where(x => player.EvaluatePrerequisites(x)))
+            {
+                <option value=@shield.Id>@shield.Name</option>
+            }
+        </select>
+    </div>
+    <div>
+        Weapons
+        <div id="weapons">
+
+        </div>
+    </div>
+    <div>
+        Devices
+        <div id="devices">
+
+        </div>
+    </div>
+
+    <button type="submit">Register Design</button>
+</main>
+
+@section Scripts { 
+    <script src="~/js/shipDesign.js"></script>
+    <script>
+        var shipClassInfo = new Object();
+        @foreach (ShipClass shipClass in Game.Configuration.ShipClasses)
+        {
+            <text>shipClassInfo[@shipClass.Id] = {
+                weaponSlots: @shipClass.WeaponSlotCount,
+                deviceSlots: @shipClass.DeviceSlotCount,
+                space: @shipClass.Space
+            };</text>
+        }
+
+        var weaponInfo = new Object();
+        @foreach (Weapon weapon in Game.Configuration.Weapons.Where(x => player.EvaluatePrerequisites(x))) {
+            <text>weaponInfo[@weapon.Id] = {
+                name: "@weapon.Name",
+                space: @weapon.Space
+            };</text>
+        }
+
+        var deviceInfo = new Object();
+        deviceInfo[0] = {
+            name: "None"
+        };
+        @foreach (Device device in Game.Configuration.Devices.Where(x => player.EvaluatePrerequisites(x))) {
+            <text>deviceInfo[@device.Id] = {
+                name: "@device.Name"
+            };</text>
+        }
+
+        loadShipClassOptions();
+    </script>
+}
