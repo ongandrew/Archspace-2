@@ -1,0 +1,100 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Ship Building";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    <form method="post" action="@Url.Action("Build", "ShipDesign")">
+        <table>
+            <thead>
+                <tr>
+                    <td>
+                        Ship Design
+                    </td>
+                    <td>
+                        Class
+                    </td>
+                    <td>
+                        Cost
+                    </td>
+                    <td>
+                        Available
+                    </td>
+                    <td>
+                        Select
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ShipDesign design in player.ShipDesigns)
+                {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("ViewDetail", "ShipDesign", new { id = design.Id })">@(design.Name)</a>
+                    </td>
+                    <td>
+                        @(design.ShipClass.Name)
+                    </td>
+                    <td>
+                        @(design.ShipClass.Cost)
+                    </td>
+                    <td>
+                        @(player.Shipyard.ShipPool.ContainsKey(design) ? player.Shipyard.ShipPool[design] : 0)
+                    </td>
+                    <td>
+                        <input name="id" type="radio" value=@design.Id />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <input type="number" name="amount" value=0 />
+
+        <button type="submit">Order</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <td>
+                    Order
+                </td>
+                <td>
+                    Ship Design
+                </td>
+                <td>
+                    Quantity
+                </td>
+                <td>
+                    Delete
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in player.Shipyard.ShipBuildOrders)
+            {
+                <tr>
+                    <td>
+                        @(player.Shipyard.ShipBuildOrders.IndexOf(item) + 1)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("ViewDetail", "ShipDesign", new { id = item.ShipDesign.Id })">@(item.ShipDesign.Name)</a>
+                    </td>
+                    <td>
+                        @item.NumberToBuild
+                    </td>
+                    <td>
+                        <img src="~/images/bu_cancel.gif" onclick="cancelBuildOrderAsync(@item.Id)" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</main>
+
+@section Scripts {
+    <script src="~/js/shipBuilding.js"></script>
+}

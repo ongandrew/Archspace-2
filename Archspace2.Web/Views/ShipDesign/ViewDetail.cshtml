@@ -1,0 +1,73 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Ship Design Details";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    ShipDesign design = (ShipDesign)ViewData["Design"];
+}
+
+<main>
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    @design.Name
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Computer
+                </td>
+                <td>
+                    Engine
+                </td>
+                <td>
+                    Armor
+                </td>
+                <td>
+                    Shield
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @design.Computer.Name
+                </td>
+                <td>
+                    @design.Engine.Name
+                </td>
+                <td>
+                    @design.Armor.Name
+                </td>
+                <td>
+                    @design.Shield.Name
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Weapons
+                </td>
+            </tr>
+            @foreach (Weapon weapon in design.Weapons)
+            {
+            <tr>
+                <td>
+                    @weapon.Name (x@(design.ShipClass.Space / ((design.ShipClass.WeaponSlotCount * weapon.Space))))
+                </td>
+            </tr>
+            }
+        <tr>
+            <td>
+                Devices
+            </td>
+        </tr>
+        <tr>
+            @foreach (Device device in design.Devices)
+            {
+            <td>
+                @device.Name
+            </td>
+            }
+        </tr>
+        </tbody>
+    </table>
+</main>

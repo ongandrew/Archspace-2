@@ -9,7 +9,7 @@ namespace Archspace2.Web
 {
     [Authorize]
     [Route("player")]
-    public class PlayerController : Controller
+    public class PlayerController : ControllerBase
     {
         [HttpGet]
         [Route("")]

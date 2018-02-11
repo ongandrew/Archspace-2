@@ -1,0 +1,55 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Ship Design";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    <table>
+        <thead>
+            <tr>
+                <td>
+                    Ship Design
+                </td>
+                <td>
+                    Class
+                </td>
+                <td>
+                    Cost
+                </td>
+                <td>
+                    Available
+                </td>
+                <td>
+                    Delete
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ShipDesign design in player.ShipDesigns)
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("ViewDetail", "ShipDesign", new { id = design.Id })">@(design.Name)</a>
+                    </td>
+                    <td>
+                        @(design.ShipClass.Name)
+                    </td>
+                    <td>
+                        @(design.ShipClass.Cost)
+                    </td>
+                    <td>
+                        @(player.Shipyard.ShipPool.ContainsKey(design) ? player.Shipyard.ShipPool[design] : 0)
+                    </td>
+                    <td>
+                        @if (!player.Fleets.Any(x => x.ShipDesign.Id == design.Id) && !player.Shipyard.ShipBuildOrders.Any(x => x.ShipDesign.Id == design.Id) && !player.Shipyard.ShipPool.ContainsKey(design))
+                        {
+                            <input name="ids" type="checkbox" value=@design.Id />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</main>

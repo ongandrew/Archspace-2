@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archspace2.Data", "Archspac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archspace2.Tests", "Archspace2.Tests\Archspace2.Tests.csproj", "{006B84DD-8770-4B0A-8C3E-66D274329463}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archspace2.Core", "Archspace2.Core\Archspace2.Core.csproj", "{F7FBB806-6C1D-4577-A93D-3B05072239C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archspace2.Core", "Archspace2.Core\Archspace2.Core.csproj", "{F7FBB806-6C1D-4577-A93D-3B05072239C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archspace2.Battle", "Archspace2.Battle\Archspace2.Battle.csproj", "{3FEB90A0-7452-495F-92B7-AEF9AE98A4FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Archspace2.Battle", "Archspace2.Battle\Archspace2.Battle.csproj", "{3FEB90A0-7452-495F-92B7-AEF9AE98A4FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

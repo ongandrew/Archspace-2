@@ -82,6 +82,7 @@ namespace Archspace2
         public DbSet<MailItem> MailItems { get; set; }
         public DbSet<Planet> Planets { get; set; }
         public DbSet<Player> Players { get; set; }
+        public DbSet<ShipBuildOrder> ShipBuildOrders { get; set; }
         public DbSet<ShipDesign> ShipDesigns { get; set; }
         public DbSet<Universe> Universes { get; set; }
         public DbSet<User> Users { get; set; }

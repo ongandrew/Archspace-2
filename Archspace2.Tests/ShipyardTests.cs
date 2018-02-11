@@ -23,15 +23,39 @@ namespace Archspace2
 
             Assert.IsNotNull(player);
 
+            int shipQueueLength = player.Shipyard.ShipBuildOrders.Count;
+
             using (DatabaseContext context = Game.Context)
             {
                 context.Attach(player);
 
-                await Task.Run(() =>
-                player.Shipyard.PlaceBuildOrder(5, player.ShipDesigns.Random()));
+                player.Shipyard.PlaceBuildOrder(5, player.ShipDesigns.Random());
+
+                Assert.IsTrue(shipQueueLength < player.Shipyard.ShipBuildOrders.Count);
 
                 await context.SaveChangesAsync();
             }
+        }
+
+        [TestMethod]
+        public async Task CannotQueueInvalidNumberOfShips()
+        {
+            User user = await Game.CreateNewUserAsync();
+
+            Assert.IsNotNull(user);
+
+            Race race = Game.Configuration.Races.Random();
+            Player player = user.CreatePlayer("Shipqueuer 2", race);
+
+            Assert.IsNotNull(player);
+
+            int shipQueueLength = player.Shipyard.ShipBuildOrders.Count;
+            
+            player.Shipyard.PlaceBuildOrder(-5, player.ShipDesigns.Random());
+            Assert.AreEqual(shipQueueLength, player.Shipyard.ShipBuildOrders.Count);
+
+            player.Shipyard.PlaceBuildOrder(0, player.ShipDesigns.Random());
+            Assert.AreEqual(shipQueueLength, player.Shipyard.ShipBuildOrders.Count);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Archspace2
 {
+    [Table("ShipBuildOrder")]
     public class ShipBuildOrder : UniverseEntity
     {
         public int ShipyardId { get; set; }

@@ -111,7 +111,10 @@ namespace Archspace2
 
         public void PlaceBuildOrder(int aNumberToBuild, ShipDesign aShipDesign)
         {
-            mShipBuildOrders.Add(new ShipBuildOrder(this, aNumberToBuild, aShipDesign));
+            if (aNumberToBuild > 0)
+            {
+                mShipBuildOrders.Add(new ShipBuildOrder(this, aNumberToBuild, aShipDesign));
+            }
         }
 
         public void DeleteBuildOrder(ShipBuildOrder aShipBuildOrder)
