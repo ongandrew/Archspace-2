@@ -37,6 +37,7 @@ namespace Archspace2.Web
             }
         }
 
+        [HttpGet]
         [Route("create")]
         public async Task<IActionResult> Create()
         {
@@ -50,6 +51,57 @@ namespace Archspace2.Web
                 ViewData["Player"] = player;
 
                 return View();
+            }
+        }
+
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> Create([FromBody] ShipDesignForm aForm)
+        {
+            if (!await HasCharacter())
+            {
+                return RedirectToAction("Create", "Archspace");
+            }
+            else
+            {
+                Player player = await GetCharacterAsync();
+                ViewData["Player"] = player;
+
+                using (DatabaseContext context = Game.GetContext())
+                {
+                    context.Attach(Game.Universe);
+
+                    ShipDesign design = new ShipDesign(Game.Universe);
+
+                    design.Name = aForm.Name;
+
+                    design.ShipClass = Game.Configuration.ShipClasses.SingleOrDefault(x => x.Id == aForm.Class);
+                    design.Armor = Game.Configuration.Armors.SingleOrDefault(x => x.Id == aForm.Armor);
+                    design.Computer = Game.Configuration.Computers.SingleOrDefault(x => x.Id == aForm.Computer);
+                    design.Engine = Game.Configuration.Engines.SingleOrDefault(x => x.Id == aForm.Engine);
+                    design.Shield = Game.Configuration.Shields.SingleOrDefault(x => x.Id == aForm.Shield);
+
+                    design.Weapons = new List<Weapon>();
+                    foreach (int id in aForm.Weapons)
+                    {
+                        design.Weapons.Add(Game.Configuration.Weapons.SingleOrDefault(x => x.Id == id));
+                    }
+
+                    design.Devices = new List<Device>();
+                    foreach (int id in aForm.Devices)
+                    {
+                        design.Devices.Add(Game.Configuration.Devices.SingleOrDefault(x => x.Id == id));
+                    }
+
+                    if (design.Validate().IsPassResult())
+                    {
+                        player.ShipDesigns.Add(design);
+
+                        await context.SaveChangesAsync();
+                    }
+                }
+
+                return RedirectToAction("ShipDesign", "Archspace");
             }
         }
 

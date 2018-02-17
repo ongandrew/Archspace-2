@@ -9,7 +9,7 @@ using Universal.Common.Extensions;
 namespace Archspace2
 {
     [Table("ShipDesign")]
-    public class ShipDesign : UniverseEntity
+    public class ShipDesign : UniverseEntity, IValidatable
     {
         public string Name { get; set; }
 
@@ -196,6 +196,65 @@ namespace Archspace2
             }
 
             return this;
+        }
+
+        public ValidateResult Validate()
+        {
+            ValidateResult result = new ValidateResult();
+
+            if (Name == null || Name == string.Empty)
+            {
+                result.Items.Add(new ValidateResult.Item() { Message = "Name is null or empty.", Severity = Severity.Error });
+            }
+
+            if (ShipClass == null)
+            {
+                result.Items.Add(new ValidateResult.Item() { Message = "ShipClass is null.", Severity = Severity.Error });
+            }
+
+            if (Armor == null)
+            {
+                result.Items.Add(new ValidateResult.Item() { Message = "Armor is null.", Severity = Severity.Error });
+            }
+
+            if (Computer == null)
+            {
+                result.Items.Add(new ValidateResult.Item() { Message = "Computer is null.", Severity = Severity.Error });
+            }
+
+            if (Engine == null)
+            {
+                result.Items.Add(new ValidateResult.Item() { Message = "Engine is null.", Severity = Severity.Error });
+            }
+
+            if (Shield == null)
+            {
+                result.Items.Add(new ValidateResult.Item() { Message = "Shield is null.", Severity = Severity.Error });
+            }
+
+            if (Weapons == null)
+            {
+                result.Items.Add(new ValidateResult.Item() { Message = "Weapons are null.", Severity = Severity.Error });
+            }
+            else if (ShipClass != null && ShipClass.WeaponSlotCount != Weapons.Count)
+            {
+                result.Items.Add(new ValidateResult.Item() { Message = "Weapon count does not match ship class weapon slot count.", Severity = Severity.Error });
+            }
+
+            if (Devices == null)
+            {
+                result.Items.Add(new ValidateResult.Item() { Message = "Devices are null.", Severity = Severity.Error });
+            }
+            else if (ShipClass != null && ShipClass.DeviceSlotCount < Devices.Count)
+            {
+                result.Items.Add(new ValidateResult.Item() { Message = "More devices are specified than are allowed on this ship class.", Severity = Severity.Error });
+            }
+            else if (Devices.Distinct().Count() != Devices.Count)
+            {
+                result.Items.Add(new ValidateResult.Item() { Message = "Duplicate device found.", Severity = Severity.Error });
+            }
+
+            return result;
         }
     }
 }

@@ -11,7 +11,7 @@
         for (var weapon in weaponInfo) {
             weaponOptions += "<option value=" + weapon + ">" + weaponInfo[weapon].name + " x" + (spacePerSlot / weaponInfo[weapon].space).toFixed(0) + "</option>";
         }
-        weaponOptions += "</select>"
+        weaponOptions += "</select>";
     }
 
     weaponElement.html(weaponOptions);
@@ -24,12 +24,12 @@
     }
     else {
         deviceElement.removeAttr("hidden");
-        for (var i = 0; i < deviceSlots; i++) {
-            deviceOptions += "<select>"
-            for (var device in deviceInfo) {
+        for (let i = 0; i < deviceSlots; i++) {
+            deviceOptions += "<select>";
+            for (let device in deviceInfo) {
                 deviceOptions += "<option value=" + device + ">" + deviceInfo[device].name + "</option>";
             }
-            deviceOptions += "</select>"
+            deviceOptions += "</select>";
         }
     }
 
@@ -46,24 +46,41 @@ function getCurrentDesign() {
     design.computer = parseInt($("#computer").val());
     design.armor = parseInt($("#armor").val());
     design.engine = parseInt($("#engine").val());
-    design.shields = parseInt($("#shields").val());
+    design.shield = parseInt($("#shield").val());
 
     design.weapons = [];
     design.devices = [];
 
     var weaponSelections = $("#weapons select");
-    for (var i = 0; i < weaponSelections.length; i++) {
-        var index = weaponSelections[i].selectedIndex;
+    for (let i = 0; i < weaponSelections.length; i++) {
+        let index = weaponSelections[i].selectedIndex;
         design.weapons.push(parseInt(weaponSelections[i][index].value));
     }
 
     var deviceSelections = $("#devices select");
-    for (var i = 0; i < deviceSelections.length; i++) {
-        var index = deviceSelections[i].selectedIndex;
-        if (deviceSelections[i][index].value != 0) {
+    for (let i = 0; i < deviceSelections.length; i++) {
+        let index = deviceSelections[i].selectedIndex;
+        if (deviceSelections[i][index].value !=  0) {
             design.devices.push(parseInt(deviceSelections[i][index].value));
         }
     }
 
     return design;
+}
+
+async function submitDesignAsync() {
+    var design = getCurrentDesign();
+
+    var request = new Request("/ship_design/create", {
+        method: "POST",
+        mode: "same-origin",
+        credentials: "include",
+        redirect: "follow",
+        body: JSON.stringify(design),
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    });
+
+    await fetch(request).then(handleErrorCodesAndThenFollowRedirects);
 }

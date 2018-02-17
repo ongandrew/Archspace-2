@@ -50,8 +50,8 @@
         </select>
     </div>
     <div>
-        Shields
-        <select id="shields">
+        Shield
+        <select id="shield">
             @foreach (Shield shield in Game.Configuration.Shields.Where(x => player.EvaluatePrerequisites(x)))
             {
                 <option value=@shield.Id>@shield.Name</option>
@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <button type="submit">Register Design</button>
+    <button type="submit" onclick="submitDesignAsync()">Register Design</button>
 </main>
 
 @section Scripts { 
