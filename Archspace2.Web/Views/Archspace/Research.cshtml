@@ -9,6 +9,8 @@
     <table>
         <tr><td>@(player.TargetTech != null ? player.TargetTech.Name : "Free Research")</td></tr>
         <tr><td>@(player.TargetTech != null ? $"{player.Resource.ResearchPoint}/{player.GetTechCost(player.TargetTech)}" : "No one knows the progress of free research.")</td></tr>
+        <tr><td>Investment: @(player.ResearchInvestment)PP</td></tr>
+        <tr><td><form method="post" action="@Url.Action("ChangeResearchInvestment", "Player")"><input name="amount" type="text"/><button type="submit" class="btn btn-default">Invest</button></form></td></tr>
     </table>
 
     <form method="post" action="@Url.Action("ChangeTargetTech", "Player")">

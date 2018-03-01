@@ -843,6 +843,21 @@ namespace Archspace2
             return Effects.Where(x => x.Type == aPlayerEffectType).CalculateTotalEffect(aBase, x => x.Argument1);
         }
 
+        public long CalculateTotalShips()
+        {
+            long result = 0;
+
+            result += Fleets.Sum(x => x.CurrentShipCount);
+            result += Shipyard.ShipPool.Sum(x => x.Value);
+
+            return result;
+        }
+
+        public int CalculateRank()
+        {
+            return Universe.Players.OrderByDescending(x => x.Power).ThenBy(x => x.Id).ToList().IndexOf(this);
+        }
+
         public bool IsDead()
         {
             return Planets.Any();

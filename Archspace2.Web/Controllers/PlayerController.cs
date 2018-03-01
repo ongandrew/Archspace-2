@@ -189,8 +189,50 @@ namespace Archspace2.Web
         }
 
         [HttpPost]
+        [Route("change_research_investment")]
+        public async Task<IActionResult> ChangeResearchInvestment([FromForm]long amount)
+        {
+            try
+            {
+                using (DatabaseContext context = Game.GetContext())
+                {
+                    context.Attach(Game.Universe);
+
+                    User user = await context.GetUserAsync(User);
+                    Player player = Game.Universe.Players.Where(x => x.User != null && x.User.Id == user.Id).Single();
+
+                    if (amount <= player.Resource.ProductionPoint && amount > 0)
+                    {
+                        long trueAmount = amount;
+
+                        if (long.MaxValue - player.ResearchInvestment < amount)
+                        {
+                            trueAmount = long.MaxValue - player.ResearchInvestment;
+                        }
+                        else
+                        {
+                            trueAmount = amount;
+                        }
+
+                        player.ResearchInvestment += trueAmount;
+                        player.Resource.ProductionPoint -= trueAmount;
+
+                        await context.SaveChangesAsync();
+                    }
+
+                    return RedirectToAction("Research", "Archspace");
+                }
+            }
+            catch (Exception e)
+            {
+                await Game.LogAsync(e);
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
         [Route("change_investment_pool")]
-        public async Task<IActionResult> ChangeInvestmentPool([FromForm]int amount)
+        public async Task<IActionResult> ChangeInvestmentPool([FromForm]long amount)
         {
             try
             {

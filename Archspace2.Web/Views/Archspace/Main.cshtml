@@ -15,7 +15,7 @@
         <table>
             <tr>
                 <td>Ranking</td>
-                <td></td>
+                <td>@(player.CalculateRank())</td>
             </tr>
             <tr>
                 <td>Production Point</td>
@@ -35,7 +35,7 @@
             </tr>
             <tr>
                 <td>Power</td>
-                <td></td>
+                <td>@(player.Power)</td>
             </tr>
             <tr>
                 <td>Fleet</td>
@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <td>Ships</td>
-                <td></td>
+                <td>@(player.CalculateTotalShips())</td>
             </tr>
             <tr>
                 <td>Honor</td>
@@ -51,7 +51,7 @@
             </tr>
             <tr>
                 <td>Council</td>
-                <td>@(player.Council.Name) (@player.Council.Id))</td>
+                <td>@(player.Council.Name) (@player.Council.Id)</td>
             </tr>
         </table>
     </div>
