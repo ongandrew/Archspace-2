@@ -6,6 +6,26 @@
 }
 
 <main>
+    <form method="post" action="@Url.Action("ChangeShipInvestment", "Player")">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Ship Production</td>
+                    <td>@(player.Shipyard.ShipProduction)PP</td>
+                </tr>
+                <tr>
+                    <td>Investment</td>
+                    <td>@(player.Shipyard.ShipProductionInvestment)PP</td>
+                </tr>
+                <tr>
+                    <td>Amount</td>
+                    <td><input type="text" name="amount" value=0 /></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit">Invest</button>
+    </form>
+
     <form method="post" action="@Url.Action("Build", "ShipDesign")">
         <table>
             <thead>

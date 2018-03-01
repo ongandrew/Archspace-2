@@ -375,7 +375,7 @@ namespace Archspace2
 
         public List<Admiral> GetAdmiralPool()
         {
-            return Admirals.Except(from fleet in Fleets select fleet.Admiral).OrderBy(x => x.Id).ToList();
+            return Admirals.Where(x => x.Fleet == null).Except(Fleets.Select(x => x.Admiral)).ToList();
         }
 
         public long GetTechCost(Tech aTech)

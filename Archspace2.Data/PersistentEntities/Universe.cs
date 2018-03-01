@@ -98,23 +98,29 @@ namespace Archspace2
                 player.Admirals.Add(player.CreateAdmiral().AsPlayerAdmiral(player));
             }
 
+            Admiral admiral1 = player.CreateAdmiral().AsPlayerAdmiral(player);
+            player.Admirals.Add(admiral1);
             Fleet fleet1 = player.CreateFleet();
             fleet1.Name = "1st Royal Guard Fleet";
-            fleet1.Admiral = player.GetAdmiralPool().Random();
+            fleet1.Admiral = admiral1;
             fleet1.ShipDesign = shipDesign1;
             fleet1.CurrentShipCount = 6;
             fleet1.MaxShipCount = 6;
 
+            Admiral admiral2 = player.CreateAdmiral().AsPlayerAdmiral(player);
+            player.Admirals.Add(admiral2);
             Fleet fleet2 = player.CreateFleet();
             fleet2.Name = "2nd Royal Guard Fleet";
-            fleet2.Admiral = player.GetAdmiralPool().Random();
+            fleet2.Admiral = admiral2;
             fleet2.ShipDesign = shipDesign1;
             fleet2.CurrentShipCount = 6;
             fleet2.MaxShipCount = 6;
 
+            Admiral admiral3 = player.CreateAdmiral().AsPlayerAdmiral(player);
+            player.Admirals.Add(admiral3);
             Fleet fleet3 = player.CreateFleet();
             fleet3.Name = "3rd Royal Guard Fleet";
-            fleet3.Admiral = player.GetAdmiralPool().Random();
+            fleet3.Admiral = admiral3;
             fleet3.ShipDesign = shipDesign2;
             fleet3.CurrentShipCount = 6;
             fleet3.MaxShipCount = 6;

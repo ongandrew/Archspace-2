@@ -1,0 +1,47 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Admiral";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    <form method="post" action="@Url.Action("Dismiss", "Admiral")">
+        <table>
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Level</td>
+                    <td>Experience</td>
+                    <td>Attack</td>
+                    <td>Defense</td>
+                    <td>Efficiency</td>
+                    <td>Armada Class</td>
+                    <td>Special Ability</td>
+                    <td>Racial Ability</td>
+                    <td>Fleet</td>
+                    <td>Dismiss</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Admiral admiral in player.Admirals)
+                {
+                <tr>
+                    <td>@(admiral.Name)</td>
+                    <td>@(admiral.Level)</td>
+                    <td>@(admiral.Experience)</td>
+                    <td>@(admiral.Attack)</td>
+                    <td>@(admiral.Defense)</td>
+                    <td>@(admiral.Efficiency)</td>
+                    <td>@(admiral.ArmadaClass.ToString())</td>
+                    <td>@(admiral.SpecialAbility.ToString())</td>
+                    <td>@(admiral.RacialAbility.ToString())</td>
+                    <td>@(admiral.Fleet == null ? "None" : admiral.Fleet.Name )</td>
+                    <td>@if (admiral.Fleet == null) { <input name="ids" type="checkbox" value="@(admiral.Id)" /> }</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit">Dismiss</button>
+    </form>
+</main>

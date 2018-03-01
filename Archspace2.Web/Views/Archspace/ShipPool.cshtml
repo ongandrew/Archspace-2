@@ -1,0 +1,58 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Ship Pool";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    <table>
+        <thead>
+            <tr>
+                <td>
+                    Ship Design
+                </td>
+                <td>
+                    Class
+                </td>
+                <td>
+                    Cost
+                </td>
+                <td>
+                    Available
+                </td>
+                <td>
+                    Amount To Scrap
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ShipDesign design in player.ShipDesigns)
+            {
+            <tr>
+                <td>
+                    <a href="@Url.Action("ViewDetail", "ShipDesign", new { id = design.Id })">@(design.Name)</a>
+                </td>
+                <td>
+                    @(design.ShipClass.Name)
+                </td>
+                <td>
+                    @(design.ShipClass.Cost)
+                </td>
+                <td>
+                    @(player.Shipyard.ShipPool.ContainsKey(design) ? player.Shipyard.ShipPool[design] : 0)
+                </td>
+                <td>
+                    <input id=@(design.Id) name="amount" type="text" value=0 />
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <button>Scrap</button>
+</main>
+
+@section Scripts {
+    <script src="~/js/shipPool.js"></script>
+}

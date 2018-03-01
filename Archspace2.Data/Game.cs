@@ -173,13 +173,12 @@ namespace Archspace2
 
         public static void Start()
         {
-            mRunning = true;
-
             if (mMainThread != null)
             {
-                mMainThread.Abort();
+                throw new InvalidOperationException("Universe already running.");
             }
 
+            mRunning = true;
             mMainThread = new Thread(() => Run());
             mMainThread.Start();
         }

@@ -27,11 +27,27 @@ namespace Archspace2
         {
             get
             {
-                return JsonConvert.SerializeObject(mShipPool);
+                Dictionary<int, int> result = new Dictionary<int, int>();
+
+                foreach (KeyValuePair<ShipDesign, int> entry in mShipPool)
+                {
+                    result.Add(entry.Key.Id, entry.Value);
+                }
+
+                return JsonConvert.SerializeObject(result);
             }
             set
             {
-                mShipPool = JsonConvert.DeserializeObject<Dictionary<ShipDesign, int>>(ShipPoolDictionary);
+                Dictionary<ShipDesign, int> result = new Dictionary<ShipDesign, int>();
+
+                foreach (KeyValuePair<int, int> entry in JsonConvert.DeserializeObject<Dictionary<int, int>>(value))
+                {
+                    ShipDesign design = Player.ShipDesigns.Single(x => x.Id == entry.Key);
+
+                    result.Add(design, entry.Value);
+                }
+
+                mShipPool = result;
             }
         }
         [NotMapped]
@@ -45,7 +61,14 @@ namespace Archspace2
             }
             set
             {
-                ShipPoolDictionary = JsonConvert.SerializeObject(value);
+                Dictionary<int, int> result = new Dictionary<int, int>();
+
+                foreach (KeyValuePair<ShipDesign, int> entry in value)
+                {
+                    result.Add(entry.Key.Id, entry.Value);
+                }
+
+                ShipPoolDictionary = JsonConvert.SerializeObject(result);
             }
         }
 
@@ -55,7 +78,7 @@ namespace Archspace2
             {
                 long result = 0;
 
-                foreach (KeyValuePair<ShipDesign, int> entry in mShipPool)
+                foreach (KeyValuePair<ShipDesign, int> entry in ShipPool)
                 {
                     result += entry.Key.Power * entry.Value;
                 }
@@ -68,12 +91,63 @@ namespace Archspace2
         {
             Player = aPlayer;
             mShipBuildOrders = new List<ShipBuildOrder>();
-            mShipPool = new Dictionary<ShipDesign, int>(new UniverseEntityComparer());
+            mShipPool = new Dictionary<ShipDesign, int>();
+        }
+
+        public int GetDockedShipCount(ShipDesign aDesign)
+        {
+            if (ShipPool.ContainsKey(aDesign))
+            {
+                return ShipPool[aDesign];
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public void ChangeDockedShip(ShipDesign aDesign, int aAmount)
+        {
+            if (!mShipPool.ContainsKey(aDesign))
+            {
+                mShipPool[aDesign] = aAmount;
+            }
+            else
+            {
+                ShipPool[aDesign] = ShipPool[aDesign] + aAmount;
+
+                if (ShipPool[aDesign] == 0)
+                {
+                    ShipPool.Remove(aDesign);
+                }
+            }
+        }
+
+        public void ScrapDockedShip(ShipDesign aDesign, int aAmount)
+        {
+            if (aAmount <= 0)
+            {
+                return;
+            }
+            else
+            {
+                int numberToScrap = aAmount;
+                if (numberToScrap > GetDockedShipCount(aDesign))
+                {
+                    numberToScrap = GetDockedShipCount(aDesign);
+                }
+
+                ChangeDockedShip(aDesign, -aAmount);
+                int amountEarned = aAmount * aDesign.ShipClass.Cost / 10;
+                Player.Resource.ProductionPoint += amountEarned;
+
+                Player.AddNews($"You scrapped {numberToScrap} units of {aDesign.Name} and earned {amountEarned}PP.");
+            }
         }
 
         public void BuildShips(long aIncome)
         {
-            if (Player != null)
+            if (!ShipBuildOrders.Any())
             {
                 ShipProductionInvestment += ShipProduction;
                 ShipProduction = 0;
@@ -82,40 +156,42 @@ namespace Archspace2
             {
                 while (ShipBuildOrders.Any())
                 {
-                    ShipBuildOrder shipBuilderOrder = ShipBuildOrders.First();
+                    ShipBuildOrder shipBuildOrder = ShipBuildOrders.First();
 
-                    int count = 0;
+                    int built = 0;
 
                     int costPerShip;
-                    if (shipBuilderOrder.ShipDesign.Armor.Type == ArmorType.Bio && Player.Traits.Contains(RacialTrait.GreatSpawningPool))
+                    if (shipBuildOrder.ShipDesign.Armor.Type == ArmorType.Bio && Player.Traits.Contains(RacialTrait.GreatSpawningPool))
                     {
-                        costPerShip = shipBuilderOrder.ShipDesign.ShipClass.Cost * 80 / 100;
+                        costPerShip = shipBuildOrder.ShipDesign.ShipClass.Cost * 80 / 100;
                     }
                     else
                     {
-                        costPerShip = shipBuilderOrder.ShipDesign.ShipClass.Cost;
-                    }
-                    
-                    while (ShipProduction > costPerShip && shipBuilderOrder.NumberToBuild > 0)
-                    {
-                        count++;
-                        ShipProduction -= costPerShip;
-                        shipBuilderOrder.NumberToBuild--;
+                        costPerShip = shipBuildOrder.ShipDesign.ShipClass.Cost;
                     }
 
-                    if (count == 0)
+                    built = (int)(ShipProduction / costPerShip);
+                    if (built > shipBuildOrder.NumberToBuild)
+                    {
+                        built = shipBuildOrder.NumberToBuild;
+                    }
+
+                    ShipProduction -= (built * costPerShip);
+                    shipBuildOrder.NumberToBuild -= built;
+
+                    if (built == 0)
                     {
                         break;
                     }
                     else
                     {
-                        ShipPool[shipBuilderOrder.ShipDesign] += count;
+                        ChangeDockedShip(shipBuildOrder.ShipDesign, built);
 
-                        Player.AddNews($"{count} {shipBuilderOrder.ShipDesign.Name} ship(s) are built and put in the ship pool.");
+                        Player.AddNews($"{built} {shipBuildOrder.ShipDesign.Name} ship(s) are built and put in the ship pool.");
 
-                        if (shipBuilderOrder.NumberToBuild == 0)
+                        if (shipBuildOrder.NumberToBuild <= 0)
                         {
-                            mShipBuildOrders.Remove(shipBuilderOrder);
+                            mShipBuildOrders.Remove(shipBuildOrder);
                         }
                     }
                 }
@@ -170,11 +246,11 @@ namespace Archspace2
 
                 if (Player.Traits.Contains(RacialTrait.EfficientInvestment))
                 {
-                    return (int)(CalculateShipProduction(aIncome) * (100 + (50 * bonusRatio * 2) / 100));
+                    return (long)(CalculateShipProduction(aIncome) * (100 + (50 * bonusRatio * 2) / 100));
                 }
                 else
                 {
-                    return (int)(CalculateShipProduction(aIncome) * (100 + (50 * bonusRatio) / 100));
+                    return (long)(CalculateShipProduction(aIncome) * (100 + (50 * bonusRatio) / 100));
                 }
             }
         }

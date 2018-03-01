@@ -24,8 +24,8 @@ namespace Archspace2
         public int? PlayerId { get; set; }
         [ForeignKey("PlayerId")]
         public Player Player { get; set; }
-
-        public int AdmiralId { get; set; }
+        
+        public int? AdmiralId { get; set; }
         [ForeignKey("AdmiralId")]
         public Admiral Admiral { get; set; }
 
@@ -127,9 +127,7 @@ namespace Archspace2
             
             this.Return(Universe.CurrentTurn + returnTime);
         }
-
-
-
+        
         public void UpdateTurn()
         {
             if (Status == FleetStatus.CommanderAbsent)

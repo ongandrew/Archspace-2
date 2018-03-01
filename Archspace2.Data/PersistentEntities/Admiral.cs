@@ -674,8 +674,6 @@ namespace Archspace2
             }
         }
 
-        public int? FleetId { get; set; }
-        [ForeignKey("FleetId")]
         public Fleet Fleet { get; set; }
 
         public Admiral(Universe aUniverse) : base(aUniverse)

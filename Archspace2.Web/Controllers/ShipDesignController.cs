@@ -56,7 +56,7 @@ namespace Archspace2.Web
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Create([FromBody] ShipDesignForm aForm)
+        public async Task<IActionResult> Create([FromBody]ShipDesignForm aForm)
         {
             if (!await HasCharacter())
             {
@@ -137,6 +137,36 @@ namespace Archspace2.Web
                         return RedirectToAction("ShipBuilding", "Archspace");
                     }
                 }
+            }
+        }
+
+        [HttpPost]
+        [Route("scrap")]
+        public async Task<IActionResult> Scrap([FromBody]ShipScrapForm aForm)
+        {
+            if (!await HasCharacter())
+            {
+                return RedirectToAction("Create", "Archspace");
+            }
+            else
+            {
+                Player player = await GetCharacterAsync();
+                ViewData["Player"] = player;
+
+                using (DatabaseContext context = Game.GetContext())
+                {
+                    context.Attach(Game.Universe);
+                    
+                    foreach (ShipScrapForm.Item item in aForm.Items)
+                    {
+                        ShipDesign key = player.Shipyard.ShipPool.AsEnumerable().Single(x => x.Key.Id == item.Id).Key;
+                        player.Shipyard.ScrapDockedShip(key, item.Amount);
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+
+                return RedirectToAction("ShipPool", "Archspace");
             }
         }
 

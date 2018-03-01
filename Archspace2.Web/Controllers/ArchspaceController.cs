@@ -86,6 +86,18 @@ namespace Archspace2.Web
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
         }
 
+        [Route("admiral")]
+        public async Task<IActionResult> Admiral()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("ship_pool")]
+        public async Task<IActionResult> ShipPool()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
         [Route("admin")]
         public async Task<IActionResult> Admin()
         {

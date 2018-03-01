@@ -35,9 +35,10 @@ namespace Archspace2
             aModelBuilder.Entity<CouncilRelation>()
                 .HasOne(x => x.ToCouncil)
                 .WithMany(x => x.ToRelations);
-
-            aModelBuilder.Entity<Fleet>().OwnsOne(x => x.Mission);
             
+            aModelBuilder.Entity<Fleet>().OwnsOne(x => x.Mission);
+            aModelBuilder.Entity<Fleet>().HasOne(x => x.Admiral).WithOne(x => x.Fleet);
+
             aModelBuilder.Entity<Planet>().OwnsOne(x => x.Atmosphere);
             aModelBuilder.Entity<Planet>().OwnsOne(x => x.DistributionRatio);
             aModelBuilder.Entity<Planet>().OwnsOne(x => x.Infrastructure);

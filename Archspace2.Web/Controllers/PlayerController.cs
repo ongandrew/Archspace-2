@@ -189,6 +189,48 @@ namespace Archspace2.Web
         }
 
         [HttpPost]
+        [Route("change_ship_investment")]
+        public async Task<IActionResult> ChangeShipInvestment([FromForm]long amount)
+        {
+            try
+            {
+                using (DatabaseContext context = Game.GetContext())
+                {
+                    context.Attach(Game.Universe);
+
+                    User user = await context.GetUserAsync(User);
+                    Player player = Game.Universe.Players.Where(x => x.User != null && x.User.Id == user.Id).Single();
+
+                    if (amount <= player.Resource.ProductionPoint && amount > 0)
+                    {
+                        long trueAmount = amount;
+
+                        if (long.MaxValue - player.Shipyard.ShipProductionInvestment < amount)
+                        {
+                            trueAmount = long.MaxValue - player.Shipyard.ShipProductionInvestment;
+                        }
+                        else
+                        {
+                            trueAmount = amount;
+                        }
+
+                        player.Shipyard.ShipProductionInvestment += trueAmount;
+                        player.Resource.ProductionPoint -= trueAmount;
+
+                        await context.SaveChangesAsync();
+                    }
+
+                    return RedirectToAction("ShipBuilding", "Archspace");
+                }
+            }
+            catch (Exception e)
+            {
+                await Game.LogAsync(e);
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
         [Route("change_research_investment")]
         public async Task<IActionResult> ChangeResearchInvestment([FromForm]long amount)
         {
