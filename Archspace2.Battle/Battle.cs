@@ -165,17 +165,17 @@ namespace Archspace2.Battle
             AttackingFleets.RunTurn(DefendingFleets);
             DefendingFleets.RunTurn(AttackingFleets);
 
-            int attackerMoraleUp = 0;
-            int defenderMoraleUp = 0;
-            int attackerMoraleCapitalDown = 0;
-            int defenderMoraleCapitalDown = 0;
-            int attackerMoraleFleetDown = 0;
-            int defenderMoraleFleetDown = 0;
+            long attackerMoraleUp = 0;
+            long defenderMoraleUp = 0;
+            long attackerMoraleCapitalDown = 0;
+            long defenderMoraleCapitalDown = 0;
+            long attackerMoraleFleetDown = 0;
+            long defenderMoraleFleetDown = 0;
 
             foreach (Fleet fleet in AttackingFleets)
             {
-                int moraleDown = 0;
-                int moraleUp = 0;
+                long moraleDown = 0;
+                long moraleUp = 0;
 
                 if (fleet.Status == FleetStatus.AnnihilatedThisTurn || fleet.Status == FleetStatus.RetreatedThisTurn)
                 {
@@ -186,8 +186,8 @@ namespace Archspace2.Battle
                     }
                     else
                     {
-                        int fleetPower = fleet.Power;
-                        int totalPower = AttackingFleets.Sum(x => x.Power);
+                        long fleetPower = fleet.Power;
+                        long totalPower = AttackingFleets.Sum(x => x.Power);
                         moraleDown = -((100 * fleetPower / totalPower));
                         moraleUp = -(moraleDown / 2);
 
@@ -219,8 +219,8 @@ namespace Archspace2.Battle
 
             foreach (Fleet fleet in DefendingFleets)
             {
-                int moraleDown = 0;
-                int moraleUp = 0;
+                long moraleDown = 0;
+                long moraleUp = 0;
 
                 if (fleet.Status == FleetStatus.AnnihilatedThisTurn || fleet.Status == FleetStatus.RetreatedThisTurn)
                 {
@@ -231,8 +231,8 @@ namespace Archspace2.Battle
                     }
                     else
                     {
-                        int fleetPower = fleet.Power;
-                        int totalPower = DefendingFleets.Sum(x => x.Power);
+                        long fleetPower = fleet.Power;
+                        long totalPower = DefendingFleets.Sum(x => x.Power);
                         moraleDown = -((100 * fleetPower / totalPower));
                         moraleUp = -(moraleDown / 2);
 

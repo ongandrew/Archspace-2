@@ -21,7 +21,7 @@ namespace Archspace2
         Innate
     }
 
-    public class Tech : NamedEntity, IPlayerUnlockable, IControlModelModifier
+    public class Tech : NamedEntity, IPlayerUnlockable, IControlModelModifier, IPowerContributor
     {
         public Tech()
         {
@@ -48,16 +48,24 @@ namespace Archspace2
         [JsonProperty("PlayerEffects")]
         public List<PlayerEffect> PlayerEffects { get; set; }
 
+        public long Power
+        {
+            get
+            {
+                return 10 * TechLevel;
+            }
+        }
+
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
         }
 
-        public int GetBaseCost()
+        public long GetBaseCost()
         {
-            int researchCost = 20000 * (int)(Math.Pow(2.0, TechLevel));
+            long researchCost = 20000 * (int)(Math.Pow(2.0, TechLevel));
 
-            return researchCost < 0 ? int.MaxValue : researchCost;
+            return researchCost < 0 ? long.MaxValue : researchCost;
         }
     }
 }

@@ -123,7 +123,7 @@ namespace Archspace2
                         break;
                     case PlayerEffectType.ChangeProduction:
                         {
-                            int diffProduction = 0;
+                            long diffProduction = 0;
                             if (ModifierType == ModifierType.Absolute)
                             {
                                 diffProduction = Argument1;

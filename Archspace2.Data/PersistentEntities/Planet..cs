@@ -27,7 +27,7 @@ namespace Archspace2
     };
 
     [Table("Planet")]
-    public class Planet : UniverseEntity
+    public class Planet : UniverseEntity, IPowerContributor
     {
         public string Name { get; set; }
         public int ClusterId { get; set; }
@@ -40,6 +40,14 @@ namespace Archspace2
 
         public int Order { get; set; }
         public int Population { get; set; }
+
+        public long Power
+        {
+            get
+            {
+                return 200 + (1 + Infrastructure.Factory + Infrastructure.ResearchLab + Infrastructure.MilitaryBase);
+            }
+        }
 
         public PlanetSize Size { get; set; }
         public PlanetResource Resource { get; set; }
@@ -59,7 +67,7 @@ namespace Archspace2
         public DistributionRatio DistributionRatio { get; set; }
 
         public bool UsePlanetInvestmentPool { get; set; }
-        public int Investment { get; set; }
+        public long Investment { get; set; }
 
         public int WasteRate {
             get
@@ -455,7 +463,7 @@ namespace Archspace2
             }
         }
 
-        public int CalculateProductionPointPerTurn()
+        public long CalculateProductionPointPerTurn()
         {
             int nogadaPoint = CalculateNogadaPoint();
             Resource temp;
@@ -466,7 +474,7 @@ namespace Archspace2
             return temp.ProductionPoint;
         }
 
-        public int CalculateResearchPointPerTurn()
+        public long CalculateResearchPointPerTurn()
         {
             int nogadaPoint = CalculateNogadaPoint();
             Resource temp;
@@ -477,7 +485,7 @@ namespace Archspace2
             return temp.ResearchPoint;
         }
 
-        public int CalculateMilitaryPointPerTurn()
+        public long CalculateMilitaryPointPerTurn()
         {
             int nogadaPoint = CalculateNogadaPoint();
             Resource temp;
@@ -488,7 +496,7 @@ namespace Archspace2
             return temp.MilitaryPoint;
         }
 
-        public int CalculateUsableInvestment()
+        public long CalculateUsableInvestment()
         {
             if (Player == null)
             {
@@ -496,7 +504,7 @@ namespace Archspace2
             }
             else
             {
-                int investMaxPP = 0;
+                long investMaxPP = 0;
 
                 if (Player.Traits.Contains(RacialTrait.EfficientInvestment))
                 {
@@ -509,7 +517,7 @@ namespace Archspace2
 
                 if (investMaxPP != 0 && (Investment != 0 || UsePlanetInvestmentPool))
                 {
-                    int invest = 0;
+                    long invest = 0;
 
                     if (investMaxPP < Investment)
                     {
@@ -521,7 +529,7 @@ namespace Archspace2
 
                         if (UsePlanetInvestmentPool)
                         {
-                            int investPool = Player.PlanetInvestmentPool;
+                            long investPool = Player.PlanetInvestmentPool;
                             if (invest + investPool >= investMaxPP)
                             {
                                 invest = investMaxPP;
@@ -542,14 +550,14 @@ namespace Archspace2
             }
         }
 
-        public int CalculateMaxInvestmentProudction()
+        public long CalculateMaxInvestmentProudction()
         {
-            return (int)((((double)Population) * ((double)MaxPopulation)) / 1000000.0);
+            return (long)((((double)Population) * ((double)MaxPopulation)) / 1000000.0);
         }
 
-        public int CalculateInvestRate()
+        public long CalculateInvestRate()
         {
-            int investMaxPP = 0;
+            long investMaxPP = 0;
 
             if (Player.Traits.Contains(RacialTrait.EfficientInvestment))
             {
@@ -560,17 +568,17 @@ namespace Archspace2
                 investMaxPP = CalculateMaxInvestmentProudction();
             }
 
-            return (int)(CalculateUsableInvestment() * (100 - WasteRate) / investMaxPP);
+            return (long)(CalculateUsableInvestment() * (100 - WasteRate) / investMaxPP);
         }
 
-        private int CalculateCommerce()
+        private long CalculateCommerce()
         {
-            int productionPoint = 0;
+            long productionPoint = 0;
 
             foreach (Planet commercePlanet in CommercePlanets)
             {
-                int point = commercePlanet.CalculateProductionPointPerTurn();
-                int commerce = ControlModel.Commerce;
+                long point = commercePlanet.CalculateProductionPointPerTurn();
+                long commerce = ControlModel.Commerce;
 
                 Player commercePlanetOwner = commercePlanet.Player;
 
@@ -724,7 +732,7 @@ namespace Archspace2
             if (Terraforming)
             {
                 TerraformingTimer++;
-                int neededTurns = (24 * 3600)/(Game.Configuration.SecondsPerTurn) 
+                long neededTurns = (24 * 3600)/(Game.Configuration.SecondsPerTurn) 
                     - (((24 * 3600) / (Game.Configuration.SecondsPerTurn)) * (CalculateInvestRate()/25)/10);
 
                 if (TerraformingTimer >= neededTurns)
@@ -764,7 +772,7 @@ namespace Archspace2
             }
             else
             {
-                int investment = CalculateUsableInvestment();
+                long investment = CalculateUsableInvestment();
 
                 if (investment <= Investment)
                 {

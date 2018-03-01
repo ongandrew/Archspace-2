@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace Archspace2
 {
-    public class Shipyard : UniverseEntity
+    public class Shipyard : UniverseEntity, IPowerContributor
     {
         public int PlayerId { get; set; }
         public Player Player { get; set; }
 
-        public int ShipProduction { get; set; }
-        public int ShipProductionInvestment { get; set; }
+        public long ShipProduction { get; set; }
+        public long ShipProductionInvestment { get; set; }
 
         private ICollection<ShipBuildOrder> mShipBuildOrders { get; set; }
         public List<ShipBuildOrder> ShipBuildOrders
@@ -49,6 +49,21 @@ namespace Archspace2
             }
         }
 
+        public long Power
+        {
+            get
+            {
+                long result = 0;
+
+                foreach (KeyValuePair<ShipDesign, int> entry in mShipPool)
+                {
+                    result += entry.Key.Power * entry.Value;
+                }
+
+                return result;
+            }
+        }
+
         public Shipyard(Player aPlayer) : base(aPlayer.Universe)
         {
             Player = aPlayer;
@@ -56,7 +71,7 @@ namespace Archspace2
             mShipPool = new Dictionary<ShipDesign, int>(new UniverseEntityComparer());
         }
 
-        public void BuildShips(int aIncome)
+        public void BuildShips(long aIncome)
         {
             if (Player != null)
             {
@@ -122,9 +137,9 @@ namespace Archspace2
             mShipBuildOrders.Remove(aShipBuildOrder);
         }
 
-        public int CalculateShipProduction(int aIncome)
+        public long CalculateShipProduction(long aIncome)
         {
-            int result = aIncome * (30 + (Player.ControlModel.Military * 5)) / 100;
+            long result = aIncome * (30 + (Player.ControlModel.Military * 5)) / 100;
 
             if (result < 0)
             {
@@ -136,9 +151,9 @@ namespace Archspace2
             }
         }
 
-        public int CalculateRealShipProduction(int aIncome)
+        public long CalculateRealShipProduction(long aIncome)
         {
-            int maxPPUsage = CalculateShipProduction(aIncome);
+            long maxPPUsage = CalculateShipProduction(aIncome);
 
             if (maxPPUsage == 0)
             {

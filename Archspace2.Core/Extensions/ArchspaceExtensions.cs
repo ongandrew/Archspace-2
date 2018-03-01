@@ -22,6 +22,21 @@ namespace Archspace2
             return result;
         }
 
+        public static long CalculateTotalEffect<T>(this IEnumerable<T> tEnumerable, long aBase, Func<T, int> aPredicate)
+where T : IModifier
+        {
+            long result = aBase;
+
+            int totalAbsolute = tEnumerable.Where(x => x.ModifierType == ModifierType.Absolute).Sum(aPredicate);
+
+            int totalProportional = tEnumerable.Where(x => x.ModifierType == ModifierType.Proportional).Sum(aPredicate);
+
+            result += result * totalProportional / 100;
+            result += totalAbsolute;
+
+            return result;
+        }
+
         public static double CalculateTotalEffect<T>(this IEnumerable<T> tEnumerable, double aBase, Func<T, double> aPredicate) 
             where T : IModifier
         {
@@ -35,6 +50,11 @@ namespace Archspace2
             result += totalAbsolute;
 
             return result;
+        }
+
+        public static long CalculateTotalPower(this IEnumerable<IPowerContributor> tEnumerable)
+        {
+            return tEnumerable.Sum(x => x.Power);
         }
     }
 }

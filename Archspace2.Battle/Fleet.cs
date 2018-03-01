@@ -251,7 +251,7 @@ namespace Archspace2.Battle
             return count;
         }
 
-        public int Power { get; set; }
+        public long Power { get; set; }
 
         public bool IsCapital { get; set; }
 
@@ -287,7 +287,7 @@ namespace Archspace2.Battle
             IsCapital = false;
         }
 
-        public Fleet(int aId, string aName, Player aPlayer, ShipClass aShipClass, Armor aArmor, Computer aComputer, Engine aEngine, Shield aShield, List<Device> aDevices, List<Weapon> aWeapons, Admiral aAdmiral, int aShipCount, int aPower, bool aIsCapital = false) : this()
+        public Fleet(int aId, string aName, Player aPlayer, ShipClass aShipClass, Armor aArmor, Computer aComputer, Engine aEngine, Shield aShield, List<Device> aDevices, List<Weapon> aWeapons, Admiral aAdmiral, int aShipCount, long aPower, bool aIsCapital = false) : this()
         {
             Id = aId;
             Name = aName;
@@ -1176,10 +1176,10 @@ namespace Archspace2.Battle
             return Attributes.Contains(FleetAttribute.CompleteCloaking) || Attributes.Contains(FleetAttribute.WeakCloaking);
         }
 
-        public int CalculatePenetrationRatio(Armada aEnemyArmada)
+        public long CalculatePenetrationRatio(Armada aEnemyArmada)
         {
-            int penetratedPower = 0; 
-            int unpenetratedPower = 0;
+            long penetratedPower = 0;
+            long unpenetratedPower = 0;
 
             foreach (Fleet fleet in aEnemyArmada)
             {
@@ -2884,7 +2884,7 @@ namespace Archspace2.Battle
 
                     if (aEnemy.Ships[index].HP <= 0)
                     {
-                        int experience = 0;
+                        long experience = 0;
                         Morale++;
                         aEnemy.Morale--;
                         experience += aEnemy.ShipClass.Class * aEnemy.ShipClass.Class * 3;
@@ -3020,9 +3020,9 @@ namespace Archspace2.Battle
             return aEnemyArmada.Where(x => !x.IsDisabled() && x.IsEngaged() && Distance(x) <= aRange).OrderBy(x => CalculateEffectiveReachTime(x)).FirstOrDefault();
         }
 
-        public int CalculateDangerRating(Fleet aEnemy)
+        public long CalculateDangerRating(Fleet aEnemy)
         {
-            int result = 0;
+            long result = 0;
             int distance = (int)Distance(aEnemy);
 
             if (distance == 0)

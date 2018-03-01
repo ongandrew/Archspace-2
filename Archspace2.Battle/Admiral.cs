@@ -15,7 +15,7 @@ namespace Archspace2.Battle
         public int Defense { get; set; }
         public AdmiralSkills Skills { get; set; }
 
-        public int GainedExperience { get; set; }
+        public long GainedExperience { get; set; }
 
         public Admiral(int aId, string aName, int aLevel, AdmiralSpecialAbility aSpecialAbility, AdmiralRacialAbility aRacialAbility, int aEfficiency, int aAttack, int aDefense, AdmiralSkills aSkills, ArmadaClass aArmadaClass)
         {

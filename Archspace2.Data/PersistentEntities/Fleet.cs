@@ -18,7 +18,7 @@ namespace Archspace2
     };
 
     [Table("Fleet")]
-    public class Fleet : UniverseEntity
+    public class Fleet : UniverseEntity, IPowerContributor
     {
         public string Name { get; set; }
         public int? PlayerId { get; set; }
@@ -48,7 +48,7 @@ namespace Archspace2
             }
         }
 
-        public int Power
+        public long Power
         {
             get
             {

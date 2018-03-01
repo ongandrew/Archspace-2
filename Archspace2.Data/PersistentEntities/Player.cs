@@ -32,7 +32,7 @@ namespace Archspace2
     };
 
     [Table("Player")]
-    public class Player : UniverseEntity
+    public class Player : UniverseEntity, IPowerContributor
     {
         public string Name { get; set; }
 
@@ -50,8 +50,8 @@ namespace Archspace2
         public int Alertness { get; set; }
 
         public Resource Resource { get; set; }
-        public int ResearchInvestment { get; set; }
-        public int PlanetInvestmentPool { get; set; }
+        public long ResearchInvestment { get; set; }
+        public long PlanetInvestmentPool { get; set; }
 
         public Shipyard Shipyard { get; set; }
 
@@ -62,6 +62,21 @@ namespace Archspace2
             set
             {
                 mHonor = value < 0 ? 0 : value > 100 ? 100 : value;
+            }
+        }
+
+        public long Power
+        {
+            get
+            {
+                long result = 0;
+
+                result += Shipyard.Power;
+                result += Fleets.CalculateTotalPower();
+                result += Planets.CalculateTotalPower();
+                result += Techs.CalculateTotalPower();
+
+                return result;
             }
         }
 
@@ -304,7 +319,7 @@ namespace Archspace2
 
             if (project != null && EvaluatePrerequisites(project))
             {
-                int cost = GetProjectCost(project);
+                long cost = GetProjectCost(project);
 
                 if (Resource.ProductionPoint >= cost)
                 {
@@ -314,7 +329,7 @@ namespace Archspace2
             }
         }
 
-        public int GetProjectCost(Project aProject)
+        public long GetProjectCost(Project aProject)
         {
             if (aProject.Type == ProjectType.Planet)
             {
@@ -363,11 +378,11 @@ namespace Archspace2
             return Admirals.Except(from fleet in Fleets select fleet.Admiral).OrderBy(x => x.Id).ToList();
         }
 
-        public int GetTechCost(Tech aTech)
+        public long GetTechCost(Tech aTech)
         {
-            int baseCost = aTech.GetBaseCost();
+            long baseCost = aTech.GetBaseCost();
 
-            int discount = 0;
+            long discount = 0;
             if (TargetTech == null)
             {
                 discount = 20 + (ControlModel.Research * 4);
@@ -382,13 +397,13 @@ namespace Archspace2
                 discount = 40;
             }
 
-            int cost = (int)(baseCost * ((100 - discount) / 100.0));
+            long cost = (int)(baseCost * ((100 - discount) / 100.0));
 
             cost = (int)(cost / Game.Configuration.TechRateModifier);
 
             if (cost < 0)
             {
-                cost = int.MaxValue;
+                cost = long.MaxValue;
             }
 
             return cost;
@@ -530,7 +545,7 @@ namespace Archspace2
         {
             if (ResearchInvestment > 0)
             {
-                int invest;
+                long invest;
 
                 if (Race.BaseTraits.Contains(RacialTrait.EfficientInvestment))
                 {
@@ -541,7 +556,7 @@ namespace Archspace2
                     invest = Planets.GetTotalResearchLabCount() * 10;
                 }
 
-                int rp = 0;
+                long rp = 0;
 
                 if (ResearchInvestment < invest)
                 {
@@ -579,7 +594,7 @@ namespace Archspace2
 
             if (target != null)
             {
-                int cost = GetTechCost(target);
+                long cost = GetTechCost(target);
 
                 if (Resource.ResearchPoint >= cost)
                 {
@@ -611,14 +626,14 @@ namespace Archspace2
         {
             Resource result = new Resource();
 
-            int upkeep = 0;
+            long upkeep = 0;
             foreach (Fleet fleet in Fleets)
             {
                 if (fleet.Status == FleetStatus.Deactivated)
                 {
-                    if (int.MaxValue - upkeep < fleet.Upkeep/10)
+                    if (long.MaxValue - upkeep < fleet.Upkeep/10)
                     {
-                        upkeep = int.MaxValue;
+                        upkeep = long.MaxValue;
                         break;
                     }
                     else
@@ -628,9 +643,9 @@ namespace Archspace2
                 }
                 else
                 {
-                    if (int.MaxValue - upkeep < fleet.Upkeep)
+                    if (long.MaxValue - upkeep < fleet.Upkeep)
                     {
-                        upkeep = int.MaxValue;
+                        upkeep = long.MaxValue;
                         break;
                     }
                     else
@@ -644,9 +659,9 @@ namespace Archspace2
             {
                 int shipUpkeep = dockedShipItem.Value * (int)dockedShipItem.Key.ShipClass.Upkeep;
 
-                if (int.MaxValue - upkeep < shipUpkeep)
+                if (long.MaxValue - upkeep < shipUpkeep)
                 {
-                    upkeep = int.MaxValue;
+                    upkeep = long.MaxValue;
                     break;
                 }
                 else
@@ -662,9 +677,9 @@ namespace Archspace2
 
         private void PayFleetUpkeep(Resource aIncome, Resource aUpkeep)
         {
-            int upkeep = aUpkeep.MilitaryPoint;
-            int income = aIncome.MilitaryPoint;
-            int balance = aIncome.ProductionPoint;
+            long upkeep = aUpkeep.MilitaryPoint;
+            long income = aIncome.MilitaryPoint;
+            long balance = aIncome.ProductionPoint;
 
             if (upkeep > income)
             {
@@ -754,7 +769,7 @@ namespace Archspace2
         {
             if (aBalance.ProductionPoint > 100)
             {
-                int tax = aBalance.ProductionPoint * 5 / 100;
+                long tax = aBalance.ProductionPoint * 5 / 100;
 
                 Council.Resource.ProductionPoint += tax;
                 aBalance.ProductionPoint -= tax;
@@ -779,8 +794,8 @@ namespace Archspace2
 
         private Resource CalculateSecurityUpkeep(Resource aBalance)
         {
-            int upkeep = 0;
-            int income = aBalance.ProductionPoint;
+            long upkeep = 0;
+            long income = aBalance.ProductionPoint;
 
             switch (SecurityLevel)
             {

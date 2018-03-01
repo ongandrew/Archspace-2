@@ -9,7 +9,7 @@ using Universal.Common.Extensions;
 namespace Archspace2
 {
     [Table("ShipDesign")]
-    public class ShipDesign : UniverseEntity, IValidatable
+    public class ShipDesign : UniverseEntity, IPowerContributor, IValidatable
     {
         public string Name { get; set; }
 
@@ -141,28 +141,29 @@ namespace Archspace2
             }
         }
 
-        public int Power
+        public long Power
         {
             get
             {
                 int totalLevel = 0;
 
                 List<ShipComponent> components = new List<ShipComponent>()
-            {
-                Armor,
-                Engine,
-                Computer,
-                Shield
-            };
+                {
+                    Armor,
+                    Engine,
+                    Computer,
+                    Shield
+                };
+
                 components.AddRange(Weapons);
+
+                totalLevel += components.Sum(x => x.TechLevel);
+
                 components.AddRange(Devices);
 
-                foreach (ShipComponent component in components)
-                {
-                    totalLevel += component.TechLevel;
-                }
+                totalLevel += Devices.Count * 5;
 
-                return ShipClass.Class * totalLevel;
+                return (long)((ShipClass.Space / 100.0) * (2.5 + ((totalLevel / components.Count) / 2.0)));
             }
         }
 

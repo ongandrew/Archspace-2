@@ -203,11 +203,11 @@ namespace Archspace2.Web
 
                     if (amount <= player.Resource.ProductionPoint && amount > 0)
                     {
-                        int trueAmount = amount;
+                        long trueAmount = amount;
 
-                        if (int.MaxValue - player.PlanetInvestmentPool < amount)
+                        if (long.MaxValue - player.PlanetInvestmentPool < amount)
                         {
-                            trueAmount = int.MaxValue - player.PlanetInvestmentPool;
+                            trueAmount = long.MaxValue - player.PlanetInvestmentPool;
                         }
                         else
                         {
