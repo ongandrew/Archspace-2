@@ -17,7 +17,7 @@ namespace Archspace2.Web
         {
             await Game.CreateNewUniverseAsync(DateTime.Now);
 
-            return Ok();
+            return RedirectToAction("Admin", "Archspace");
         }
 
         [Route("start")]
@@ -27,7 +27,7 @@ namespace Archspace2.Web
             {
                 Game.Start();
 
-                return Ok();
+                return RedirectToAction("Admin", "Archspace");
             }
             catch (Exception e)
             {
@@ -41,6 +41,17 @@ namespace Archspace2.Web
             await Game.LoadUniverseAsync();
 
             return Ok();
+        }
+
+        [Route("status")]
+        public async Task<IActionResult> Status()
+        {
+            GameStatusResponse response = new GameStatusResponse();
+            response.IsRunning = Game.IsRunning();
+            response.CurrentUniverseId = Game.Universe == null ? (int?)null : Game.Universe.Id;
+            response.CurrentTurn = Game.Universe == null ? (int?)null : Game.Universe.CurrentTurn;
+
+            return Ok(response);
         }
     }
 }

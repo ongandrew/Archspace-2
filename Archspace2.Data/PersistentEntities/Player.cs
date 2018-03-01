@@ -457,7 +457,7 @@ namespace Archspace2
 
             PayCouncilTax(balance);
 
-            Resource.ProductionPoint += totalIncome.ProductionPoint;
+            Resource.ProductionPoint += balance.ProductionPoint;
 
             UpdateTech();
 

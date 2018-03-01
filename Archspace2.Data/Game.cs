@@ -15,6 +15,11 @@ namespace Archspace2
     {
         private static bool mInitialized = false;
         private static bool mRunning = false;
+        public static bool IsRunning()
+        {
+            return mRunning;
+        }
+
         private static Thread mMainThread;
         private static Universe mUniverse;
         

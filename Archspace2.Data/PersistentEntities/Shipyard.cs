@@ -196,6 +196,12 @@ namespace Archspace2
                     }
                 }
 
+                if (!ShipBuildOrders.Any())
+                {
+                    ShipProductionInvestment += ShipProduction;
+                    ShipProduction = 0;
+                }
+
                 ShipProductionInvestment -= (aIncome * 30 / 100);
             }
         }
@@ -246,11 +252,11 @@ namespace Archspace2
 
                 if (Player.Traits.Contains(RacialTrait.EfficientInvestment))
                 {
-                    return (long)(CalculateShipProduction(aIncome) * (100 + (50 * bonusRatio * 2) / 100));
+                    return (long)(CalculateShipProduction(aIncome) * ((100 + (50 * bonusRatio * 2)) / 100));
                 }
                 else
                 {
-                    return (long)(CalculateShipProduction(aIncome) * (100 + (50 * bonusRatio) / 100));
+                    return (long)(CalculateShipProduction(aIncome) * ((100 + (50 * bonusRatio)) / 100));
                 }
             }
         }
