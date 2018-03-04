@@ -20,6 +20,8 @@ namespace Archspace2
     [Table("Fleet")]
     public class Fleet : UniverseEntity, IPowerContributor
     {
+        public int Order { get; set; }
+
         public string Name { get; set; }
         public int? PlayerId { get; set; }
         [ForeignKey("PlayerId")]

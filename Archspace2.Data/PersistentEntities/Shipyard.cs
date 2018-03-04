@@ -145,6 +145,15 @@ namespace Archspace2
             }
         }
 
+        public void ChangeShipProductionInvestment(long aAmount)
+        {
+            ShipProductionInvestment += aAmount;
+            if (ShipProductionInvestment < 0)
+            {
+                ShipProductionInvestment = 0;
+            }
+        }
+
         public void BuildShips(long aIncome)
         {
             if (!ShipBuildOrders.Any())
@@ -202,7 +211,7 @@ namespace Archspace2
                     ShipProduction = 0;
                 }
 
-                ShipProductionInvestment -= (aIncome * 30 / 100);
+                ChangeShipProductionInvestment(-(aIncome * 30 / 100));
             }
         }
 

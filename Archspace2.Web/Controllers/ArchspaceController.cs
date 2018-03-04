@@ -98,6 +98,12 @@ namespace Archspace2.Web
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
         }
 
+        [Route("form_new_fleet")]
+        public async Task<IActionResult> FormNewFleet()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
         [Route("admin")]
         public async Task<IActionResult> Admin()
         {

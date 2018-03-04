@@ -1,0 +1,67 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Form a New Fleet";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    <p>Order <input id="order" type="text" /></p>
+    <p>Name <input id="name" type="text" /></p>
+    
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Level</td>
+                <td>Attack</td>
+                <td>Defense</td>
+                <td>Efficiency</td>
+                <td>Armada Class</td>
+                <td>Fleet Commanding</td>
+                <td>Select</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Admiral admiral in player.GetAdmiralPool())
+            {
+                <tr>
+                    <td>@(admiral.Name)</td>
+                    <td>@(admiral.Level)</td>
+                    <td>@(admiral.Attack)</td>
+                    <td>@(admiral.Defense)</td>
+                    <td>@(admiral.Efficiency)</td>
+                    <td>@(admiral.ArmadaClass.ToString())</td>
+                    <td>@(admiral.FleetCapacity)</td>
+                    <td><input type="radio" name="id" value=@(admiral.Id) /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <select id="ship-list" onchange="updateAvailableCount()"></select>
+
+    <div>
+        <p>Available: <span id="available">0</span></p>
+        <input id="number" type="text" />
+    </div>
+    
+    <button type="submit">Create Fleet</button>
+</main>
+
+@section Scripts {
+    <script src="~/js/formFleet.js"></script>
+    <script>
+        var availableShipInfo = new Object();
+
+        @foreach(var entry in player.Shipyard.ShipPool)
+        {
+            <text>availableShipInfo[@(entry.Key.Id)] = {
+                name: "@(entry.Key.Name)",
+                available: @(entry.Value)
+            };</text>
+        }
+
+        populateShipSelection();
+    </script>
+}
