@@ -12,7 +12,7 @@
         })
     });
 
-    await fetch(request).then(handleErrorCodesAndThenFollowRedirects);
+    await fetch(request).then(handleErrorCodes).then(followRedirects);
 }
 
 function getShipsToScrap() {

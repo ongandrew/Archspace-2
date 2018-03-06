@@ -350,22 +350,101 @@ namespace Archspace2
             NewsItems.Add(newsItem);
         }
 
-        public Admiral CreateAdmiral()
+        internal Admiral CreateAdmiral()
         {
             Admiral result = new Admiral(Universe).AsPlayerAdmiral(this);
+            Admirals.Add(result);
 
             return result;
         }
 
-        public Fleet CreateFleet()
+        public void SpawnAdmiral()
+        {
+            CreateAdmiral().AsPlayerAdmiral(this);
+        }
+
+        internal Fleet CreateFleet()
         {
             Fleet result = new Fleet(Universe);
             result.Player = this;
+            Fleets.Add(result);
 
             return result;
         }
 
-        public ShipDesign CreateShipDesign()
+        public Fleet CreateFleet(int aOrder, string aName, Admiral aAdmiral, ShipDesign aShipDesign, int aNumber)
+        {
+            Fleet fleet = CreateFleet();
+
+            fleet.Order = aOrder;
+            fleet.Name = aName;
+
+            fleet.Admiral = aAdmiral;
+            fleet.ShipDesign = aShipDesign;
+
+            fleet.CurrentShipCount = aNumber;
+            fleet.MaxShipCount = aNumber;
+
+            return fleet;
+        }
+
+        public void FormNewFleet(int aOrder, string aName, int aAdmiralId, int aShipDesignId, int aNumber)
+        {
+            if (Fleets.Select(x => x.Order).Contains(aOrder))
+            {
+                throw new InvalidOperationException("Fleet order must be unique.");
+            }
+
+            if (aName.Trim().IsNullOrEmpty())
+            {
+                throw new InvalidOperationException("Fleet name cannot be null or empty.");
+            }
+            
+            Admiral admiral = Admirals.SingleOrDefault(x => x.Id == aAdmiralId);
+            if (admiral == null)
+            {
+                throw new InvalidOperationException("Admiral does not exist.");
+            }
+            else if (admiral.Fleet != null)
+            {
+                throw new InvalidOperationException("Admiral is current attached to a fleet.");
+            }
+
+            ShipDesign design = ShipDesigns.SingleOrDefault(x => x.Id == aShipDesignId);
+            if (design == null)
+            {
+                throw new InvalidOperationException("Ship design does not exist or is not owned by player.");
+            }
+            else if (Shipyard.GetDockedShipCount(design) < 1 || Shipyard.GetDockedShipCount(design) < aNumber)
+            {
+                throw new InvalidOperationException("Cannot form a fleet with that number of ships.");
+            }
+            else if (admiral.FleetCapacity < aNumber)
+            {
+                throw new InvalidOperationException("Admiral cannot command that number of ships.");
+            }
+
+            CreateFleet(aOrder, aName, admiral, design, aNumber);
+            Shipyard.ChangeDockedShip(design, -aNumber);
+        }
+
+        public void DisbandFleet(int aFleetId)
+        {
+            Fleet fleet = Fleets.SingleOrDefault(x => x.Id == aFleetId);
+
+            if (fleet == null)
+            {
+                throw new InvalidOperationException("Fleet not found.");
+            }
+
+            Fleets.Remove(fleet);
+            fleet.Admiral.Fleet = null;
+            fleet.Admiral = null;
+
+            Shipyard.ChangeDockedShip(fleet.ShipDesign, fleet.CurrentShipCount);
+        }
+
+        internal ShipDesign CreateShipDesign()
         {
             ShipDesign result = new ShipDesign(Universe);
             result.Player = this;

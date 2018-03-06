@@ -95,39 +95,17 @@ namespace Archspace2
 
             for (int i = 0; i < Game.Configuration.Player.StartingAdmiralCount; i++)
             {
-                player.Admirals.Add(player.CreateAdmiral().AsPlayerAdmiral(player));
+                player.SpawnAdmiral();
             }
 
             Admiral admiral1 = player.CreateAdmiral().AsPlayerAdmiral(player);
-            player.Admirals.Add(admiral1);
-            Fleet fleet1 = player.CreateFleet();
-            fleet1.Name = "1st Royal Guard Fleet";
-            fleet1.Admiral = admiral1;
-            fleet1.ShipDesign = shipDesign1;
-            fleet1.CurrentShipCount = 6;
-            fleet1.MaxShipCount = 6;
+            Fleet fleet1 = player.CreateFleet(1, "Royal Guard Fleet", admiral1, shipDesign1, 6);
 
             Admiral admiral2 = player.CreateAdmiral().AsPlayerAdmiral(player);
-            player.Admirals.Add(admiral2);
-            Fleet fleet2 = player.CreateFleet();
-            fleet2.Name = "2nd Royal Guard Fleet";
-            fleet2.Admiral = admiral2;
-            fleet2.ShipDesign = shipDesign1;
-            fleet2.CurrentShipCount = 6;
-            fleet2.MaxShipCount = 6;
+            Fleet fleet2 = player.CreateFleet(2, "Royal Guard Fleet", admiral2, shipDesign1, 6);
 
             Admiral admiral3 = player.CreateAdmiral().AsPlayerAdmiral(player);
-            player.Admirals.Add(admiral3);
-            Fleet fleet3 = player.CreateFleet();
-            fleet3.Name = "3rd Royal Guard Fleet";
-            fleet3.Admiral = admiral3;
-            fleet3.ShipDesign = shipDesign2;
-            fleet3.CurrentShipCount = 6;
-            fleet3.MaxShipCount = 6;
-
-            player.Fleets.Add(fleet1);
-            player.Fleets.Add(fleet2);
-            player.Fleets.Add(fleet3);
+            Fleet fleet3 = player.CreateFleet(3, "Royal Guard Fleet", admiral3, shipDesign2, 6);
 
             Players.Add(player);
 

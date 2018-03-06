@@ -41,7 +41,7 @@ namespace Archspace2
         {
             if (Type == BlackMarketItemType.Fleet)
             {
-                return await Game.Context.Admirals.SingleAsync(x => x.Id == ObjectId);
+                return await Game.GetContext().Admirals.SingleAsync(x => x.Id == ObjectId);
             }
             else
             {
@@ -53,7 +53,7 @@ namespace Archspace2
         {
             if (Type == BlackMarketItemType.Fleet)
             {
-                return await Game.Context.Fleets.SingleAsync(x => x.Id == ObjectId);
+                return await Game.GetContext().Fleets.SingleAsync(x => x.Id == ObjectId);
             }
             else
             {
@@ -65,7 +65,7 @@ namespace Archspace2
         {
             if (Type == BlackMarketItemType.Planet)
             {
-                return await Game.Context.Planets.SingleAsync(x => x.Id == ObjectId);
+                return await Game.GetContext().Planets.SingleAsync(x => x.Id == ObjectId);
             }
             else
             {

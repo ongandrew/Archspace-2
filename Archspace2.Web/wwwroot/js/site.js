@@ -1,12 +1,21 @@
 ﻿async function handleErrorCodes(fetchResponse) {
     if (!fetchResponse.ok) {
-        throw Error(fetchResponse.statusText + "\n" + await fetchResponse.text());
+        throw Error(await fetchResponse.text());
     }
+
+    return fetchResponse;
 }
 
-async function handleErrorCodesAndThenFollowRedirects(fetchResponse) {
-    await handleErrorCodes(fetchResponse);
+async function followRedirects(fetchResponse) {
     if (fetchResponse.redirected) {
         window.location = fetchResponse.url;
     }
+
+    return fetchResponse;
+}
+
+async function refreshLocation(fetchResponse) {
+    location.reload();
+
+    return fetchResponse;
 }

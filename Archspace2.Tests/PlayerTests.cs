@@ -40,7 +40,7 @@ namespace Archspace2
 
             Assert.IsNotNull(player);
 
-            using (DatabaseContext context = Game.Context)
+            using (DatabaseContext context = Game.GetContext())
             {
                 context.Attach(player);
 
@@ -66,7 +66,7 @@ namespace Archspace2
             player.Resource.ResearchPoint = 1000000;
             List<Tech> before = player.Techs.ToList();
 
-            using (DatabaseContext context = Game.Context)
+            using (DatabaseContext context = Game.GetContext())
             {
                 context.Attach(player);
 
@@ -93,7 +93,7 @@ namespace Archspace2
 
             Assert.IsNotNull(player);
 
-            using (DatabaseContext context = Game.Context)
+            using (DatabaseContext context = Game.GetContext())
             {
                 context.Attach(player);
 
@@ -112,6 +112,28 @@ namespace Archspace2
                 Assert.IsNotNull(player);
 
                 Assert.IsTrue(player.Techs.Any(x => x.Id == 1335));
+            }
+        }
+
+        [TestMethod]
+        public async Task NewPlayerHasNoDuplicateAdmirals()
+        {
+            User user = await Game.CreateNewUserAsync();
+            Race race = Game.Configuration.Races.Random();
+            Player player = user.CreatePlayer("Admiral Spawner", race);
+
+            using (DatabaseContext context = Game.GetContext())
+            {
+                context.Attach(Game.Universe);
+
+                for (int i = 0; i < 100; i++)
+                {
+                    player.SpawnAdmiral();
+                }
+
+                await context.SaveChangesAsync();
+
+                Assert.AreEqual(player.Admirals.Select(x => x.Id).Distinct().Count(), player.Admirals.Count);
             }
         }
     }

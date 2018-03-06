@@ -46,7 +46,7 @@ namespace Archspace2
             {
                 Sent = true;
                 SentDateTime = DateTime.UtcNow;
-                using (DatabaseContext context = Game.Context)
+                using (DatabaseContext context = Game.GetContext())
                 {
                     ToPlayer.Mailbox.ReceivedMail.Add(this);
 

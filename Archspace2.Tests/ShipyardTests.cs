@@ -26,7 +26,7 @@ namespace Archspace2
 
             int shipQueueLength = player.Shipyard.ShipBuildOrders.Count;
 
-            using (DatabaseContext context = Game.Context)
+            using (DatabaseContext context = Game.GetContext())
             {
                 context.Attach(player);
 
@@ -71,7 +71,7 @@ namespace Archspace2
 
             Assert.IsNotNull(player);
 
-            using (DatabaseContext context = Game.Context)
+            using (DatabaseContext context = Game.GetContext())
             {
                 context.Attach(player);
 
@@ -103,7 +103,7 @@ namespace Archspace2
 
             Assert.IsNotNull(player);
 
-            using (DatabaseContext context = Game.Context)
+            using (DatabaseContext context = Game.GetContext())
             {
                 context.Attach(player);
 
@@ -140,7 +140,7 @@ namespace Archspace2
 
             int shipQueueLength = player.Shipyard.ShipBuildOrders.Count;
 
-            using (DatabaseContext context = Game.Context)
+            using (DatabaseContext context = Game.GetContext())
             {
                 context.Attach(player);
 

@@ -6,7 +6,7 @@
         redirect: "follow"
     });
 
-    await fetch(request).then(handleErrorCodesAndThenFollowRedirects);
+    await fetch(request).then(handleErrorCodes).then(followRedirects);
 }
 
 async function startGameAsync() {
@@ -17,5 +17,5 @@ async function startGameAsync() {
         redirect: "follow"
     });
 
-    await fetch(request).then(handleErrorCodesAndThenFollowRedirects);
+    await fetch(request).then(handleErrorCodes).then(followRedirects);
 }

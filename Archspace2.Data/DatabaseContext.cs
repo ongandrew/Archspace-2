@@ -45,6 +45,7 @@ namespace Archspace2
             aModelBuilder.Entity<Planet>().HasMany(x => x.CommercePlanets).WithOne();
 
             aModelBuilder.Entity<Player>().OwnsOne(x => x.Resource);
+            aModelBuilder.Entity<Player>().HasMany(x => x.Admirals).WithOne(x => x.Player);
 
             aModelBuilder.Entity<PlayerEffectInstance>().OwnsOne(x => x.ControlModelModifier);
 

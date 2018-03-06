@@ -234,7 +234,7 @@ namespace Archspace2
 
         public async Task ClearCommerceAsync()
         {
-            using (DatabaseContext databaseContext = Game.Context)
+            using (DatabaseContext databaseContext = Game.GetContext())
             {
                 CommercePlanets.Clear();
 
@@ -244,7 +244,7 @@ namespace Archspace2
 
         public async Task ClearCommerceAsync(Planet aPlanet)
         {
-            using (DatabaseContext databaseContext = Game.Context)
+            using (DatabaseContext databaseContext = Game.GetContext())
             {
                 CommercePlanets.Remove(aPlanet);
 
@@ -258,7 +258,7 @@ namespace Archspace2
         {
             get
             {
-                using (DatabaseContext databaseContext = Game.Context)
+                using (DatabaseContext databaseContext = Game.GetContext())
                 {
                     return CommercePlanetList.DeserializeIds().Select(x => databaseContext.Planets.Single(y => y.Id == x)).ToList();
                 }
@@ -319,7 +319,7 @@ namespace Archspace2
 
         public async Task AddAttributeAsync(PlanetAttribute aPlanetAttribute)
         {
-            using (DatabaseContext databaseContext = Game.Context)
+            using (DatabaseContext databaseContext = Game.GetContext())
             {
                 Attributes.Add(aPlanetAttribute);
 
@@ -329,7 +329,7 @@ namespace Archspace2
 
         public async Task RemoveAttributeAsync(PlanetAttribute aPlanetAttribute)
         {
-            using (DatabaseContext databaseContext = Game.Context)
+            using (DatabaseContext databaseContext = Game.GetContext())
             {
                 Attributes.Remove(aPlanetAttribute);
 

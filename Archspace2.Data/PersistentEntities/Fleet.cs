@@ -61,6 +61,9 @@ namespace Archspace2
         public FleetStatus Status { get; set; }
         public Mission Mission { get; set; }
 
+        private Fleet()
+        {
+        }
         public Fleet(Universe aUniverse) : base(aUniverse)
         {
             Mission = new Mission()

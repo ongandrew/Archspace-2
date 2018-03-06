@@ -22,7 +22,7 @@ namespace Archspace2
 
         public async Task AddDefenseDeploymentAsync(DefenseDeployment aDefenseDeployment)
         {
-            using (DatabaseContext databaseContext = Game.Context)
+            using (DatabaseContext databaseContext = Game.GetContext())
             {
                 DefenseDeployments.Add(aDefenseDeployment);
 

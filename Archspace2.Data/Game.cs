@@ -24,13 +24,6 @@ namespace Archspace2
         private static Universe mUniverse;
         
         private static string mConnectionString;
-        public static DatabaseContext Context
-        {
-            get
-            {
-                return new DatabaseContext(mConnectionString);
-            }
-        }
 
         private static Random mRandom = new Random();
         public static Random Random { get => mRandom; }
@@ -75,26 +68,29 @@ namespace Archspace2
 
             mInitialized = true;
 
-            await Context.Database.EnsureDeletedAsync();
-            await Context.Database.EnsureCreatedAsync();
+            using (DatabaseContext context = GetContext())
+            {
+                await context.Database.EnsureDeletedAsync();
+                await context.Database.EnsureCreatedAsync();
 
-            try
-            {
-                Universe universe = await Context.Universes.Where(x => x.FromDate <= DateTime.UtcNow && (x.ToDate == null || DateTime.UtcNow < x.ToDate)).SingleOrDefaultAsync();
-                if (universe == null)
+                try
                 {
-                    await CreateNewUniverseAsync(DateTime.UtcNow);
+                    Universe universe = await context.Universes.Where(x => x.FromDate <= DateTime.UtcNow && (x.ToDate == null || DateTime.UtcNow < x.ToDate)).SingleOrDefaultAsync();
+                    if (universe == null)
+                    {
+                        await CreateNewUniverseAsync(DateTime.UtcNow);
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                throw new InvalidOperationException("Could not retrieve entities from database. Check database connection string.", e);
+                catch (Exception e)
+                {
+                    throw new InvalidOperationException("Could not retrieve entities from database. Check database connection string.", e);
+                }
             }
         }
 
         public static async Task<User> CreateNewUserAsync()
         {
-            using (DatabaseContext databaseContext = Context)
+            using (DatabaseContext databaseContext = GetContext())
             {
                 User user = new User();
 
@@ -108,7 +104,7 @@ namespace Archspace2
 
         public static async Task<Universe> CreateNewUniverseAsync(DateTime aFromDate, DateTime? aToDate = null)
         {
-            using (DatabaseContext databaseContext = Context)
+            using (DatabaseContext databaseContext = GetContext())
             {
                 Universe universe = new Universe(aFromDate, aToDate);
 
@@ -131,7 +127,7 @@ namespace Archspace2
 
         public static async Task LoadUniverseAsync()
         {
-            using (DatabaseContext databaseContext = Context)
+            using (DatabaseContext databaseContext = GetContext())
             {
                 Universe universe = await databaseContext.Universes.Where(x => x.FromDate <= DateTime.UtcNow && (DateTime.UtcNow < x.ToDate || x.ToDate == null)).SingleAsync();
 
@@ -148,7 +144,7 @@ namespace Archspace2
 
         public static async Task LogAsync(object aObject, LogType aLogType = LogType.Information, [CallerFilePath]string aCallerFilePath = null, [CallerMemberName]string aCallerMemberName = null, [CallerLineNumber]int aCallerLineNumber = 0)
         {
-            using (DatabaseContext databaseContext = Context)
+            using (DatabaseContext databaseContext = GetContext())
             {
                 databaseContext.SystemLogs.Add(new SystemLog(aObject.ToString(), aLogType, aCallerFilePath, aCallerMemberName, aCallerLineNumber));
 
@@ -158,7 +154,7 @@ namespace Archspace2
 
         public static async Task LogAsync(Exception aException, LogType aLogType = LogType.Error, [CallerFilePath]string aCallerFilePath = null, [CallerMemberName]string aCallerMemberName = null, [CallerLineNumber]int aCallerLineNumber = 0)
         {
-            using (DatabaseContext databaseContext = Context)
+            using (DatabaseContext databaseContext = GetContext())
             {
                 databaseContext.SystemLogs.Add(new SystemLog(aException.ToString(), aLogType, aCallerFilePath, aCallerMemberName, aCallerLineNumber));
 
@@ -168,7 +164,7 @@ namespace Archspace2
 
         public static async Task LogAsync(string aMessage, LogType aLogType = LogType.Information, [CallerFilePath]string aCallerFilePath = null, [CallerMemberName]string aCallerMemberName = null, [CallerLineNumber]int aCallerLineNumber = 0)
         {
-            using (DatabaseContext databaseContext = Context)
+            using (DatabaseContext databaseContext = GetContext())
             {
                 databaseContext.SystemLogs.Add(new SystemLog(aMessage, aLogType, aCallerFilePath, aCallerMemberName, aCallerLineNumber));
 
@@ -238,7 +234,7 @@ namespace Archspace2
         {
             try
             {
-                using (DatabaseContext context = Context)
+                using (DatabaseContext context = GetContext())
                 {
                     context.Attach(Universe);
 

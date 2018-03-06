@@ -8,7 +8,7 @@
 <main>
     <p>Order <input id="order" type="text" /></p>
     <p>Name <input id="name" type="text" /></p>
-    
+
     <table>
         <thead>
             <tr>
@@ -33,7 +33,7 @@
                     <td>@(admiral.Efficiency)</td>
                     <td>@(admiral.ArmadaClass.ToString())</td>
                     <td>@(admiral.FleetCapacity)</td>
-                    <td><input type="radio" name="id" value=@(admiral.Id) /></td>
+                    <td><input type="radio" name="admiralId" value=@(admiral.Id) /></td>
                 </tr>
             }
         </tbody>
@@ -45,8 +45,8 @@
         <p>Available: <span id="available">0</span></p>
         <input id="number" type="text" />
     </div>
-    
-    <button type="submit">Create Fleet</button>
+
+    <button type="submit" onclick="formNewFleetAsync()">Create Fleet</button>
 </main>
 
 @section Scripts {

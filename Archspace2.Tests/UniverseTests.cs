@@ -30,7 +30,7 @@ namespace Archspace2
         [TestMethod]
         public async Task CanUpdateManyTurns()
         {
-            using (DatabaseContext context = Game.Context)
+            using (DatabaseContext context = Game.GetContext())
             {
                 context.Attach(Game.Universe);
 
