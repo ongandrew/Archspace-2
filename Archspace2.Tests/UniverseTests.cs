@@ -28,6 +28,24 @@ namespace Archspace2
         }
 
         [TestMethod]
+        public async Task NoDuplicatePlayersInUniverse()
+        {
+            Universe currentUniverse = Game.Universe;
+
+            Assert.IsNotNull(currentUniverse);
+
+            await Game.CreateNewUniverseAsync(DateTime.UtcNow, DateTime.UtcNow.AddYears(1));
+
+            Universe newUniverse = Game.Universe;
+
+            Assert.IsNotNull(newUniverse);
+
+            Assert.AreNotEqual(currentUniverse.Id, newUniverse.Id);
+
+            Assert.AreEqual(Game.Universe.Players.Select(x => x.Id).Distinct().Count(), Game.Universe.Players.Count);
+        }
+
+        [TestMethod]
         public async Task CanUpdateManyTurns()
         {
             using (DatabaseContext context = Game.GetContext())

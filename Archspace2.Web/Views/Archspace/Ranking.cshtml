@@ -1,0 +1,60 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Ranking";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    List<Player> rankedPlayers = Game.Universe.Players.OrderByDescending(x => x.Power).ThenBy(x => x.Id).ToList();
+    List<Council> rankedCouncils = Game.Universe.Councils.OrderByDescending(x => x.CalculateTotalPower()).ThenBy(x => x.Id).ToList();
+}
+
+<main>
+    <h2>Top Players</h2>
+    <table>
+        <thead>
+            <tr>
+                <td>Rank</td>
+                <td>Name</td>
+                <td>Council</td>
+                <td>Planets</td>
+                <td>Power</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Player rankedPlayer in rankedPlayers.Take(10))
+            {
+                <tr>
+                    <td>@(rankedPlayers.IndexOf(rankedPlayer) + 1) <img src="~/images/races/@(rankedPlayer.Race.Name.ToLowerInvariant())/small_symbol.gif" /></td>
+                    <td>@(rankedPlayer.GetDisplayName())</td>
+                    <td>@(rankedPlayer.Council.GetDisplayName())</td>
+                    <td>@(rankedPlayer.Planets.Count)</td>
+                    <td>@(rankedPlayer.Power)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2>Top Councils</h2>
+    <table>
+        <thead>
+            <tr>
+                <td>Rank</td>
+                <td>Name</td>
+                <td>Speaker</td>
+                <td>Planets</td>
+                <td>Power</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Council rankedCouncil in rankedCouncils.Take(10))
+            {
+                <tr>
+                    <td>@(rankedCouncils.IndexOf(rankedCouncil) + 1)</td>
+                    <td>@(rankedCouncil.GetDisplayName())</td>
+                    <td>@if (rankedCouncil.Speaker == null) { <text>None</text> } else { <text>@(rankedCouncil.Speaker.GetDisplayName()) <img src="~/images/races/@(rankedCouncil.Speaker.Race.Name.ToLowerInvariant())/small_symbol.gif" /></text> }</td>
+                    <td>@(rankedCouncil.CalculateTotalPlanetCount())</td>
+                    <td>@(rankedCouncil.CalculateTotalPower())</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</main>

@@ -52,7 +52,7 @@ namespace Archspace2
 
             for (int i = 0; i < Game.Configuration.Universe.StartingBotCount; i++)
             {
-                Players.Add(CreateBot());
+                CreateBot();
             }
         }
 
@@ -63,7 +63,7 @@ namespace Archspace2
             return blackMarket;
         }
 
-        private Player CreateBot()
+        public Player CreateBot()
         {
             Player bot = CreatePlayer(Game.Configuration.Universe.BotNames.Random(), Game.Configuration.Races.Random());
 

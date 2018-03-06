@@ -289,6 +289,11 @@ namespace Archspace2
             ToRelations = new List<PlayerRelation>();
         }
 
+        public string GetDisplayName()
+        {
+            return $"{Name} (#{Id})";
+        }
+
         public bool EvaluatePrerequisites(IPlayerUnlockable aPlayerUnlockable)
         {
             return EvaluatePrerequisites(aPlayerUnlockable.Prerequisites);

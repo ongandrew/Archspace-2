@@ -1,0 +1,27 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Clusters";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    List<Cluster> clusters = Game.Universe.Clusters.ToList();
+}
+
+<main>
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Planet Count</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Cluster cluster in clusters)
+            {
+                <tr>
+                    <td>@(cluster.Name)</td>
+                    <td>@(cluster.Planets.Count)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</main>

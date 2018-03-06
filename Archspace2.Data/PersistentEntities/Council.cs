@@ -84,5 +84,20 @@ namespace Archspace2
             Players = new List<Player>();
             ToRelations = new List<CouncilRelation>();
         }
+
+        public string GetDisplayName()
+        {
+            return $"{Name} (#{Id})";
+        }
+
+        public long CalculateTotalPower()
+        {
+            return Players.CalculateTotalPower();
+        }
+
+        public int CalculateTotalPlanetCount()
+        {
+            return Players.Sum(x => x.Planets.Count);
+        }
     }
 }
