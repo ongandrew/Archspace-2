@@ -163,8 +163,6 @@ namespace Archspace2
 
                 await context.SaveChangesAsync();
             }
-
-            
         }
     }
 }

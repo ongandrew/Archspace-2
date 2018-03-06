@@ -1,0 +1,34 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Mission";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    <table>
+        <thead>
+            <tr>
+                <td>Order</td>
+                <td>Name</td>
+                <td>Admiral</td>
+                <td>Class</td>
+                <td>Capacity</td>
+                <td>Select</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Fleet fleet in player.Fleets.OrderBy(x => x.Order))
+            {
+            <tr>
+                <td>@(fleet.Order)</td>
+                <td>@(fleet.Name)</td>
+                <td>@(fleet.Admiral.Name)</td>
+                <td>@(fleet.ShipDesign.Name)</td>
+                <td><input />@(fleet.CurrentShipCount)/@(fleet.MaxShipCount)</td>
+                <td><input type="checkbox" name="ids" value=@(fleet.Id) /></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</main>

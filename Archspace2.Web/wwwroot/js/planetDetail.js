@@ -51,6 +51,49 @@ function decreaseDistributionRatio(buildingType) {
     var factory = getDistributionRatioAsValue($("#ratio-factory").html());
     var researchLab = getDistributionRatioAsValue($("#ratio-research-lab").html());
     var militaryBase = getDistributionRatioAsValue($("#ratio-military-base").html());
+
+    var newFactory = factory;
+    var newResearchLab = researchLab;
+    var newMilitaryBase = militaryBase;
+
+    if (buildingType == "factory") {
+        if (factory - 10 >= 0) {
+            newFactory = factory - 10;
+
+            if (researchLab < militaryBase && researchLab + 10 <= 100) {
+                newResearchLab = researchLab + 10;
+            }
+            else {
+                newMilitaryBase = militaryBase + 10;
+            }
+        }
+    }
+    else if (buildingType == "research-lab") {
+        if (researchLab - 10 >= 0) {
+            newResearchLab = researchLab - 10;
+
+            if (factory < militaryBase && factory + 10 <= 100) {
+                newFactory = factory + 10;
+            }
+            else {
+                newMilitaryBase = militaryBase + 10;
+            }
+        }
+    }
+    else if (buildingType == "military-base") {
+        if (militaryBase - 10 >= 0) {
+            newMilitaryBase = militaryBase - 10;
+
+            if (factory < researchLab && factory + 10 <= 100) {
+                newFactory = factory + 10;
+            }
+            else {
+                newResearchLab = researchLab + 10;
+            }
+        }
+    }
+
+    updateRatios(newFactory, newResearchLab, newMilitaryBase);
 }
 
 function getDistributionRatioAsValue(html) {

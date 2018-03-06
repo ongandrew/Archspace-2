@@ -110,6 +110,30 @@ namespace Archspace2.Web
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
         }
 
+        [Route("reassignment")]
+        public async Task<IActionResult> Reassignment()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("expedition")]
+        public async Task<IActionResult> Expedition()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("mission")]
+        public async Task<IActionResult> Mission()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("recall")]
+        public async Task<IActionResult> Recall()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
         [Route("admin")]
         public async Task<IActionResult> Admin()
         {

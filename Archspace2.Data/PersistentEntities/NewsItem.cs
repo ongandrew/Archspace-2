@@ -10,8 +10,8 @@ namespace Archspace2
         [ForeignKey("PlayerId")]
         public Player Player { get; set; }
 
-        public DateTime DateTime { get; }
-        public int Turn { get; }
+        public DateTime DateTime { get; private set; }
+        public int Turn { get; private set; }
 
         public string Text { get; set; }
 

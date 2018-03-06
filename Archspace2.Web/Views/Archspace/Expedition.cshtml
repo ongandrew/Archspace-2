@@ -1,0 +1,44 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Expedition";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    Fleet expeditionFleet = player.GetExpeditionFleet();
+}
+
+<main>
+    @if (expeditionFleet != null)
+    {
+        <p>@(expeditionFleet.GetDisplayName()) is currently on expedition.</p>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Class</td>
+                    <td>Capacity</td>
+                    <td>Select</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Fleet fleet in player.Fleets.OrderBy(x => x.Order))
+                {
+                    <tr>
+                        <td>@(fleet.GetDisplayName())</td>
+                        <td>@(fleet.ShipDesign.Name)</td>
+                        <td>@(fleet.CurrentShipCount)/@(fleet.MaxShipCount)</td>
+                        <td><input type="radio" name="id" value=@(fleet.Id) /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <button type="submit" onclick="sendExpeditionAsync()">Expedition</button>
+    }
+</main>
+
+@section Scripts {
+    <script src="~/js/expedition.js"></script>
+}

@@ -30,5 +30,12 @@ namespace Archspace2
         {
             TerminateTurn += aTurns;
         }
+
+        public void Reset()
+        {
+            Type = MissionType.None;
+            Target = 0;
+            TerminateTurn = 0;
+        }
     }
 }

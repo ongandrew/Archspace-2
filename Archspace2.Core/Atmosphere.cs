@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Universal.Common.Extensions;
 
 namespace Archspace2
@@ -38,6 +40,19 @@ namespace Archspace2
         public Atmosphere(Atmosphere aOther)
         {
             this.Bind(aOther);
+        }
+
+        public void Randomize()
+        {
+            foreach (GasType gas in Enum.GetValues(typeof(GasType)).Cast<GasType>())
+            {
+                this[gas] = 0;
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                this[Enum.GetValues(typeof(GasType)).Cast<GasType>().Random()]++;
+            }
         }
 
         public static bool operator ==(Atmosphere lhs, Atmosphere rhs)

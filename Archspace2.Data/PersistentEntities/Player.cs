@@ -424,8 +424,39 @@ namespace Archspace2
                 throw new InvalidOperationException("Admiral cannot command that number of ships.");
             }
 
-            CreateFleet(aOrder, aName, admiral, design, aNumber);
+            Fleet fleet = CreateFleet(aOrder, aName, admiral, design, aNumber);
+            fleet.Experience = 25 + (ControlModel.Military * 3);
             Shipyard.ChangeDockedShip(design, -aNumber);
+        }
+
+        public Fleet GetExpeditionFleet()
+        {
+            return Fleets.SingleOrDefault(x => x.Mission.Type == MissionType.Expedition || x.Mission.Type == MissionType.ReturningWithPlanet);
+        }
+
+        public void SendExpedition(int aFleetId)
+        {
+            Fleet fleet = Fleets.SingleOrDefault(x => x.Id == aFleetId);
+            if (fleet == null)
+            {
+                throw new InvalidOperationException($"Player does not own fleet with id {aFleetId}.");
+            }
+            else if (GetExpeditionFleet() != null)
+            {
+                throw new InvalidOperationException("There is already a fleet on expedition.");
+            }
+            else if (fleet.Mission.Type != MissionType.None)
+            {
+                throw new InvalidOperationException("The fleet is already on a mission.");
+            }
+            else if (fleet.Status != FleetStatus.StandBy)
+            {
+                throw new InvalidCastException("The selected fleet is not on stand-by.");
+            }
+            else
+            {
+                fleet.BeginMission(MissionType.Expedition);
+            }
         }
 
         public void DisbandFleet(int aFleetId)

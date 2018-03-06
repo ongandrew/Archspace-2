@@ -136,5 +136,56 @@ namespace Archspace2
                 Assert.AreEqual(player.Admirals.Select(x => x.Id).Distinct().Count(), player.Admirals.Count);
             }
         }
+
+        [TestMethod]
+        public async Task ExpeditionFindsPlanet()
+        {
+            User user = await Game.CreateNewUserAsync();
+
+            Assert.IsNotNull(user);
+
+            Race race = Game.Configuration.Races.Random();
+            Player player = user.CreatePlayer("Expedition Test", race);
+
+            Assert.IsNotNull(player);
+
+            using (DatabaseContext context = Game.GetContext())
+            {
+                context.Attach(player);
+
+                await context.SaveChangesAsync();
+
+                Fleet fleet = player.Fleets.Random();
+
+                player.SendExpedition(fleet.Id);
+
+                Assert.AreEqual(FleetStatus.UnderMission, fleet.Status);
+                Assert.AreEqual(MissionType.Expedition, fleet.Mission.Type);
+
+                await context.SaveChangesAsync();
+
+                for (int i = 0; i < 100; i++)
+                {
+                    await Task.Run(() => Game.Universe.UpdateTurn());
+                }
+
+                await context.SaveChangesAsync();
+
+                Assert.AreEqual(2, player.Planets.Count);
+                Assert.AreEqual(FleetStatus.UnderMission, fleet.Status);
+                Assert.AreEqual(MissionType.ReturningWithPlanet, fleet.Mission.Type);
+
+                for (int i = 0; i < 100; i++)
+                {
+                    await Task.Run(() => Game.Universe.UpdateTurn());
+                }
+
+                Assert.AreEqual(FleetStatus.StandBy, fleet.Status);
+                Assert.AreEqual(MissionType.None, fleet.Mission.Type);
+                await context.SaveChangesAsync();
+            }
+
+            
+        }
     }
 }

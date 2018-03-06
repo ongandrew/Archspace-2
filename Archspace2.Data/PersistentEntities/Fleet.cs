@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Archspace2.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -71,7 +72,12 @@ namespace Archspace2
                 Type = MissionType.None
             };
         }
-        
+
+        public string GetDisplayName()
+        {
+            return $"{Order.ToOrdinal()} {Name}";
+        }
+
         public bool MissionIsOver()
         {
             switch (Mission.Type)
@@ -102,9 +108,13 @@ namespace Archspace2
                 Player.Planets.Add(planet);
 
                 planet.StartTerraforming();
-                Player.AddNews($"Your fleet {Name} has found a new planet!");
+                Player.AddNews($"Your fleet {GetDisplayName()} has found a new planet!");
 
                 BeginMission(MissionType.ReturningWithPlanet);
+            }
+            else
+            {
+                BeginMission(MissionType.Expedition);
             }
         }
 
@@ -158,6 +168,10 @@ namespace Archspace2
             {
                 Status = FleetStatus.Privateer;
             }
+            else if (aMissionType == MissionType.None)
+            {
+                Status = FleetStatus.StandBy;
+            }
             else
             {
                 Status = FleetStatus.UnderMission;
@@ -196,7 +210,10 @@ namespace Archspace2
                 
             }
 
-            Mission = new Mission() { Type = aMissionType, TerminateTurn = returnTurn };
+            // Temporary workaround until EF Core supports replacement of owned entities.
+            Mission.Reset();
+            Mission.Type = aMissionType;
+            Mission.TerminateTurn = returnTurn;
         }
 
         public void ExecuteMission()
@@ -209,7 +226,7 @@ namespace Archspace2
 
                         if (targetPlayer == null || targetPlayer.IsDead() || !targetPlayer.Planets.Any(x => x.CanPrivateer()))
                         {
-                            Player.AddNews($"{Name} fleet if returning from a privateer mission as there are no valid targets.");
+                            Player.AddNews($"Your fleet {GetDisplayName()} is returning from a privateer mission as there are no valid targets.");
                             ReturnFromPlayer();
                         }
                         else
@@ -259,7 +276,21 @@ namespace Archspace2
                         }
                     }
                     break;
+                case MissionType.ReturningWithPlanet:
+                    {
+                        if (MissionIsOver())
+                        {
+                            EndMission();
+                        }
+                    }
+                    break;
                 default:
+                    {
+                        if (MissionIsOver())
+                        {
+                            EndMission();
+                        }
+                    }
                     break;
             }
         }
@@ -288,12 +319,17 @@ namespace Archspace2
 
                         Admiral.GainExperience(admiralExperience);
 
-                        Player.AddNews($"Your fleet {Name} has gained {newExperience} points of experience and {Admiral.Name} has gained {admiralExperience} points of experience from the training.");
+                        Player.AddNews($"Your fleet {GetDisplayName()} has gained {newExperience} points of experience and {Admiral.Name} has gained {admiralExperience} points of experience from the training.");
                     }
                     break;
                 case MissionType.Patrol:
                     {
-                        Player.AddNews($"Your fleet {Name} has returned from a patrol mission.");
+                        Player.AddNews($"Your fleet {GetDisplayName()} has returned from a patrol mission.");
+                    }
+                    break;
+                case MissionType.ReturningWithPlanet:
+                    {
+                        Player.AddNews($"Your fleet {GetDisplayName()} has returned with a planet.");
                     }
                     break;
                 default:
@@ -303,6 +339,7 @@ namespace Archspace2
             if (Status != FleetStatus.Deactivated)
             {
                 BeginMission(MissionType.None);
+                Status = FleetStatus.StandBy;
             }
         }
 

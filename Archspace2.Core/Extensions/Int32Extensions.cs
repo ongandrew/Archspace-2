@@ -6,6 +6,31 @@ namespace Archspace2.Extensions
 {
     public static class Int32Extensions
     {
+        public static string ToOrdinal(this int tInt)
+        {
+            if (tInt <= 0) return tInt.ToString();
+
+            switch (tInt % 100)
+            {
+                case 11:
+                case 12:
+                case 13:
+                    return tInt + "th";
+            }
+
+            switch (tInt % 10)
+            {
+                case 1:
+                    return tInt + "st";
+                case 2:
+                    return tInt + "nd";
+                case 3:
+                    return tInt + "rd";
+                default:
+                    return tInt + "th";
+            }
+        }
+
         public static string ToRoman(this int tInt)
         {
             if ((tInt < 0) || (tInt > 3999)) throw new ArgumentOutOfRangeException("Only values between 1 and 3999 are supported.");

@@ -197,6 +197,8 @@ namespace Archspace2
             
             Attributes = new List<PlanetAttribute>();
             CommercePlanets = new List<Planet>();
+
+            Atmosphere = new Atmosphere();
         }
 
         public Planet AsHomePlanet(Player aPlayer)
@@ -229,6 +231,8 @@ namespace Archspace2
 
         public Planet AsRandomPlanet()
         {
+            Atmosphere.Randomize();
+
             return this;
         }
 
@@ -568,7 +572,7 @@ namespace Archspace2
                 investMaxPP = CalculateMaxInvestmentProudction();
             }
 
-            return (long)(CalculateUsableInvestment() * (100 - WasteRate) / investMaxPP);
+            return investMaxPP == 0 ? 0 : (long)(CalculateUsableInvestment() * (100 - WasteRate) / investMaxPP);
         }
 
         private long CalculateCommerce()
