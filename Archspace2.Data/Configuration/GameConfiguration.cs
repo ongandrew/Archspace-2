@@ -1653,7 +1653,7 @@ namespace Archspace2
                     Id = 5405,
                     Name = "Phase",
                     Description = "This is the most advanced form of engine in use in the Empire. It used an understanding of the nature of space to move. To observers, the ship appears to simply jump from one place to another. This is inaccurate however as the ship is actually bending portions of the space in front of it into other dimensions, thus reducing the actual distance that it travels.",
-                    TechLevel = 1,
+                    TechLevel = 5,
                     BattleSpeed = new Dictionary<int, int>()
                     {
                         [1] = 59,
@@ -5660,7 +5660,7 @@ namespace Archspace2
                     Description = "Your spy will spread the new microbe secretly developed by your toxicologists. This will inflict crippling damage to any planet, and it is one of the most effective methods to devastate enemy. When it is detected, however, the employment of such tactic along with the development of such microbe will cause severe diplomatic problem. For this reason, this weapon should be reserved to for the last resort.",
                     Type = SpyType.Atrocious,
                     Cost = 100000,
-                    Difficulty = 1416,
+                    Difficulty = 100,
                     Prerequisites = new List<PlayerPrerequisite>()
                     {
                         new PlayerPrerequisite()

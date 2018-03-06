@@ -1,0 +1,250 @@
+﻿@using Archspace2;
+@{
+    ViewData["Title"] = "Encyclopedia";
+    Layout = "_LayoutGame";
+}
+
+<h1>Encyclopedia</h1>
+
+<h2>Armors</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Level</td>
+            <td>Type</td>
+            <td>HP Multiplier</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var armor in Game.Configuration.Armors)
+        {
+        <tr>
+            <td><a href="~/encyclopedia/armor/@armor.Id">@(armor.Name)</a></td>
+            <td>@(armor.TechLevel)</td>
+            <td>@(armor.Type.ToString())</td>
+            <td>@(armor.HpMultiplier)</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Computers</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Level</td>
+            <td>Attack Rating</td>
+            <td>Defense Rating</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var computer in Game.Configuration.Computers)
+        {
+        <tr>
+            <td><a href="~/encyclopedia/computer/@computer.Id">@computer.Name</a></td>
+            <td>@(computer.TechLevel)</td>
+            <td>@(computer.AttackRating)</td>
+            <td>@(computer.DefenseRating)</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Devices</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var devices in Game.Configuration.Devices)
+        {
+            <tr><td><a href="~/encyclopedia/devices/@devices.Id">@devices.Name</a></td></tr>
+        }
+    </tbody>
+</table>
+
+<h2>Engines</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Level</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var engine in Game.Configuration.Engines)
+        {
+        <tr>
+            <td><a href="~/encyclopedia/engine/@engine.Id">@engine.Name</a></td>\
+            <td>@(engine.TechLevel)</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Projects</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Type</td>
+            <td>Cost</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Game.Configuration.Projects)
+        {
+        <tr>
+            <td><a href="~/encyclopedia/project/@project.Id">@project.Name</a></td>
+            <td>@(project.Type.ToString())</td>
+            <td>@(project.Cost)</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Races</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var race in Game.Configuration.Races)
+        {
+            <tr><td><a href="~/encyclopedia/race/@race.Id">@race.Name</a></td></tr>
+        }
+    </tbody>
+</table>
+
+<h2>Shields</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Level</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var shield in Game.Configuration.Shields)
+        {
+        <tr>
+            <td><a href="~/encyclopedia/shield/@shield.Id">@shield.Name</a></td>
+            <td>@(shield.TechLevel)</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Ship Classes</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Class</td>
+            <td>Base HP</td>
+            <td>Space</td>
+            <td>Weapons</td>
+            <td>Devices</td>
+            <td>Cost</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var shipClass in Game.Configuration.ShipClasses)
+        {
+        <tr>
+            <td><a href="~/encyclopedia/shipclass/@shipClass.Id">@shipClass.Name</a></td>
+            <td>@(shipClass.Class)</td>
+            <td>@(shipClass.BaseHp)</td>
+            <td>@(shipClass.Space)</td>
+            <td>@(shipClass.WeaponSlotCount)</td>
+            <td>@(shipClass.DeviceSlotCount)</td>
+            <td>@(shipClass.Cost)</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Spy Actions</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Type</td>
+            <td>Difficulty</td>
+            <td>Cost</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var spyAction in Game.Configuration.SpyActions)
+        {
+        <tr>
+            <td><a href="~/encyclopedia/spyaction/@spyAction.Id">@spyAction.Name</a></td>
+            <td>@(spyAction.Type.ToString())</td>
+            <td>@(spyAction.Difficulty)</td>
+            <td>@(spyAction.Cost)</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Techs</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Level</td>
+            <td>Type</td>
+            <td>Base Cost</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tech in Game.Configuration.Techs)
+        {
+        <tr>
+            <td><a href="~/encyclopedia/tech/@tech.Id">@tech.Name</a></td>
+            <td>@(tech.TechLevel)</td>
+            <td>@(tech.Type.ToString())</td>
+            <td>@(tech.GetBaseCost())</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Weapons</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Level</td>
+            <td>Type</td>
+            <td>Damage Roll</td>
+            <td>Damage Dice</td>
+            <td>Cooling Time</td>
+            <td>Angle of Fire</td>
+            <td>Range</td>
+            <td>Space</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var weapon in Game.Configuration.Weapons)
+        {
+        <tr>
+            <td><a href="~/encyclopedia/weapon/@weapon.Id">@weapon.Name</a></td>
+            <td>@(weapon.TechLevel)</td>
+            <td>@(weapon.Type.ToString())</td>
+            <td>@(weapon.DamageRoll)</td>
+            <td>@(weapon.DamageDice)</td>
+            <td>@(weapon.CoolingTime)</td>
+            <td>@(weapon.AngleOfFire)</td>
+            <td>@(weapon.Range)</td>
+            <td>@(weapon.Space)</td>
+        </tr>
+        }
+    </tbody>
+</table>

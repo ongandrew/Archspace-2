@@ -251,6 +251,20 @@ namespace Archspace2
             }
         }
 
+        public int? VotedCouncilPlayerId { get; set; }
+        [ForeignKey("VotedCouncilPlayerId")]
+        public Player VotedCouncilPlayer { get; set; }
+
+        public long VotingPower
+        {
+            get
+            {
+                long result = Techs.Count(x => x.Type == TechType.Social);
+                
+                return ((Power * result) / 100);
+            }
+        }
+
         public ICollection<Admiral> Admirals { get; set; }
         public ICollection<DefensePlan> DefensePlans { get; set; }
         public ICollection<PlayerEffectInstance> Effects { get; set; }
@@ -971,6 +985,39 @@ namespace Archspace2
         public int CalculateRank()
         {
             return Universe.Players.OrderByDescending(x => x.Power).ThenBy(x => x.Id).ToList().IndexOf(this);
+        }
+
+        public long CalculateTotalVotes()
+        {
+            long result = 0;
+
+            result += Council.Players.Where(x => x.VotedCouncilPlayer == this).Sum(x => x.VotingPower);
+
+            return result;
+        }
+
+        public void ChangeVote(int aPlayerId)
+        {
+            Player votedPlayer = Council.Players.SingleOrDefault(x => x.Id == aPlayerId);
+
+            if (votedPlayer != null)
+            {
+                if (votedPlayer != VotedCouncilPlayer && VotedCouncilPlayer != null)
+                {
+                    Honor--;
+                }
+
+                VotedCouncilPlayer = votedPlayer;
+            }
+            else
+            {
+                if (VotedCouncilPlayer != null)
+                {
+                    Honor--;
+                }
+
+                VotedCouncilPlayer = null;
+            }
         }
 
         public bool IsDead()

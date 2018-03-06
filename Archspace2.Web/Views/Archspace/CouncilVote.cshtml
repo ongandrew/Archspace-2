@@ -1,0 +1,59 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Clusters";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    Council council = player.Council;
+}
+
+<main>
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Voting Power</td>
+                <td>Votes Received</td>
+                <td>Voting For</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Player councilPlayer in council.Players)
+            {
+                <tr>
+                    <td>@(councilPlayer.GetDisplayName())</td>
+                    <td>@(councilPlayer.VotingPower)</td>
+                    <td>@(councilPlayer.CalculateTotalVotes())</td>
+                    <td>@if (councilPlayer.VotedCouncilPlayer == null)
+                    { <text>None</text> }
+                    else { <text>@(councilPlayer.VotedCouncilPlayer.GetDisplayName())</text> }</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <p>
+        @if (player.VotedCouncilPlayer == null)
+        {
+        <text>You are currently not voting for any player.</text>
+        }
+        else
+        {
+        <text>You are currently voting for @(player.VotedCouncilPlayer.GetDisplayName()).</text>
+        }
+        </p>
+        <select id="vote">
+            <option value=0>None</option>
+            @foreach(Player councilPlayer in council.Players)
+            {
+            <option value=@(councilPlayer.Id)>@(councilPlayer.GetDisplayName())</option>
+            }
+        </select>
+
+        <button type="submit" onclick="changeVoteAsync()">Vote</button>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/councilVote.js"></script>
+}

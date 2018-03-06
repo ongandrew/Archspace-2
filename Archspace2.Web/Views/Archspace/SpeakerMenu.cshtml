@@ -1,0 +1,18 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Speaker Menu";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    Council council = player.Council;
+}
+
+<main>
+    @if (player != council.Speaker)
+    {
+        <p>You are not the council speaker.</p>
+    }
+    else
+    {
+        <p>You are the council speaker, but this is not implemented yet.</p>
+    }
+</main>

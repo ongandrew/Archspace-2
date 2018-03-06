@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Archspace2.Web
@@ -28,7 +29,7 @@ namespace Archspace2.Web
             catch (Exception e)
             {
                 await Game.LogAsync(e);
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -53,7 +54,7 @@ namespace Archspace2.Web
             catch (Exception e)
             {
                 await Game.LogAsync(e);
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -80,7 +81,7 @@ namespace Archspace2.Web
             catch (Exception e)
             {
                 await Game.LogAsync(e);
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -115,7 +116,7 @@ namespace Archspace2.Web
             catch (Exception e)
             {
                 await Game.LogAsync(e);
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -145,7 +146,7 @@ namespace Archspace2.Web
             catch (Exception e)
             {
                 await Game.LogAsync(e);
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -184,7 +185,7 @@ namespace Archspace2.Web
             catch (Exception e)
             {
                 await Game.LogAsync(e);
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -226,7 +227,7 @@ namespace Archspace2.Web
             catch (Exception e)
             {
                 await Game.LogAsync(e);
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -268,7 +269,7 @@ namespace Archspace2.Web
             catch (Exception e)
             {
                 await Game.LogAsync(e);
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -310,7 +311,34 @@ namespace Archspace2.Web
             catch (Exception e)
             {
                 await Game.LogAsync(e);
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Route("{id}/vote")]
+        public async Task<IActionResult> ChangeVote(int id)
+        {
+            try
+            {
+                using (DatabaseContext context = Game.GetContext())
+                {
+                    context.Attach(Game.Universe);
+
+                    User user = await context.GetUserAsync(User);
+                    Player player = Game.Universe.Players.Where(x => x.User != null && x.User.Id == user.Id).Single();
+
+                    player.ChangeVote(id);
+
+                    await context.SaveChangesAsync();
+
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                await Game.LogAsync(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }

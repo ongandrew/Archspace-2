@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Archspace2.Web
 {
+#pragma warning disable CS1998
     [Authorize]
     [Route("archspace")]
     public class ArchspaceController : ControllerBase
@@ -134,6 +135,18 @@ namespace Archspace2.Web
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
         }
 
+        [Route("council_vote")]
+        public async Task<IActionResult> CouncilVote()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("speaker_menu")]
+        public async Task<IActionResult> SpeakerMenu()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
         [Route("clusters")]
         public async Task<IActionResult> Clusters()
         {
@@ -144,6 +157,13 @@ namespace Archspace2.Web
         public async Task<IActionResult> Ranking()
         {
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [AllowAnonymous]
+        [Route("encyclopedia")]
+        public async Task<IActionResult> Encyclopedia()
+        {
+            return View();
         }
 
         [Route("admin")]
@@ -165,4 +185,5 @@ namespace Archspace2.Web
             }
         }
     }
+#pragma warning restore CS1998
 }
