@@ -588,22 +588,22 @@ namespace Archspace2
 
                 Council targetCommerceCouncil = commercePlanetOwner.Council;
 
-                if (Player.Council.FromRelations.Where(x => x.Type == RelationType.Subordinary && x.ToCouncilId == targetCommerceCouncil.Id).Any())
+                if (Player.Council.FromRelations.Where(x => x.Type == RelationType.Subordinary && x.ToCouncil.Id == targetCommerceCouncil.Id).Any())
                 {
                     commerce++;
                 }
 
-                if (targetCommerceCouncil.FromRelations.Where(x => x.Type == RelationType.Subordinary && x.ToCouncilId == Player.Council.Id).Any())
+                if (targetCommerceCouncil.FromRelations.Where(x => x.Type == RelationType.Subordinary && x.ToCouncil.Id == Player.Council.Id).Any())
                 {
                     commerce++;
                 }
 
-                if (Player.FromRelations.Where(x => x.Type == RelationType.Ally && x.ToPlayerId == commercePlanetOwner.Id).Any())
+                if (Player.FromRelations.Where(x => x.Type == RelationType.Ally && x.ToPlayer.Id == commercePlanetOwner.Id).Any())
                 {
                     commerce++;
                 }
 
-                if (Player.Council.FromRelations.Where(x => x.Type == RelationType.Ally && x.ToCouncilId == targetCommerceCouncil.Id).Any())
+                if (Player.Council.FromRelations.Where(x => x.Type == RelationType.Ally && x.ToCouncil.Id == targetCommerceCouncil.Id).Any())
                 {
                     commerce++;
                 }

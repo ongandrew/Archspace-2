@@ -34,6 +34,7 @@ namespace Archspace2
 
         public string Slogan { get; set; }
         public Resource Resource { get; set; }
+        public CouncilMailbox Mailbox { get; set; }
 
         public string ProjectIdList
         {
@@ -79,6 +80,7 @@ namespace Archspace2
             mProjects = new List<Project>();
 
             Resource = new Resource();
+            Mailbox = new CouncilMailbox();
 
             FromRelations = new List<CouncilRelation>();
             Players = new List<Player>();

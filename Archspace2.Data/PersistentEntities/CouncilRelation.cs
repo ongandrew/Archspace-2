@@ -8,14 +8,14 @@ namespace Archspace2
     [Table("CouncilRelation")]
     public class CouncilRelation : Relation
     {
-        public int FromCounilId { get; private set; }
-        [ForeignKey("FromCounilId")]
+        [ForeignKey("FromId")]
         public Council FromCouncil { get; private set; }
-
-        public int ToCouncilId { get; private set; }
-        [ForeignKey("ToCouncilId")]
+        [ForeignKey("ToId")]
         public Council ToCouncil { get; private set; }
 
+        internal CouncilRelation()
+        {
+        }
         public CouncilRelation(Universe aUniverse, Council aCouncil1, Council aCouncil2, RelationType aRelationType, int aExpiryTurn) : base(aUniverse)
         {
             FromCouncil = aCouncil1;

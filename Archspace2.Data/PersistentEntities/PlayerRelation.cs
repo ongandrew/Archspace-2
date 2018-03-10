@@ -8,14 +8,14 @@ namespace Archspace2
     [Table("PlayerRelation")]
     public class PlayerRelation : Relation
     {
-        public int FromPlayerId { get; private set; }
-        [ForeignKey("FromPlayerId")]
+        [ForeignKey("FromId")]
         public Player FromPlayer { get; private set; }
-
-        public int ToPlayerId { get; private set; }
-        [ForeignKey("ToPlayerId")]
+        [ForeignKey("ToId")]
         public Player ToPlayer { get; private set; }
 
+        internal PlayerRelation()
+        {
+        }
         public PlayerRelation(Universe aUniverse, Player aPlayer1, Player aPlayer2, RelationType aRelationType, int aExpiryTurn) : base(aUniverse)
         {
             FromPlayer = aPlayer1;

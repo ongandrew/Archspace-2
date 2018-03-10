@@ -17,6 +17,9 @@ namespace Archspace2
 
     public abstract class Relation : UniverseEntity
     {
+        public int FromId { get; private set; }
+        public int ToId { get; private set; }
+
         public RelationType Type { get; set; }
         public int ExpiryTurn { get; set; }
 
@@ -25,6 +28,9 @@ namespace Archspace2
             return ExpiryTurn != 0;
         }
 
+        internal Relation()
+        {
+        }
         public Relation(Universe aUniverse) : base(aUniverse)
         {
         }

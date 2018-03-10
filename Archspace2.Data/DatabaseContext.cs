@@ -43,7 +43,7 @@ namespace Archspace2
             aModelBuilder.Entity<Planet>().OwnsOne(x => x.DistributionRatio);
             aModelBuilder.Entity<Planet>().OwnsOne(x => x.Infrastructure);
             aModelBuilder.Entity<Planet>().HasMany(x => x.CommercePlanets).WithOne();
-
+            
             aModelBuilder.Entity<Player>().OwnsOne(x => x.Resource);
             aModelBuilder.Entity<Player>().HasMany(x => x.Admirals).WithOne(x => x.Player);
 
@@ -71,19 +71,21 @@ namespace Archspace2
 
             base.OnModelCreating(aModelBuilder);
         }
-
+        
         public DbSet<Admiral> Admirals { get; set; }
         public DbSet<BlackMarket> BlackMarkets { get; set; }
         public DbSet<BlackMarketItem> BlackMarketItems { get; set; }
         public DbSet<Council> Councils { get; set; }
+        public DbSet<CouncilMailbox> CouncilMailboxes { get; set; }
+        public DbSet<CouncilMessage> CouncilMessages { get; set; }
         public DbSet<Cluster> Clusters { get; set; }
         public DbSet<DefenseDeployment> DefenseDeployments { get; set; }
         public DbSet<DefensePlan> DefensePlans { get; set; }
         public DbSet<Fleet> Fleets { get; set; }
-        public DbSet<Mailbox> Mailboxes { get; set; }
-        public DbSet<MailItem> MailItems { get; set; }
         public DbSet<Planet> Planets { get; set; }
         public DbSet<Player> Players { get; set; }
+        public DbSet<PlayerMailbox> PlayerMailboxes { get; set; }
+        public DbSet<PlayerMessage> PlayerMessages { get; set; }
         public DbSet<ShipBuildOrder> ShipBuildOrders { get; set; }
         public DbSet<ShipDesign> ShipDesigns { get; set; }
         public DbSet<Universe> Universes { get; set; }

@@ -236,7 +236,7 @@ namespace Archspace2
             }
         }
         
-        public Mailbox Mailbox { get; set; }
+        public PlayerMailbox Mailbox { get; set; }
 
         public List<Fleet> GetAlliedFleets()
         {
@@ -291,7 +291,7 @@ namespace Archspace2
             mTraits = new List<RacialTrait>();
             
             Shipyard = new Shipyard(this);
-            Mailbox = new Mailbox(this);
+            Mailbox = new PlayerMailbox(this);
             NewsItems = new List<NewsItem>();
 
             Admirals = new List<Admiral>();
