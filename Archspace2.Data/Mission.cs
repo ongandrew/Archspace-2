@@ -37,5 +37,20 @@ namespace Archspace2
             Target = 0;
             TerminateTurn = 0;
         }
+
+        public bool CanTerminateEarly()
+        {
+            switch (Type)
+            {
+                case MissionType.DispatchToAlly:
+                case MissionType.Expedition:
+                case MissionType.Patrol:
+                case MissionType.StationOnPlanet:
+                case MissionType.Train:
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }

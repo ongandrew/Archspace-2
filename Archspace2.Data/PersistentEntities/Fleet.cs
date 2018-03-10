@@ -343,6 +343,27 @@ namespace Archspace2
             }
         }
 
+        public void AbortMission()
+        {
+            BeginMission(MissionType.None);
+            Status = FleetStatus.StandBy;
+        }
+
+        public bool CanBeRecalled()
+        {
+            return Mission.CanTerminateEarly();
+        }
+
+        public bool CanBeDisbanded()
+        {
+            if (Mission.Type != MissionType.None || Status != FleetStatus.StandBy)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public Battle.Fleet ToBattleFleet()
         {
             Battle.Fleet result = new Battle.Fleet(Id, Name, Player.ToBattlePlayer(), ShipDesign.ShipClass, ShipDesign.Armor, ShipDesign.Computer, ShipDesign.Engine, ShipDesign.Shield, ShipDesign.Devices, ShipDesign.Weapons, Admiral.ToBattleAdmiral(), CurrentShipCount, Power);

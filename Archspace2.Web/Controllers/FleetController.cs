@@ -135,5 +135,42 @@ namespace Archspace2.Web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpPost]
+        [Route("recall_fleets")]
+        public async Task<IActionResult> RecallFleets([FromBody]RecallFleetsRequest aRequest)
+        {
+            try
+            {
+                using (DatabaseContext context = Game.GetContext())
+                {
+                    context.Attach(Game.Universe);
+
+                    User user = await context.GetUserAsync(User);
+                    Player player = Game.Universe.Players.Where(x => x.User != null && x.User.Id == user.Id).Single();
+
+                    foreach (int id in aRequest.Ids)
+                    {
+                        try
+                        {
+                            player.RecallFleet(id);
+                        }
+                        catch (InvalidOperationException e)
+                        {
+                            return BadRequest(e.Message);
+                        }
+                    }
+
+                    await context.SaveChangesAsync();
+
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                await Game.LogAsync(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

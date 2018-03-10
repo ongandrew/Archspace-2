@@ -484,6 +484,23 @@ namespace Archspace2
             }
         }
 
+        public void RecallFleet(int aFleetId)
+        {
+            Fleet fleet = Fleets.SingleOrDefault(x => x.Id == aFleetId);
+
+            if (fleet == null)
+            {
+                throw new InvalidOperationException("Fleet not found.");
+            }
+
+            if (!fleet.CanBeRecalled())
+            {
+                throw new InvalidOperationException("Fleet is on a mission that cannot be terminated early.");
+            }
+
+            fleet.AbortMission();
+        }
+
         public void DisbandFleet(int aFleetId)
         {
             Fleet fleet = Fleets.SingleOrDefault(x => x.Id == aFleetId);
@@ -491,6 +508,11 @@ namespace Archspace2
             if (fleet == null)
             {
                 throw new InvalidOperationException("Fleet not found.");
+            }
+
+            if (!fleet.CanBeDisbanded())
+            {
+                throw new InvalidOperationException("Fleet cannot be disbanded at this point in time.");
             }
 
             Fleets.Remove(fleet);
