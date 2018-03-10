@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Archspace2.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,21 @@ namespace Archspace2.Web.Controllers
     [Route("fleet")]
     public class FleetController : Controller
     {
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("commands")]
+        public async Task<IActionResult> GetCommands()
+        {
+            Dictionary<Command, string> result = new Dictionary<Command, string>();
+
+            foreach (Command command in Enum.GetValues(typeof(Command)))
+            {
+                result.Add(command, command.ToString().ToFriendlyString());
+            }
+
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("form_new_fleet")]
         public async Task<IActionResult> FormNewFleet([FromBody]FormNewFleetForm aForm)

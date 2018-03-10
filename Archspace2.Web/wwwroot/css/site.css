@@ -6,6 +6,17 @@ body {
     background-color: black;
     padding-top: 45px;
     height: 100%;
+    color: white;
+}
+
+select,
+button
+{
+    color: black;
+}
+
+.battle-grid {
+    border: 1px solid white;
 }
 
 .content {

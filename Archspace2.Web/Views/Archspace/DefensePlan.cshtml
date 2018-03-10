@@ -1,0 +1,45 @@
+﻿@using Archspace2
+@using Archspace2.Web
+@{
+    ViewData["Title"] = "Defense Plan";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    List<Deployment> deployments = (List<Deployment>)ViewData["Deployments"];
+}
+
+<main>
+    <div id="defense-plan">
+
+    </div>
+    <button id="save" onclick="saveDefensePlanAsync()">Save</button>
+</main>
+
+@section Scripts {
+    <script src="~/js/defensePlan.js"></script>
+    <script>
+        var commands;
+        var defensePlan;
+
+        (async () => {
+            commands = await getFleetCommandsAsync();
+
+            defensePlan = new DefensePlan(600, 200, 10, 20);
+            @foreach(Deployment deployment in deployments)
+            {
+            <text>
+            defensePlan.addDeployment(new Deployment(
+                new Point(@(deployment.X),@(deployment.Y)),
+                @(deployment.Angle),
+                @(deployment.FleetId),
+                "@(deployment.FleetDisplayName)",
+                @(deployment.IsCapitalFleet.ToString().ToLowerInvariant()),
+                "@(deployment.Command.ToString())"
+            ));
+            </text>
+            }
+
+            defensePlan.draw(document.querySelector("#defense-plan"));
+            defensePlan.showFleetInfo(defensePlan.getCapitalDeployment());
+        })();
+    </script>
+}

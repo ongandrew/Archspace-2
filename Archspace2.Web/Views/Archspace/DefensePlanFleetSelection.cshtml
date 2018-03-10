@@ -1,0 +1,34 @@
+﻿@using Archspace2
+@{
+    ViewData["Title"] = "Defense Plan";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    <table>
+        <thead>
+            <tr>
+                <td>Fleet</td>
+                <td>Capital Fleet</td>
+                <td>Select</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Fleet fleet in player.GetStandByFleets())
+            {
+            <tr>
+                <td>@(fleet.GetDisplayName())</td>
+                <td><input name="capital" type="radio" onclick="onSelectCapital()" value=@(fleet.Id) /></td>
+                <td><input name="include" type="checkbox" value=@(fleet.Id) /></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" onclick="selectFleetsForPlanAsync()">Deploy</button>
+</main>
+
+@section Scripts {
+    <script src="~/js/defensePlanFleetSelection.js"></script>
+}

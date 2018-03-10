@@ -19,3 +19,7 @@ async function refreshLocation(fetchResponse) {
 
     return fetchResponse;
 }
+
+async function returnBodyAsJson(fetchResponse) {
+    return fetchResponse.json();
+}

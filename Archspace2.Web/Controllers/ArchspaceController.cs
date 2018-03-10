@@ -147,6 +147,120 @@ namespace Archspace2.Web
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
         }
 
+        [Route("defense_plan_fleet_selection")]
+        public async Task<IActionResult> DefensePlanFleetSelection()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("defense_plan")]
+        public async Task<IActionResult> DefensePlan(DefensePlanRequest aRequest)
+        {
+            if (!await HasCharacter())
+            {
+                return RedirectToAction("Create", "Archspace");
+            }
+            else
+            {
+                Player player = await GetCharacterAsync();
+                ViewData["Player"] = player;
+                
+                Fleet capitalFleet = player.Fleets.SingleOrDefault(x => x.Id == aRequest.CapitalFleetId);
+                if (capitalFleet == null)
+                {
+                    return BadRequest("Invalid capital fleet selected.");
+                }
+
+                List<int> remainingFleets = aRequest.Fleets;
+                remainingFleets.RemoveAll(x => x == aRequest.CapitalFleetId);
+
+                List<Fleet> otherFleets = player.Fleets.Where(fleet => remainingFleets.Contains(fleet.Id)).ToList();
+
+                List<Deployment> deployments = new List<Deployment>();
+
+                DefensePlan defensePlan = player.DefensePlans.FirstOrDefault();
+                if (defensePlan != null && defensePlan.CapitalDeployment.Fleet.Id == capitalFleet.Id)
+                {
+                    deployments.Add(new Deployment()
+                    {
+                        FleetId = capitalFleet.Id,
+                        FleetDisplayName = capitalFleet.GetDisplayName(),
+                        Angle = 180,
+                        X = 8000,
+                        Y = 5000,
+                        IsCapitalFleet = true,
+                        Command = defensePlan.CapitalDeployment.Command
+                    });
+                }
+                else
+                {
+                    deployments.Add(new Deployment()
+                    {
+                        FleetId = capitalFleet.Id,
+                        FleetDisplayName = capitalFleet.GetDisplayName(),
+                        Angle = 180,
+                        X = 8000,
+                        Y = 5000,
+                        IsCapitalFleet = true,
+                        Command = Command.Normal
+                    });
+                }
+
+                List<Tuple<int, int>> gridPoints = new List<Tuple<int, int>>();
+                for (int y = 8000; y >= 2000; y -= 200)
+                {
+                    for (int x = 7000; x <= 9000; x += 200)
+                    {
+                        if (x != 8000 && y != 5000)
+                        {
+                            gridPoints.Add(new Tuple<int, int>(x, y));
+                        }
+                    }
+                }
+                
+                foreach (Fleet fleet in otherFleets)
+                {
+                    if (defensePlan != null && defensePlan.DefenseDeployments.Where(x => x.Type != DefenseDeploymentType.Capital).Any(x => x.Fleet.Id == fleet.Id))
+                    {
+                        DefenseDeployment defenseDeployment = defensePlan.DefenseDeployments.Where(x => x.Type != DefenseDeploymentType.Capital).Single(x => x.Fleet.Id == fleet.Id);
+
+                        deployments.Add(new Deployment()
+                        {
+                            Angle = 180,
+                            FleetId = fleet.Id,
+                            FleetDisplayName = fleet.GetDisplayName(),
+                            IsCapitalFleet = false,
+                            X = defenseDeployment.X,
+                            Y = defenseDeployment.Y,
+                            Command = defenseDeployment.Command
+                        });
+                    }
+                    else
+                    {
+                        Tuple<int, int> point = gridPoints.First();
+                        
+
+                        deployments.Add(new Deployment()
+                        {
+                            Angle = 180,
+                            FleetId = fleet.Id,
+                            FleetDisplayName = fleet.GetDisplayName(),
+                            IsCapitalFleet = false,
+                            X = point.Item1,
+                            Y = point.Item2,
+                            Command = Command.Normal
+                        });
+
+                        gridPoints.Remove(point);
+                    }
+                }
+
+                ViewData["Deployments"] = deployments;
+
+                return View();
+            }
+        }
+
         [Route("clusters")]
         public async Task<IActionResult> Clusters()
         {

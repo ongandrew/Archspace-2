@@ -21,7 +21,6 @@
 
     try {
         await fetch(request).then(handleErrorCodes).then((response) => {
-            console.log(response);
             if (response.ok) {
                 location.reload();
             }

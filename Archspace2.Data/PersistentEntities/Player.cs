@@ -275,7 +275,7 @@ namespace Archspace2
         public ICollection<PlayerRelation> ToRelations { get; set; }
         public ICollection<ShipDesign> ShipDesigns { get; set; }
 
-        private Player()
+        internal Player()
         {
         }
         public Player(Universe aUniverse) : base(aUniverse)
@@ -295,6 +295,7 @@ namespace Archspace2
             NewsItems = new List<NewsItem>();
 
             Admirals = new List<Admiral>();
+            DefensePlans = new List<DefensePlan>();
             Effects = new List<PlayerEffectInstance>();
             Fleets = new List<Fleet>();
             Planets = new List<Planet>();
@@ -453,6 +454,11 @@ namespace Archspace2
             return Fleets.SingleOrDefault(x => x.Mission.Type == MissionType.Expedition || x.Mission.Type == MissionType.ReturningWithPlanet);
         }
 
+        public List<Fleet> GetStandByFleets()
+        {
+            return Fleets.Where(x => x.Status == FleetStatus.StandBy).ToList();
+        }
+
         public void SendExpedition(int aFleetId)
         {
             Fleet fleet = Fleets.SingleOrDefault(x => x.Id == aFleetId);
@@ -492,6 +498,32 @@ namespace Archspace2
             fleet.Admiral = null;
 
             Shipyard.ChangeDockedShip(fleet.ShipDesign, fleet.CurrentShipCount);
+        }
+
+        public void CreateDefensePlan(List<DefenseDeployment> aDeployments)
+        {
+            DefensePlan defensePlan = new DefensePlan(Game.Universe);
+            
+            defensePlan.DefenseDeployments = aDeployments.Select(x => new DefenseDeployment(Game.Universe)
+            {
+                DefensePlan = defensePlan,
+                FleetId = x.FleetId,
+                Command = x.Command,
+                Type = x.Type,
+                X = x.X,
+                Y = x.Y
+            }).ToList();
+
+            ValidateResult result = defensePlan.Validate();
+
+            if (result.IsPassResult())
+            {
+                DefensePlans.Add(defensePlan);
+            }
+            else
+            {
+                throw new InvalidOperationException(result.Items.Where(x => x.Severity == Severity.Error).First().Message);
+            }
         }
 
         internal ShipDesign CreateShipDesign()
