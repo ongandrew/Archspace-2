@@ -28,6 +28,14 @@ namespace Archspace2
             aModelBuilder.Entity<Admiral>().OwnsOne(x => x.BaseSkills);
 
             aModelBuilder.Entity<Council>().OwnsOne(x => x.Resource);
+            
+            aModelBuilder.Entity<CouncilMessage>()
+                .HasOne(x => x.FromCouncil)
+                .WithMany();
+
+            aModelBuilder.Entity<CouncilMessage>()
+                .HasOne(x => x.ToCouncil)
+                .WithMany();
 
             aModelBuilder.Entity<CouncilRelation>()
                 .HasOne(x => x.FromCouncil)
@@ -49,6 +57,14 @@ namespace Archspace2
             aModelBuilder.Entity<Player>().HasMany(x => x.Admirals).WithOne(x => x.Player);
 
             aModelBuilder.Entity<PlayerEffectInstance>().OwnsOne(x => x.ControlModelModifier);
+            
+            aModelBuilder.Entity<PlayerMessage>()
+                .HasOne(x => x.FromPlayer)
+                .WithMany();
+
+            aModelBuilder.Entity<PlayerMessage>()
+                .HasOne(x => x.ToPlayer)
+                .WithMany();
 
             aModelBuilder.Entity<PlayerRelation>()
                 .HasOne(x => x.FromPlayer)

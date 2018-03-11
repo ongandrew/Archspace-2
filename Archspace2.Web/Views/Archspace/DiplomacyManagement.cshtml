@@ -25,27 +25,34 @@
                 <td>@(councilMember.GetDisplayName())</td>
                 <td>@(councilMember.Power)</td>
                 <td>@(player.GetMostSignificantRelation(councilMember).ToString().ToFriendlyString())</td>
-                <td>@(player.GetRelevantOutstandingDiplomaticProposal(councilMember).ToString().ToFriendlyString())</td>
+                <td>@(player.Mailbox.GetRelevantOutstandingDiplomaticProposal(councilMember).ToString().ToFriendlyString())</td>
                 <td>@if (councilMember != player) { <input name="ids" type="checkbox" value=@(councilMember.Id) /> }</td>
             </tr>
             }
         </tbody>
     </table>
 
-    <select>
-        <option name="mass-action" value="suggest-truce">Suggest Truce</option>
-        <option name="mass-action" value="suggest-pact">Suggest Pact</option>
-        <option name="mass-action" value="suggest-ally">Suggest Ally</option>
-        <option name="mass-action" value="break-pact">Break Pact</option>
-        <option name="mass-action" value="break-ally">Break Ally</option>
-        <option name="mass-action" value="declare-hostile">Declare Hostile</option>
-        <option name="mass-action" value="declare-war">Declare War</option>
-        <option name="mass-action" value="declare-total-war">Declare Total War</option>
+    <select id="action">
     </select>
 
-    <button type="submit">Execute</button>
+    <button type="submit" onclick="performMassActionsAsync()">Execute</button>
 </main>
 
 @section Scripts {
     <script src="~/js/diplomacyManagement.js"></script>
+    <script>
+        (async () => { 
+            let actions = await getMassActionsAsync();
+
+            let actionElement = document.querySelector("#action");
+            let keys = Object.keys(actions);
+            let optionString = "";
+
+            for (let i = 0; i < keys.length; i++) {
+                optionString += "<option name='mass-action' value='" + keys[i] + "'>" + actions[keys[i]] + "</option>";
+            }
+
+            actionElement.innerHTML = optionString;
+        })()
+    </script>
 }

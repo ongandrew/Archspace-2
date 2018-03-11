@@ -34,23 +34,31 @@ namespace Archspace2
     public class CouncilMessage : Message
     {
         [ForeignKey("FromId")]
-        public Council FromCouncil { get; set; }
+        public Council FromCouncil { get; private set; }
         
         [ForeignKey("ToId")]
-        public Council ToCouncil { get; set; }
+        public Council ToCouncil { get; private set; }
+
+        [ForeignKey("ReplyToMessageId")]
+        public CouncilMessage ReplyToMessage { get; set; }
 
         public CouncilMessageType Type { get; set; }
         
+        internal CouncilMessage() : base()
+        {
+        }
         public CouncilMessage(Universe aUniverse) : base(aUniverse)
         {
         }
-
-        public CouncilMessage(Council aFromCouncil, Council aToCouncil, PlayerMessageType aType, string aSubject = null, string aContent = null) : this(aFromCouncil.Universe)
+        public CouncilMessage(Council aFromCouncil, Council aToCouncil, CouncilMessageType aType, string aSubject = null, string aContent = null) : this(aFromCouncil.Universe)
         {
             FromCouncil = aFromCouncil;
             ToCouncil = aToCouncil;
+            Type = aType;
             Subject = aSubject;
             Content = aContent;
+
+            Status = MessageStatus.Unread;
         }
 
         public override bool IsAwaitingResponse()

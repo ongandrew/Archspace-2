@@ -32,7 +32,7 @@ namespace Archspace2
             return ExpiryTurn != null && ExpiryTurn != 0;
         }
 
-        internal Relation()
+        internal Relation() : base()
         {
         }
         public Relation(Universe aUniverse) : base(aUniverse)

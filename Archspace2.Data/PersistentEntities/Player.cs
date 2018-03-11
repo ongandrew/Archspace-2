@@ -1079,38 +1079,6 @@ namespace Archspace2
             return Relations.Where(x => x.ToPlayer == aOther).OrderByDescending(x => x.Significance).Select(x => x.Type).FirstOrDefault();
         }
 
-        public PlayerMessageType GetRelevantOutstandingDiplomaticProposal(Player aOther)
-        {
-            RelationType relation = GetMostSignificantRelation(aOther);
-
-            if (relation == RelationType.Truce || relation == RelationType.None)
-            {
-                if (Mailbox.SentMessages.Where(x => x.ToPlayer == aOther && x.Type == PlayerMessageType.SuggestPact && x.IsAwaitingResponse()).Any() ||
-                    Mailbox.ReceivedMessages.Where(x => x.FromPlayer == aOther && x.Type == PlayerMessageType.SuggestPact && x.IsAwaitingResponse()).Any())
-                {
-                    return PlayerMessageType.SuggestPact;
-                }
-            }
-            else if (relation == RelationType.Hostile || relation == RelationType.TotalWar || relation == RelationType.War)
-            {
-                if (Mailbox.SentMessages.Where(x => x.ToPlayer == aOther && x.Type == PlayerMessageType.SuggestTruce && x.IsAwaitingResponse()).Any() ||
-                    Mailbox.ReceivedMessages.Where(x => x.FromPlayer == aOther && x.Type == PlayerMessageType.SuggestTruce && x.IsAwaitingResponse()).Any())
-                {
-                    return PlayerMessageType.SuggestTruce;
-                }
-            }
-            else if (relation == RelationType.Peace)
-            {
-                if (Mailbox.SentMessages.Where(x => x.ToPlayer == aOther && x.Type == PlayerMessageType.SuggestAlly && x.IsAwaitingResponse()).Any() ||
-                    Mailbox.ReceivedMessages.Where(x => x.FromPlayer == aOther && x.Type == PlayerMessageType.SuggestAlly && x.IsAwaitingResponse()).Any())
-                {
-                    return PlayerMessageType.SuggestAlly;
-                }
-            }
-
-            return PlayerMessageType.Normal;
-        }
-
         public List<PlayerRelation> GetRelations(Player aOther)
         {
             return GetRelations(aOther, x => true);
@@ -1267,6 +1235,70 @@ namespace Archspace2
 
             AddNews($"You have declared war on {aOther.GetDisplayName()}.");
             aOther.AddNews($"{GetDisplayName()} has declared war on you.");
+        }
+
+        public void DeclareTotalWar(Player aOther)
+        {
+            RelationType currentRelation = GetMostSignificantRelation(aOther);
+
+            if (currentRelation != RelationType.War)
+            {
+                throw new InvalidOperationException("Declaring total war requires the parties to already be at war.");
+            }
+            if (Council != aOther.Council)
+            {
+                throw new InvalidOperationException("Declaring total war can only be done between players in the same council.");
+            }
+
+            CreateRelations(aOther, RelationType.TotalWar);
+
+            AddNews($"You have declared total war on {aOther.GetDisplayName()}.");
+            aOther.AddNews($"{GetDisplayName()} has declared total war on you.");
+        }
+
+        public void ExecuteDiplomaticAction(PlayerMessageType aType, int aPlayerId)
+        {
+            Player other = Universe.Players.SingleOrDefault(x => x.Id == aPlayerId);
+
+            if (other == null)
+            {
+                throw new InvalidOperationException($"Player {aPlayerId} does not exist.");
+            }
+
+            switch (aType)
+            {
+                case PlayerMessageType.SuggestTruce:
+                    Mailbox.SendSuggestTruce(other);
+                    break;
+                case PlayerMessageType.SuggestPact:
+                    Mailbox.SendSuggestPact(other);
+                    break;
+                case PlayerMessageType.SuggestAlly:
+                    Mailbox.SendSuggestAlly(other);
+                    break;
+                case PlayerMessageType.BreakAlly:
+                    Mailbox.SendBreakAlly(other);
+                    BreakAlly(other);
+                    break;
+                case PlayerMessageType.BreakPact:
+                    Mailbox.SendBreakPact(other);
+                    BreakPact(other);
+                    break;
+                case PlayerMessageType.DeclareHostility:
+                    Mailbox.SendDeclareHostility(other);
+                    DeclareHostile(other);
+                    break;
+                case PlayerMessageType.DeclareWar:
+                    Mailbox.SendDeclareWar(other);
+                    DeclareWar(other);
+                    break;
+                case PlayerMessageType.DeclareTotalWar:
+                    Mailbox.SendDeclarTotaleWar(other);
+                    DeclareTotalWar(other);
+                    break;
+                default:
+                    break;
+            }
         }
 
         public bool IsDead()

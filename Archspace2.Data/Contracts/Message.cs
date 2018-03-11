@@ -26,11 +26,10 @@ namespace Archspace2
         public int Turn { get; private set; }
 
         public int? ReplyToMessageId { get; set; }
-        public Message ReplyToMessage { get; set; }
 
         public abstract bool IsAwaitingResponse();
 
-        internal Message()
+        internal Message() : base()
         {
         }
         public Message(Universe aUniverse): base(aUniverse)

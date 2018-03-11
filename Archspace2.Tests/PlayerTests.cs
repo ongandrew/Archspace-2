@@ -317,5 +317,34 @@ namespace Archspace2
                 await context.SaveChangesAsync();
             }
         }
+
+        [TestMethod]
+        public async Task SuggestPactChangesStatus()
+        {
+            Council council = new Council(Game.Universe);
+
+            User user1 = await Game.CreateNewUserAsync();
+            Race race1 = Game.Configuration.Races.Random();
+            Player player1 = user1.CreatePlayer("Suggester 1", race1);
+
+            User user2 = await Game.CreateNewUserAsync();
+            Race race2 = Game.Configuration.Races.Random();
+            Player player2 = user1.CreatePlayer("Suggester 2", race2);
+
+            player1.Council = council;
+            player2.Council = council;
+
+            using (DatabaseContext context = Game.GetContext())
+            {
+                context.Attach(Game.Universe);
+
+                await context.SaveChangesAsync();
+
+                player1.ExecuteDiplomaticAction(PlayerMessageType.SuggestPact, player2.Id);
+                Assert.AreEqual(PlayerMessageType.SuggestPact, player1.Mailbox.GetRelevantOutstandingDiplomaticProposal(player2));
+
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

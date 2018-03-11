@@ -21,30 +21,39 @@ namespace Archspace2
         ReplySuggestPact,
         ReplySuggestAlly,
         Reply,
-        DeclareHostility
+        DeclareHostility,
+        DeclareTotalWar
     }
 
     [Table("PlayerMessage")]
     public class PlayerMessage : Message
     {
         [ForeignKey("FromId")]
-        public Player FromPlayer { get; set; }
+        public Player FromPlayer { get; private set; }
         
         [ForeignKey("ToId")]
-        public Player ToPlayer { get; set; }
+        public Player ToPlayer { get; private set; }
+
+        [ForeignKey("ReplyToMessageId")]
+        public PlayerMessage ReplyToMessage { get; set; }
 
         public PlayerMessageType Type { get; set; }
         
+        internal PlayerMessage() : base()
+        {
+        }
         public PlayerMessage(Universe aUniverse) : base(aUniverse)
         {
         }
-
         public PlayerMessage(Player aFromPlayer, Player aToPlayer, PlayerMessageType aType, string aSubject = null, string aContent = null) : this(aFromPlayer.Universe)
         {
             FromPlayer = aFromPlayer;
             ToPlayer = aToPlayer;
+            Type = aType;
             Subject = aSubject;
             Content = aContent;
+
+            Status = MessageStatus.Unread;
         }
 
         public override bool IsAwaitingResponse()
