@@ -87,6 +87,82 @@ namespace Archspace2.Web
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
         }
 
+        [Route("read_messages")]
+        public async Task<IActionResult> ReadMessages()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("view_player_message/{id}")]
+        public async Task<IActionResult> ViewPlayerMessage(int id)
+        {
+            if (!await HasCharacter())
+            {
+                return RedirectToAction("Create", "Archspace");
+            }
+            else
+            {
+                Player player = await GetCharacterAsync();
+                ViewData["Player"] = player;
+
+                PlayerMessage message = player.Mailbox.FindMessageById(id);
+                
+                if (message == null)
+                {
+                    return RedirectToErrorPage("There is no message with that ID.");
+                }
+                else
+                {
+                    ViewData["Message"] = message;
+                    return View();
+                }
+            }
+        }
+
+        [Route("send_message")]
+        public async Task<IActionResult> SendMessage()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("inspect_player")]
+        public async Task<IActionResult> InspectPlayer()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("player_info/{id}")]
+        public async Task<IActionResult> PlayerInfo(int id)
+        {
+            if (!await HasCharacter())
+            {
+                return RedirectToAction("Create", "Archspace");
+            }
+            else
+            {
+                Player player = await GetCharacterAsync();
+                ViewData["Player"] = player;
+
+                Player other = Game.Universe.Players.SingleOrDefault(x => x.Id == id);
+
+                if (other == null)
+                {
+                    return RedirectToErrorPage("There is no player with that ID.");
+                }
+                else
+                {
+                    ViewData["TargetPlayer"] = other;
+                    return View();
+                }
+            }
+        }
+
+        [Route("special_operation")]
+        public async Task<IActionResult> SpecialOperation()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
         [Route("ship_design")]
         public async Task<IActionResult> ShipDesign()
         {
@@ -292,12 +368,21 @@ namespace Archspace2.Web
             return View();
         }
 
+        [Route("error")]
+        public async Task<IActionResult> Error(string message)
+        {
+            ViewData["Message"] = message;
+
+            return View();
+        }
+
         [Route("admin")]
         public async Task<IActionResult> Admin()
         {
             return View();
         }
 
+        [NonAction]
         protected async Task<IActionResult> RedirectToCreationOrReturnViewWithPlayerDataAsync()
         {
             if (!await HasCharacter())
@@ -309,6 +394,12 @@ namespace Archspace2.Web
                 ViewData["Player"] = await GetCharacterAsync();
                 return View();
             }
+        }
+
+        [NonAction]
+        public IActionResult RedirectToErrorPage(string aMessage)
+        {
+            return RedirectToAction("Error", "Archspace", new { message = aMessage });
         }
     }
 #pragma warning restore CS1998

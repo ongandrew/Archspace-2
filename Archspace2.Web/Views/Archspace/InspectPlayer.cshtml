@@ -1,0 +1,28 @@
+﻿@using Archspace2
+@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Inspect Player";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    <select id="councils">
+        
+    </select>
+
+    <select id="players">
+
+    </select>
+
+    <button type="submit" onclick="inspectPlayerAsync()">Inspect</button>
+</main>
+
+@section Scripts {
+    <script src="~/js/inspectPlayer.js"></script>
+    <script>
+        var councils = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Game.Universe.Councils.Select(x => new { id = x.Id, name = x.GetDisplayName(), players = x.Players.Select(y => new { id = y.Id, name = y.GetDisplayName() }) })))');
+
+        populateCouncils();
+    </script>
+}

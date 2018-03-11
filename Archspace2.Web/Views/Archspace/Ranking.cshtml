@@ -23,8 +23,8 @@
             @foreach (Player rankedPlayer in rankedPlayers.Take(10))
             {
                 <tr>
-                    <td>@(rankedPlayers.IndexOf(rankedPlayer) + 1) <img src="~/images/races/@(rankedPlayer.Race.Name.ToLowerInvariant())/small_symbol.gif" /></td>
-                    <td>@(rankedPlayer.GetDisplayName())</td>
+                    <td>@(rankedPlayers.IndexOf(rankedPlayer) + 1)</td>
+                    <td><img src="~/images/races/@(rankedPlayer.Race.Name.ToLowerInvariant())/small_symbol.gif" /><a href="@Url.Action("PlayerInfo", "Archspace", new { id = rankedPlayer.Id })">@(rankedPlayer.GetDisplayName())</a></td>
                     <td>@(rankedPlayer.Council.GetDisplayName())</td>
                     <td>@(rankedPlayer.Planets.Count)</td>
                     <td>@(rankedPlayer.Power)</td>

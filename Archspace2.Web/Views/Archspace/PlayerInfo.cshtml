@@ -1,0 +1,52 @@
+﻿@using Archspace2
+@using Archspace2.Extensions
+@{
+    ViewData["Title"] = "Player Info";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    Player target = (Player)ViewData["TargetPlayer"];
+}
+
+<main>
+    <table>
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td>@(target.GetDisplayName())</td>
+            </tr>
+            <tr>
+                <td>Race</td>
+                <td>@(target.Race.Name)</td>
+            </tr>
+            <tr>
+                <td>Council</td>
+                <td>@(target.Council.GetDisplayName())</td>
+            </tr>
+            <tr>
+                <td>Planets</td>
+                <td>@(target.Planets.Count)</td>
+            </tr>
+            <tr>
+                <td>Power</td>
+                <td>@(target.Power)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <p>Diplomatic Action</p>
+        <select id="action">
+            @foreach (PlayerMessageType type in new List<PlayerMessageType>() { PlayerMessageType.Normal }.Union(player.Mailbox.GetValidMessageTypes(target)))
+            {
+            <option name="action" value="@(type.ToString())">@(type.ToString().ToFriendlyString())</option>
+            }
+        </select>
+
+        <button type="submit">Compose</button>
+    </div>
+
+    <div>
+        <p>Special Operation</p>
+        Not Implemented Yet.
+    </div>
+</main>

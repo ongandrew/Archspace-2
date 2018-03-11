@@ -1,0 +1,40 @@
+﻿@using Archspace2
+@using Archspace2.Extensions
+@using Universal.Common.Extensions
+@{
+    ViewData["Title"] = "View Player";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    PlayerMessage message = (PlayerMessage)ViewData["Message"];
+}
+
+<main>
+    <table>
+        <tbody>
+            <tr>
+                <td>Sent Time</td>
+                <td>@(message.DateTime.ToString("yyyy-MM-dd hh:mm:ss"))</td>
+            </tr>
+            <tr>
+                <td>From</td>
+                <td>@(message.FromPlayer.GetDisplayName())</td>
+            </tr>
+            <tr>
+                <td>To</td>
+                <td>@(message.ToPlayer.GetDisplayName())</td>
+            </tr>
+            <tr>
+                <td>Type</td>
+                <td>@(message.Type.ToString().ToFriendlyString())</td>
+            </tr>
+            <tr>
+                <td>Subject</td>
+                <td>@(message.Subject.Trim().IsNullOrEmpty() ? "No Subject" : message.Subject)</td>
+            </tr>
+            <tr>
+                <td>Content</td>
+                <td><p>@(message.Content.IsNullOrEmpty() ? "(no content)" : message.Content)</p></td>
+            </tr>
+        </tbody>
+    </table>
+</main>

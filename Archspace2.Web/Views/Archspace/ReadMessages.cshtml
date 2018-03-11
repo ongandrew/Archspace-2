@@ -1,0 +1,54 @@
+﻿@using Archspace2
+@using Archspace2.Extensions
+@using Universal.Common.Extensions
+@{
+    ViewData["Title"] = "Read Messages";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+}
+
+<main>
+    <h2>Received Messages</h2>
+    <table>
+        <thead>
+            <tr>
+                <td>Sender</td>
+                <td>Type</td>
+                <td>Subject</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PlayerMessage message in player.Mailbox.ReceivedMessages)
+            {
+                <tr>
+                    <td>@(message.FromPlayer.GetDisplayName())</td>
+                    <td>@(message.Type.ToString().ToFriendlyString())</td>
+                    <td>@(message.Subject.Trim().IsNullOrEmpty() ? "No Subject" : message.Subject)</td>
+                    <td><a href="@Url.Action("ViewPlayerMessage", "Archspace", new { id = message.Id })">See Detail</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2>Sent Messages</h2>
+    <table>
+        <thead>
+            <tr>
+                <td>Receiver</td>
+                <td>Type</td>
+                <td>Subject</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PlayerMessage message in player.Mailbox.SentMessages)
+            {
+                <tr>
+                    <td>@(message.ToPlayer.GetDisplayName())</td>
+                    <td>@(message.Type.ToString().ToFriendlyString())</td>
+                    <td>@(message.Subject.Trim().IsNullOrEmpty() ? "No Subject" : message.Subject)</td>
+                    <td><a href="@Url.Action("ViewPlayerMessage", "Archspace", new { id = message.Id })">See Detail</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</main>

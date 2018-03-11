@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewData["Title"] = "Error";
+    Layout = "_LayoutGame";
+    string message = (string)ViewData["Message"];
+}
+
+<main>
+    <div class="splash">
+        <p>@(message)</p>
+        <button type="submit" onclick="window.history.back()">Back</button>
+    </div>
+</main>
