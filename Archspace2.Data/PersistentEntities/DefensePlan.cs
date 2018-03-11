@@ -69,5 +69,22 @@ namespace Archspace2
 
             return result;
         }
+
+        public Battle.Armada ToBattleArmada(Side aSide = Side.Defense)
+        {
+            Battle.Armada result = new Battle.Armada(Player.ToBattlePlayer());
+
+            foreach (DefenseDeployment deployment in DefenseDeployments)
+            {
+                Battle.Fleet fleet = deployment.ToBattleFleet(aSide);
+                fleet.Armada = result;
+
+                result.Add(fleet);
+            }
+
+            result.Side = aSide;
+
+            return result;
+        }
     }
 }

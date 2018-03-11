@@ -522,9 +522,18 @@ namespace Archspace2
             Shipyard.ChangeDockedShip(fleet.ShipDesign, fleet.CurrentShipCount);
         }
 
-        public void CreateDefensePlan(List<DefenseDeployment> aDeployments)
+        public DefensePlan CreateDefensePlan()
         {
             DefensePlan defensePlan = new DefensePlan(Game.Universe);
+
+            defensePlan.Player = this;
+
+            return defensePlan;
+        }
+
+        public void SaveDefensePlan(List<DefenseDeployment> aDeployments)
+        {
+            DefensePlan defensePlan = CreateDefensePlan();
             
             defensePlan.DefenseDeployments = aDeployments.Select(x => new DefenseDeployment(Game.Universe)
             {

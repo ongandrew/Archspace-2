@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Universal.Common.Extensions;
 
 namespace Archspace2.Battle
 {
@@ -334,6 +336,65 @@ namespace Archspace2.Battle
             Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.Fire), "No fleets fired despite battle conditions.");
             Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.Hit), "No fleets were hit despite battle conditions.");
             Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.FleetDisabled), "No fleets were disabled despite battle conditions.");
+        }
+
+        [TestMethod]
+        public async Task CanStartFromPlayerFleets()
+        {
+            Council council = new Council(Game.Universe);
+
+            User user1 = await Game.CreateNewUserAsync();
+            Race race1 = Game.Configuration.Races.Random();
+            Archspace2.Player player1 = user1.CreatePlayer("Fighter 1", race1);
+
+            User user2 = await Game.CreateNewUserAsync();
+            Race race2 = Game.Configuration.Races.Random();
+            Archspace2.Player player2 = user2.CreatePlayer("Fighter 2", race2);
+
+            using (DatabaseContext context = Game.GetContext())
+            {
+                context.Attach(Game.Universe);
+
+                await context.SaveChangesAsync();
+            }
+
+            List<Archspace2.Fleet> fleets = player2.Fleets.ToList();
+            DefenseDeployment deployment1 = fleets[0].ToDefenseDeployment(8000, 5000, Command.Formation, DefenseDeploymentType.Capital);
+            DefenseDeployment deployment2 = fleets[1].ToDefenseDeployment(8000, 4800, Command.Formation, DefenseDeploymentType.Normal);
+            DefenseDeployment deployment3 = fleets[2].ToDefenseDeployment(8000, 5200, Command.Formation, DefenseDeploymentType.Normal);
+
+            DefensePlan defensePlan = player2.CreateDefensePlan();
+            defensePlan.DefenseDeployments.Add(deployment1);
+            defensePlan.DefenseDeployments.Add(deployment2);
+            defensePlan.DefenseDeployments.Add(deployment3);
+
+            fleets = player1.Fleets.ToList();
+            deployment1 = fleets[0].ToDefenseDeployment(8000, 5000, Command.Formation, DefenseDeploymentType.Capital);
+            deployment2 = fleets[1].ToDefenseDeployment(8000, 4800, Command.Formation, DefenseDeploymentType.Normal);
+            deployment3 = fleets[2].ToDefenseDeployment(8000, 5200, Command.Formation, DefenseDeploymentType.Normal);
+
+            DefensePlan offensePlan = player1.CreateDefensePlan();
+            offensePlan.DefenseDeployments.Add(deployment1);
+            offensePlan.DefenseDeployments.Add(deployment2);
+            offensePlan.DefenseDeployments.Add(deployment3);
+
+            Assert.AreEqual(3, offensePlan.ToBattleArmada().Count);
+            Assert.AreEqual(3, defensePlan.ToBattleArmada().Count);
+
+            Battle simulation = new Battle(BattleType.Siege, player1.ToBattlePlayer(), 
+                player2.ToBattlePlayer(), 
+                player2.Planets.First().ToBattlefield(),
+                offensePlan.ToBattleArmada(Side.Offense),
+                defensePlan.ToBattleArmada());
+
+            simulation.Run();
+
+            Assert.IsTrue(simulation.IsComplete());
+            Assert.IsTrue(simulation.Record.BattleOccurred);
+            Assert.IsTrue(simulation.Record.Events.Any());
+            Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.Movement), "No fleets moved.");
+            Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.Fire), "No fleets fired despite battle conditions.");
+            Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.Hit), "No fleets were hit despite battle conditions.");
         }
     }
 }

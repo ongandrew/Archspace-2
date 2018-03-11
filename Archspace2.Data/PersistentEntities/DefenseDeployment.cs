@@ -30,5 +30,28 @@ namespace Archspace2
         public DefenseDeployment(Universe aUniverse) : base(aUniverse)
         {
         }
+
+        public Battle.Fleet ToBattleFleet(Side aSide = Side.Defense)
+        {
+            Battle.Fleet result = Fleet.ToBattleFleet();
+
+            if (aSide == Side.Defense)
+            {
+                result.X = X;
+                result.Y = Y;
+                result.Direction = 180;
+            }
+            else
+            {
+                result.X = 5000 - (X - 5000);
+                result.Y = 5000 - (Y - 5000);
+                result.Direction = 0;
+            }
+            
+            result.IsCapital = Type == DefenseDeploymentType.Capital;
+            result.Command = Command;
+
+            return result;
+        }
     }
 }

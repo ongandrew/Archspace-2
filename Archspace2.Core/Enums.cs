@@ -1,5 +1,11 @@
 ﻿namespace Archspace2
 {
+    public enum Side
+    {
+        Offense,
+        Defense
+    };
+
     public enum Command
     {
         Normal,

@@ -349,6 +349,13 @@ namespace Archspace2.Web
             }
         }
 
+        [AllowAnonymous]
+        [Route("battle_report_viewer")]
+        public async Task<IActionResult> BattleReportViewer()
+        {
+            return View();
+        }
+
         [Route("clusters")]
         public async Task<IActionResult> Clusters()
         {

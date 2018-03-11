@@ -50,7 +50,7 @@ namespace Archspace2.Web.Controllers
                         Command = x.Command
                     }).ToList();
 
-                    player.CreateDefensePlan(deployments);
+                    player.SaveDefensePlan(deployments);
 
                     await context.SaveChangesAsync();
 

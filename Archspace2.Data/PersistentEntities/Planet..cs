@@ -1052,5 +1052,10 @@ namespace Archspace2
 
             return factoryNogadaPoint + researchLabNogadaPoint + militaryBaseNogadaPoint;
         }
+
+        public Battle.Battlefield ToBattlefield()
+        {
+            return new Battle.Battlefield(Id, Name);
+        }
     }
 }

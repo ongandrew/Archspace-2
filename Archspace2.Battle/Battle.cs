@@ -4,12 +4,6 @@ using System.Linq;
 
 namespace Archspace2.Battle
 {
-    public enum Side
-    {
-        Offense,
-        Defense
-    };
-
     public enum BattleType
     {
         Siege,

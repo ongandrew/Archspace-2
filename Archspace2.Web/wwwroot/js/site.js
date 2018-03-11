@@ -29,3 +29,7 @@ async function goToLocation(fetchResponse) {
 async function returnBodyAsJson(fetchResponse) {
     return fetchResponse.json();
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

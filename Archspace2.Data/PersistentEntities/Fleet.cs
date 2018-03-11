@@ -364,6 +364,20 @@ namespace Archspace2
             return true;
         }
 
+        public DefenseDeployment ToDefenseDeployment(int aX, int aY, Command aCommand, DefenseDeploymentType aType)
+        {
+            DefenseDeployment result = new DefenseDeployment(Universe);
+
+            result.FleetId = Id;
+            result.Fleet = this;
+            result.X = aX;
+            result.Y = aY;
+            result.Command = aCommand;
+            result.Type = aType;
+
+            return result;
+        }
+
         public Battle.Fleet ToBattleFleet()
         {
             Battle.Fleet result = new Battle.Fleet(Id, Name, Player.ToBattlePlayer(), ShipDesign.ShipClass, ShipDesign.Armor, ShipDesign.Computer, ShipDesign.Engine, ShipDesign.Shield, ShipDesign.Devices, ShipDesign.Weapons, Admiral.ToBattleAdmiral(), CurrentShipCount, Power);
