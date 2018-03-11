@@ -40,6 +40,7 @@
                 <td>Rank</td>
                 <td>Name</td>
                 <td>Speaker</td>
+                <td>Players</td>
                 <td>Planets</td>
                 <td>Power</td>
             </tr>
@@ -51,6 +52,7 @@
                     <td>@(rankedCouncils.IndexOf(rankedCouncil) + 1)</td>
                     <td>@(rankedCouncil.GetDisplayName())</td>
                     <td>@if (rankedCouncil.Speaker == null) { <text>None</text> } else { <text>@(rankedCouncil.Speaker.GetDisplayName()) <img src="~/images/races/@(rankedCouncil.Speaker.Race.Name.ToLowerInvariant())/small_symbol.gif" /></text> }</td>
+                    <td>@(rankedCouncil.Players.Count)</td>
                     <td>@(rankedCouncil.CalculateTotalPlanetCount())</td>
                     <td>@(rankedCouncil.CalculateTotalPower())</td>
                 </tr>

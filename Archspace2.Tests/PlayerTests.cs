@@ -184,8 +184,138 @@ namespace Archspace2
                 Assert.AreEqual(MissionType.None, fleet.Mission.Type);
                 await context.SaveChangesAsync();
             }
+        }
 
-            
+        [TestMethod]
+        public async Task CanFormAndBreakPacts()
+        {
+            Council council = new Council(Game.Universe);
+
+            User user1 = await Game.CreateNewUserAsync();
+            Race race1 = Game.Configuration.Races.Random();
+            Player player1 = user1.CreatePlayer("Pact Former 1", race1);
+
+            User user2 = await Game.CreateNewUserAsync();
+            Race race2 = Game.Configuration.Races.Random();
+            Player player2 = user1.CreatePlayer("Pact Former 2", race2);
+
+            player1.Council = council;
+            player2.Council = council;
+
+            using (DatabaseContext context = Game.GetContext())
+            {
+                context.Attach(Game.Universe);
+
+                await context.SaveChangesAsync();
+
+                player1.FormPact(player2);
+
+                Assert.AreEqual(RelationType.Peace, player1.GetMostSignificantRelation(player2));
+
+                await context.SaveChangesAsync();
+
+                player1.BreakPact(player2);
+
+                Assert.AreEqual(RelationType.None, player1.GetMostSignificantRelation(player2));
+
+                await context.SaveChangesAsync();
+
+                player1.FormPact(player2);
+
+                Assert.AreEqual(RelationType.Peace, player1.GetMostSignificantRelation(player2));
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task CanDeclareWarAndFormTruces()
+        {
+            Council council = new Council(Game.Universe);
+
+            User user1 = await Game.CreateNewUserAsync();
+            Race race1 = Game.Configuration.Races.Random();
+            Player player1 = user1.CreatePlayer("War 1", race1);
+
+            User user2 = await Game.CreateNewUserAsync();
+            Race race2 = Game.Configuration.Races.Random();
+            Player player2 = user1.CreatePlayer("War 2", race2);
+
+            player1.Council = council;
+            player2.Council = council;
+
+            using (DatabaseContext context = Game.GetContext())
+            {
+                context.Attach(Game.Universe);
+
+                await context.SaveChangesAsync();
+
+                player1.DeclareWar(player2);
+
+                Assert.AreEqual(RelationType.War, player1.GetMostSignificantRelation(player2));
+
+                await context.SaveChangesAsync();
+
+                player1.DeclareTruce(player2);
+
+                Assert.AreEqual(RelationType.Truce, player1.GetMostSignificantRelation(player2));
+
+                await context.SaveChangesAsync();
+
+                player1.DeclareWar(player2);
+
+                Assert.AreEqual(RelationType.War, player1.GetMostSignificantRelation(player2));
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task CanFormAlliance()
+        {
+            Council council = new Council(Game.Universe);
+
+            User user1 = await Game.CreateNewUserAsync();
+            Race race1 = Game.Configuration.Races.Random();
+            Player player1 = user1.CreatePlayer("Ally 1", race1);
+
+            User user2 = await Game.CreateNewUserAsync();
+            Race race2 = Game.Configuration.Races.Random();
+            Player player2 = user1.CreatePlayer("Ally 2", race2);
+
+            player1.Council = council;
+            player2.Council = council;
+
+            using (DatabaseContext context = Game.GetContext())
+            {
+                context.Attach(Game.Universe);
+
+                await context.SaveChangesAsync();
+
+                player1.FormPact(player2);
+
+                Assert.AreEqual(RelationType.Peace, player1.GetMostSignificantRelation(player2));
+
+                await context.SaveChangesAsync();
+
+                player1.FormAlly(player2);
+
+                Assert.AreEqual(RelationType.Ally, player1.GetMostSignificantRelation(player2));
+
+                await context.SaveChangesAsync();
+
+                player1.BreakAlly(player2);
+
+                Assert.AreEqual(RelationType.Peace, player1.GetMostSignificantRelation(player2));
+
+                await context.SaveChangesAsync();
+
+                player1.FormAlly(player2);
+
+                Assert.AreEqual(RelationType.Ally, player1.GetMostSignificantRelation(player2));
+
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

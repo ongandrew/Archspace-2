@@ -46,5 +46,18 @@ namespace Archspace2
             Subject = aSubject;
             Content = aContent;
         }
+
+        public override bool IsAwaitingResponse()
+        {
+            if (Type == PlayerMessageType.SuggestAlly || Type == PlayerMessageType.SuggestPact || Type == PlayerMessageType.SuggestTruce)
+            {
+                if (Status != MessageStatus.Answered && Status != MessageStatus.Expired)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

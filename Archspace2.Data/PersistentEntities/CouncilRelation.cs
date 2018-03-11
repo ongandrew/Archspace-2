@@ -16,7 +16,7 @@ namespace Archspace2
         internal CouncilRelation()
         {
         }
-        public CouncilRelation(Universe aUniverse, Council aCouncil1, Council aCouncil2, RelationType aRelationType, int aExpiryTurn) : base(aUniverse)
+        public CouncilRelation(Universe aUniverse, Council aCouncil1, Council aCouncil2, RelationType aRelationType, int aExpiryTurn = 0) : base(aUniverse)
         {
             FromCouncil = aCouncil1;
             ToCouncil = aCouncil2;

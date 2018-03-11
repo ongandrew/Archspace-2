@@ -39,7 +39,7 @@ namespace Archspace2
         [ForeignKey("ToId")]
         public Council ToCouncil { get; set; }
 
-        public PlayerMessageType Type { get; set; }
+        public CouncilMessageType Type { get; set; }
         
         public CouncilMessage(Universe aUniverse) : base(aUniverse)
         {
@@ -51,6 +51,20 @@ namespace Archspace2
             ToCouncil = aToCouncil;
             Subject = aSubject;
             Content = aContent;
+        }
+
+        public override bool IsAwaitingResponse()
+        {
+            if (Type == CouncilMessageType.SuggestAlly || Type == CouncilMessageType.SuggestPact || Type == CouncilMessageType.SuggestTruce ||
+                Type == CouncilMessageType.CouncilFusionOffer || Type == CouncilMessageType.DemandSubmission || Type == CouncilMessageType.DemandTruce)
+            {
+                if (Status != MessageStatus.Answered && Status != MessageStatus.Expired)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Archspace2
 {
@@ -17,15 +18,18 @@ namespace Archspace2
 
     public abstract class Relation : UniverseEntity
     {
-        public int FromId { get; private set; }
-        public int ToId { get; private set; }
+        public int? FromId { get; private set; }
+        public int? ToId { get; private set; }
 
         public RelationType Type { get; set; }
-        public int ExpiryTurn { get; set; }
+        public int? ExpiryTurn { get; set; }
+
+        public DateTime DateTime { get; private set; }
+        public int Turn { get; private set; }
 
         public bool IsTemporary()
         {
-            return ExpiryTurn != 0;
+            return ExpiryTurn != null && ExpiryTurn != 0;
         }
 
         internal Relation()
@@ -33,6 +37,33 @@ namespace Archspace2
         }
         public Relation(Universe aUniverse) : base(aUniverse)
         {
+            DateTime = DateTime.UtcNow;
+            Turn = aUniverse.CurrentTurn;
+        }
+
+        public int Significance
+        {
+            get
+            {
+                switch(Type)
+                {
+                    case RelationType.Ally:
+                    case RelationType.TotalWar:
+                        return 5;
+                    case RelationType.Peace:
+                    case RelationType.War:
+                        return 4;
+                    case RelationType.Hostile:
+                    case RelationType.Bounty:
+                        return 3;
+                    case RelationType.Subordinary:
+                        return 2;
+                    case RelationType.Truce:
+                        return 1;
+                    default:
+                        return 0;
+                }
+            }
         }
     }
 }

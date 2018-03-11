@@ -9,22 +9,26 @@ namespace Archspace2
         Unread,
         Read,
         Answered,
-        Well
+        Expired
     }
 
     public abstract class Message: UniverseEntity
     {
         public int? FromId { get; set; }
-        public int ToId { get; set; }
+        public int? ToId { get; set; }
 
         public string Subject { get; set; }
         public string Content { get; set; }
+
+        public MessageStatus Status { get; set; }
 
         public DateTime DateTime { get; private set; }
         public int Turn { get; private set; }
 
         public int? ReplyToMessageId { get; set; }
         public Message ReplyToMessage { get; set; }
+
+        public abstract bool IsAwaitingResponse();
 
         internal Message()
         {

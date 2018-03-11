@@ -16,7 +16,7 @@ namespace Archspace2
         internal PlayerRelation()
         {
         }
-        public PlayerRelation(Universe aUniverse, Player aPlayer1, Player aPlayer2, RelationType aRelationType, int aExpiryTurn) : base(aUniverse)
+        public PlayerRelation(Universe aUniverse, Player aPlayer1, Player aPlayer2, RelationType aRelationType, int aExpiryTurn = 0) : base(aUniverse)
         {
             FromPlayer = aPlayer1;
             ToPlayer = aPlayer2;

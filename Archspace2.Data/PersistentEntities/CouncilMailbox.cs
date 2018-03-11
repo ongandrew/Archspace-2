@@ -16,6 +16,7 @@ namespace Archspace2
         {
             Council = aCouncil;
             ReceivedMessages = new List<CouncilMessage>();
+            SentMessages = new List<CouncilMessage>();
         }
     }
 }

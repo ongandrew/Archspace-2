@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Archspace2
 {
@@ -16,6 +17,30 @@ namespace Archspace2
         {
             Player = aPlayer;
             ReceivedMessages = new List<PlayerMessage>();
+            SentMessages = new List<PlayerMessage>();
+        }
+
+        public void ExpiryOutstandingMessages(Player aOther)
+        {
+            foreach (PlayerMessage message in ReceivedMessages.Where(x => x.IsAwaitingResponse() && x.FromPlayer == aOther))
+            {
+                message.Status = MessageStatus.Expired;
+            }
+
+            foreach (PlayerMessage message in SentMessages.Where(x => x.IsAwaitingResponse() && x.ToPlayer == aOther))
+            {
+                message.Status = MessageStatus.Expired;
+            }
+
+            foreach (PlayerMessage message in aOther.Mailbox.ReceivedMessages.Where(x => x.IsAwaitingResponse() && x.FromPlayer == Player))
+            {
+                message.Status = MessageStatus.Expired;
+            }
+
+            foreach (PlayerMessage message in aOther.Mailbox.SentMessages.Where(x => x.IsAwaitingResponse() && x.ToPlayer == Player))
+            {
+                message.Status = MessageStatus.Expired;
+            }
         }
     }
 }

@@ -1074,6 +1074,201 @@ namespace Archspace2
             }
         }
 
+        public RelationType GetMostSignificantRelation(Player aOther)
+        {
+            return Relations.Where(x => x.ToPlayer == aOther).OrderByDescending(x => x.Significance).Select(x => x.Type).FirstOrDefault();
+        }
+
+        public PlayerMessageType GetRelevantOutstandingDiplomaticProposal(Player aOther)
+        {
+            RelationType relation = GetMostSignificantRelation(aOther);
+
+            if (relation == RelationType.Truce || relation == RelationType.None)
+            {
+                if (Mailbox.SentMessages.Where(x => x.ToPlayer == aOther && x.Type == PlayerMessageType.SuggestPact && x.IsAwaitingResponse()).Any() ||
+                    Mailbox.ReceivedMessages.Where(x => x.FromPlayer == aOther && x.Type == PlayerMessageType.SuggestPact && x.IsAwaitingResponse()).Any())
+                {
+                    return PlayerMessageType.SuggestPact;
+                }
+            }
+            else if (relation == RelationType.Hostile || relation == RelationType.TotalWar || relation == RelationType.War)
+            {
+                if (Mailbox.SentMessages.Where(x => x.ToPlayer == aOther && x.Type == PlayerMessageType.SuggestTruce && x.IsAwaitingResponse()).Any() ||
+                    Mailbox.ReceivedMessages.Where(x => x.FromPlayer == aOther && x.Type == PlayerMessageType.SuggestTruce && x.IsAwaitingResponse()).Any())
+                {
+                    return PlayerMessageType.SuggestTruce;
+                }
+            }
+            else if (relation == RelationType.Peace)
+            {
+                if (Mailbox.SentMessages.Where(x => x.ToPlayer == aOther && x.Type == PlayerMessageType.SuggestAlly && x.IsAwaitingResponse()).Any() ||
+                    Mailbox.ReceivedMessages.Where(x => x.FromPlayer == aOther && x.Type == PlayerMessageType.SuggestAlly && x.IsAwaitingResponse()).Any())
+                {
+                    return PlayerMessageType.SuggestAlly;
+                }
+            }
+
+            return PlayerMessageType.Normal;
+        }
+
+        public List<PlayerRelation> GetRelations(Player aOther)
+        {
+            return GetRelations(aOther, x => true);
+        }
+
+        public List<PlayerRelation> GetRelations(Player aOther, Func<PlayerRelation, bool> aPredicate)
+        {
+            return Relations.Where(x => x.FromPlayer == aOther || x.ToPlayer == aOther).Where(aPredicate).ToList();
+        }
+
+        public void ClearRelations(Player aOther)
+        {
+            ClearRelations(aOther, x => true);
+        }
+
+        public void ClearRelations(Player aOther, Func<PlayerRelation, bool> aPredicate)
+        {
+            foreach (PlayerRelation relation in GetRelations(aOther, aPredicate))
+            {
+                FromRelations.Remove(relation);
+                ToRelations.Remove(relation);
+            }
+
+            Mailbox.ExpiryOutstandingMessages(aOther);
+        }
+
+        private void CreateRelations(Player aOther, RelationType aType, int aExpiryTurn = 0)
+        {
+            PlayerRelation relation = new PlayerRelation(Universe, this, aOther, aType, aExpiryTurn);
+
+            FromRelations.Add(relation);
+            aOther.ToRelations.Add(relation);
+        }
+
+        public void FormPact(Player aOther)
+        {
+            RelationType currentRelation = GetMostSignificantRelation(aOther);
+
+            if (currentRelation != RelationType.None && currentRelation != RelationType.Truce)
+            {
+                throw new InvalidOperationException("Pacts can only be formed while having no existing relationship or during a truce.");
+            }
+            if (Council != aOther.Council)
+            {
+                throw new InvalidOperationException("Pacts can only be formed between players in the same council.");
+            }
+            
+            CreateRelations(aOther, RelationType.Peace);
+
+            AddNews($"You have formed a pact with {aOther.GetDisplayName()}.");
+            aOther.AddNews($"{GetDisplayName()} has formed a pact with you.");
+        }
+
+        public void BreakPact(Player aOther)
+        {
+            RelationType currentRelation = GetMostSignificantRelation(aOther);
+
+            if (currentRelation != RelationType.Peace)
+            {
+                throw new InvalidOperationException($"A pact between {GetDisplayName()} and {aOther.GetDisplayName()} does not exist.");
+            }
+
+            ClearRelations(aOther, x => x.Type == RelationType.Peace);
+
+            Honor -= 3;
+
+            AddNews($"You have broken a pact with {aOther.GetDisplayName()}.");
+            aOther.AddNews($"{GetDisplayName()} has broken a pact with you.");
+        }
+
+        public void FormAlly(Player aOther)
+        {
+            RelationType currentRelation = GetMostSignificantRelation(aOther);
+
+            if (currentRelation != RelationType.Peace)
+            {
+                throw new InvalidOperationException("Alliances can only be formed between parties having a pact.");
+            }
+            if (Council != aOther.Council)
+            {
+                throw new InvalidOperationException("Alliances can only be formed between players of the same council.");
+            }
+            
+            CreateRelations(aOther, RelationType.Ally);
+
+            AddNews($"You have formed an alliance with {aOther.GetDisplayName()}.");
+            aOther.AddNews($"{GetDisplayName()} has formed an alliance with you.");
+        }
+
+        public void BreakAlly(Player aOther)
+        {
+            RelationType currentRelation = GetMostSignificantRelation(aOther);
+
+            if (currentRelation != RelationType.Ally)
+            {
+                throw new InvalidOperationException($"An alliance between {GetDisplayName()} and {aOther.GetDisplayName()} does not exist.");
+            }
+
+            ClearRelations(aOther, x => x.Type == RelationType.Ally);
+
+            Honor -= 5;
+
+            AddNews($"You have broken an alliance with {aOther.GetDisplayName()}.");
+            aOther.AddNews($"{GetDisplayName()} has broken an alliance with you.");
+        }
+
+        public void DeclareTruce(Player aOther)
+        {
+            RelationType currentRelation = GetMostSignificantRelation(aOther);
+
+            if (currentRelation != RelationType.Hostile && currentRelation != RelationType.TotalWar && currentRelation != RelationType.War)
+            {
+                throw new InvalidOperationException($"There is no negative relation between {GetDisplayName()} and {aOther.GetDisplayName()}.");
+            }
+
+            ClearRelations(aOther);
+            CreateRelations(aOther, RelationType.Truce);
+
+            AddNews($"You and {aOther.GetDisplayName()} have agreed to a truce.");
+            aOther.AddNews($"You and {GetDisplayName()} have agreed to a truce.");
+        }
+
+        public void DeclareHostile(Player aOther)
+        {
+            RelationType currentRelation = GetMostSignificantRelation(aOther);
+
+            if (currentRelation != RelationType.None && currentRelation != RelationType.Truce)
+            {
+                throw new InvalidOperationException("Declaring hostility can only be done when there is relationship in place.");
+            }
+
+            ClearRelations(aOther);
+            CreateRelations(aOther, RelationType.Hostile);
+
+            AddNews($"You have declared hostility against {aOther.GetDisplayName()}.");
+            aOther.AddNews($"{GetDisplayName()} has declared hostility against you.");
+        }
+
+        public void DeclareWar(Player aOther)
+        {
+            RelationType currentRelation = GetMostSignificantRelation(aOther);
+
+            if (currentRelation != RelationType.None && currentRelation != RelationType.Truce && currentRelation != RelationType.Hostile)
+            {
+                throw new InvalidOperationException("Declaring war can only be done when there is no relationship in place or you have hostile relations with the other player.");
+            }
+            if (Council != aOther.Council)
+            {
+                throw new InvalidOperationException("Declaring war can only be done between players in the same council.");
+            }
+
+            ClearRelations(aOther, x => x.Type != RelationType.Hostile);
+            CreateRelations(aOther, RelationType.War);
+
+            AddNews($"You have declared war on {aOther.GetDisplayName()}.");
+            aOther.AddNews($"{GetDisplayName()} has declared war on you.");
+        }
+
         public bool IsDead()
         {
             return Planets.Any();

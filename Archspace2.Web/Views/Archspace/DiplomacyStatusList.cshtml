@@ -1,0 +1,30 @@
+﻿@using Archspace2
+@using Archspace2.Extensions
+@{
+    ViewData["Title"] = "Diplomacy Status List";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    Council council = player.Council;
+}
+
+<main>
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Power</td>
+                <td>Relation</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Player councilMember in council.Players)
+            {
+            <tr>
+                <td>@(councilMember.GetDisplayName())</td>
+                <td>@(councilMember.Power)</td>
+                <td>@(player.GetMostSignificantRelation(councilMember).ToString().ToFriendlyString())</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</main>

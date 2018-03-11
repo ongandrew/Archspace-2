@@ -1,0 +1,51 @@
+﻿@using Archspace2
+@using Archspace2.Extensions
+@{
+    ViewData["Title"] = "Diplomacy Status List";
+    Layout = "_LayoutGame";
+    Player player = (Player)ViewData["Player"];
+    Council council = player.Council;
+}
+
+<main>
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Power</td>
+                <td>Relation</td>
+                <td>Status</td>
+                <td>Select</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Player councilMember in council.Players)
+            {
+            <tr>
+                <td>@(councilMember.GetDisplayName())</td>
+                <td>@(councilMember.Power)</td>
+                <td>@(player.GetMostSignificantRelation(councilMember).ToString().ToFriendlyString())</td>
+                <td>@(player.GetRelevantOutstandingDiplomaticProposal(councilMember).ToString().ToFriendlyString())</td>
+                <td>@if (councilMember != player) { <input name="ids" type="checkbox" value=@(councilMember.Id) /> }</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <select>
+        <option name="mass-action" value="suggest-truce">Suggest Truce</option>
+        <option name="mass-action" value="suggest-pact">Suggest Pact</option>
+        <option name="mass-action" value="suggest-ally">Suggest Ally</option>
+        <option name="mass-action" value="break-pact">Break Pact</option>
+        <option name="mass-action" value="break-ally">Break Ally</option>
+        <option name="mass-action" value="declare-hostile">Declare Hostile</option>
+        <option name="mass-action" value="declare-war">Declare War</option>
+        <option name="mass-action" value="declare-total-war">Declare Total War</option>
+    </select>
+
+    <button type="submit">Execute</button>
+</main>
+
+@section Scripts {
+    <script src="~/js/diplomacyManagement.js"></script>
+}

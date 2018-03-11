@@ -75,6 +75,18 @@ namespace Archspace2.Web
             return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
         }
 
+        [Route("diplomacy_status_list")]
+        public async Task<IActionResult> DiplomacyStatusList()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
+        [Route("diplomacy_management")]
+        public async Task<IActionResult> DiplomacyManagement()
+        {
+            return await RedirectToCreationOrReturnViewWithPlayerDataAsync();
+        }
+
         [Route("ship_design")]
         public async Task<IActionResult> ShipDesign()
         {

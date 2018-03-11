@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Archspace2
@@ -78,6 +79,7 @@ namespace Archspace2
         public DbSet<Council> Councils { get; set; }
         public DbSet<CouncilMailbox> CouncilMailboxes { get; set; }
         public DbSet<CouncilMessage> CouncilMessages { get; set; }
+        public DbSet<CouncilRelation> CouncilRelations { get; set; }
         public DbSet<Cluster> Clusters { get; set; }
         public DbSet<DefenseDeployment> DefenseDeployments { get; set; }
         public DbSet<DefensePlan> DefensePlans { get; set; }
@@ -86,6 +88,7 @@ namespace Archspace2
         public DbSet<Player> Players { get; set; }
         public DbSet<PlayerMailbox> PlayerMailboxes { get; set; }
         public DbSet<PlayerMessage> PlayerMessages { get; set; }
+        public DbSet<PlayerRelation> PlayerRelations { get; set; }
         public DbSet<ShipBuildOrder> ShipBuildOrders { get; set; }
         public DbSet<ShipDesign> ShipDesigns { get; set; }
         public DbSet<Universe> Universes { get; set; }
@@ -97,6 +100,28 @@ namespace Archspace2
         {
             string email = aClaimsPrincipal.FindFirstValue(ClaimTypes.Email);
             return await Users.SingleAsync(x => x.Email == email);
+        }
+
+        public override int SaveChanges()
+        {
+            RemoveOrphans();
+
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            RemoveOrphans();
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        public void RemoveOrphans()
+        {
+            PlayerRelations.Local
+                .Where(x => x.FromPlayer == null || x.ToPlayer == null)
+                .ToList()
+                .ForEach(x => PlayerRelations.Remove(x));
         }
     }
 }
