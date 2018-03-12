@@ -20,24 +20,24 @@ namespace Archspace2
         {
         }
 
-        [JsonProperty("Type")]
+        [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public WeaponType Type { get; set; }
-        [JsonProperty("AttackRating")]
+        [JsonProperty("attackRating")]
         public int AttackRating { get; set; }
-        [JsonProperty("DamageRoll")]
+        [JsonProperty("damageRoll")]
         public int DamageRoll { get; set; }
-        [JsonProperty("DamageDice")]
+        [JsonProperty("damageDice")]
         public int DamageDice { get; set; }
-        [JsonProperty("Space")]
+        [JsonProperty("space")]
         public int Space { get; set; }
-        [JsonProperty("CoolingTime")]
+        [JsonProperty("coolingTime")]
         public int CoolingTime { get; set; }
-        [JsonProperty("Range")]
+        [JsonProperty("range")]
         public int Range { get; set; }
-        [JsonProperty("AngleOfFire")]
+        [JsonProperty("angleOfFire")]
         public int AngleOfFire { get; set; }
-        [JsonProperty("Speed")]
+        [JsonProperty("speed")]
         public int Speed { get; set; }
 
         public override string ToString()

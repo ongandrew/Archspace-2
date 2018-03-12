@@ -8,17 +8,17 @@ namespace Archspace2.Battle
 {
     public class FireEvent : RecordEvent
     {
-        [JsonProperty("FiringFleetId")]
+        [JsonProperty("firingFleetId")]
         public int FiringFleetId { get; set; }
-        [JsonProperty("TargetFleetId")]
+        [JsonProperty("targetFleetId")]
         public int TargetFleetId { get; set; }
 
-        [JsonProperty("Weapon")]
+        [JsonProperty("weapon")]
         public string Weapon { get; set; }
-        [JsonProperty("WeaponType")]
+        [JsonProperty("weaponType")]
         [JsonConverter(typeof(StringEnumConverter))]
         public WeaponType WeaponType { get; set; }
-        [JsonProperty("Quantity")]
+        [JsonProperty("quantity")]
         public int Quantity { get; set; }
 
         public FireEvent(int aTurn) : base(aTurn, RecordEventType.Fire)

@@ -1,8 +1,8 @@
 ﻿class Fleet {
     constructor(fleetData, movementEventData, disabledEventData) {
-        this.id = fleetData.Id;
-        this.name = fleetData.Name;
-        this.isCapital = fleetData.IsCapital;
+        this.id = fleetData.id;
+        this.name = fleetData.name;
+        this.isCapital = fleetData.isCapital;
 
         this.turn = 0;
 
@@ -17,7 +17,7 @@
     }
 
     getDisabledEventDataOnTurn(turn) {
-        let disabledData = this.disabledEventData.filter(x => x.Turn <= turn);
+        let disabledData = this.disabledEventData.filter(x => x.turn <= turn);
 
         if (disabledData.length > 0) {
             return disabledData[0];
@@ -28,14 +28,14 @@
     }
 
     getMovementEventDataOnTurn(turn) {
-        let movementData = this.movementEventData.filter(x => x.Turn <= turn);
+        let movementData = this.movementEventData.filter(x => x.turn <= turn);
 
         let result = movementData[0];
-        let max = movementData[0].Turn;
+        let max = movementData[0].turn;
 
         for (let i = 0; i < movementData.length; i++) {
-            if (movementData[i].Turn > max) {
-                max = movementData[i].Turn;
+            if (movementData[i].turn > max) {
+                max = movementData[i].turn;
                 result = movementData[i];
             }
         }
@@ -47,21 +47,21 @@
         let movementData = this.getMovementEventDataOnTurn(turn);
 
         let result = new Object();
-        result.x = movementData.X;
-        result.y = movementData.Y;
-        result.direction = movementData.Direction;
+        result.x = movementData.x;
+        result.y = movementData.y;
+        result.direction = movementData.direction;
     }
 
     updateTurn(turn) {
         let movementEventData = this.getMovementEventDataOnTurn(turn);
-        
-        this.x = movementEventData.X;
-        this.y = movementEventData.Y;
-        this.direction = movementEventData.Direction;
-        this.remainingShips = movementEventData.RemainingShips;
-        this.command = movementEventData.Command;
-        this.status = movementEventData.Status;
-        this.substatus = movementEventData.Substatus;
+
+        this.x = movementEventData.x;
+        this.y = movementEventData.y;
+        this.direction = movementEventData.direction;
+        this.remainingShips = movementEventData.remainingShips;
+        this.command = movementEventData.command;
+        this.status = movementEventData.status;
+        this.substatus = movementEventData.substatus;
 
         let disabledEventData = this.getDisabledEventDataOnTurn(turn);
 

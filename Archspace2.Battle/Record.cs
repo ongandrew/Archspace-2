@@ -11,31 +11,31 @@ namespace Archspace2.Battle
         [JsonIgnore]
         public Battle Battle { get; set; }
 
-        [JsonProperty("Id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty("Attacker")]
+        [JsonProperty("attacker")]
         public RecordPlayer Attacker { get; set; }
-        [JsonProperty("Defender")]
+        [JsonProperty("defender")]
         public RecordPlayer Defender { get; set; }
 
-        [JsonProperty("DateTime")]
+        [JsonProperty("dateTime")]
         public DateTime DateTime { get; set; }
 
-        [JsonProperty("BattleType")]
+        [JsonProperty("battleType")]
         [JsonConverter(typeof(StringEnumConverter))]
         public BattleType BattleType { get; set; }
 
-        [JsonProperty("IsDraw")]
+        [JsonProperty("isDraw")]
         public bool IsDraw { get; set; }
 
-        [JsonProperty("Battlefield")]
+        [JsonProperty("battlefield")]
         public RecordBattlefield Battlefield { get; set; }
 
-        [JsonProperty("BattleOccurred")]
+        [JsonProperty("battleOccurred")]
         public bool BattleOccurred { get; set; }
 
-        [JsonProperty("Events")]
+        [JsonProperty("events")]
         public List<RecordEvent> Events { get; set; }
 
         internal Record()

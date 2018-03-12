@@ -8,29 +8,29 @@ namespace Archspace2.Battle
 {
     public class MovementEvent : RecordEvent, IPosition, IDirection
     {
-        [JsonProperty("FleetId")]
+        [JsonProperty("fleetId")]
         public int FleetId { get; set; }
 
-        [JsonProperty("X")]
+        [JsonProperty("x")]
         public double X { get; set; }
-        [JsonProperty("Y")]
+        [JsonProperty("y")]
         public double Y { get; set; }
 
-        [JsonProperty("Direction")]
+        [JsonProperty("direction")]
         public double Direction { get; set; }
 
-        [JsonProperty("Command")]
+        [JsonProperty("command")]
         [JsonConverter(typeof(StringEnumConverter))]
         public Command Command { get; set; }
 
-        [JsonProperty("Status")]
+        [JsonProperty("status")]
         [JsonConverter(typeof(StringEnumConverter))]
         public FleetStatus Status { get; set; }
-        [JsonProperty("Substatus")]
+        [JsonProperty("substatus")]
         [JsonConverter(typeof(StringEnumConverter))]
         public FleetSubstatus Substatus { get; set; }
 
-        [JsonProperty("RemainingShips")]
+        [JsonProperty("remainingShips")]
         public int RemainingShips { get; set; }
 
         public MovementEvent(int aTurn) : base(aTurn, RecordEventType.Movement)

@@ -12,21 +12,21 @@ namespace Archspace2
             Prerequisites = new List<PlayerPrerequisite>();
         }
 
-        [JsonProperty("Description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
-        [JsonProperty("Class")]
+        [JsonProperty("class")]
         public int Class { get; set; }
-        [JsonProperty("BaseHp")]
+        [JsonProperty("baseHp")]
         public int BaseHp { get; set; }
-        [JsonProperty("Space")]
+        [JsonProperty("space")]
         public int Space { get; set; }
-        [JsonProperty("WeaponSlotCount")]
+        [JsonProperty("weaponSlotCount")]
         public int WeaponSlotCount { get; set; }
-        [JsonProperty("DeviceSlotCount")]
+        [JsonProperty("deviceSlotCount")]
         public int DeviceSlotCount { get; set; }
-        [JsonProperty("Cost")]
+        [JsonProperty("cost")]
         public int Cost { get; set; }
-        [JsonProperty("Upkeep")]
+        [JsonProperty("upkeep")]
         public double Upkeep { get; set; }
 
         [JsonProperty("Prerequisites")]

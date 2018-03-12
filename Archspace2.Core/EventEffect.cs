@@ -15,29 +15,29 @@ namespace Archspace2
 
     public class EventEffect : IPlayerEffect, IControlModelModifier
     {
-        [JsonProperty("Duration")]
+        [JsonProperty("duration")]
         public int Duration { get; set; }
 
-        [JsonProperty("Type")]
+        [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public PlayerEffectType Type { get; set; }
-        [JsonProperty("ModifierType")]
+        [JsonProperty("modifierType")]
         [JsonConverter(typeof(StringEnumConverter))]
         public ModifierType ModifierType { get; set; }
-        [JsonProperty("Target")]
+        [JsonProperty("target")]
         public int Target { get; set; }
-        [JsonProperty("Argument1")]
+        [JsonProperty("argument1")]
         public int Argument1 { get; set; }
-        [JsonProperty("Argument2")]
+        [JsonProperty("argument2")]
         public int Argument2 { get; set; }
 
-        [JsonProperty("IsInstant")]
+        [JsonProperty("isInstant")]
         public bool IsInstant { get; set; }
-        [JsonProperty("ApplyOn")]
+        [JsonProperty("applyOn")]
         [JsonConverter(typeof(StringEnumConverter))]
         public EventEffectApplyType ApplyOn { get; set; }
 
-        [JsonProperty("ControlModelModifier")]
+        [JsonProperty("controlModelModifier")]
         public ControlModel ControlModelModifier { get; set; }
 
         public EventEffect()

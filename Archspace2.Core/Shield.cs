@@ -13,12 +13,12 @@ namespace Archspace2
             Strength = new Dictionary<int, int>();
         }
 
-        [JsonProperty("Deflection")]
+        [JsonProperty("deflection")]
         public int Deflection { get; set; }
 
-        [JsonProperty("RechargeRate")]
+        [JsonProperty("rechargeRate")]
         public Dictionary<int, int> RechargeRate { get; set; }
-        [JsonProperty("Strength")]
+        [JsonProperty("strength")]
         public Dictionary<int, int> Strength { get; set; }
 
         public override string ToString()

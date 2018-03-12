@@ -16,10 +16,10 @@ namespace Archspace2.Battle
 
     public abstract class RecordEvent
     {
-        [JsonProperty("Type")]
+        [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public RecordEventType Type { get; set; }
-        [JsonProperty("Turn")]
+        [JsonProperty("turn")]
         public int Turn { get; set; }
 
         public RecordEvent(int aTurn, RecordEventType aType)

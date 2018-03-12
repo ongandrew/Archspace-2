@@ -72,38 +72,38 @@ namespace Archspace2
             AdmiralLastNames = new List<string>();
         }
 
-        [JsonProperty("Description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
-        [JsonProperty("SocietyType")]
+        [JsonProperty("societyType")]
         public SocietyType SocietyType { get; set; }
 
-        [JsonProperty("HomeAtmosphere")]
+        [JsonProperty("homeAtmosphere")]
         public Atmosphere HomeAtmosphere { get; set; }
-        [JsonProperty("HomeGravity")]
+        [JsonProperty("homeGravity")]
         public double HomeGravity { get; set; }
-        [JsonProperty("HomeTemperature")]
+        [JsonProperty("homeTemperature")]
         public int HomeTemperature { get; set; }
 
-        [JsonProperty("BaseEmpireRelation")]
+        [JsonProperty("baseEmpireRelation")]
         public int BaseEmpireRelation { get; set; }
-        [JsonProperty("BaseControlModel")]
+        [JsonProperty("baseControlModel")]
         public ControlModel BaseControlModel { get; set; }
-        [JsonProperty("BaseTechs")]
+        [JsonProperty("baseTechs")]
         public List<int> BaseTechs { get; set; }
-        [JsonProperty("BaseTraits")]
+        [JsonProperty("baseTraits")]
         public List<RacialTrait> BaseTraits { get; set; }
-        [JsonProperty("BaseFleetEffects")]
+        [JsonProperty("baseFleetEffects")]
         public List<FleetEffect> BaseFleetEffects { get; set; }
-        [JsonProperty("AdmiralAbilities")]
+        [JsonProperty("admiralAbilities")]
         public List<AdmiralRacialAbility> AdmiralAbilities { get; set; }
-        [JsonProperty("AdmiralFirstNames")]
+        [JsonProperty("admiralFirstNames")]
         public List<string> AdmiralFirstNames { get; set; }
-        [JsonProperty("AdmiralLastNames")]
+        [JsonProperty("admiralLastNames")]
         public List<string> AdmiralLastNames { get; set; }
-        [JsonProperty("AdmiralNameStyle")]
+        [JsonProperty("admiralNameStyle")]
         public AdmiralNameStyle AdmiralNameStyle { get; set; }
 
-        [JsonProperty("Color")]
+        [JsonProperty("color")]
         public Color Color { get; set; }
 
         public override string ToString()

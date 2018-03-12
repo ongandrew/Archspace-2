@@ -32,10 +32,10 @@ namespace Archspace2
 
     public class PlanetAttribute : NamedEntity, IControlModelModifier
     {
-        [JsonProperty("Type")]
+        [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public PlanetAttributeType? Type { get; set; }
-        [JsonProperty("ControlModelModifier")]
+        [JsonProperty("controlModelModifier")]
         public ControlModel ControlModelModifier { get; set; }
     }
 }

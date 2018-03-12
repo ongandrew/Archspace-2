@@ -4,7 +4,7 @@ namespace Archspace2
 {
     public abstract class Entity
     {
-        [JsonProperty("Id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
         public override string ToString()

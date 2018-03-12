@@ -1,17 +1,15 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Archspace2.Battle
 {
     public class RecordPlayer : NamedEntity
     {
-        [JsonProperty("Race")]
+        [JsonProperty("race")]
         [JsonConverter(typeof(StringEnumConverter))]
         public RaceType Race { get; set; }
-        [JsonProperty("Fleets")]
+        [JsonProperty("fleets")]
         public List<RecordFleet> Fleets { get; set; }
 
         internal RecordPlayer()

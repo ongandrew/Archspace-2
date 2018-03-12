@@ -4,7 +4,7 @@ namespace Archspace2.Battle
 {
     public class FleetDisabledEvent : RecordEvent
     {
-        [JsonProperty("DisabledFleetId")]
+        [JsonProperty("disabledFleetId")]
         public int DisabledFleetId { get; set; }
 
         public FleetDisabledEvent(int aTurn) : base(aTurn, RecordEventType.FleetDisabled)

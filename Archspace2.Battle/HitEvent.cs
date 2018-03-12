@@ -4,14 +4,14 @@ namespace Archspace2.Battle
 {
     public class HitEvent : RecordEvent
     {
-        [JsonProperty("FiringFleetId")]
+        [JsonProperty("firingFleetId")]
         public int FiringFleetId { get; set; }
-        [JsonProperty("TargetFleetId")]
+        [JsonProperty("targetFleetId")]
         public int TargetFleetId { get; set; }
 
-        [JsonProperty("TotalDamage")]
+        [JsonProperty("totalDamage")]
         public int TotalDamage { get; set; }
-        [JsonProperty("SunkCount")]
+        [JsonProperty("sunkCount")]
         public int SunkCount { get; set; }
 
         public HitEvent(int aTurn) : base(aTurn, RecordEventType.Hit)

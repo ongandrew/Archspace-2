@@ -21,19 +21,19 @@ namespace Archspace2
             Prerequisites = new List<PlayerPrerequisite>();
         }
 
-        [JsonProperty("Description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("Difficulty")]
+        [JsonProperty("difficulty")]
         public int Difficulty { get; set; }
-        [JsonProperty("Cost")]
+        [JsonProperty("cost")]
         public int Cost { get; set; }
 
-        [JsonProperty("Type")]
+        [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public SpyType Type { get; set; }
 
-        [JsonProperty("Prerequisites")]
+        [JsonProperty("prerequisites")]
         public List<PlayerPrerequisite> Prerequisites { get; set; }
 
         public override string ToString()

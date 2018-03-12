@@ -8,9 +8,9 @@ namespace Archspace2
         {
         }
 
-        [JsonProperty("MinimumClass")]
+        [JsonProperty("minimumClass")]
         public int MinimumClass { get; set; }
-        [JsonProperty("MaximumClass")]
+        [JsonProperty("maximumClass")]
         public int MaximumClass { get; set; }
 
         public override string ToString()

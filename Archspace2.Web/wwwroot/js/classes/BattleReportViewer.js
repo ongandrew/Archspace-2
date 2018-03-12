@@ -8,34 +8,34 @@
     }
 
     get maxTurn() {
-        return this.events[this.events.length - 1].Turn;
+        return this.events[this.events.length - 1].turn;
     }
 
     load(data) {
         this.data = data;
 
-        this.events = data.Events;
+        this.events = data.events;
 
-        this.attacker = new Player(data.Attacker);
-        this.defender = new Player(data.Defender);
+        this.attacker = new Player(data.attacker);
+        this.defender = new Player(data.defender);
 
         this.attackerFleets = [];
-        for (let i = 0; i < data.Attacker.Fleets.length; i++) {
-            this.attackerFleets.push(new Fleet(data.Attacker.Fleets[i],
-                data.Events.filter(x => x.Type == "Movement" && x.FleetId == data.Attacker.Fleets[i].Id),
-                data.Events.filter(x => x.Type == "FleetDisabled" && x.DisabledFleetId == data.Attacker.Fleets[i].Id)
+        for (let i = 0; i < data.attacker.fleets.length; i++) {
+            this.attackerFleets.push(new Fleet(data.attacker.fleets[i],
+                data.events.filter(x => x.type == "Movement" && x.fleetId == data.attacker.fleets[i].id),
+                data.events.filter(x => x.type == "FleetDisabled" && x.disabledFleetId == data.attacker.fleets[i].id)
             ));
         }
 
         this.defenderFleets = [];
-        for (let i = 0; i < data.Defender.Fleets.length; i++) {
-            this.defenderFleets.push(new Fleet(data.Defender.Fleets[i],
-                data.Events.filter(x => x.Type == "Movement" && x.FleetId == data.Defender.Fleets[i].Id),
-                data.Events.filter(x => x.Type == "FleetDisabled" && x.DisabledFleetId == data.Defender.Fleets[i].Id)
+        for (let i = 0; i < data.defender.fleets.length; i++) {
+            this.defenderFleets.push(new Fleet(data.defender.fleets[i],
+                data.events.filter(x => x.type == "Movement" && x.fleetId == data.defender.fleets[i].id),
+                data.events.filter(x => x.type == "FleetDisabled" && x.disabledFleetId == data.defender.fleets[i].id)
             ));
         }
 
-        this.battlefield = data.Battlefield;
+        this.battlefield = data.battlefield;
 
         this.updateFleetPositions(0);
         this.updateTurnInfo();
@@ -43,7 +43,7 @@
 
     runTurn(number = 1) {
         if (this.turn + number > this.maxTurn) {
-            number = this.maxTurn - this.turn - 1;
+            number = this.maxTurn - this.turn;
         }
         else if (this.turn + number < 0) {
             number = 0 - this.turn;
