@@ -5,6 +5,7 @@
         this.turn = 0;
         this.runSimulation = false;
         this.view = new BattleView(500, 500, 10, 20);
+        this.log = new BattleLog();
     }
 
     get maxTurn() {
@@ -41,7 +42,21 @@
         this.updateTurnInfo();
     }
 
+    get fleets() {
+        return this.attackerFleets.concat(this.defenderFleets);
+    }
+
+    get fireEvents() {
+        return this.events.filter(x => x.type == "Fire");
+    }
+
+    get hitEvents() {
+        return this.events.filter(x => x.type == "Hit");
+    }
+
     runTurn(number = 1) {
+        let previousTurn = this.turn;
+
         if (this.turn + number > this.maxTurn) {
             number = this.maxTurn - this.turn;
         }
@@ -49,14 +64,18 @@
             number = 0 - this.turn;
         }
 
+        let nextTurn = this.turn + number;
+        
         if (number > 0) {
-            this.updateFleetPositions(this.turn + number);
+            this.updateFleetPositions(nextTurn);
+            this.renderFireEvents(nextTurn);
         }
         else if (number < 0) {
-            this.updateFleetPositions(this.turn + number);
+            this.updateFleetPositions(nextTurn);
+            this.renderFireEvents(nextTurn);
         }
         else {
-
+            // Left intentionally empty
         }
 
         this.turn += number;
@@ -90,6 +109,23 @@
                 this.view.drawFleet(x, "grey");
             }
         });
+    }
+
+    renderFireEvents(turn) {
+        this.view.clearFireEvents();
+
+        // Need to remove hardcoding of max age = 30;
+        // Unfortunately JS doesn't support nice class static constants yet. Revisit when ES7 is published.
+        let fireEvents = this.fireEvents.filter(x => x.turn >= turn - 30 && x.turn <= turn);
+
+        for (let i = 0; i < fireEvents.length; i++) {
+            let firingFleet = this.fleets.filter(x => fireEvents[i].firingFleetId == x.id)[0];
+            let targetFleet = this.fleets.filter(x => fireEvents[i].targetFleetId == x.id)[0];
+            let weaponType = fireEvents[i].weaponType;
+            let eventAge = turn - fireEvents[i].turn;
+
+            this.view.drawFireEvent(firingFleet, targetFleet, weaponType, eventAge);
+        }
     }
 
     draw(element) {
