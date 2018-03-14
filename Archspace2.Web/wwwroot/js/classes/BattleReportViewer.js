@@ -92,22 +92,12 @@
 
         this.attackerFleets.forEach(x => {
             x.updateTurn(turn);
-            if (x.isCapital) {
-                this.view.drawFleet(x, "red");
-            }
-            else {
-                this.view.drawFleet(x, "grey");
-            }
+            this.view.drawFleet(x, "Offense");
         });
 
         this.defenderFleets.forEach(x => {
             x.updateTurn(turn);
-            if (x.isCapital) {
-                this.view.drawFleet(x, "red");
-            }
-            else {
-                this.view.drawFleet(x, "grey");
-            }
+            this.view.drawFleet(x, "Defense");
         });
     }
 

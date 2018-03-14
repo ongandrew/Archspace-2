@@ -80,7 +80,7 @@
         context.clearRect(0, 0, fireLayer.width, fireLayer.height);
     }
 
-    drawFleet(fleet, style)
+    drawFleet(fleet, side)
     {
         let element = this.element;
         let fleetLayer = element.querySelector("#battle-viewer-fleets");
@@ -88,6 +88,7 @@
         let context = fleetLayer.getContext("2d");
 
         let points = this.calculateCanvasShapePoints(fleet);
+        let style = this.calculateFleetStyle(fleet, side);
 
         if (!fleet.isDisabled) {
             context.fillStyle = style;
@@ -181,6 +182,15 @@
         result.push(point3.rotate(canvasPoint, fleet.direction - 90));
 
         return result;
+    }
+
+    calculateFleetStyle(fleet, side) {
+        if (fleet.isCapital) {
+            return "red";
+        }
+        else {
+            return "grey";
+        }
     }
 
     calculateFireEventStyle(weaponType, eventAge) {
