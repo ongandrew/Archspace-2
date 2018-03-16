@@ -5535,7 +5535,7 @@ namespace Archspace2
             {
                 new SpyAction()
                 {
-                    Id = 8001,
+                    Id = (int)SpyId.GeneralInformationGathering,
                     Name = "General Information Gathering",
                     Description = "The goal of this mission is to collect general information. You can easily conduct number of operations such as the collection of basic statistics or analysis of the status overall without creating any disturbance. This level of information gathering is often considered common and innocuous, thus it rarely becomes a target of anti-espionage organizations.",
                     Type = SpyType.Acceptable,
@@ -5544,7 +5544,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8002,
+                    Id = (int)SpyId.DetailedInformationGathering,
                     Name = "Detailed Information Gathering",
                     Description = "Processing is what makes the collected information useful. By analyzing large amount of information and extracting useful ones out of the mass, the processed data becomes readily useful.",
                     Type = SpyType.Acceptable,
@@ -5561,7 +5561,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8003,
+                    Id = (int)SpyId.StealSecretInfo,
                     Name = "Steal Secret Info",
                     Description = "This operation focuses on information that are usually hard to obtain by ordinary means. It involves many different methods and means to obtain such classified information, and risky choices are employed at times as well. It can cause diplomatic disturbances, should the operation fail and go detected - rarely it becomes an issue for an elongated period, however.",
                     Type = SpyType.Ordinary,
@@ -5578,7 +5578,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8004,
+                    Id = (int)SpyId.ComputerVirusInfiltration,
                     Name = "Computer Virus Infiltration",
                     Description = "This operation involves infiltrating hostile computer virus in the enemy computer network system. It will bring about huge damage, should it succeed.",
                     Type = SpyType.Ordinary,
@@ -5595,7 +5595,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8005,
+                    Id = (int)SpyId.DevastatingNetworkWorm,
                     Name = "Devastating Network Worm",
                     Description = "This operation involves infiltrating devastating network worm in enemy network system. If the target network system has inferior Information Network Ecosystem than yours, this worm can cripple the system overall and cause chronic damage as well.",
                     Type = SpyType.Hostile,
@@ -5612,7 +5612,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8006,
+                    Id = (int)SpyId.Sabotage,
                     Name = "Sabotage",
                     Description = "Your spy will incite sabotage in the industries of the target. Upon success, the enemy will have to spend massive resource only to build up the lost industries, during which the loss of productive force is crippling.",
                     Type = SpyType.Hostile,
@@ -5621,7 +5621,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8007,
+                    Id = (int)SpyId.InciteRiot,
                     Name = "Incite Riot",
                     Description = "Your spy will attempt a powerful psi attack upon the population of target planet. With this psi attack, your spy will cause chaos and disturbance. Upon success, this will inflict heavier damage than Sabotage Operation. The real beauty of this operation is that you are manipulating your enemy to attack the very same one.",
                     Type = SpyType.Hostile,
@@ -5638,7 +5638,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8008,
+                    Id = (int)SpyId.StealCommonTechnology,
                     Name = "Steal Technology",
                     Description = "This operation focuses on stealing the cutting-edge technology that you don't currently own. This won't be easy but it's one of the operations that focuses on fortifying yourself than undermining others.",
                     Type = SpyType.Ordinary,
@@ -5655,7 +5655,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8009,
+                    Id = (int)SpyId.ArtificialDisease,
                     Name = "Artificial Disease",
                     Description = "Your spy will spread the new microbe secretly developed by your toxicologists. This will inflict crippling damage to any planet, and it is one of the most effective methods to devastate enemy. When it is detected, however, the employment of such tactic along with the development of such microbe will cause severe diplomatic problem. For this reason, this weapon should be reserved to for the last resort.",
                     Type = SpyType.Atrocious,
@@ -5672,7 +5672,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8010,
+                    Id = (int)SpyId.RedDeath,
                     Name = "Red Death",
                     Description = "This is by far the most damaging microbe ever created. This already deadly artificial germ has been cultured in the harshest environment for accelerated evolution. The end product far out-damages the Artificial Disease. This can effectively neutralize any major planet, inflicting deadly damage.",
                     Type = SpyType.Atrocious,
@@ -5689,7 +5689,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8011,
+                    Id = (int)SpyId.StrikeBase,
                     Name = "Strike Base",
                     Description = "You attempt to destroy or neutralize the enemy military base by infiltrating saboteur or commandos. Usually this operation precedes full-scale planetary invasion. Even with such a low success ratio, this is one of the most attractive means available due to the high cost-efficiency.",
                     Type = SpyType.Hostile,
@@ -5698,7 +5698,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8012,
+                    Id = (int)SpyId.MeteorStrike,
                     Name = "Meteor Strike",
                     Description = "You deflect one of the asteroids out of the orbit, and cause that asteroid to crash on enemy planet. This method is relatively safe, especially for a devastating attack as this. Still, many planets have planetary defense system on respective orbits, which will intercept the free-falling meteor. This attack will prove but futile against well defended planet for this reason.",
                     Type = SpyType.Hostile,
@@ -5715,7 +5715,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8013,
+                    Id = (int)SpyId.EmpStorm,
                     Name = "EMP Storm",
                     Description = "You send out a satelite equipped with an anti-matter warhead, which can cause massive EMP storm on the ionosphere of the target planet. Upon the explosion of the warhead, every electronic device breaks down for a certain period of time, practically paralyzing the whole planet for the duration.",
                     Type = SpyType.Hostile,
@@ -5732,7 +5732,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8014,
+                    Id = (int)SpyId.StellarBombardment,
                     Name = "Stellar Bombardment",
                     Description = "This is Meteor Strike on a larger scale. This massive attack can send a crippling blow to a planet with weak defensive measures. Even the best-defended planet will have hard time defending against the number of asteroids dashing at them full speed ahead.",
                     Type = SpyType.Hostile,
@@ -5749,7 +5749,7 @@ namespace Archspace2
                 },
                 new SpyAction()
                 {
-                    Id = 8015,
+                    Id = (int)SpyId.Assassination,
                     Name = "Assassination",
                     Description = "You send out an agent to assassinate important figure in the enemy planet. As an old adage has it, an army of lions led by a lamb never defeats an army of lambs led by a lion. Such is the power of leadership, and disposing a capable leader can be more devastating than decimating the whole fleet of battleships.",
                     Type = SpyType.Hostile,

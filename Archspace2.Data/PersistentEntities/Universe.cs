@@ -12,6 +12,9 @@ namespace Archspace2
     {
         private Universe() : base()
         {
+            Empire = new Empire(this);
+            BlackMarket = new BlackMarket(this);
+
             Clusters = new List<Cluster>();
             Councils = new List<Council>();
             Players = new List<Player>();
@@ -22,6 +25,10 @@ namespace Archspace2
             FromDate = aFromDate;
             ToDate = aToDate;
         }
+
+        public int? EmpireId { get; set; }
+        [ForeignKey("EmpireId")]
+        public Empire Empire { get; set; }
 
         public int? BlackMarketId { get; set; }
         [ForeignKey("BlackMarketId")]
@@ -38,8 +45,6 @@ namespace Archspace2
 
         public void Initialize()
         {
-            BlackMarket = CreateBlackMarket();
-
             for (int i = 0; i < Game.Configuration.Universe.StartingClusterCount; i++)
             {
                 Clusters.Add(new Cluster(this));
@@ -54,13 +59,6 @@ namespace Archspace2
             {
                 CreateBot();
             }
-        }
-
-        private BlackMarket CreateBlackMarket()
-        {
-            BlackMarket blackMarket = new BlackMarket(this);
-
-            return blackMarket;
         }
 
         public Player CreateBot()

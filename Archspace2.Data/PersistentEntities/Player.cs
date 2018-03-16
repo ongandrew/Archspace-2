@@ -22,15 +22,6 @@ namespace Archspace2
         Research
     };
 
-    public enum SecurityLevel
-    {
-        Defenseless = 1,
-        Loose,
-        Wary,
-        Alerted,
-        Impenetrable
-    };
-
     [Table("Player")]
     public class Player : UniverseEntity, IPowerContributor
     {
@@ -46,8 +37,7 @@ namespace Archspace2
         [ForeignKey("CouncilId")]
         public Council Council { get; set; }
 
-        public SecurityLevel SecurityLevel { get; set; }
-        public int Alertness { get; set; }
+        public SpecialOperationsCommand SpecialOperationsCommand { get; set; }
 
         public Resource Resource { get; set; }
         public long ResearchInvestment { get; set; }
@@ -285,6 +275,7 @@ namespace Archspace2
             {
                 ProductionPoint = 50000
             };
+            SpecialOperationsCommand = new SpecialOperationsCommand();
 
             mTechs = new List<Tech>();
             mProjects = new List<Project>();
@@ -631,7 +622,7 @@ namespace Archspace2
 
             Resource.ResearchPoint += totalIncome.ResearchPoint;
 
-            totalUpkeep += CalculateSecurityUpkeep(balance);
+            totalUpkeep += SpecialOperationsCommand.CalculateUpkeep(balance);
             balance.ProductionPoint -= totalUpkeep.ProductionPoint;
             totalUpkeep.ProductionPoint = 0;
             
@@ -764,10 +755,10 @@ namespace Archspace2
 
         private void UpdateSecurity(int aIncome)
         {
-            Alertness -= 5;
-            if (Alertness < 0)
+            SpecialOperationsCommand.Alertness -= 5;
+            if (SpecialOperationsCommand.Alertness < 0)
             {
-                Alertness = 0;
+                SpecialOperationsCommand.Alertness = 0;
             }
         }
 
@@ -984,33 +975,7 @@ namespace Archspace2
             return new Resource(aBaseUpkeep);
         }
 
-        private Resource CalculateSecurityUpkeep(Resource aBalance)
-        {
-            long upkeep = 0;
-            long income = aBalance.ProductionPoint;
 
-            switch (SecurityLevel)
-            {
-                case SecurityLevel.Loose:
-                    upkeep = (int)(income * 2.5 / 100);
-                    break;
-                case SecurityLevel.Wary:
-                    upkeep = (income * 5 / 100);
-                    break;
-                case SecurityLevel.Alerted:
-                    upkeep = (income * 10 / 100);
-                    break;
-                case SecurityLevel.Impenetrable:
-                    upkeep = (income * 20 / 100);
-                    break;
-                case SecurityLevel.Defenseless:
-                default:
-                    upkeep = 0;
-                    break;
-            }
-
-            return new Resource() { ProductionPoint = upkeep };
-        }
 
         private void ReactivateFleets()
         {
@@ -1308,6 +1273,93 @@ namespace Archspace2
                 default:
                     break;
             }
+        }
+
+        public void ExecuteSpecialOperation(int aId, Player aTarget)
+        {
+            SpyAction action = Game.Configuration.SpyActions.SingleOrDefault(x => x.Id == aId);
+
+            if (action == null)
+            {
+                throw new InvalidOperationException("No such spy action is defined.");
+            }
+
+            if (!EvaluatePrerequisites(action))
+            {
+                throw new InvalidOperationException("You do not have all the prerequisites to perform that action.");
+            }
+
+            SpyId id = (SpyId)aId;
+
+            int playerSpy = ControlModel.Spy;
+
+            int targetSpy = aTarget.ControlModel.Spy;
+            int targetSecurity = aTarget.SpecialOperationsCommand.SecurityScore;
+            int targetAlertness = aTarget.SpecialOperationsCommand.Alertness;
+            int difficulty = action.Difficulty;
+
+            int attackRoll = 0;
+            int defenseRoll = 0;
+
+            switch (id)
+            {
+                case SpyId.ArtificialDisease:
+                case SpyId.RedDeath:
+                    {
+                        if (Traits.Any(x => x == RacialTrait.GeneticEngineeringSpecialist))
+                        {
+                            attackRoll = 50 + ((playerSpy + 3) * 10) + Game.Random.Next(1, ((playerSpy + 3) * 10));
+                        }
+                        else
+                        {
+                            attackRoll = 50 + ((playerSpy + 1) * 10) + Game.Random.Next(1, ((playerSpy + 1) * 10));
+                        }
+                    }
+                    break;
+                case SpyId.GeneralInformationGathering:
+                case SpyId.DetailedInformationGathering:
+                case SpyId.StealSecretInfo:
+                case SpyId.ComputerVirusInfiltration:
+                case SpyId.DevastatingNetworkWorm:
+                case SpyId.StealCommonTechnology:
+                case SpyId.StealImportantTechnology:
+                case SpyId.StealSecretTechnology:
+                    {
+                        if (Traits.Any(x => x == RacialTrait.GeneticEngineeringSpecialist))
+                        {
+                            attackRoll = 50 + ((playerSpy + 5) * 10) + Game.Random.Next(1, ((playerSpy + 5) * 10));
+                        }
+                        else
+                        {
+                            attackRoll = 50 + ((playerSpy + 1) * 10) + Game.Random.Next(1, ((playerSpy + 1) * 10));
+                        }
+                    }
+                    break;
+                default:
+                    attackRoll = 50 + ((playerSpy + 1) * 10) + Game.Random.Next(1, ((playerSpy + 1) * 10));
+                    break;
+            }
+
+            int alertnessChangeFailure;
+            int alertnessChangeSuccess;
+
+            if (difficulty > 100)
+            {
+                alertnessChangeFailure = (10 + (targetSecurity/10));
+            }
+            else if (difficulty < 0)
+            {
+                alertnessChangeFailure = 0;
+            }
+            else
+            {
+                alertnessChangeFailure = (int)((10 + (targetSecurity / 10)) * ((double)difficulty / 100));
+            }
+
+            alertnessChangeSuccess = 10 + ((targetSecurity + difficulty) / 10);
+
+            defenseRoll = (int)((25 + (targetSpy)) * (((double)100 + (targetSecurity * 2) + targetAlertness)/100) * (((double)100 + difficulty)/ 100));
+            throw new NotImplementedException();
         }
 
         public bool IsDead()
