@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Archspace2
@@ -87,6 +88,68 @@ namespace Archspace2
             }
 
             return new Resource() { ProductionPoint = upkeep };
+        }
+
+        public Result PerformOperation(SpyAction aSpy, Player aTarget)
+        {
+            switch((SpyId)aSpy.Id)
+            {
+                case SpyId.GeneralInformationGathering:
+                    return GeneralInformationGathering(aTarget);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public Result GeneralInformationGathering(Player aTarget)
+        {
+            HashSet<int> infoSet = new HashSet<int>();
+            List<string> resultSet = new List<string>();
+
+            int numInfo = 1 + Game.Random.Dice(1, 3);
+
+            do
+            {
+                int random = Game.Random.Next(1, 8);
+                infoSet.Add(random);
+            } while (infoSet.Count < numInfo);
+
+            if (infoSet.Contains(1))
+            {
+                resultSet.Add($"PP : {aTarget.Resource.ProductionPoint}");
+            }
+            if (infoSet.Contains(2))
+            {
+                resultSet.Add($"Population : {aTarget.Planets.Sum(x => x.Population)}");
+            }
+            if (infoSet.Contains(3))
+            {
+                resultSet.Add($"Concentration Mode : {aTarget.ConcentrationMode.ToString()}");
+            }
+            if (infoSet.Contains(4))
+            {
+                resultSet.Add($"Fleets : {aTarget.Fleets.Count}");
+            }
+            if (infoSet.Contains(5))
+            {
+                resultSet.Add($"Total Docked Ships : {aTarget.Shipyard.ShipPool.Sum(x => x.Value)}");
+            }
+            if (infoSet.Contains(6))
+            {
+                resultSet.Add($"PP Income : {aTarget.Planets.Sum(x => x.CalculateProductionPointPerTurn())}");
+            }
+            if (infoSet.Contains(7))
+            {
+                resultSet.Add($"Researched Techs : {aTarget.Techs.Count}");
+            }
+            if (infoSet.Contains(8))
+            {
+                resultSet.Add($"Commanders : {aTarget.Admirals.Count}");
+            }
+
+            aTarget.AddNews("Some of your general information has been stolen.");
+
+            return new Result(ResultType.Success, string.Join("\n", resultSet));
         }
     }
 }

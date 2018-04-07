@@ -1275,9 +1275,15 @@ namespace Archspace2
             }
         }
 
-        public void ExecuteSpecialOperation(int aId, Player aTarget)
+        public Result ExecuteSpecialOperation(int aId, int aTargetId)
         {
+            Player target = Universe.Players.SingleOrDefault(x => x.Id == aTargetId);
             SpyAction action = Game.Configuration.SpyActions.SingleOrDefault(x => x.Id == aId);
+
+            if (target == null)
+            {
+                throw new InvalidOperationException("No such player exists.");
+            }
 
             if (action == null)
             {
@@ -1289,13 +1295,36 @@ namespace Archspace2
                 throw new InvalidOperationException("You do not have all the prerequisites to perform that action.");
             }
 
+            if (target.IsDead())
+            {
+                throw new InvalidOperationException("You cannot perform special operations on a dead player.");
+            }
+
+            if (Resource.ProductionPoint < action.Cost)
+            {
+                throw new InvalidOperationException("You do not have enough PP to perform this action.");
+            }
+
+            if (Traits.Contains(RacialTrait.Pacifist) && action.Type == SpyType.Atrocious)
+            {
+                throw new InvalidOperationException("You cannot perform this operation because you are a pacifist.");
+            }
+
             SpyId id = (SpyId)aId;
+
+            if (Traits.Contains(RacialTrait.NoSpy) || target.Traits.Contains(RacialTrait.NoSpy))
+            {
+                if (id != SpyId.MeteorStrike && id != SpyId.StellarBombardment)
+                {
+                    throw new InvalidOperationException("You cannot perform this operation for some reason.");
+                }
+            }
 
             int playerSpy = ControlModel.Spy;
 
-            int targetSpy = aTarget.ControlModel.Spy;
-            int targetSecurity = aTarget.SpecialOperationsCommand.SecurityScore;
-            int targetAlertness = aTarget.SpecialOperationsCommand.Alertness;
+            int targetSpy = target.ControlModel.Spy;
+            int targetSecurity = target.SpecialOperationsCommand.SecurityScore;
+            int targetAlertness = target.SpecialOperationsCommand.Alertness;
             int difficulty = action.Difficulty;
 
             int attackRoll = 0;
@@ -1359,7 +1388,141 @@ namespace Archspace2
             alertnessChangeSuccess = 10 + ((targetSecurity + difficulty) / 10);
 
             defenseRoll = (int)((25 + (targetSpy)) * (((double)100 + (targetSecurity * 2) + targetAlertness)/100) * (((double)100 + difficulty)/ 100));
-            throw new NotImplementedException();
+            
+            if (attackRoll <= defenseRoll)
+            {
+                defenseRoll = (int)((25 + (targetSpy * 5)) * ((100 + targetSecurity + targetAlertness) / 100.0) * 1.5);
+
+                if (attackRoll <= defenseRoll)
+                {
+                    target.AddNews($"You caught a spy from {GetDisplayName()}");
+
+                    target.SpecialOperationsCommand.Alertness += alertnessChangeFailure;
+
+                    RelationType relation = GetMostSignificantRelation(target);
+
+                    int honorChange = CalculateSpyHonorChange(target, action.Type);
+
+                    if (honorChange > 0)
+                    {
+                        Honor -= honorChange;
+
+                        return new Result(ResultType.Failure, $"It was a failure! Your spy couldn't escape and you lost {honorChange} points of honor.");
+                    }
+                    else
+                    {
+                        return new Result(ResultType.Failure, "It was a failure! Your spy couldn't escape but you didn't lose honor anyway.");
+                    }
+                }
+                else
+                {
+                    AddNews("Your spy couldn't attempt the operation because of strong security.");
+
+                    target.SpecialOperationsCommand.Alertness += alertnessChangeFailure;
+
+                    return new Result(ResultType.Failure, "It was a failure! But your spy tried to escape and succeeded.");
+                }
+            }
+            else
+            {
+                Result result = SpecialOperationsCommand.PerformOperation(action, target);
+
+                target.SpecialOperationsCommand.Alertness += alertnessChangeSuccess;
+
+                if (Game.Random.Next(1, 100) <= 25)
+                {
+                    target.AddNews($"You were targetted by a spying attack from {GetDisplayName()}!");
+
+                    int honorChange = CalculateSpyHonorChange(target, action.Type);
+
+                    if (honorChange > 0)
+                    {
+                        Honor -= honorChange;
+
+                        return new Result(ResultType.Success, $"The spy was successful! Your spy couldn't conceal himself and you lost {honorChange} points of honor!");
+                    }
+                    else
+                    {
+                        return new Result(ResultType.Success, $"The spy was successful! Your spy couldn't conceal himself but you didn't lose honor anyway.");
+                    }
+                }
+                else
+                {
+                    if (Game.Random.Next(1, 100) <= 50)
+                    {
+                        target.AddNews("You were targetted by a spying attack, but you don't know who initiated the attack.");
+
+                        return new Result(ResultType.Success, $"The spy was successful! Your spy concealed himself but couldn't blame anyone.");
+                    }
+                    else
+                    {
+                        List<Player> candidates = Council.Players.Union(target.Council.Players).Where(x => x.Id != Id && (target.GetMostSignificantRelation(x) == RelationType.Truce || target.GetMostSignificantRelation(x) == RelationType.War || target.GetMostSignificantRelation(x) == RelationType.None)).ToList();
+
+                        if (!candidates.Any())
+                        {
+                            target.AddNews("You were targetted by a spying attack, but you don't know who initiated the attack.");
+
+                            return new Result(ResultType.Success, $"The spy was successful! Your spy concealed himself and tried to blame someone, but there were no candidates.");
+                        }
+                        else
+                        {
+                            Player victim = candidates.Random();
+
+                            target.AddNews($"You were targetted by a spying attack from {victim.GetDisplayName()}!");
+
+                            int honorChange = victim.CalculateSpyHonorChange(target, action.Type);
+                            
+                            if (honorChange > 0)
+                            {
+                                victim.Honor -= honorChange;
+
+                                victim.AddNews($"You were framed by someone's spy and lost {honorChange} points of honor!");
+                            }
+                            else
+                            {
+                                victim.AddNews("You were framed by someone's spy but didn't lose honor anyway.");
+                            }
+
+                            return new Result(ResultType.Success, $"It was a perfect success! Your spy succeeded in blaming {victim.GetDisplayName()} for the attack.");
+                        }
+                    }
+                }
+            }
+        }
+
+        public int CalculateSpyHonorChange(Player aTarget, SpyType aSpyType)
+        {
+            int baseLoss = 0;
+
+            RelationType relation = GetMostSignificantRelation(aTarget);
+
+            switch(relation)
+            {
+                case RelationType.Ally:
+                    baseLoss = (((int)aSpyType + 1) * 5);
+                    break;
+                case RelationType.Peace:
+                    baseLoss = (((int)aSpyType) * 5);
+                    break;
+                case RelationType.War:
+                    baseLoss = (((int)aSpyType - 2) * 5);
+                    break;
+                case RelationType.TotalWar:
+                    baseLoss = (((int)aSpyType - 3) * 5);
+                    break;
+                default:
+                    baseLoss = (((int)aSpyType - 1) * 5);
+                    break;
+            }
+
+            int result = baseLoss - ControlModel.Diplomacy;
+
+            if (result < 0)
+            {
+                result = 0;
+            }
+
+            return result;
         }
 
         public bool IsDead()

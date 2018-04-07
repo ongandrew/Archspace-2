@@ -138,4 +138,10 @@
         C,
         D
     };
+
+    public enum ResultType
+    {
+        Success,
+        Failure
+    };
 }
