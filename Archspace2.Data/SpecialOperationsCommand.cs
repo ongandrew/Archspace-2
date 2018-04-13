@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Universal.Common.Extensions;
 
 namespace Archspace2
 {
@@ -150,6 +151,92 @@ namespace Archspace2
             aTarget.AddNews("Some of your general information has been stolen.");
 
             return new Result(ResultType.Success, string.Join("\n", resultSet));
+        }
+
+        public Result DetailedInformationGathering(Player aTarget)
+        {
+            List<string> resultSet = new List<string>();
+
+            resultSet.Add(GeneralInformationGathering(aTarget).Message);
+
+            int detailedInfo = Game.Random.Next(1, 4);
+
+            switch (detailedInfo)
+            {
+                case 1:
+                    {
+                        Planet planet = aTarget.Planets.Random();
+
+                        resultSet.Add($"Status of planet {planet.Name}:\nPopulation: {planet.Population}\nResource: {planet.Resource.ToString()}\nBuildings:\nFactory {planet.Infrastructure.Factory}\tResearch Lab {planet.Infrastructure.ResearchLab}\tMilitary Base {planet.Infrastructure.MilitaryBase}");
+
+                        break;
+                    }
+                case 2:
+                    {
+                        resultSet.Add($"List of projects:\n{string.Join("\n", aTarget.Projects.Select(x => x.Name))}");
+                        break;
+                    }
+                case 3:
+                    {
+                        resultSet.Add($"Current Tech Goal: {(aTarget.TargetTech == null ? "None" : aTarget.TargetTech.Name)}");
+                        break;
+                    }
+                case 4:
+                    {
+                        resultSet.Add($"Researched Techs:\n{string.Join("\n", aTarget.Techs.Select(x => x.Name))}");
+                        break;
+                    }
+            }
+
+            aTarget.AddNews("Some of your detailed information has been stolen.");
+
+            return new Result(ResultType.Success, string.Join("\n", resultSet));
+        }
+
+        public Result StealSecretInfo(Player aTarget)
+        {
+            Result result = new Result(ResultType.Success);
+
+            switch (Game.Random.Next(1, 2))
+            {
+                case 1:
+                    {
+                        result.Message = $"Current Fleets ({aTarget.Fleets.Count}):\n" + string.Join("\n", aTarget.Fleets.Select(x => $"{x.GetDisplayName()} {x.ShipDesign.ShipClass.Name} {x.CurrentShipCount}/{x.MaxShipCount}"));
+
+                        break;
+                    }
+                case 2:
+                    {
+                        result.Message = $"Ship pool ({aTarget.Shipyard.ShipPool.Count}):\n" + string.Join("\n", aTarget.Shipyard.ShipPool.Select(x => $"{x.Key.Name} {x.Key.ShipClass.Name} {x.Value}"));
+                        break;
+                    }
+            }
+
+            return result;
+        }
+
+        public Result ComputerVirusInfiltration(Player aTarget)
+        {
+            Result result = new Result(ResultType.Success);
+
+            long lostResearch = aTarget.Resource.ResearchPoint * 70 / 100;
+            aTarget.Resource.ResearchPoint -= lostResearch;
+
+            result.Message = $"{aTarget.GetDisplayName()} lost {lostResearch} RP.";
+
+            return result;
+        }
+
+        public Result DevastatingNetworkWorm(Player aTarget)
+        {
+            Result result = new Result(ResultType.Success);
+
+            long lostResearch = aTarget.Resource.ResearchPoint * 40 / 100;
+            aTarget.Resource.ResearchPoint -= lostResearch;
+
+            result.Message = $"{aTarget.GetDisplayName()} lost {lostResearch} RP.";
+
+            return result;
         }
     }
 }
