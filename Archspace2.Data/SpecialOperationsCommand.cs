@@ -215,28 +215,68 @@ namespace Archspace2
             return result;
         }
 
-        public Result ComputerVirusInfiltration(Player aTarget)
+        public ComputerVirusResult ComputerVirusInfiltration(Player aTarget)
         {
-            Result result = new Result(ResultType.Success);
-
-            long lostResearch = aTarget.Resource.ResearchPoint * 70 / 100;
-            aTarget.Resource.ResearchPoint -= lostResearch;
-
-            result.Message = $"{aTarget.GetDisplayName()} lost {lostResearch} RP.";
-
-            return result;
-        }
-
-        public Result DevastatingNetworkWorm(Player aTarget)
-        {
-            Result result = new Result(ResultType.Success);
-
             long lostResearch = aTarget.Resource.ResearchPoint * 40 / 100;
             aTarget.Resource.ResearchPoint -= lostResearch;
 
-            result.Message = $"{aTarget.GetDisplayName()} lost {lostResearch} RP.";
+            return new ComputerVirusResult()
+            {
+                ResearchPointLost = lostResearch
+            };
+        }
 
-            return result;
+        public DevastatingNetworkWormResult DevastatingNetworkWorm(Player aTarget)
+        {
+            long lostResearch = aTarget.Resource.ResearchPoint * 60 / 100;
+            aTarget.Resource.ResearchPoint -= lostResearch;
+
+            long lostShipProduction = aTarget.Shipyard.ShipProduction * Game.Random.Next(1, 60) / 100;
+            aTarget.Shipyard.ChangeShipProductionInvestment(-lostShipProduction);
+
+            long lostResearchInvestment = aTarget.ResearchInvestment * Game.Random.Next(1, 60) / 100;
+            aTarget.ResearchInvestment -= lostResearchInvestment;
+
+            long lostPlanetInvestment = aTarget.PlanetInvestmentPool * Game.Random.Next(1, 60) / 100;
+            aTarget.PlanetInvestmentPool -= lostPlanetInvestment;
+
+            return new DevastatingNetworkWormResult()
+            {
+                ResearchPointLost = lostResearch,
+                ShipInvestmentLost = lostShipProduction,
+                ResearchInvestmentLost = lostResearchInvestment,
+                PlanetInvestmentLost = lostPlanetInvestment
+            };
+        }
+
+        public void Sabotage(Player aTarget)
+        {
+            int lostFactory, lostResearchLab, lostMilitaryBase;
+            lostFactory = 0;
+            lostResearchLab = 0;
+            lostMilitaryBase = 0;
+
+            int planetsTargeted = Game.Random.Next(1, aTarget.Planets.Count);
+
+            for (int i = 0; i < planetsTargeted; i++)
+            {
+                int currentLostFactory, currentLostResearchLab, currentLostMilitaryBase;
+
+                Planet planet = aTarget.Planets.Random();
+                currentLostFactory = planet.Infrastructure.Factory * Game.Random.Next(1, 20) / 100;
+                currentLostResearchLab = planet.Infrastructure.ResearchLab * Game.Random.Next(1, 20) / 100;
+                currentLostMilitaryBase = planet.Infrastructure.MilitaryBase * Game.Random.Next(1, 20) / 100;
+
+                planet.Infrastructure.Factory -= currentLostFactory;
+                planet.Infrastructure.ResearchLab -= currentLostResearchLab;
+                planet.Infrastructure.MilitaryBase -= currentLostMilitaryBase;
+
+                lostFactory += currentLostFactory;
+                lostResearchLab += currentLostResearchLab;
+                lostMilitaryBase += currentLostMilitaryBase;
+            }
+
+
         }
     }
 }
