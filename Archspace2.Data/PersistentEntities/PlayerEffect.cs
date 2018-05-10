@@ -216,7 +216,7 @@ namespace Archspace2
 
                             if (planet != null)
                             {
-                                int change = 0;
+                                long change = 0;
 
                                 if (ModifierType == ModifierType.Absolute)
                                 {

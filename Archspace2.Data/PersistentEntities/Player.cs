@@ -1275,8 +1275,10 @@ namespace Archspace2
             }
         }
 
-        public Result ExecuteSpecialOperation(int aId, int aTargetId)
+        public void ExecuteSpecialOperation(int aId, int aTargetId)
         {
+            throw new NotImplementedException();
+            /*
             Player target = Universe.Players.SingleOrDefault(x => x.Id == aTargetId);
             SpyAction action = Game.Configuration.SpyActions.SingleOrDefault(x => x.Id == aId);
 
@@ -1488,6 +1490,7 @@ namespace Archspace2
                     }
                 }
             }
+            */
         }
 
         public int CalculateSpyHonorChange(Player aTarget, SpyType aSpyType)
