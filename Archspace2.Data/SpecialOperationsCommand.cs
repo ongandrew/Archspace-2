@@ -91,18 +91,18 @@ namespace Archspace2
             return new Resource() { ProductionPoint = upkeep };
         }
 
-        public Result PerformOperation(SpyAction aSpy, Player aTarget)
+        public object PerformOperation(SpyAction aSpy, Player aTarget)
         {
             switch((SpyId)aSpy.Id)
             {
                 case SpyId.GeneralInformationGathering:
-                    return GeneralInformationGathering(aTarget);
+                    throw new NotImplementedException();
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        public Result GeneralInformationGathering(Player aTarget)
+        public StealInformationResult GeneralInformationGathering(Player aTarget)
         {
             HashSet<int> infoSet = new HashSet<int>();
             List<string> resultSet = new List<string>();
@@ -148,16 +148,17 @@ namespace Archspace2
                 resultSet.Add($"Commanders : {aTarget.Admirals.Count}");
             }
 
-            aTarget.AddNews("Some of your general information has been stolen.");
+            StealInformationResult result = new StealInformationResult();
+            result.Information.AddRange(resultSet);
 
-            return new Result(ResultType.Success, string.Join("\n", resultSet));
+            return result;
         }
 
-        public Result DetailedInformationGathering(Player aTarget)
+        public StealInformationResult DetailedInformationGathering(Player aTarget)
         {
             List<string> resultSet = new List<string>();
 
-            resultSet.Add(GeneralInformationGathering(aTarget).Message);
+            resultSet.AddRange(GeneralInformationGathering(aTarget).Information);
 
             int detailedInfo = Game.Random.Next(1, 4);
 
@@ -188,26 +189,28 @@ namespace Archspace2
                     }
             }
 
-            aTarget.AddNews("Some of your detailed information has been stolen.");
+            StealInformationResult result = new StealInformationResult();
+            result.Information.AddRange(resultSet);
 
-            return new Result(ResultType.Success, string.Join("\n", resultSet));
+            return result;
         }
 
-        public Result StealSecretInfo(Player aTarget)
+        public StealInformationResult StealSecretInfo(Player aTarget)
         {
-            Result result = new Result(ResultType.Success);
+            StealInformationResult result = new StealInformationResult();
+            result.Information.AddRange(DetailedInformationGathering(aTarget).Information);
 
             switch (Game.Random.Next(1, 2))
             {
                 case 1:
                     {
-                        result.Message = $"Current Fleets ({aTarget.Fleets.Count}):\n" + string.Join("\n", aTarget.Fleets.Select(x => $"{x.GetDisplayName()} {x.ShipDesign.ShipClass.Name} {x.CurrentShipCount}/{x.MaxShipCount}"));
+                        result.Information.Add($"Current Fleets ({aTarget.Fleets.Count}):\n" + string.Join("\n", aTarget.Fleets.Select(x => $"{x.GetDisplayName()} {x.ShipDesign.ShipClass.Name} {x.CurrentShipCount}/{x.MaxShipCount}")));
 
                         break;
                     }
                 case 2:
                     {
-                        result.Message = $"Ship pool ({aTarget.Shipyard.ShipPool.Count}):\n" + string.Join("\n", aTarget.Shipyard.ShipPool.Select(x => $"{x.Key.Name} {x.Key.ShipClass.Name} {x.Value}"));
+                        result.Information.Add($"Ship pool ({aTarget.Shipyard.ShipPool.Count}):\n" + string.Join("\n", aTarget.Shipyard.ShipPool.Select(x => $"{x.Key.Name} {x.Key.ShipClass.Name} {x.Value}")));
                         break;
                     }
             }
@@ -249,34 +252,97 @@ namespace Archspace2
             };
         }
 
-        public void Sabotage(Player aTarget)
+        public SabotageResult Sabotage(Player aTarget)
         {
-            int lostFactory, lostResearchLab, lostMilitaryBase;
-            lostFactory = 0;
-            lostResearchLab = 0;
-            lostMilitaryBase = 0;
+            long lostFactory = 0;
+            long lostInvestment = 0;
 
             int planetsTargeted = Game.Random.Next(1, aTarget.Planets.Count);
 
             for (int i = 0; i < planetsTargeted; i++)
             {
-                int currentLostFactory, currentLostResearchLab, currentLostMilitaryBase;
+                long currentLostFactory;
+                long currentLostInvestment;
 
                 Planet planet = aTarget.Planets.Random();
                 currentLostFactory = planet.Infrastructure.Factory * Game.Random.Next(1, 20) / 100;
-                currentLostResearchLab = planet.Infrastructure.ResearchLab * Game.Random.Next(1, 20) / 100;
-                currentLostMilitaryBase = planet.Infrastructure.MilitaryBase * Game.Random.Next(1, 20) / 100;
+                currentLostInvestment = planet.Investment * Game.Random.Next(1, 40) / 100;
 
                 planet.Infrastructure.Factory -= currentLostFactory;
-                planet.Infrastructure.ResearchLab -= currentLostResearchLab;
-                planet.Infrastructure.MilitaryBase -= currentLostMilitaryBase;
+                planet.Investment -= currentLostInvestment;
 
                 lostFactory += currentLostFactory;
-                lostResearchLab += currentLostResearchLab;
-                lostMilitaryBase += currentLostMilitaryBase;
+                lostInvestment += currentLostInvestment;
             }
 
+            long currentLostInvestmentPool = aTarget.PlanetInvestmentPool * Game.Random.Next(1, 40) / 100;
 
+            aTarget.PlanetInvestmentPool -= currentLostInvestmentPool;
+            lostInvestment += currentLostInvestmentPool;
+
+            return new SabotageResult()
+            {
+                FactoriesLost = lostFactory,
+                InvestmentLost = lostInvestment
+            };
+        }
+
+        public InciteRiotResult InciteRiot(Player aTarget)
+        {
+            InciteRiotResult result = new InciteRiotResult();
+
+            int planetsTargeted = Game.Random.Next(1, aTarget.Planets.Count);
+
+            List<Planet> planets = aTarget.Planets.Random(planetsTargeted).ToList();
+            foreach (Planet planet in planets)
+            {
+                InciteRiotResult.PlanetResult planetResult = new InciteRiotResult.PlanetResult();
+                planetResult.Id = planet.Id;
+                planetResult.Name = planet.Name;
+
+                planetResult.FactoriesLost = planet.Infrastructure.Factory * Game.Random.Next(40, 60) / 100;
+                planetResult.ResearchLabsLost = planet.Infrastructure.ResearchLab * Game.Random.Next(40, 60) / 100;
+                planetResult.InvestmentLost = planet.Investment;
+
+                planet.Infrastructure.Factory -= planetResult.FactoriesLost;
+                planet.Infrastructure.ResearchLab -= planetResult.ResearchLabsLost;
+                planet.Investment = 0;
+
+                result.PlanetResults.Add(planetResult);
+            }
+
+            return result;
+        }
+
+        protected StealTechnologyResult StealTechnology(Player player, Player target, int techLevelCap)
+        {
+            StealTechnologyResult result = new StealTechnologyResult();
+
+            IEnumerable<Tech> candidates = target.Techs.Intersect(player.Techs).Where(x => x.TechLevel <= techLevelCap);
+
+            if (candidates.Any())
+            {
+                Tech stolen = candidates.Random();
+                result.StolenTech = stolen;
+                player.DiscoverTech(stolen);
+            }
+
+            return result;
+        }
+
+        public StealTechnologyResult StealCommonTechnology(Player player, Player target)
+        {
+            return StealTechnology(player, target, 4);
+        }
+
+        public StealTechnologyResult StealImportantTechnology(Player player, Player target)
+        {
+            return StealTechnology(player, target, 6);
+        }
+
+        public StealTechnologyResult StealSecretTechnology(Player player, Player target)
+        {
+            return StealTechnology(player, target, 9);
         }
     }
 }

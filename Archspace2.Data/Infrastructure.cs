@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Archspace2
+﻿namespace Archspace2
 {
     public class Infrastructure
     {
-        public int Factory { get; set; }
-        public int ResearchLab { get; set; }
-        public int MilitaryBase { get; set; }
+        public long Factory { get; set; }
+        public long ResearchLab { get; set; }
+        public long MilitaryBase { get; set; }
 
-        public int Total()
+        public long Total()
         {
             return Factory + ResearchLab + MilitaryBase;
         }

@@ -2,6 +2,7 @@
 {
     public class SabotageResult
     {
-        
+        public long FactoriesLost { get; set; }
+        public long InvestmentLost { get; set; }
     }
 }

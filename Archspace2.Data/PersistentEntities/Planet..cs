@@ -362,7 +362,7 @@ namespace Archspace2
             }
             else
             {
-                int nogadaPoint, 
+                long nogadaPoint, 
                     usedNogadaPoint, 
                     remainingNogadaPoint;
 
@@ -419,13 +419,13 @@ namespace Archspace2
             return false;
         }
 
-        public void BuildNewInfrastructure(int aNogadaPoint)
+        public void BuildNewInfrastructure(long aNogadaPoint)
         {
-            int militaryBaseNogadaPoint;
-            int researchLabNogadaPoint;
-            int factoryNogadaPoint;
+            long militaryBaseNogadaPoint;
+            long researchLabNogadaPoint;
+            long factoryNogadaPoint;
 
-            int buildingCost;
+            long buildingCost;
 
             aNogadaPoint += aNogadaPoint * WasteRate / 100;
 
@@ -940,9 +940,9 @@ namespace Archspace2
             }
         }
 
-        private int ComputeUpkeepAndOutput(int aNogadaPoint, out Resource aNewResources, out Resource aUpkeep)
+        private long ComputeUpkeepAndOutput(long aNogadaPoint, out Resource aNewResources, out Resource aUpkeep)
         {
-            int upkeepRatio,
+            long upkeepRatio,
                 activeFactory,
                 factoryNogadaPoint,
                 productionPointPerFactory,

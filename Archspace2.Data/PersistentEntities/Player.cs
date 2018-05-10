@@ -194,7 +194,7 @@ namespace Archspace2
 
                 if (ResearchInvestment > 0)
                 {
-                    int maxPerTurn = Planets.GetTotalResearchLabCount() * 10;
+                    long maxPerTurn = Planets.GetTotalResearchLabCount() * 10;
 
                     if (ResearchInvestment > maxPerTurn)
                     {
@@ -202,7 +202,7 @@ namespace Archspace2
                     }
                     else
                     {
-                        int ratio = (int)(ResearchInvestment * 100 / maxPerTurn);
+                        long ratio = (long)(ResearchInvestment * 100 / maxPerTurn);
 
                         if (ratio > 66)
                         {
@@ -1425,7 +1425,7 @@ namespace Archspace2
             }
             else
             {
-                Result result = SpecialOperationsCommand.PerformOperation(action, target);
+                //Result result = SpecialOperationsCommand.PerformOperation(action, target);
 
                 target.SpecialOperationsCommand.Alertness += alertnessChangeSuccess;
 

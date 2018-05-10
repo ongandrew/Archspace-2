@@ -57,17 +57,17 @@ namespace Archspace2.Extensions
             }
         }
 
-        public static int GetTotalFactoryCount(this IEnumerable<Planet> tPlanets)
+        public static long GetTotalFactoryCount(this IEnumerable<Planet> tPlanets)
         {
             return tPlanets == null || !tPlanets.Any() ? 0 : tPlanets.Sum(x => x.Infrastructure.Factory);
         }
 
-        public static int GetTotalResearchLabCount(this IEnumerable<Planet> tPlanets)
+        public static long GetTotalResearchLabCount(this IEnumerable<Planet> tPlanets)
         {
             return tPlanets == null || !tPlanets.Any() ? 0 : tPlanets.Sum(x => x.Infrastructure.ResearchLab);
         }
 
-        public static int GetTotalMilitaryBaseCount(this IEnumerable<Planet> tPlanets)
+        public static long GetTotalMilitaryBaseCount(this IEnumerable<Planet> tPlanets)
         {
             return tPlanets == null || !tPlanets.Any() ? 0 : tPlanets.Sum(x => x.Infrastructure.MilitaryBase);
         }
