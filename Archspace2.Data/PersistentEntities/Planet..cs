@@ -39,7 +39,7 @@ namespace Archspace2
         public Player Player { get; set; }
 
         public int Order { get; set; }
-        public int Population { get; set; }
+        public long Population { get; set; }
 
         public long Power
         {
@@ -110,12 +110,12 @@ namespace Archspace2
                 }
             }
         }
-        public int MaxPopulation {
+        public long MaxPopulation {
             get
             {
-                int result = (60 + (int)Size * 20) * 1000;
+                long result = (60 + (int)Size * 20) * 1000;
 
-                int maxRatio = 0;
+                long maxRatio = 0;
                 int growth = ControlModel.Growth;
                 int environment = ControlModel.Environment;
 
@@ -469,7 +469,7 @@ namespace Archspace2
 
         public long CalculateProductionPointPerTurn()
         {
-            int nogadaPoint = CalculateNogadaPoint();
+            long nogadaPoint = CalculateNogadaPoint();
             Resource temp;
             Resource temp2;
 
@@ -480,7 +480,7 @@ namespace Archspace2
 
         public long CalculateResearchPointPerTurn()
         {
-            int nogadaPoint = CalculateNogadaPoint();
+            long nogadaPoint = CalculateNogadaPoint();
             Resource temp;
             Resource temp2;
 
@@ -491,7 +491,7 @@ namespace Archspace2
 
         public long CalculateMilitaryPointPerTurn()
         {
-            int nogadaPoint = CalculateNogadaPoint();
+            long nogadaPoint = CalculateNogadaPoint();
             Resource temp;
             Resource temp2;
 
@@ -617,7 +617,7 @@ namespace Archspace2
                 }
             }
 
-            int maxPoint = Population * (6 + ControlModel.Commerce);
+            long maxPoint = Population * (6 + ControlModel.Commerce);
 
             if (productionPoint > maxPoint)
             {
@@ -630,9 +630,9 @@ namespace Archspace2
 
             return productionPoint;
         }
-        private int CalculateNogadaPoint()
+        private long CalculateNogadaPoint()
         {
-            int labourPoint = (Population / 1000) * 5;
+            long labourPoint = (Population / 1000) * 5;
 
             if (ControlModel.Environment <= -10)
             {
@@ -688,7 +688,7 @@ namespace Archspace2
         }
         private void ProcessPopulationGrowth()
         {
-            int growthRatio;
+            long growthRatio;
 
             if (Population == 0)
             {

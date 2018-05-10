@@ -91,7 +91,7 @@ namespace Archspace2
             return new Resource() { ProductionPoint = upkeep };
         }
 
-        public object PerformOperation(SpyAction aSpy, Player aTarget)
+        public object PerformOperation(SpyAction aSpy, Player target)
         {
             switch((SpyId)aSpy.Id)
             {
@@ -102,7 +102,7 @@ namespace Archspace2
             }
         }
 
-        public StealInformationResult GeneralInformationGathering(Player aTarget)
+        public StealInformationResult GeneralInformationGathering(Player target)
         {
             HashSet<int> infoSet = new HashSet<int>();
             List<string> resultSet = new List<string>();
@@ -117,35 +117,35 @@ namespace Archspace2
 
             if (infoSet.Contains(1))
             {
-                resultSet.Add($"PP : {aTarget.Resource.ProductionPoint}");
+                resultSet.Add($"PP : {target.Resource.ProductionPoint}");
             }
             if (infoSet.Contains(2))
             {
-                resultSet.Add($"Population : {aTarget.Planets.Sum(x => x.Population)}");
+                resultSet.Add($"Population : {target.Planets.Sum(x => x.Population)}");
             }
             if (infoSet.Contains(3))
             {
-                resultSet.Add($"Concentration Mode : {aTarget.ConcentrationMode.ToString()}");
+                resultSet.Add($"Concentration Mode : {target.ConcentrationMode.ToString()}");
             }
             if (infoSet.Contains(4))
             {
-                resultSet.Add($"Fleets : {aTarget.Fleets.Count}");
+                resultSet.Add($"Fleets : {target.Fleets.Count}");
             }
             if (infoSet.Contains(5))
             {
-                resultSet.Add($"Total Docked Ships : {aTarget.Shipyard.ShipPool.Sum(x => x.Value)}");
+                resultSet.Add($"Total Docked Ships : {target.Shipyard.ShipPool.Sum(x => x.Value)}");
             }
             if (infoSet.Contains(6))
             {
-                resultSet.Add($"PP Income : {aTarget.Planets.Sum(x => x.CalculateProductionPointPerTurn())}");
+                resultSet.Add($"PP Income : {target.Planets.Sum(x => x.CalculateProductionPointPerTurn())}");
             }
             if (infoSet.Contains(7))
             {
-                resultSet.Add($"Researched Techs : {aTarget.Techs.Count}");
+                resultSet.Add($"Researched Techs : {target.Techs.Count}");
             }
             if (infoSet.Contains(8))
             {
-                resultSet.Add($"Commanders : {aTarget.Admirals.Count}");
+                resultSet.Add($"Commanders : {target.Admirals.Count}");
             }
 
             StealInformationResult result = new StealInformationResult();
@@ -154,11 +154,11 @@ namespace Archspace2
             return result;
         }
 
-        public StealInformationResult DetailedInformationGathering(Player aTarget)
+        public StealInformationResult DetailedInformationGathering(Player target)
         {
             List<string> resultSet = new List<string>();
 
-            resultSet.AddRange(GeneralInformationGathering(aTarget).Information);
+            resultSet.AddRange(GeneralInformationGathering(target).Information);
 
             int detailedInfo = Game.Random.Next(1, 4);
 
@@ -166,7 +166,7 @@ namespace Archspace2
             {
                 case 1:
                     {
-                        Planet planet = aTarget.Planets.Random();
+                        Planet planet = target.Planets.Random();
 
                         resultSet.Add($"Status of planet {planet.Name}:\nPopulation: {planet.Population}\nResource: {planet.Resource.ToString()}\nBuildings:\nFactory {planet.Infrastructure.Factory}\tResearch Lab {planet.Infrastructure.ResearchLab}\tMilitary Base {planet.Infrastructure.MilitaryBase}");
 
@@ -174,17 +174,17 @@ namespace Archspace2
                     }
                 case 2:
                     {
-                        resultSet.Add($"List of projects:\n{string.Join("\n", aTarget.Projects.Select(x => x.Name))}");
+                        resultSet.Add($"List of projects:\n{string.Join("\n", target.Projects.Select(x => x.Name))}");
                         break;
                     }
                 case 3:
                     {
-                        resultSet.Add($"Current Tech Goal: {(aTarget.TargetTech == null ? "None" : aTarget.TargetTech.Name)}");
+                        resultSet.Add($"Current Tech Goal: {(target.TargetTech == null ? "None" : target.TargetTech.Name)}");
                         break;
                     }
                 case 4:
                     {
-                        resultSet.Add($"Researched Techs:\n{string.Join("\n", aTarget.Techs.Select(x => x.Name))}");
+                        resultSet.Add($"Researched Techs:\n{string.Join("\n", target.Techs.Select(x => x.Name))}");
                         break;
                     }
             }
@@ -195,22 +195,22 @@ namespace Archspace2
             return result;
         }
 
-        public StealInformationResult StealSecretInfo(Player aTarget)
+        public StealInformationResult StealSecretInfo(Player target)
         {
             StealInformationResult result = new StealInformationResult();
-            result.Information.AddRange(DetailedInformationGathering(aTarget).Information);
+            result.Information.AddRange(DetailedInformationGathering(target).Information);
 
             switch (Game.Random.Next(1, 2))
             {
                 case 1:
                     {
-                        result.Information.Add($"Current Fleets ({aTarget.Fleets.Count}):\n" + string.Join("\n", aTarget.Fleets.Select(x => $"{x.GetDisplayName()} {x.ShipDesign.ShipClass.Name} {x.CurrentShipCount}/{x.MaxShipCount}")));
+                        result.Information.Add($"Current Fleets ({target.Fleets.Count}):\n" + string.Join("\n", target.Fleets.Select(x => $"{x.GetDisplayName()} {x.ShipDesign.ShipClass.Name} {x.CurrentShipCount}/{x.MaxShipCount}")));
 
                         break;
                     }
                 case 2:
                     {
-                        result.Information.Add($"Ship pool ({aTarget.Shipyard.ShipPool.Count}):\n" + string.Join("\n", aTarget.Shipyard.ShipPool.Select(x => $"{x.Key.Name} {x.Key.ShipClass.Name} {x.Value}")));
+                        result.Information.Add($"Ship pool ({target.Shipyard.ShipPool.Count}):\n" + string.Join("\n", target.Shipyard.ShipPool.Select(x => $"{x.Key.Name} {x.Key.ShipClass.Name} {x.Value}")));
                         break;
                     }
             }
@@ -218,10 +218,10 @@ namespace Archspace2
             return result;
         }
 
-        public ComputerVirusResult ComputerVirusInfiltration(Player aTarget)
+        public ComputerVirusResult ComputerVirusInfiltration(Player target)
         {
-            long lostResearch = aTarget.Resource.ResearchPoint * 40 / 100;
-            aTarget.Resource.ResearchPoint -= lostResearch;
+            long lostResearch = target.Resource.ResearchPoint * 40 / 100;
+            target.Resource.ResearchPoint -= lostResearch;
 
             return new ComputerVirusResult()
             {
@@ -229,19 +229,19 @@ namespace Archspace2
             };
         }
 
-        public DevastatingNetworkWormResult DevastatingNetworkWorm(Player aTarget)
+        public DevastatingNetworkWormResult DevastatingNetworkWorm(Player target)
         {
-            long lostResearch = aTarget.Resource.ResearchPoint * 60 / 100;
-            aTarget.Resource.ResearchPoint -= lostResearch;
+            long lostResearch = target.Resource.ResearchPoint * 60 / 100;
+            target.Resource.ResearchPoint -= lostResearch;
 
-            long lostShipProduction = aTarget.Shipyard.ShipProduction * Game.Random.Next(1, 60) / 100;
-            aTarget.Shipyard.ChangeShipProductionInvestment(-lostShipProduction);
+            long lostShipProduction = target.Shipyard.ShipProduction * Game.Random.Next(1, 60) / 100;
+            target.Shipyard.ChangeShipProductionInvestment(-lostShipProduction);
 
-            long lostResearchInvestment = aTarget.ResearchInvestment * Game.Random.Next(1, 60) / 100;
-            aTarget.ResearchInvestment -= lostResearchInvestment;
+            long lostResearchInvestment = target.ResearchInvestment * Game.Random.Next(1, 60) / 100;
+            target.ResearchInvestment -= lostResearchInvestment;
 
-            long lostPlanetInvestment = aTarget.PlanetInvestmentPool * Game.Random.Next(1, 60) / 100;
-            aTarget.PlanetInvestmentPool -= lostPlanetInvestment;
+            long lostPlanetInvestment = target.PlanetInvestmentPool * Game.Random.Next(1, 60) / 100;
+            target.PlanetInvestmentPool -= lostPlanetInvestment;
 
             return new DevastatingNetworkWormResult()
             {
@@ -252,19 +252,19 @@ namespace Archspace2
             };
         }
 
-        public SabotageResult Sabotage(Player aTarget)
+        public SabotageResult Sabotage(Player target)
         {
             long lostFactory = 0;
             long lostInvestment = 0;
 
-            int planetsTargeted = Game.Random.Next(1, aTarget.Planets.Count);
+            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
 
             for (int i = 0; i < planetsTargeted; i++)
             {
                 long currentLostFactory;
                 long currentLostInvestment;
 
-                Planet planet = aTarget.Planets.Random();
+                Planet planet = target.Planets.Random();
                 currentLostFactory = planet.Infrastructure.Factory * Game.Random.Next(1, 20) / 100;
                 currentLostInvestment = planet.Investment * Game.Random.Next(1, 40) / 100;
 
@@ -275,9 +275,9 @@ namespace Archspace2
                 lostInvestment += currentLostInvestment;
             }
 
-            long currentLostInvestmentPool = aTarget.PlanetInvestmentPool * Game.Random.Next(1, 40) / 100;
+            long currentLostInvestmentPool = target.PlanetInvestmentPool * Game.Random.Next(1, 40) / 100;
 
-            aTarget.PlanetInvestmentPool -= currentLostInvestmentPool;
+            target.PlanetInvestmentPool -= currentLostInvestmentPool;
             lostInvestment += currentLostInvestmentPool;
 
             return new SabotageResult()
@@ -287,13 +287,13 @@ namespace Archspace2
             };
         }
 
-        public InciteRiotResult InciteRiot(Player aTarget)
+        public InciteRiotResult InciteRiot(Player target)
         {
             InciteRiotResult result = new InciteRiotResult();
 
-            int planetsTargeted = Game.Random.Next(1, aTarget.Planets.Count);
+            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
 
-            List<Planet> planets = aTarget.Planets.Random(planetsTargeted).ToList();
+            List<Planet> planets = target.Planets.Random(planetsTargeted).ToList();
             foreach (Planet planet in planets)
             {
                 InciteRiotResult.PlanetResult planetResult = new InciteRiotResult.PlanetResult();
@@ -343,6 +343,60 @@ namespace Archspace2
         public StealTechnologyResult StealSecretTechnology(Player player, Player target)
         {
             return StealTechnology(player, target, 9);
+        }
+
+        public ArtificialDiseaseResult ArtificialDisease(Player target)
+        {
+            ArtificialDiseaseResult result = new ArtificialDiseaseResult();
+
+            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
+            List<Planet> planets = target.Planets.Random(planetsTargeted).ToList();
+
+            foreach (Planet planet in planets)
+            {
+                ArtificialDiseaseResult.PlanetResult planetResult = new ArtificialDiseaseResult.PlanetResult()
+                {
+                    Id = planet.Id,
+                    Name = planet.Name
+                };
+
+                planetResult.PopulationLost = planet.Population * Game.Random.Next(20, 40) / 100;
+                planet.Population -= planetResult.PopulationLost;
+
+                result.PlanetResults.Add(planetResult);
+            }
+
+            return result;
+        }
+
+        public RedDeathResult RedDeath(Player player, Player target)
+        {
+            RedDeathResult result = new RedDeathResult();
+
+            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
+            List<Planet> planets = target.Planets.Random(planetsTargeted).ToList();
+
+            foreach (Planet planet in planets)
+            {
+                RedDeathResult.PlanetResult planetResult = new RedDeathResult.PlanetResult()
+                {
+                    Id = planet.Id,
+                    Name = planet.Name
+                };
+
+                planetResult.PopulationLost = planet.Population * Game.Random.Next(40, 60) / 100;
+                planet.Population -= planetResult.PopulationLost;
+
+                if (player.Traits.Contains(RacialTrait.GeneticEngineeringSpecialist))
+                {
+                    planet.Attributes.Add(Game.Configuration.PlanetAttributes.Single(x => x.Type == PlanetAttributeType.ObstinateMicrobe));
+                    planetResult.GainedObstinateMicrobe = true;
+                }
+
+                result.PlanetResults.Add(planetResult);
+            }
+
+            return result;
         }
     }
 }
