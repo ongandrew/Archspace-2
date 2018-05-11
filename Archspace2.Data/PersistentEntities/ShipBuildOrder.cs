@@ -12,12 +12,12 @@ namespace Archspace2
         public Shipyard Shipyard { get; set; }
 
         public DateTime OrderTime { get; set; }
-        public int NumberToBuild { get; set; }
+        public long NumberToBuild { get; set; }
         private int ShipDesignId { get; set; }
         [ForeignKey("ShipDesignId")]
         public ShipDesign ShipDesign { get; set; }
 
-        public ShipBuildOrder(Shipyard aShipyard, int aNumberToBuild, ShipDesign aShipDesign) : base(aShipyard.Universe)
+        public ShipBuildOrder(Shipyard aShipyard, long aNumberToBuild, ShipDesign aShipDesign) : base(aShipyard.Universe)
         {
             OrderTime = DateTime.UtcNow;
             Shipyard = aShipyard;

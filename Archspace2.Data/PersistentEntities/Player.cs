@@ -821,7 +821,7 @@ namespace Archspace2
                     }
                     else
                     {
-                        upkeep += (int)fleet.Upkeep / 10;
+                        upkeep += (long)fleet.Upkeep / 10;
                     }
                 }
                 else
@@ -833,14 +833,14 @@ namespace Archspace2
                     }
                     else
                     {
-                        upkeep += (int)fleet.Upkeep;
+                        upkeep += (long)fleet.Upkeep;
                     }
                 }
             }
 
-            foreach (KeyValuePair<ShipDesign, int> dockedShipItem in Shipyard.ShipPool)
+            foreach (KeyValuePair<ShipDesign, long> dockedShipItem in Shipyard.ShipPool)
             {
-                int shipUpkeep = dockedShipItem.Value * (int)dockedShipItem.Key.ShipClass.Upkeep;
+                long shipUpkeep = dockedShipItem.Value * (long)dockedShipItem.Key.ShipClass.Upkeep;
 
                 if (long.MaxValue - upkeep < shipUpkeep)
                 {
@@ -887,13 +887,13 @@ namespace Archspace2
                     {
                         AddNews($"You are in financial difficulty to supply the whole upkeep of your fleets.\nShips are being scrapped for income.");
 
-                        int scrap = 0;
+                        long scrap = 0;
 
                         if (Shipyard.ShipPool.Any())
                         {
-                            foreach (KeyValuePair<ShipDesign, int> dockedShipType in Shipyard.ShipPool)
+                            foreach (KeyValuePair<ShipDesign, long> dockedShipType in Shipyard.ShipPool)
                             {
-                                int numberScrapped = dockedShipType.Value / 10;
+                                long numberScrapped = dockedShipType.Value / 10;
 
                                 if (numberScrapped < 0)
                                 {

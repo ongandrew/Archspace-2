@@ -398,5 +398,157 @@ namespace Archspace2
 
             return result;
         }
+
+        public StrikeBaseResult StrikeBase(Player target)
+        {
+            StrikeBaseResult result = new StrikeBaseResult();
+
+            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
+            List<Planet> planets = target.Planets.Random(planetsTargeted).ToList();
+
+            foreach (Planet planet in planets)
+            {
+                StrikeBaseResult.PlanetResult planetResult = new StrikeBaseResult.PlanetResult()
+                {
+                    Id = planet.Id,
+                    Name = planet.Name
+                };
+
+                planetResult.MilitaryBaseLost = planet.Infrastructure.MilitaryBase * Game.Random.Next(40, 80) / 100;
+                planet.Infrastructure.MilitaryBase -= planetResult.MilitaryBaseLost;
+
+                result.PlanetResults.Add(planetResult);
+            }
+
+            long totalShipsLost = 0;
+            if (Game.Random.Next(1, 2) < 2)
+            {
+                var targetShipDesign = target.Shipyard.ShipPool.Random();
+                long currentShipsLost = targetShipDesign.Value * Game.Random.Next(40, 80) / 100;
+
+                target.Shipyard.ShipPool[targetShipDesign.Key] -= currentShipsLost;
+
+                totalShipsLost += currentShipsLost;
+            }
+
+            result.ShipsLost = totalShipsLost;
+
+            return result;
+        }
+
+        protected AsteroidStrikeResult AsteroidStrike(Player player, Player target, int asteroids)
+        {
+            AsteroidStrikeResult result = new AsteroidStrikeResult();
+
+            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
+            List<Planet> planets = target.Planets.Random(planetsTargeted).ToList();
+
+            int potency = player.Traits.Contains(RacialTrait.AsteroidManagement) ? 5 * asteroids : asteroids;
+
+            foreach (Planet planet in planets)
+            {
+                AsteroidStrikeResult.PlanetResult planetResult = new AsteroidStrikeResult.PlanetResult()
+                {
+                    Id = planet.Id,
+                    Name = planet.Name
+                };
+
+                for (int i = 0; i < potency; i++)
+                {
+                    int random = Game.Random.Next(1, 5);
+
+                    switch (random)
+                    {
+                        case 1:
+                            {
+                                long factoriesLost = planet.Infrastructure.Factory * Game.Random.Next(20, 40) / 100;
+                                planet.Infrastructure.Factory -= factoriesLost;
+                                planetResult.FactoriesLost += factoriesLost;
+
+                                break;
+                            }
+                        case 2:
+                            {
+                                long researchLabsLost = planet.Infrastructure.ResearchLab * Game.Random.Next(20, 40) / 100;
+                                planet.Infrastructure.ResearchLab -= researchLabsLost;
+                                planetResult.ResearchLabsLost += researchLabsLost;
+
+                                break;
+                            }
+                        case 3:
+                            {
+                                long militaryBasesLost = planet.Infrastructure.MilitaryBase * Game.Random.Next(20, 40) / 100;
+                                planet.Infrastructure.MilitaryBase -= militaryBasesLost;
+                                planetResult.MilitaryBasesLost += militaryBasesLost;
+
+                                break;
+                            }
+                        case 4:
+                            {
+                                long populationLost = planet.Population * Game.Random.Next(20, 40) / 100;
+                                planet.Population -= populationLost;
+                                planetResult.PopulationLost += populationLost;
+
+                                break;
+                            }
+                        case 5:
+                        default:
+                            {
+                                break;
+                            }
+                    }
+                }
+
+                result.PlanetResults.Add(planetResult);
+            }
+
+            return result;
+        }
+
+        public AsteroidStrikeResult MeteorStrike(Player player, Player target)
+        {
+            return AsteroidStrike(player, target, 1);
+        }
+
+        public EmpStormResult EmpStorm(Player target)
+        {
+            EmpStormResult result = new EmpStormResult();
+
+            List<Planet> planets = target.Planets.Random(1).ToList();
+
+            foreach (Planet planet in planets)
+            {
+                EmpStormResult.PlanetResult planetResult = new EmpStormResult.PlanetResult()
+                {
+                    Id = planet.Id,
+                    Name = planet.Name
+                };
+
+                throw new NotImplementedException();
+            }
+
+            return result;
+        }
+
+        public AsteroidStrikeResult StellarBombardment(Player player, Player target)
+        {
+            return AsteroidStrike(player, target, 3);
+        }
+
+        public AssassinationResult Assassination(Player target)
+        {
+            AssassinationResult result = new AssassinationResult();
+
+            List<Admiral> admirals = target.GetAdmiralPool().Random(Game.Random.Next(0, target.GetAdmiralPool().Count / 2)).ToList();
+
+            foreach (Admiral admiral in admirals)
+            {
+                target.Admirals.Remove(admiral);
+            }
+
+            result.AdmiralsLost += admirals.Count;
+
+            return result;
+        }
     }
 }
