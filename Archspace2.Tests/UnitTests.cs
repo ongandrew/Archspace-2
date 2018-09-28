@@ -1,8 +1,5 @@
 ﻿using Archspace2.Battle;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Archspace2
 {

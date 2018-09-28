@@ -1,10 +1,6 @@
 ﻿using Archspace2.Extensions;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Universal.Common.Extensions;
 
 namespace Archspace2

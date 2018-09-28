@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Universal.Common.Extensions;
+using Universal.Common.Reflection.Extensions;
 
 namespace Archspace2.Battle
 {

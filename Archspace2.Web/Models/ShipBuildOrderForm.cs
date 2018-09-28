@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
-namespace Archspace2.Web
+﻿namespace Archspace2.Web
 {
     public class ShipBuildOrderForm
     {

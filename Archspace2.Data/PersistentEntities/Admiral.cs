@@ -1,11 +1,10 @@
-﻿using Archspace2.Battle;
-using Archspace2.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using Universal.Common.Extensions;
+using Universal.Common.Reflection.Extensions;
 
 namespace Archspace2
 {
