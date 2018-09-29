@@ -80,7 +80,7 @@
         context.clearRect(0, 0, fireLayer.width, fireLayer.height);
     }
 
-    drawFleet(fleet, side)
+    drawFleet(fleet, side, turn)
     {
         let element = this.element;
         let fleetLayer = element.querySelector("#battle-viewer-fleets");
@@ -94,6 +94,10 @@
             context.fillStyle = style;
         }
         else {
+            if (fleet.disabledTurn < turn - 30) {
+                return;
+            }
+
             context.strokeStyle = style;
         }
         

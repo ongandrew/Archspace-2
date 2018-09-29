@@ -53,6 +53,8 @@
     }
 
     updateTurn(turn) {
+        this.turn = turn;
+
         let movementEventData = this.getMovementEventDataOnTurn(turn);
 
         this.x = movementEventData.x;

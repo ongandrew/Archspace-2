@@ -92,12 +92,12 @@
 
         this.attackerFleets.forEach(x => {
             x.updateTurn(turn);
-            this.view.drawFleet(x, "Offense");
+            this.view.drawFleet(x, "Offense", turn);
         });
 
         this.defenderFleets.forEach(x => {
             x.updateTurn(turn);
-            this.view.drawFleet(x, "Defense");
+            this.view.drawFleet(x, "Defense", turn);
         });
     }
 
