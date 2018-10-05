@@ -45,7 +45,7 @@ namespace Archspace2
                 }
                 else
                 {
-                    return MinDuration - 1 + Game.Random.Next(1, MaxDuration - MinDuration);
+                    return MinDuration - 1 + RandomNumberGenerator.Next(1, MaxDuration - MinDuration);
                 }
             }
             set

@@ -13,7 +13,7 @@ namespace Archspace2
 
         public Cluster(Universe aUniverse) : base(aUniverse)
         {
-            Name = $"{Game.Configuration.Universe.ClusterNames.Random()} {Game.Random.Next(1, 10).ToRoman()}";
+            Name = $"{Game.Configuration.Universe.ClusterNames.Random()} {RandomNumberGenerator.Next(1, 10).ToRoman()}";
             Planets = new List<Planet>();
         }
 

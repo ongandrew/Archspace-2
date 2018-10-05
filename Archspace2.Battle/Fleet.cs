@@ -2000,7 +2000,7 @@ namespace Archspace2.Battle
 
             if (Encountered)
             {
-                if (Battle.Random.Next(1, 10) <= 7)
+                if (RandomNumberGenerator.Next(1, 10) <= 7)
                 {
                     target = FindMostDangerousEnemyEncountered();
                     if (target != null)
@@ -2017,18 +2017,18 @@ namespace Archspace2.Battle
                 }
                 else
                 {
-                    Turn(Mobility * (Battle.Random.Next(1, 3) - 2));
+                    Turn(Mobility * (RandomNumberGenerator.Next(1, 3) - 2));
                 }
             }
             else
             {
-                if (Battle.Random.Next(1, 10) <= 7)
+                if (RandomNumberGenerator.Next(1, 10) <= 7)
                 {
                     Move();
                 }
                 else
                 {
-                    Turn(Mobility * (Battle.Random.Next(1, 3) - 2));
+                    Turn(Mobility * (RandomNumberGenerator.Next(1, 3) - 2));
                 }
             }
         }
@@ -2636,15 +2636,15 @@ namespace Archspace2.Battle
             int activeShipCount = ActiveShipCount;
             int numberOfShipsToHit = 0;
             
-            if (Battle.Random.Next(1, Admiral.Efficiency) > 100)
+            if (RandomNumberGenerator.Next(1, Admiral.Efficiency) > 100)
             {
                 numberOfShipsToHit = aEnemy.ActiveShipCount / 2;
             }
-            else if (Battle.Random.Next(1, Admiral.Efficiency) > 90)
+            else if (RandomNumberGenerator.Next(1, Admiral.Efficiency) > 90)
             {
                 numberOfShipsToHit = (int)((double)aEnemy.ActiveShipCount * 0.75);
             }
-            else if (Battle.Random.Next(1, Admiral.Efficiency) > 80)
+            else if (RandomNumberGenerator.Next(1, Admiral.Efficiency) > 80)
             {
                 numberOfShipsToHit = (int)((double)aEnemy.ActiveShipCount * 0.90);
             }
@@ -2668,15 +2668,15 @@ namespace Archspace2.Battle
                 bool ignorePsi = false;
                 if (aEnemy.Effects.OfType(FleetEffectType.PsiNeutralizationField).Any() && aTurret.Effects.OfType(FleetEffectType.Psi).Any())
                 {
-                    if (Battle.Random.Next(1, 100) <= aEnemy.Effects.OfType(FleetEffectType.PsiNeutralizationField).CalculateTotalEffect(0, x => x.Amount))
+                    if (RandomNumberGenerator.Next(1, 100) <= aEnemy.Effects.OfType(FleetEffectType.PsiNeutralizationField).CalculateTotalEffect(0, x => x.Amount))
                     {
                         ignorePsi = true;
                     }
                 }
 
-                if (Battle.Random.Next(1, 100) <= aHitChance && ignorePsi == false)
+                if (RandomNumberGenerator.Next(1, 100) <= aHitChance && ignorePsi == false)
                 {
-                    int damage = aTurret.Number * Battle.Random.Dice(aTurret.DamageRoll, aTurret.DamageDice);
+                    int damage = aTurret.Number * RandomNumberGenerator.Dice(aTurret.DamageRoll, aTurret.DamageDice);
 
                     switch (aTurret.Type)
                     {
@@ -2709,7 +2709,7 @@ namespace Archspace2.Battle
                     shieldPierceChance = aTurret.Effects.OfType(FleetEffectType.ShieldPiercing).CalculateTotalEffect(0, x => x.Amount);
                     shieldPierceChance = aEnemy.Effects.OfType(FleetEffectType.ImpenetrableShield).CalculateTotalEffect(shieldPierceChance, x => -x.Amount);
 
-                    if (Battle.Random.Next(1, 100) < shieldPierceChance)
+                    if (RandomNumberGenerator.Next(1, 100) < shieldPierceChance)
                     {
                         shieldPierced = true;
                     }
@@ -2718,7 +2718,7 @@ namespace Archspace2.Battle
                         shieldPierced = false;
                     }
 
-                    if (Battle.Random.Next(1, 100) < aTurret.Effects.OfType(FleetEffectType.ShieldDistortion).CalculateTotalEffect(0, x => x.Amount))
+                    if (RandomNumberGenerator.Next(1, 100) < aTurret.Effects.OfType(FleetEffectType.ShieldDistortion).CalculateTotalEffect(0, x => x.Amount))
                     {
                         shieldDistorted = true;
                     }
@@ -2799,7 +2799,7 @@ namespace Archspace2.Battle
                             damage = (100 + bioBonus) * damage / 100;
                         }
 
-                        if (Battle.Random.Next(1, 100) < aCritChance)
+                        if (RandomNumberGenerator.Next(1, 100) < aCritChance)
                         {
                             damage = (int)(2.0 * aEnemy.Armor.HpMultiplier * damage);
                         }
@@ -2857,7 +2857,7 @@ namespace Archspace2.Battle
                                 damage = (100 + bioBonus) * damage / 100;
                             }
 
-                            if (Battle.Random.Next(1, 100) < aCritChance)
+                            if (RandomNumberGenerator.Next(1, 100) < aCritChance)
                             {
                                 damage = (int)(2.0 * aEnemy.Armor.HpMultiplier * damage);
                             }
@@ -3046,9 +3046,9 @@ namespace Archspace2.Battle
 
             int misinterpretChance = aEnemy.Effects.OfType(FleetEffectType.Misinterpret).CalculateTotalEffect(100, x => x.Amount) - 100;
 
-            if (Battle.Random.Next(1, 100) <= misinterpretChance)
+            if (RandomNumberGenerator.Next(1, 100) <= misinterpretChance)
             {
-                int severity = 24 + Battle.Random.Next(1, 376);
+                int severity = 24 + RandomNumberGenerator.Next(1, 376);
                 result = result * severity / 100;
             }
 

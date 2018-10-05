@@ -20,15 +20,6 @@ namespace Archspace2.Battle
 
     public class Battle
     {
-        private static Random mRandom;
-
-        static Battle()
-        {
-            mRandom = new Random();
-        }
-
-        public static Random Random { get => mRandom; }
-
         protected bool mCompleted;
         public int CurrentTurn { get; protected set; }
         

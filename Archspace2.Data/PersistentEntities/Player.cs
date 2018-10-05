@@ -1338,11 +1338,11 @@ namespace Archspace2
                     {
                         if (Traits.Any(x => x == RacialTrait.GeneticEngineeringSpecialist))
                         {
-                            attackRoll = 50 + ((playerSpy + 3) * 10) + Game.Random.Next(1, ((playerSpy + 3) * 10));
+                            attackRoll = 50 + ((playerSpy + 3) * 10) + RandomNumberGenerator.Next(1, ((playerSpy + 3) * 10));
                         }
                         else
                         {
-                            attackRoll = 50 + ((playerSpy + 1) * 10) + Game.Random.Next(1, ((playerSpy + 1) * 10));
+                            attackRoll = 50 + ((playerSpy + 1) * 10) + RandomNumberGenerator.Next(1, ((playerSpy + 1) * 10));
                         }
                     }
                     break;
@@ -1357,16 +1357,16 @@ namespace Archspace2
                     {
                         if (Traits.Any(x => x == RacialTrait.GeneticEngineeringSpecialist))
                         {
-                            attackRoll = 50 + ((playerSpy + 5) * 10) + Game.Random.Next(1, ((playerSpy + 5) * 10));
+                            attackRoll = 50 + ((playerSpy + 5) * 10) + RandomNumberGenerator.Next(1, ((playerSpy + 5) * 10));
                         }
                         else
                         {
-                            attackRoll = 50 + ((playerSpy + 1) * 10) + Game.Random.Next(1, ((playerSpy + 1) * 10));
+                            attackRoll = 50 + ((playerSpy + 1) * 10) + RandomNumberGenerator.Next(1, ((playerSpy + 1) * 10));
                         }
                     }
                     break;
                 default:
-                    attackRoll = 50 + ((playerSpy + 1) * 10) + Game.Random.Next(1, ((playerSpy + 1) * 10));
+                    attackRoll = 50 + ((playerSpy + 1) * 10) + RandomNumberGenerator.Next(1, ((playerSpy + 1) * 10));
                     break;
             }
 
@@ -1430,7 +1430,7 @@ namespace Archspace2
 
                 target.SpecialOperationsCommand.Alertness += alertnessChangeSuccess;
 
-                if (Game.Random.Next(1, 100) <= 25)
+                if (RandomNumberGenerator.Next(1, 100) <= 25)
                 {
                     target.AddNews($"You were targetted by a spying attack from {GetDisplayName()}!");
 
@@ -1449,7 +1449,7 @@ namespace Archspace2
                 }
                 else
                 {
-                    if (Game.Random.Next(1, 100) <= 50)
+                    if (RandomNumberGenerator.Next(1, 100) <= 50)
                     {
                         target.AddNews("You were targetted by a spying attack, but you don't know who initiated the attack.");
 

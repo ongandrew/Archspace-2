@@ -178,7 +178,7 @@ namespace Archspace2.Battle
                     fleet.MoraleStatus = FleetMorale.CompleteBreak;
                     if (previousStatus < FleetMorale.NormalBreak)
                     {
-                        if (Battle.Random.Next(1, 100) <= 50)
+                        if (RandomNumberGenerator.Next(1, 100) <= 50)
                         {
                             if (fleet.Effects.OfType(FleetEffectType.NeverRetreatRout).Any())
                             {
@@ -197,7 +197,7 @@ namespace Archspace2.Battle
                     }
                     else if (previousStatus == FleetMorale.NormalBreak)
                     {
-                        if (Battle.Random.Next(1, 100) <= 50)
+                        if (RandomNumberGenerator.Next(1, 100) <= 50)
                         {
                             if (fleet.Effects.OfType(FleetEffectType.NeverRetreatRout).Any())
                             {
@@ -210,7 +210,7 @@ namespace Archspace2.Battle
                         }
                         else
                         {
-                            if (Battle.Random.Next(1, 50) <= 20 + fleet.BerserkModifier)
+                            if (RandomNumberGenerator.Next(1, 50) <= 20 + fleet.BerserkModifier)
                             {
                                 if (fleet.Effects.OfType(FleetEffectType.NeverBerserk).Any())
                                 {
@@ -235,14 +235,14 @@ namespace Archspace2.Battle
                     fleet.MoraleStatus = FleetMorale.NormalBreak;
                     if (previousStatus == FleetMorale.Normal)
                     {
-                        if (Battle.Random.Next(1, 100) <= 50)
+                        if (RandomNumberGenerator.Next(1, 100) <= 50)
                         {
                             fleet.Status = FleetStatus.Panic;
                             fleet.StatusTurns = 100 - (int)fleet.Morale;
                         }
                         else
                         {
-                            if (Battle.Random.Next(1, 50) <= 20 + fleet.BerserkModifier)
+                            if (RandomNumberGenerator.Next(1, 50) <= 20 + fleet.BerserkModifier)
                             {
                                 if (fleet.Effects.OfType(FleetEffectType.NeverBerserk).Any())
                                 {
@@ -263,7 +263,7 @@ namespace Archspace2.Battle
                     }
                     else if (previousStatus == FleetMorale.WeakBreak)
                     {
-                        if (Battle.Random.Next(1, 100) <= 40)
+                        if (RandomNumberGenerator.Next(1, 100) <= 40)
                         {
                             if (fleet.Effects.OfType(FleetEffectType.NeverRetreatRout).Any())
                             {
@@ -276,7 +276,7 @@ namespace Archspace2.Battle
                         }
                         else
                         {
-                            if (Battle.Random.Next(1, 60) <= 10 + fleet.BerserkModifier)
+                            if (RandomNumberGenerator.Next(1, 60) <= 10 + fleet.BerserkModifier)
                             {
                                 if (fleet.Effects.OfType(FleetEffectType.NeverBerserk).Any())
                                 {
@@ -301,7 +301,7 @@ namespace Archspace2.Battle
                     fleet.MoraleStatus = FleetMorale.WeakBreak;
                     if (previousStatus == FleetMorale.Normal)
                     {
-                        if (Battle.Random.Next(1, 100) <= 80)
+                        if (RandomNumberGenerator.Next(1, 100) <= 80)
                         {
                             fleet.Command = Command.Free;
                         }

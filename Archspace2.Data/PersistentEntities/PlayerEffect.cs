@@ -266,7 +266,7 @@ namespace Archspace2
                         break;
                     case PlayerEffectType.ChangeConcentrationMode:
                         {
-                            int mode = Game.Random.Next(0, 3);
+                            int mode = RandomNumberGenerator.Next(0, 3);
 
                             Player.ConcentrationMode = (ConcentrationMode)mode;
                         }

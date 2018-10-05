@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Archspace2.Battle\Archspace2.Battle.csproj" />
-    <ProjectReference Include="..\Archspace2.Core\Archspace2.Core.csproj" />
+    <ProjectReference Include="..\Archspace2\Archspace2.csproj" />
   </ItemGroup>
 
 </Project>

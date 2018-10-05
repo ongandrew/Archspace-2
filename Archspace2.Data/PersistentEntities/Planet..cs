@@ -863,13 +863,13 @@ namespace Archspace2
             {
                 if (Temperature > homeTemperature)
                 {
-                    Temperature -= 25 + Game.Random.Next(1, 50);
+                    Temperature -= 25 + RandomNumberGenerator.Next(1, 50);
 
                     Player.AddNews($"Terraforming: The temperature has gone down to {Temperature} K on {Name}.");
                 }
                 else
                 {
-                    Temperature += 25 + Game.Random.Next(1, 50);
+                    Temperature += 25 + RandomNumberGenerator.Next(1, 50);
 
                     Player.AddNews($"Terraforming: The temperature has gone up to {Temperature} K on {Name}.");
 

@@ -106,11 +106,11 @@ namespace Archspace2
             HashSet<int> infoSet = new HashSet<int>();
             List<string> resultSet = new List<string>();
 
-            int numInfo = 1 + Game.Random.Dice(1, 3);
+            int numInfo = 1 + RandomNumberGenerator.Dice(1, 3);
 
             do
             {
-                int random = Game.Random.Next(1, 8);
+                int random = RandomNumberGenerator.Next(1, 8);
                 infoSet.Add(random);
             } while (infoSet.Count < numInfo);
 
@@ -159,7 +159,7 @@ namespace Archspace2
 
             resultSet.AddRange(GeneralInformationGathering(target).Information);
 
-            int detailedInfo = Game.Random.Next(1, 4);
+            int detailedInfo = RandomNumberGenerator.Next(1, 4);
 
             switch (detailedInfo)
             {
@@ -199,7 +199,7 @@ namespace Archspace2
             StealInformationResult result = new StealInformationResult();
             result.Information.AddRange(DetailedInformationGathering(target).Information);
 
-            switch (Game.Random.Next(1, 2))
+            switch (RandomNumberGenerator.Next(1, 2))
             {
                 case 1:
                     {
@@ -233,13 +233,13 @@ namespace Archspace2
             long lostResearch = target.Resource.ResearchPoint * 60 / 100;
             target.Resource.ResearchPoint -= lostResearch;
 
-            long lostShipProduction = target.Shipyard.ShipProduction * Game.Random.Next(1, 60) / 100;
+            long lostShipProduction = target.Shipyard.ShipProduction * RandomNumberGenerator.Next(1, 60) / 100;
             target.Shipyard.ChangeShipProductionInvestment(-lostShipProduction);
 
-            long lostResearchInvestment = target.ResearchInvestment * Game.Random.Next(1, 60) / 100;
+            long lostResearchInvestment = target.ResearchInvestment * RandomNumberGenerator.Next(1, 60) / 100;
             target.ResearchInvestment -= lostResearchInvestment;
 
-            long lostPlanetInvestment = target.PlanetInvestmentPool * Game.Random.Next(1, 60) / 100;
+            long lostPlanetInvestment = target.PlanetInvestmentPool * RandomNumberGenerator.Next(1, 60) / 100;
             target.PlanetInvestmentPool -= lostPlanetInvestment;
 
             return new DevastatingNetworkWormResult()
@@ -256,7 +256,7 @@ namespace Archspace2
             long lostFactory = 0;
             long lostInvestment = 0;
 
-            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
+            int planetsTargeted = RandomNumberGenerator.Next(1, target.Planets.Count);
 
             for (int i = 0; i < planetsTargeted; i++)
             {
@@ -264,8 +264,8 @@ namespace Archspace2
                 long currentLostInvestment;
 
                 Planet planet = target.Planets.Random();
-                currentLostFactory = planet.Infrastructure.Factory * Game.Random.Next(1, 20) / 100;
-                currentLostInvestment = planet.Investment * Game.Random.Next(1, 40) / 100;
+                currentLostFactory = planet.Infrastructure.Factory * RandomNumberGenerator.Next(1, 20) / 100;
+                currentLostInvestment = planet.Investment * RandomNumberGenerator.Next(1, 40) / 100;
 
                 planet.Infrastructure.Factory -= currentLostFactory;
                 planet.Investment -= currentLostInvestment;
@@ -274,7 +274,7 @@ namespace Archspace2
                 lostInvestment += currentLostInvestment;
             }
 
-            long currentLostInvestmentPool = target.PlanetInvestmentPool * Game.Random.Next(1, 40) / 100;
+            long currentLostInvestmentPool = target.PlanetInvestmentPool * RandomNumberGenerator.Next(1, 40) / 100;
 
             target.PlanetInvestmentPool -= currentLostInvestmentPool;
             lostInvestment += currentLostInvestmentPool;
@@ -290,7 +290,7 @@ namespace Archspace2
         {
             InciteRiotResult result = new InciteRiotResult();
 
-            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
+            int planetsTargeted = RandomNumberGenerator.Next(1, target.Planets.Count);
 
             List<Planet> planets = target.Planets.Random(planetsTargeted).ToList();
             foreach (Planet planet in planets)
@@ -299,8 +299,8 @@ namespace Archspace2
                 planetResult.Id = planet.Id;
                 planetResult.Name = planet.Name;
 
-                planetResult.FactoriesLost = planet.Infrastructure.Factory * Game.Random.Next(40, 60) / 100;
-                planetResult.ResearchLabsLost = planet.Infrastructure.ResearchLab * Game.Random.Next(40, 60) / 100;
+                planetResult.FactoriesLost = planet.Infrastructure.Factory * RandomNumberGenerator.Next(40, 60) / 100;
+                planetResult.ResearchLabsLost = planet.Infrastructure.ResearchLab * RandomNumberGenerator.Next(40, 60) / 100;
                 planetResult.InvestmentLost = planet.Investment;
 
                 planet.Infrastructure.Factory -= planetResult.FactoriesLost;
@@ -348,7 +348,7 @@ namespace Archspace2
         {
             ArtificialDiseaseResult result = new ArtificialDiseaseResult();
 
-            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
+            int planetsTargeted = RandomNumberGenerator.Next(1, target.Planets.Count);
             List<Planet> planets = target.Planets.Random(planetsTargeted).ToList();
 
             foreach (Planet planet in planets)
@@ -359,7 +359,7 @@ namespace Archspace2
                     Name = planet.Name
                 };
 
-                planetResult.PopulationLost = planet.Population * Game.Random.Next(20, 40) / 100;
+                planetResult.PopulationLost = planet.Population * RandomNumberGenerator.Next(20, 40) / 100;
                 planet.Population -= planetResult.PopulationLost;
 
                 result.PlanetResults.Add(planetResult);
@@ -372,7 +372,7 @@ namespace Archspace2
         {
             RedDeathResult result = new RedDeathResult();
 
-            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
+            int planetsTargeted = RandomNumberGenerator.Next(1, target.Planets.Count);
             List<Planet> planets = target.Planets.Random(planetsTargeted).ToList();
 
             foreach (Planet planet in planets)
@@ -383,7 +383,7 @@ namespace Archspace2
                     Name = planet.Name
                 };
 
-                planetResult.PopulationLost = planet.Population * Game.Random.Next(40, 60) / 100;
+                planetResult.PopulationLost = planet.Population * RandomNumberGenerator.Next(40, 60) / 100;
                 planet.Population -= planetResult.PopulationLost;
 
                 if (player.Traits.Contains(RacialTrait.GeneticEngineeringSpecialist))
@@ -402,7 +402,7 @@ namespace Archspace2
         {
             StrikeBaseResult result = new StrikeBaseResult();
 
-            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
+            int planetsTargeted = RandomNumberGenerator.Next(1, target.Planets.Count);
             List<Planet> planets = target.Planets.Random(planetsTargeted).ToList();
 
             foreach (Planet planet in planets)
@@ -413,17 +413,17 @@ namespace Archspace2
                     Name = planet.Name
                 };
 
-                planetResult.MilitaryBaseLost = planet.Infrastructure.MilitaryBase * Game.Random.Next(40, 80) / 100;
+                planetResult.MilitaryBaseLost = planet.Infrastructure.MilitaryBase * RandomNumberGenerator.Next(40, 80) / 100;
                 planet.Infrastructure.MilitaryBase -= planetResult.MilitaryBaseLost;
 
                 result.PlanetResults.Add(planetResult);
             }
 
             long totalShipsLost = 0;
-            if (Game.Random.Next(1, 2) < 2)
+            if (RandomNumberGenerator.Next(1, 2) < 2)
             {
                 var targetShipDesign = target.Shipyard.ShipPool.Random();
-                long currentShipsLost = targetShipDesign.Value * Game.Random.Next(40, 80) / 100;
+                long currentShipsLost = targetShipDesign.Value * RandomNumberGenerator.Next(40, 80) / 100;
 
                 target.Shipyard.ShipPool[targetShipDesign.Key] -= currentShipsLost;
 
@@ -439,7 +439,7 @@ namespace Archspace2
         {
             AsteroidStrikeResult result = new AsteroidStrikeResult();
 
-            int planetsTargeted = Game.Random.Next(1, target.Planets.Count);
+            int planetsTargeted = RandomNumberGenerator.Next(1, target.Planets.Count);
             List<Planet> planets = target.Planets.Random(planetsTargeted).ToList();
 
             int potency = player.Traits.Contains(RacialTrait.AsteroidManagement) ? 5 * asteroids : asteroids;
@@ -454,13 +454,13 @@ namespace Archspace2
 
                 for (int i = 0; i < potency; i++)
                 {
-                    int random = Game.Random.Next(1, 5);
+                    int random = RandomNumberGenerator.Next(1, 5);
 
                     switch (random)
                     {
                         case 1:
                             {
-                                long factoriesLost = planet.Infrastructure.Factory * Game.Random.Next(20, 40) / 100;
+                                long factoriesLost = planet.Infrastructure.Factory * RandomNumberGenerator.Next(20, 40) / 100;
                                 planet.Infrastructure.Factory -= factoriesLost;
                                 planetResult.FactoriesLost += factoriesLost;
 
@@ -468,7 +468,7 @@ namespace Archspace2
                             }
                         case 2:
                             {
-                                long researchLabsLost = planet.Infrastructure.ResearchLab * Game.Random.Next(20, 40) / 100;
+                                long researchLabsLost = planet.Infrastructure.ResearchLab * RandomNumberGenerator.Next(20, 40) / 100;
                                 planet.Infrastructure.ResearchLab -= researchLabsLost;
                                 planetResult.ResearchLabsLost += researchLabsLost;
 
@@ -476,7 +476,7 @@ namespace Archspace2
                             }
                         case 3:
                             {
-                                long militaryBasesLost = planet.Infrastructure.MilitaryBase * Game.Random.Next(20, 40) / 100;
+                                long militaryBasesLost = planet.Infrastructure.MilitaryBase * RandomNumberGenerator.Next(20, 40) / 100;
                                 planet.Infrastructure.MilitaryBase -= militaryBasesLost;
                                 planetResult.MilitaryBasesLost += militaryBasesLost;
 
@@ -484,7 +484,7 @@ namespace Archspace2
                             }
                         case 4:
                             {
-                                long populationLost = planet.Population * Game.Random.Next(20, 40) / 100;
+                                long populationLost = planet.Population * RandomNumberGenerator.Next(20, 40) / 100;
                                 planet.Population -= populationLost;
                                 planetResult.PopulationLost += populationLost;
 
@@ -538,7 +538,7 @@ namespace Archspace2
         {
             AssassinationResult result = new AssassinationResult();
 
-            List<Admiral> admirals = target.GetAdmiralPool().Random(Game.Random.Next(0, target.GetAdmiralPool().Count / 2)).ToList();
+            List<Admiral> admirals = target.GetAdmiralPool().Random(RandomNumberGenerator.Next(0, target.GetAdmiralPool().Count / 2)).ToList();
 
             foreach (Admiral admiral in admirals)
             {

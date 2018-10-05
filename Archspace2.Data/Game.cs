@@ -10,7 +10,7 @@ using Timer = System.Timers.Timer;
 
 namespace Archspace2
 {
-    public static class Game
+    public class Game
     {
         private static bool mInitialized = false;
         private static bool mRunning = false;
@@ -23,10 +23,7 @@ namespace Archspace2
         private static Universe mUniverse;
         
         private static string mConnectionString;
-
-        private static Random mRandom = new Random();
-        public static Random Random { get => mRandom; }
-
+        
         private static GameConfiguration mGameConfiguration;
         public static GameConfiguration Configuration {
             get

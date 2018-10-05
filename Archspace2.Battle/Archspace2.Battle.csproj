@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Archspace2.Core\Archspace2.Core.csproj" />
+    <ProjectReference Include="..\Archspace2\Archspace2.csproj" />
   </ItemGroup>
 
 </Project>

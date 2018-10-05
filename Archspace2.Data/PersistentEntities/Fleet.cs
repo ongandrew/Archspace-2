@@ -100,7 +100,7 @@ namespace Archspace2
         
         public void TryFindPlanet()
         {
-            if (Game.Random.Next(1, 100) <= Game.Configuration.Mission.ExpeditionChance[Math.Min(Player.Planets.Count, Game.Configuration.Mission.ExpeditionChance.Keys.Max())])
+            if (RandomNumberGenerator.Next(1, 100) <= Game.Configuration.Mission.ExpeditionChance[Math.Min(Player.Planets.Count, Game.Configuration.Mission.ExpeditionChance.Keys.Max())])
             {
                 Planet planet = Player.Planets.Select(x => x.Cluster).Random().CreatePlanet().AsRandomPlanet();
                 planet.Player = Player;
@@ -150,7 +150,7 @@ namespace Archspace2
             }
             else if (Status == FleetStatus.StandBy)
             {
-                if (Admiral.RacialAbility == AdmiralRacialAbility.BreederMale && Game.Random.Next(1, 50) == 1)
+                if (Admiral.RacialAbility == AdmiralRacialAbility.BreederMale && RandomNumberGenerator.Next(1, 50) == 1)
                 {
                     Status = FleetStatus.CommanderAbsent;
                 }

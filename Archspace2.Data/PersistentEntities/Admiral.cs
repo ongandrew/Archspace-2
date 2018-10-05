@@ -681,8 +681,8 @@ namespace Archspace2
             Level = 1;
             BaseSkills = new AdmiralSkills();
             ArmadaClass = Enum.GetValues(typeof(ArmadaClass)).Cast<ArmadaClass>().Random();
-            BaseFleetCapacity = Game.Random.Next(1, 6) + 5;
-            BaseEfficiency = Game.Random.Next(1, 31) + 24;
+            BaseFleetCapacity = RandomNumberGenerator.Next(1, 6) + 5;
+            BaseEfficiency = RandomNumberGenerator.Next(1, 31) + 24;
         }
 
         public Admiral AsRandomAdmiral()
@@ -728,19 +728,19 @@ namespace Archspace2
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            int numAlpha = Game.Random.Next(1, 4);
-            int numNum = Game.Random.Next(1, 4);
+            int numAlpha = RandomNumberGenerator.Next(1, 4);
+            int numNum = RandomNumberGenerator.Next(1, 4);
 
             if (race.AdmiralNameStyle == AdmiralNameStyle.Evintos)
             {
                 for (int i = 0; i < numAlpha; i++)
                 {
-                    stringBuilder.Append((char)('A' + Game.Random.Next(0, 25)));
+                    stringBuilder.Append((char)('A' + RandomNumberGenerator.Next(0, 25)));
                 }
                 stringBuilder.Append('-');
                 for (int i = 0; i < numNum; i++)
                 {
-                    stringBuilder.Append((char)('1' + Game.Random.Next(0, 8)));
+                    stringBuilder.Append((char)('1' + RandomNumberGenerator.Next(0, 8)));
                 }
             }
             else
@@ -765,38 +765,38 @@ namespace Archspace2
 
             int additional = Enum.GetValues(typeof(StartingCircumstance)).Length - (int)StartingCircumstance;
 
-            BaseSkills.Blockade += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
-            BaseSkills.BreakBlockade += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
-            BaseSkills.Detection += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
-            BaseSkills.Interpretation += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
-            BaseSkills.Maneuver += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
-            BaseSkills.Privateer += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
-            BaseSkills.Raid += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
-            BaseSkills.SiegePlanet += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
-            BaseSkills.SiegeRepel += Game.Random.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.Blockade += RandomNumberGenerator.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.BreakBlockade += RandomNumberGenerator.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.Detection += RandomNumberGenerator.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.Interpretation += RandomNumberGenerator.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.Maneuver += RandomNumberGenerator.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.Privateer += RandomNumberGenerator.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.Raid += RandomNumberGenerator.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.SiegePlanet += RandomNumberGenerator.Next(1, 100) < 50 + additional ? 0 : 1;
+            BaseSkills.SiegeRepel += RandomNumberGenerator.Next(1, 100) < 50 + additional ? 0 : 1;
 
             switch (StartingCircumstance)
             {
                 case StartingCircumstance.Supercommander:
-                    BaseEfficiency += Game.Random.Dice(2, 4);
+                    BaseEfficiency += RandomNumberGenerator.Dice(2, 4);
                     break;
                 case StartingCircumstance.Excellent:
-                    BaseEfficiency += Game.Random.Next(1, 8);
+                    BaseEfficiency += RandomNumberGenerator.Next(1, 8);
                     break;
                 case StartingCircumstance.VeryGood:
-                    BaseEfficiency += Game.Random.Dice(2, 3);
+                    BaseEfficiency += RandomNumberGenerator.Dice(2, 3);
                     break;
                 case StartingCircumstance.Good:
-                    BaseEfficiency += Game.Random.Next(1, 6);
+                    BaseEfficiency += RandomNumberGenerator.Next(1, 6);
                     break;
                 case StartingCircumstance.Average:
-                    BaseEfficiency += Game.Random.Dice(2, 2);
+                    BaseEfficiency += RandomNumberGenerator.Dice(2, 2);
                     break;
                 case StartingCircumstance.Poor:
-                    BaseEfficiency += Game.Random.Dice(1, 4);
+                    BaseEfficiency += RandomNumberGenerator.Dice(1, 4);
                     break;
                 default:
-                    BaseEfficiency += Game.Random.Dice(1, 3);
+                    BaseEfficiency += RandomNumberGenerator.Dice(1, 3);
                     break;
             }
         }
@@ -837,7 +837,7 @@ namespace Archspace2
 
         private StartingCircumstance GenerateStartingCircumstance()
         {
-            return GenerateStartingCircumstance(Game.Random.Next(-5, 15));
+            return GenerateStartingCircumstance(RandomNumberGenerator.Next(-5, 15));
         }
 
         private StartingCircumstance GenerateStartingCircumstance(int aGenius)
@@ -856,7 +856,7 @@ namespace Archspace2
             }
 
             int total = weights.Sum(x => x.Value);
-            int random = Game.Random.Next(1, total);
+            int random = RandomNumberGenerator.Next(1, total);
             int current = 0;
 
             foreach (StartingCircumstance sc in (Enum.GetValues(typeof(StartingCircumstance)).Cast<StartingCircumstance>().OrderByDescending(x => x))) 
@@ -875,15 +875,15 @@ namespace Archspace2
         {
             int amount = Enum.GetValues(typeof(StartingCircumstance)).Length - (int)StartingCircumstance + 2;
 
-            BaseSkills.Blockade = -3 + Game.Random.Next(1, amount);
-            BaseSkills.BreakBlockade = -3 + Game.Random.Next(1, amount);
-            BaseSkills.Detection = -3 + Game.Random.Next(1, amount);
-            BaseSkills.Interpretation = -3 + Game.Random.Next(1, amount);
-            BaseSkills.Maneuver = -3 + Game.Random.Next(1, amount);
-            BaseSkills.Privateer = -3 + Game.Random.Next(1, amount);
-            BaseSkills.Raid = -3 + Game.Random.Next(1, amount);
-            BaseSkills.SiegePlanet = -3 + Game.Random.Next(1, amount);
-            BaseSkills.SiegeRepel = -3 + Game.Random.Next(1, amount);
+            BaseSkills.Blockade = -3 + RandomNumberGenerator.Next(1, amount);
+            BaseSkills.BreakBlockade = -3 + RandomNumberGenerator.Next(1, amount);
+            BaseSkills.Detection = -3 + RandomNumberGenerator.Next(1, amount);
+            BaseSkills.Interpretation = -3 + RandomNumberGenerator.Next(1, amount);
+            BaseSkills.Maneuver = -3 + RandomNumberGenerator.Next(1, amount);
+            BaseSkills.Privateer = -3 + RandomNumberGenerator.Next(1, amount);
+            BaseSkills.Raid = -3 + RandomNumberGenerator.Next(1, amount);
+            BaseSkills.SiegePlanet = -3 + RandomNumberGenerator.Next(1, amount);
+            BaseSkills.SiegeRepel = -3 + RandomNumberGenerator.Next(1, amount);
         }
 
         public Battle.Admiral ToBattleAdmiral()
