@@ -25,7 +25,7 @@ namespace Archspace2
         public void DuplicateIdsWithinSameClassFailsValidation()
         {
             GameConfiguration configuration = new GameConfiguration();
-            configuration.Armors = new List<Armor>()
+            configuration.Armors.AddRange(new List<Armor>()
             {
                 new Armor()
                 {
@@ -35,7 +35,7 @@ namespace Archspace2
                 {
                     Id = 1
                 }
-            };
+            });
             
             ValidateResult result = configuration.Validate();
             Assert.IsFalse(result.IsPassResult(), "Repeated Id within category is not identified by validation.");
@@ -45,7 +45,7 @@ namespace Archspace2
         public void NonExistentTechRequirementFailsValidation()
         {
             GameConfiguration configuration = new GameConfiguration();
-            configuration.Armors = new List<Armor>()
+            configuration.Armors.AddRange(new List<Armor>()
             {
                 new Armor()
                 {
@@ -59,7 +59,7 @@ namespace Archspace2
                         }
                     }
                 }
-            };
+            });
 
             ValidateResult result = configuration.Validate();
             Assert.IsFalse(result.IsPassResult(), "Non-existent tech requirement error not identified by validation.");

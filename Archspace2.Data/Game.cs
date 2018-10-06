@@ -20,29 +20,10 @@ namespace Archspace2
         }
 
         private static Thread mMainThread;
-        private static Universe mUniverse;
-        
         private static string mConnectionString;
-        
-        private static GameConfiguration mGameConfiguration;
-        public static GameConfiguration Configuration {
-            get
-            {
-                return mGameConfiguration;
-            }
-        }
-        
-        public static Universe Universe
-        {
-            get
-            {
-                return mUniverse;
-            }
-            private set
-            {
-                mUniverse = value;
-            }
-        }
+        public static GameConfiguration Configuration { get; private set; }
+
+        public static Universe Universe { get; private set; }
 
         public static async Task InitializeAsync(string aConnectionString, GameConfiguration aGameConfiguration = null)
         {
@@ -55,11 +36,11 @@ namespace Archspace2
 
             if (aGameConfiguration == null)
             {
-                mGameConfiguration = GameConfiguration.CreateDefault();
+                Configuration = GameConfiguration.CreateDefault();
             }
             else
             {
-                mGameConfiguration = aGameConfiguration;
+                Configuration = aGameConfiguration;
             }
 
             mInitialized = true;
