@@ -176,14 +176,15 @@
         let result = [];
 
         let canvasPoint = this.calculateCentroid(fleet);
+        let reflectionLine = new Line(0, canvasPoint.y);
 
         let point1 = new Point(canvasPoint.x - (this.spacing / 3), canvasPoint.y + (this.spacing / 2));
         let point2 = new Point(canvasPoint.x + (this.spacing / 3), canvasPoint.y + (this.spacing / 2));
         let point3 = new Point(canvasPoint.x, canvasPoint.y - (this.spacing / 2));
 
-        result.push(point1.rotate(canvasPoint, fleet.direction - 90));
-        result.push(point2.rotate(canvasPoint, fleet.direction - 90));
-        result.push(point3.rotate(canvasPoint, fleet.direction - 90));
+        result.push(point1.rotate(canvasPoint, fleet.direction - 90).reflectLine(reflectionLine));
+        result.push(point2.rotate(canvasPoint, fleet.direction - 90).reflectLine(reflectionLine));
+        result.push(point3.rotate(canvasPoint, fleet.direction - 90).reflectLine(reflectionLine));
 
         return result;
     }

@@ -20,7 +20,7 @@ namespace Archspace2.Battle
 
     public class Battle
     {
-        protected bool mCompleted;
+        public bool IsComplete { get; protected set; }
         public int CurrentTurn { get; protected set; }
         
         public BattleType Type { get; set; }
@@ -81,14 +81,9 @@ namespace Archspace2.Battle
             Record = new Record(this, Attacker, Defender, Type, Battlefield, AttackingFleets, DefendingFleets);
         }
 
-        public bool IsComplete()
-        {
-            return mCompleted;
-        }
-
         public void Run()
         {
-            while (!mCompleted)
+            while (!IsComplete)
             {
                 RunTurn();
             }
@@ -98,7 +93,7 @@ namespace Archspace2.Battle
         {
             if (CurrentTurn > 1800 || AttackingFleets.TrueForAll(x => x.IsDisabled()) || DefendingFleets.TrueForAll(x => x.IsDisabled()))
             {
-                mCompleted = true;
+                IsComplete = true;
             }
 
             Record.BattleOccurred = true;

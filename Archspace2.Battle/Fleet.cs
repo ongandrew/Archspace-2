@@ -218,8 +218,9 @@ namespace Archspace2.Battle
         {
             get
             {
-                int result = Engine.BattleMobility[ShipClass.Class];
+                double result = Engine.BattleMobility[ShipClass.Class];
                 result = StaticEffects.OfType(FleetEffectType.Mobility).CalculateTotalEffect(result, x => x.Amount);
+                result *= 100 + (int)Morale / 10 + Experience * 3 / 10 - 15;
 
                 return result / 5000.0;
             }
