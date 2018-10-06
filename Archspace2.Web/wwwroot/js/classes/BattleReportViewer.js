@@ -5,7 +5,7 @@
         this.turn = 0;
         this.runSimulation = false;
         this.view = new BattleView(500, 500, 10, 20);
-        this.log = new BattleLog();
+        this.log = new BattleLog(520, 200, 10);
     }
 
     get maxTurn() {
@@ -65,14 +65,18 @@
         }
 
         let nextTurn = this.turn + number;
-        
+
         if (number > 0) {
             this.updateFleetPositions(nextTurn);
             this.renderFireEvents(nextTurn);
+
+            this.updateLog(previousTurn + 1, nextTurn);
         }
         else if (number < 0) {
             this.updateFleetPositions(nextTurn);
             this.renderFireEvents(nextTurn);
+
+            this.updateLog(nextTurn, previousTurn - 1);
         }
         else {
             // Left intentionally empty
@@ -101,6 +105,23 @@
         });
     }
 
+    updateLog(fromTurn, toTurn) {
+        let fireEvents = this.fireEvents.filter(x => x.turn >= fromTurn && x.turn <= toTurn);
+        let hitEvents = this.hitEvents.filter(x => x.turn >= fromTurn && x.turn <= toTurn);
+        let lines = [];
+        for (let i = 0; i < fireEvents.length; i++) {
+            let fireEvent = fireEvents[i];
+            let hitEvent = hitEvents[i];
+            let firingFleet = this.fleets.filter(x => x.id == fireEvent.firingFleetId)[0];
+            let targetFleet = this.fleets.filter(x => x.id == fireEvent.targetFleetId)[0];
+            lines.push(`${firingFleet.name} (${firingFleet.id}) fires ${fireEvent.quantity} ${fireEvent.weapon} at ${targetFleet.name} (${targetFleet.id}).`);
+            lines.push(`${targetFleet.name} (${targetFleet.id}) receives ${hitEvent.totalDamage} damage. ${hitEvent.sunkCount} ships are sunk.`);
+        }
+
+        this.log.clear();
+        this.log.writeLines(lines);
+    }
+
     renderFireEvents(turn) {
         this.view.clearFireEvents();
 
@@ -122,14 +143,17 @@
         this.element = element;
         element.style.position = "relative";
 
-        element.innerHTML = "<div id='br'><div id='br-view'></div><div id='br-controls'><button id='br-controls-fr'>FR</button><button id='br-controls-r'>R</button><button id='br-controls-toggle'>P</button><button id='br-controls-f'>F</button><button id='br-controls-ff'>FF</button></div><div id='br-info'><p id='br-info-turn'></p></div></div>";
+        element.innerHTML = "<div id='br'><div id='br-view'></div><div id='br-controls'><button id='br-controls-fr'>FR</button><button id='br-controls-r'>R</button><button id='br-controls-toggle'>P</button><button id='br-controls-f'>F</button><button id='br-controls-ff'>FF</button></div><div id='br-info'><p id='br-info-turn'></p></div><div id='br-log'></div></div>";
         this.view.draw(element.querySelector("#br-view"));
+        this.log.draw(element.querySelector("#br-log"));
 
         element.querySelector("#br-controls-fr").addEventListener("click", () => this.fastRewind());
         element.querySelector("#br-controls-r").addEventListener("click", () => this.rewind());
         element.querySelector("#br-controls-toggle").addEventListener("click", async () => await this.toggleAsync());
         element.querySelector("#br-controls-f").addEventListener("click", () => this.forward());
         element.querySelector("#br-controls-ff").addEventListener("click", () => this.fastForward());
+
+        this.addMouseEvents();
     }
 
     async toggleAsync() {
@@ -159,5 +183,65 @@
 
     fastForward() {
         this.runTurn(10);
+    }
+
+    addMouseEvents() {
+        let element = this.element;
+        let fleetLayer = element.querySelector("#battle-viewer-fleets");
+
+        let offsetX = fleetLayer.getBoundingClientRect().left;
+        let offsetY = fleetLayer.getBoundingClientRect().top;
+
+        fleetLayer.onmousedown = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            let canvasPoint = new Point(e.clientX - offsetX, e.clientY - offsetY);
+
+            let fleet = this.getClosestFleet(canvasPoint);
+
+            if (this.checkBoundingBox(fleet, this.view.scale, canvasPoint) == true) {
+                this.showFleetInfo(fleet);
+            }
+            else {
+
+            }
+        };
+    }
+
+    getClosestFleet(point) {
+        let fleets = this.fleets;
+        let closestFleet = fleets[0];
+        let smallestDistance = this.view.calculateCentroid(fleets[0]).distance(point);
+
+        for (let i = 1; i < fleets.length; i++) {
+            let distance = this.view.calculateCentroid(fleets[i]).distance(point);
+            if (distance < smallestDistance) {
+                smallestDistance = distance;
+                closestFleet = fleets[i];
+            }
+        }
+
+        return closestFleet;
+    }
+
+    showFleetInfo(fleet) {
+        console.log(fleet);
+    }
+
+    checkBoundingBox(fleet, spacing, point) {
+        let canvasPoint = this.view.calculateCentroid(fleet);
+
+        let leftX = canvasPoint.x - (spacing / 2);
+        let rightX = canvasPoint.x + (spacing / 2);
+        let bottomY = canvasPoint.y - (spacing / 2);
+        let topY = canvasPoint.y + (spacing / 2);
+
+        if (point.x >= leftX && point.x <= rightX && point.y >= bottomY && point.y <= topY) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

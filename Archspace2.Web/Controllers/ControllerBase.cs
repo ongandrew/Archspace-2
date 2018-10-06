@@ -10,7 +10,7 @@ namespace Archspace2.Web
         protected async Task<bool> HasCharacter()
         {
             User user = await GetUserAsync();
-            return user.GetPlayer() != null;
+            return user != null && user.GetPlayer() != null;
         }
 
         protected async Task<Player> GetCharacterAsync()

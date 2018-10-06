@@ -116,7 +116,7 @@ namespace Archspace2
         public async Task<User> GetUserAsync(ClaimsPrincipal aClaimsPrincipal)
         {
             string email = aClaimsPrincipal.FindFirstValue(ClaimTypes.Email);
-            return await Users.SingleAsync(x => x.Email == email);
+            return await Users.FirstOrDefaultAsync(x => x.Email == email);
         }
 
         public override int SaveChanges()
