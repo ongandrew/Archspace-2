@@ -161,7 +161,7 @@ namespace Archspace2.Battle
                 {
                     double distance = Math.Sqrt((dX * dX) + (dY * dY));
 
-                    direction = Math.Acos(dX / distance);
+                    direction = Math.Acos(dX / distance) * 180.0 / Math.PI;
                     if (dY < 0)
                     {
                         direction = 360 - direction;
