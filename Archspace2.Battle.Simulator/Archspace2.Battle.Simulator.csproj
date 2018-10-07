@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Universal.Common.Serialization" Version="1.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Archspace2.Battle\Archspace2.Battle.csproj" />
+    <ProjectReference Include="..\Archspace2\Archspace2.csproj" />
+  </ItemGroup>
+
+</Project>

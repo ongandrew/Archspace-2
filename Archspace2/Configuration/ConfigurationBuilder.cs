@@ -45,7 +45,7 @@ namespace Archspace2
             {
                 new Armor()
                 {
-                    Id = 5101,
+                    Id = Armors.Titanium,
                     Name = "Titanium",
                     Description = "This is the basic hull that all ships are built with. It has some benefit for defense, but its main purpose is to keep outside things outside, and inside things in. This is a reasonable goal for any beginning fleet, however, if one truly wants to be powerful, you must have better armor than this.",
                     Type = ArmorType.Normal,
@@ -55,7 +55,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5102,
+                    Id = Armors.Mithril,
                     Name = "Mithril",
                     Description = "This armor is not made of actual mithril, but it has been named so because of its resemblance to the mythical magical metal. It also appears to have some added benefit in that it appears to be quite effective against psychic attacks. This may also be another reason that the human name has been taken up throughout the Empire.",
                     Type = ArmorType.Normal,
@@ -82,7 +82,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5103,
+                    Id = Armors.Adamantium,
                     Name = "Adamantium",
                     Description = "This armor is the next upgrade to the standard armor types. It has no self repair ability, but it does have some other benefits. It is the best armor up to this level for preventing psychic damages. It also a relatively strong armor and can take a good amount of damage before it gives out.",
                     Type = ArmorType.Normal,
@@ -115,7 +115,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5104,
+                    Id = Armors.Neutronium,
                     Name = "Neutronium",
                     Description = "One thing can be said of Neutronium. It is tough. This is one of the most durable of armors that is available. Its metallic structure is also quite effective at deflecting beam weaponry. The major drawback to this armor is that it is not easy to work with. This means any repairs made to this armor require almost twice as long to make.",
                     Type = ArmorType.Normal,
@@ -148,7 +148,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5105,
+                    Id = Armors.Eternium,
                     Name = "Eternium",
                     Description = "The name says it all. This is the strongest and most durable armor available. The main drawback is that it is impossible to repair during combat. However, this armor can take so much abuse, that it is rarely necessary to repair it.",
                     Type = ArmorType.Normal,
@@ -191,7 +191,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5106,
+                    Id = Armors.SelfRecoveringCrystal,
                     Name = "Self-Recovering Crystal",
                     Description = "This is one of the earliest armors to have a self repair faculty. While this can be quite useful, the armor is somewhat weak to missiles. A captain with a ship with SRC must surely pray at night that the repairs can keep up with the missile damage, for if they do, this fine armor can stop almost any other low level weapon.",
                     Type = ArmorType.Normal,
@@ -237,7 +237,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5107,
+                    Id = Armors.AntiMatterCrystal,
                     Name = "Anti-Matter Crystal",
                     Description = "By combining the ideas of Crystal armor and Anti-matter reactive armor this armor draws some of the benefits from each. Like SRC this armor will repair itself, although not as quickly. As it also uses the reactive techniques of Anti-matter armor, it has overcome all the weaknesses that SRC has.",
                     Type = ArmorType.Bio,
@@ -283,7 +283,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5108,
+                    Id = Armors.Biocentric,
                     Name = "Biocentric",
                     Description = "This is the other early armor which also has the ability to repair itself. This armor is weak to all weapon types except for beams, however, it is over all a stronger armor and can take almost twice as much abuse before giving out. This added ability to take damage, coupled with the repair action make this armor a common choice among many commanders.",
                     Type = ArmorType.Bio,
@@ -329,7 +329,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5109,
+                    Id = Armors.Organic,
                     Name = "Organic",
                     Description = "This is the first truly living armor. It even has a limited primitive awareness. The fact that it is alive allows it to heal itself during battles. The drawback is that its awareness makes it slightly more susceptible to psychic attacks.",
                     Type = ArmorType.Bio,
@@ -369,7 +369,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5110,
+                    Id = Armors.EnergyOrganicCrystal,
                     Name = "Energy-Organic Crystal",
                     Description = "This Crystal armor heals faster than other crystal types. It is also the most durable of all the crystal armors. The one drawback that it has is a weakness to projectiles. This may not matter overly much though, as this is the second strongest armor available.",
                     Type = ArmorType.Bio,
@@ -403,7 +403,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5111,
+                    Id = Armors.AntiMatterReactiveArmor,
                     Name = "Anti-Matter Reactive Armor",
                     Description = "This armor uses a tailored form of anti matter to deflect certain types of weaponry. It is particularly effective against missiles. The one drawback to this armor is the fact that it is not as resilient as other armors of the same class.",
                     Type = ArmorType.Reactive,
@@ -436,7 +436,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5112,
+                    Id = Armors.Reflexium,
                     Name = "Reflexium",
                     Description = "This armor is not as durable as other armors of its class, however, it is one of the best all around armors for deflecting incoming attacks. Its flexibility and high reflective ness mean that it is particularly good at deflecting any missile or beam type weapons.",
                     Type = ArmorType.Reactive,
@@ -475,7 +475,7 @@ namespace Archspace2
                 },
                 new Armor()
                 {
-                    Id = 5113,
+                    Id = Armors.WallofKlein,
                     Name = "Wall of Klein",
                     Description = "This armor is actually designed so that it folds space in odd ways. This allows it to avoid almost all forms of attack. It is most susceptible to projectile weapons, and is almost immune to beam and missile weapons. Its one drawback is that it is not very durable for its class.",
                     Type = ArmorType.Reactive,
@@ -521,7 +521,7 @@ namespace Archspace2
             {
                 new Computer()
                 {
-                    Id = 5201,
+                    Id = Computers.ElectronicComputer,
                     Name = "Electronic Computer",
                     Description = "This is the most basic of computers. It is used in the most basic of manufacturing and processing. By using top speed computers of this type it is possible to safely pilot a ship throughout the empire.",
                     TechLevel = 1,
@@ -538,7 +538,7 @@ namespace Archspace2
                 },
                 new Computer()
                 {
-                    Id = 5202,
+                    Id = Computers.OpticalComputer,
                     Name = "Optical Computer",
                     Description = "This is the second level of computers used for space travel. The main innovation of this computer is the use of light particle/waves to enhance processing speed and capability.",
                     TechLevel = 2,
@@ -555,7 +555,7 @@ namespace Archspace2
                 },
                 new Computer()
                 {
-                    Id = 5203,
+                    Id = Computers.GeneticComputer,
                     Name = "Genetic Computer",
                     Description = "This is the third and most common type of ship computer in use in the Empire. Utilizing artificial consciousness, this computer is able to process things as fast as its predecessors, however with its own consciousness, it can occasionally make intuitive judgments, which save time.",
                     TechLevel = 3,
@@ -572,7 +572,7 @@ namespace Archspace2
                 },
                 new Computer()
                 {
-                    Id = 5204,
+                    Id = Computers.QuantumComputer,
                     Name = "Quantum Computer",
                     Description = "This is the fourth level of computer which many races never achieve. By using quantum processors this computer operates much faster than any computer before.",
                     TechLevel = 4,
@@ -589,7 +589,7 @@ namespace Archspace2
                 },
                 new Computer()
                 {
-                    Id = 5205,
+                    Id = Computers.NeuroComputer,
                     Name = "Neuro Computer",
                     Description = "This is the fifth level of computer which is ever used in ships. Using the most self advancing algorithms, this computer is able to evolve itself to fit certain situations. This makes it much more powerful and versatile than any other computers which are small enough to be housed on a ship of any size.",
                     TechLevel = 5,
@@ -613,7 +613,7 @@ namespace Archspace2
             {
                 new Device()
                 {
-                    Id = 5501,
+                    Id = Devices.InertiaNullifier,
                     Name = "Inertia Nullifier",
                     Description = "The Inertial Nullifier is one of the most basic of the devices available. It is however still quite useful. By allowing you to increase the speed with which you decelerate, this device allows your to be much more maneuverable. This aids in movement through the battlefield, as well as allowing you to be more effective at evasive maneuvers.",
                     TechLevel = 1,
@@ -651,7 +651,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5502,
+                    Id = Devices.AmplifyingChip,
                     Name = "Amplifying Chip",
                     Description = "This chip is not truly a chip at all. It is actually a carefully created crystalline structure. This \"chip\" can then be used to help redirect heat produced during ship operations. This is most noticed in that is aids in cooling weapons down, and also in removing extra energy trapped by shields.",
                     TechLevel = 2,
@@ -689,7 +689,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5503,
+                    Id = Devices.PsiDrive,
                     Name = "Psi Drive",
                     Description = "This device is only available to races with Psi ability. It allows the pilot to use its energy to focus and speed the movements of the ship. Such enhancement will aid any fleet, if the pilot is able to use it.",
                     TechLevel = 5,
@@ -726,7 +726,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5504,
+                    Id = Devices.ForceFieldGenerator,
                     Name = "Force Field Generator",
                     Description = "While the name may be confusing, this device is not in and of itself a shield. It is merely a device that enhances the effectiveness of any shielding you may already possess. This is done by using knowledge of the unifying force behind all energy to strengthen whatever shields you have on your ships.",
                     TechLevel = 1,
@@ -764,7 +764,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5505,
+                    Id = Devices.HighEnergyFocus,
                     Name = "High Energy Focus",
                     Description = "This device can be fitted to all of your beam weapons. It refines the focus of any beam that uses it allowing greater energy to be focused on your foes. This results in additional damage, if you are able to hit them.",
                     TechLevel = 5,
@@ -790,7 +790,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5506,
+                    Id = Devices.PsiControlSystem,
                     Name = "Psi-Control System",
                     Description = "This device is only available to races with Psi ability. It is a special interface for the commander of each ship. This interface allows them additional control of all aspects of their ship. The main benefits however can be seen in the offensive and defensive abilities of the ship's psychic abilities.",
                     TechLevel = 5,
@@ -827,7 +827,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5507,
+                    Id = Devices.InsanityFieldGenerator,
                     Name = "Insanity Field Generator",
                     Description = "This device is only usable by those races with Psi ability. By projecting their hatred into the device, they are able to fashion a field around their fleet, which will inflict a psychic attack to any fleets that enter. This attack will destroy your enemies confidence as it also destroys their ships.",
                     TechLevel = 4,
@@ -860,7 +860,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5508,
+                    Id = Devices.MindProtector,
                     Name = "Mind Protector",
                     Description = "This device is placed in the center of your ship. It radiates a psychic sense of well-being and calmness. This improves your fleet's ability to resist psychic damages, and also prevents the panic or other states that some crews are occasionally forced into by some of the more horrible psychic attacks.",
                     TechLevel = 4,
@@ -886,7 +886,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5509,
+                    Id = Devices.BoosterDevice,
                     Name = "Booster Device",
                     Description = "This component may be added to any type of ship engine. It basically \"boosts\" the output and efficiency of your engines. This allows faster movement and better control. For some ships, this is almost a required addition.",
                     TechLevel = 2,
@@ -918,7 +918,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5510,
+                    Id = Devices.ShieldCapacitor,
                     Name = "Shield Capacitor",
                     Description = "This device is just what its name suggests. It is a capacitor which greatly increases the stability of your shields. It also allows them to rebound faster from any damage that it takes.",
                     TechLevel = 2,
@@ -950,7 +950,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5511,
+                    Id = Devices.ECMJammer,
                     Name = "ECM Jammer",
                     Description = "This device is a counter, counter measure. It works by canceling the signals that missiles use to track and move after your ships. It will occasionally allow your ships to escape unscathed from an explosion that could remove them from existence in seconds.",
                     TechLevel = 2,
@@ -976,7 +976,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5512,
+                    Id = Devices.CloakingFieldGenerator,
                     Name = "Cloaking Field Generator",
                     Description = "This device is prized both by great tacticians and pirates alike. While nowhere near perfect, it will often allow a fleet to go undetected. This device draws on power in a geometric amount. This means that after a ship is a certain size, it is impossible to power the cloaking field.",
                     TechLevel = 4,
@@ -1005,7 +1005,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5514,
+                    Id = Devices.AutoRepairingDevice,
                     Name = "Auto Repairing Device",
                     Description = "This \"device\" is actually a gigantic herd of miniscule robots. They swarm about your ship making repairs as needed. The only limitation is that they often need more materials than are available on smaller ships. This means that it is only truly useful on ships of a certain size.",
                     TechLevel = 4,
@@ -1031,7 +1031,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5515,
+                    Id = Devices.TrainInjector,
                     Name = "Train Injector",
                     Description = "This device is a mixture of nanomachines and drugs. It instills your crew with the abilities and heart of battle scarred veterans. This allows even the newest fleet to be more useful than your enemies could expect.",
                     TechLevel = 3,
@@ -1073,7 +1073,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5516,
+                    Id = Devices.ReinforcedHull,
                     Name = "Reinforced Hull",
                     Description = "This component is actually placed throughout your entire ship. Using microscale robots, you enforce the entire structure of your ships. This increases the effectiveness of your armor. Such effectiveness is often prized during a battle when make the difference between severe damage and a full hull breach.",
                     TechLevel = 2,
@@ -1099,7 +1099,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5517,
+                    Id = Devices.GyroDeformator,
                     Name = "Gyro Deformator",
                     Description = "This device is often the bane of larger ships. By positioning it correctly within your ship, you can extend a field that will cause havoc to any enemy ships directional controls. This field is stable towards the center and will not effect your ship, but outside of that for a certain range, any ships will feel as though \"down\" is constantly changing. This device can only be put on larger ships, as smaller ships lack the mass to make this device effective.",
                     TechLevel = 2,
@@ -1126,7 +1126,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5518,
+                    Id = Devices.Kwang11,
                     Name = "Kwang-11",
                     Description = "This device is one of the more insidious ones available. It will link itself to nearby enemy fleets and bombard their computers with useless and delaying information. This can cripple some fleets computers, if their computer security measures are not advanced enough.",
                     TechLevel = 4,
@@ -1154,7 +1154,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5519,
+                    Id = Devices.MindTracker,
                     Name = "Mind Tracker",
                     Description = "This device is aptly named. The one thing it does is tracks minds. This, when paired with the targeting for your psi weapons allows much greater accuracy.",
                     TechLevel = 2,
@@ -1180,7 +1180,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5520,
+                    Id = Devices.PsiBarrier,
                     Name = "Psi Barrier",
                     Description = "This device is simple enough, once a race understands certain things about how the psyche works. It lessens the focus of any incoming psi attacks. This will increase your chance to avoid damage, but will not lessen the impact if you do succumb to the threat.",
                     TechLevel = 5,
@@ -1212,7 +1212,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5521,
+                    Id = Devices.SelfConsciousFleet,
                     Name = "Self-Conscious Fleet",
                     Description = "This is an interesting addition to any fleet. Where some races ships are actual beings, even for them their fleets are not entities unto themselves. The ships are still independent thinkers. This device links the minds controlling the ships into one large being that becomes the fleet. This can increase overall coordination of almost any fleet.",
                     TechLevel = 2,
@@ -1238,7 +1238,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5522,
+                    Id = Devices.Coprocessor,
                     Name = "Coprocessor",
                     Description = "This is a relatively simple device. It is basically a processor, which runs in tandem with your computer. This processor greatly increases the accuracy of your main computer. This increase has many effects as it allows your computer to function faster while maintaining the same accuracy.",
                     TechLevel = 2,
@@ -1264,7 +1264,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5523,
+                    Id = Devices.EscapePod,
                     Name = "Escape Pod",
                     Description = "This device takes up quite a bit of space for something that does not help with combat.  Many commanders will refuse to command a fleet without one.  Many rulers actually have them built into their ships because any chance of recovering a trusted, experienced commander is something they like.",
                     TechLevel = 3,
@@ -1290,7 +1290,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5524,
+                    Id = Devices.HomingBeacon,
                     Name = "Homing Beacon",
                     Description = "This device is not large, but the amount of power that it uses is.  It is actually small enough to attach to a standard EVA suit.  For commanders without escape pods, having one of these attached to the suit can offer some chance of rescue.  If one is attached to an escape pod, the combination is even more effective.",
                     TechLevel = 4,
@@ -1316,7 +1316,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5525,
+                    Id = Devices.SpaceMiningModule,
                     Name = "Space Mining Module",
                     Description = "Asteroids from all around the galaxies contain some valuable trading ressources. The buckaneers have designed this device to collect  those ressources and trading them to make a living with their spaceships.",
                     TechLevel = 1,
@@ -1340,7 +1340,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5526,
+                    Id = Devices.AntiPSIDevice,
                     Name = "Anti-PSI Device",
                     Description = "None.",
                     TechLevel = 1,
@@ -1366,7 +1366,7 @@ namespace Archspace2
                 },
                 new Device()
                 {
-                    Id = 5527,
+                    Id = Devices.AblativeCoating,
                     Name = "Ablative Coating",
                     Description = "Ablative Coating is an additional reactive plating that can be added to the hull of any ship. This coating provides a counterforce to incoming ballistic weapons fire by slowing down projectiles with its spongelike density. Under beam weapon fire, this coating will boil away, carrying away a portion of the beam's energy. Ablative Coating's light, airy structure is also a good cushion versus the force of incoming missile blasts.",
                     TechLevel = 1,
@@ -1399,7 +1399,7 @@ namespace Archspace2
             {
                 new Engine()
                 {
-                    Id = 5401,
+                    Id = Engines.Retro,
                     Name = "Retro",
                     Description = "This is the basic engine used by all space faring races at one point. It is by no means efficient and is often seen as a sign that a race is primitive. It does accomplish its goal of moving things from one place to another.",
                     TechLevel = 1,
@@ -1432,7 +1432,7 @@ namespace Archspace2
                 },
                 new Engine()
                 {
-                    Id = 5402,
+                    Id = Engines.Fusion,
                     Name = "Fusion",
                     Description = "This is the second level of engine. It is considered by many races to be the first true type of engine used by intelligent species. It is a noted improvement on its predecessor, but it is still by no means the best.",
                     TechLevel = 2,
@@ -1473,7 +1473,7 @@ namespace Archspace2
                 },
                 new Engine()
                 {
-                    Id = 5403,
+                    Id = Engines.AntiMatter,
                     Name = "Anti-Matter",
                     Description = "This is the third level of engines. This is in fact the average engine in use throughout the empire. Using the improved power of antimatter reactions, this engine is faster and more useful for maneuvers than its predecessors.",
                     TechLevel = 3,
@@ -1514,7 +1514,7 @@ namespace Archspace2
                 },
                 new Engine()
                 {
-                    Id = 5404,
+                    Id = Engines.Impulse,
                     Name = "Impulse",
                     Description = "This is the fourth level of engines and is only utilized by the most advanced races. This Engine is much more efficient than those before as it uses an advanced knowledge of energy-matter science to recapture much of the energy normally misused by engines.",
                     TechLevel = 4,
@@ -1555,7 +1555,7 @@ namespace Archspace2
                 },
                 new Engine()
                 {
-                    Id = 5405,
+                    Id = Engines.Phase,
                     Name = "Phase",
                     Description = "This is the most advanced form of engine in use in the Empire. It used an understanding of the nature of space to move. To observers, the ship appears to simply jump from one place to another. This is inaccurate however as the ship is actually bending portions of the space in front of it into other dimensions, thus reducing the actual distance that it travels.",
                     TechLevel = 5,
@@ -4075,7 +4075,7 @@ namespace Archspace2
             {
                 new Race()
                 {
-                    Id = (int)RaceType.Human,
+                    Id = Races.Human,
                     Name = "Human",
                     Description = "Though humans have a relatively short life span, the population increase rate of humans is nothing short of astonishing.  As a result, the other species have always been wary of the humans' expansion of power in the universe.  However, even the watchful eyes of the other species cannot easily spot the other strong points of the human species, which lie in the philosophical and social sciences, as well as other literary and cultural developments.  Their never-ending desire to seek the ideal has provided a catalyst not found in other species.",
                     SocietyType = SocietyType.Classism,
@@ -4176,7 +4176,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = (int)RaceType.Targoid,
+                    Id = Races.Targoid,
                     Name = "Targoid",
                     Description = "The Targoid race maintain a totalitarian society, with all of their species originating from one mother body and being controlled by that mother body.  Targoids efficiently produce every type of their race as needed from one mother body through the programming of the DNA of the unborn Targoid embryo.  This system makes it possible to produce any variety of the species, from mouse-sized micro workers to battle creatures over 2 kilometers in length.  Targoid workers are famous for their efficiency in gathering resources and constructing buildings.",
                     SocietyType = SocietyType.Totalism,
@@ -4271,7 +4271,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = (int)RaceType.Buckaneer,
+                    Id = Races.Buckaneer,
                     Name = "Buckaneer",
                     Description = "A Buckaneer's spaceship is his home and center of life.  They spend the majority of their life roaming space and finding fortune through trade (and sometimes piracy.)  Because they are accustomed to this type of gypsy roaming life, their fleets move swiftly and cannot be traced easily.  Buckaneer merchants possess information and contacts throughout the universe, which are indispensable aids to commerce, and thus hold the majority of trade and business in the universe.  It is common to see Buckaneer crafts that have duplicator systems for needed items built into the ship's interior design.",
                     SocietyType = SocietyType.Personalism,
@@ -4364,7 +4364,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = (int)RaceType.Tecanoid,
+                    Id = Races.Tecanoid,
                     Name = "Tecanoid",
                     Description = "The Tecanoids sought to find their key to evolution through attaching computers and bionic machinery to their bodies.  As a result of these experiments, the elite forces of their races have obtained extremely strong physical bodies and extraordinary intellect.  On the other hand, the lowest class of their society did not have an opportunity to receive these gifts, and thus became an unstable supporting pillar of the community.  The Tecanoid effort for evolution brought them optimally advanced data processing skills and electronic infiltration technologies, but the species has ultimately sacrificed their humanity for these machines.",
                     SocietyType = SocietyType.Classism,
@@ -4481,7 +4481,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = (int)RaceType.Evintos,
+                    Id = Races.Evintos,
                     Name = "Evintos",
                     Description = "Unlike most of the other races of the galaxy, the Evintos are a non-organic life force whose bodies are composed of silicon and gold.  Their nervous system and metabolisms are also radically different from other inhabitants of the universe.  It is believed that they originate from artificial intelligence creatures created in the far ancient ages of the universe, whose technologies remain primarily lost to the world.  Because of their unusual appearance and makeup, they are often rejected by other species.  They possess a rigid social structure, which makes it hard for technological or social innovations to be implemented.  This structure further adds to their drifting differences between other species.  But these weak points are compensated by their mechanically precise and accurate social structure, which makes for extremely high production and manufacturing within their society.",
                     SocietyType = SocietyType.Totalism,
@@ -4550,7 +4550,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = (int)RaceType.Agerus,
+                    Id = Races.Agerus,
                     Name = "Agerus",
                     Description = "Even more odd than the Evintos, the Agerus can only be defined as \"planetary life forms.\"  Many scientists doubt their existence, as they have remained largely secluded and withdrawn, having virtually no communication with other species.  Not much is known about this species, whose origin still remains a mystery.  The galaxy battleships that belong to the Agerus are used primarily for defense, and are actually smaller planet forms, which have evolved from spores from the mother planet.  It is not an easy task to classify and differentiate between the children of the Agerus and naturally occurring small planets.",
                     SocietyType = SocietyType.Totalism,
@@ -4667,7 +4667,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = (int)RaceType.Bosalian,
+                    Id = Races.Bosalian,
                     Name = "Bosalian",
                     Description = "Bosalians are peace-loving pacifists who hate conflict and battle.  Their noble philosophies and impartiality have settled many a battles between warring races, and their opinions are held in the highest respect by other races.  Though they are pacifists by nature, they are by no means a weak force in the galaxy.  True to their ideology, which states, \"The universe is one with your being, and you are one within the universe,\" Bosalians can freely use psychic powers.  Even races with limited sensory abilities, such as humanoids, can see the brilliance of the psychic aurora emitted by the Bosalians in their attacks.",
                     SocietyType = SocietyType.Personalism,
@@ -4789,7 +4789,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = (int)RaceType.Xeloss,
+                    Id = Races.Xeloss,
                     Name = "Xeloss",
                     Description = "Much is said about the fanatical religion of the Xeloss, a species that escaped their home planet during the collapse of the Magellan Universe.  The Xeloss are ruthless, and do not hesitate to murder others under their god's name.  Not only do they attack outsiders with their psychic powers, but also they have aptly shown that the individual will sacrifice his basic instinct for survival for the good of their god.  This has added to their already bloody reputation.  No species wishes to readily meet the Xeloss, and they are absolutely correct in their thoughts.",
                     SocietyType = SocietyType.Totalism,
@@ -4915,7 +4915,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = (int)RaceType.Xerusian,
+                    Id = Races.Xerusian,
                     Name = "Xerusian",
                     Description = "Xerusians boast an ancient and traditional military tradition.  Though their troops are small in number, they have always remained the utmost elite forces of the galaxy.  In addition, Xerusians have always had great interest in the matter-energy sciences, which are immediately adapted to military weapons and technologies, and have researched these sciences extensively.  The only things that stand between them and the domination of the galaxy are the inefficient workings of their bureaucracy and the excessive amount of energy lost in the internal conflicts within their machinery.  It should be noted that their extensive battle experiences with the Xeloss, has resulted that they are the only race that have a method of stopping the Xeloss psychic attacks.",
                     SocietyType = SocietyType.Totalism,
@@ -5030,7 +5030,7 @@ namespace Archspace2
                 },
                 new Race()
                 {
-                    Id = (int)RaceType.Xesperados,
+                    Id = Races.Xesperados,
                     Name = "Xesperados",
                     Description = "Like the Xeloss or Xerusian, the Xesperados race was a group of military species that escaped the Magellan Galaxy during its collapse.  In their wanderings throughout space, they have been joined by other military species and leaders of rebel races, making the Xesperados an impressive force throughout the galaxy.  The merger of many different species is handicapped by potential problems such as the threat of spies from other races and the complex process of expanding life support capable of sustaining the entire group.  But their open minds and universal acceptance has become a great stimulant to the progress of science, and they are continuing to attract talented researchers of all species.",
                     SocietyType = SocietyType.Personalism,
@@ -5093,7 +5093,7 @@ namespace Archspace2
             {
                 new Shield()
                 {
-                    Id = 5301,
+                    Id = Shields.ElectromagneticShield,
                     Name = "Electromagnetic Shield",
                     Description = "This is the basic shielding that all races develop. This level of shielding is required for a ship to survive the minute amounts of particles that are normally encountered around planets. It also helps somewhat during a battle, but is not that decisive.",
                     TechLevel = 1,
@@ -5135,7 +5135,7 @@ namespace Archspace2
                 },
                 new Shield()
                 {
-                    Id = 5302,
+                    Id = Shields.GravitonShield,
                     Name = "Graviton Shield",
                     Description = "This is the second level of shielding. In most races it is developed along with core mining techniques. It is needed for this purpose in order to keep the mining equipment safe from the huge pressure and hostile environment found in the cores of planets. The added strength of this shielding makes it more useful for battle.",
                     TechLevel = 2,
@@ -5177,7 +5177,7 @@ namespace Archspace2
                 },
                 new Shield()
                 {
-                    Id = 5303,
+                    Id = Shields.Deflector,
                     Name = "Deflector",
                     Description = "This is the third level of shielding. Using probability and chaos factors this shielding improves on the Graviton shield by protective energy in areas which are predicted to be most threatened.",
                     TechLevel = 3,
@@ -5219,7 +5219,7 @@ namespace Archspace2
                 },
                 new Shield()
                 {
-                    Id = 5304,
+                    Id = Shields.Barrier,
                     Name = "Barrier",
                     Description = "This is the fourth level of shielding. This level is not achieved by many races because they never research some of the basic ideas necessary for its development. Basically, this shielding uses even more advanced predictive means to focus and protect.",
                     TechLevel = 4,
@@ -5261,7 +5261,7 @@ namespace Archspace2
                 },
                 new Shield()
                 {
-                    Id = 5305,
+                    Id = Shields.MultiphaseShield,
                     Name = "Multiphase Shield",
                     Description = "This is the final level of shielding available. It is rarely achieved by most races, but is of great use to those who do. By using energy in different means and transferring some energy through differing dimensions, this shield is sometimes able to in effect reverse the damage done to it as it happens.",
                     TechLevel = 5,
@@ -5310,7 +5310,7 @@ namespace Archspace2
             {
                 new ShipClass()
                 {
-                    Id = 4001,
+                    Id = ShipClasses.Gunboat,
                     Name = "Gunboat",
                     Description = "Though it is not much more than a single flying weapon outfitted with a bridge and an engine, the Gunboat is a necessary component of any beginning ruler's armada.  While not too intimidating, these ships can nonetheless inflict significant damage.  Also, the Gunboat's small size and lack of devices makes it quick to produce and cost-efficient.  They may be fairly insignificant individually, but many a battle has been decided by a fleet of these little ships attacking an unprepared enemy at just the right time.",
                     Class = 1,
@@ -5323,7 +5323,7 @@ namespace Archspace2
                 },
                 new ShipClass()
                 {
-                    Id = 4002,
+                    Id = ShipClasses.Corvette,
                     Name = "Corvette",
                     Description = "This smaller-class ship is often used as an armed escort for traders and political transports.  The Corvette is significantly smaller than a Destroyer, but can use its speed to evade more powerful enemies. This ship was not designed for a full offensive, but it can do an excellent job at distracting the enemy while other ships move into position or escape, or it can be used in flanking attacks against smaller armadas.  The Corvette is also the largest class ship that players begin with.",
                     Class = 2,
@@ -5336,7 +5336,7 @@ namespace Archspace2
                 },
                 new ShipClass()
                 {
-                    Id = 4003,
+                    Id = ShipClasses.Corvette,
                     Name = "Frigate",
                     Description = "This ship is usually deployed to keep smaller and faster ships away from the less maneuverable Destroyers.  While not as maneuverable as the Corvette, the Frigate has more firepower.  Frigates are also useful in flanking and rear attacks against enemy Cruisers otherwise engaged in combat.  This is also the first ship which can be fitted with enhancing devices; Since these enhancements can perform a variety of functions, the Frigate is the first class of truly versatile ships.",
                     Class = 3,
@@ -5349,7 +5349,7 @@ namespace Archspace2
                 },
                 new ShipClass()
                 {
-                    Id = 4004,
+                    Id = ShipClasses.Destroyer,
                     Name = "Destroyer",
                     Description = "This is a small, relatively fast and well-armed warship often used to support larger vessels.  While its armament and enhancing devices are on par with the Frigate, the Destroyer sports a significantly thicker hull.  This means that the loss of some speed and agility as compared to the Frigate is made up for by the ability to take a greater amount of damage before incapacitation.  This allows a fleet of Destroyers to hold fast against smaller numbers of superior class ships.",
                     Class = 4,
@@ -5362,7 +5362,7 @@ namespace Archspace2
                 },
                 new ShipClass()
                 {
-                    Id = 4005,
+                    Id = ShipClasses.Cruiser,
                     Name = "Cruiser",
                     Description = "The Cruiser is large, fast, and moderately armored and gunned.  For several reasons, the Cruiser is the first in a more advanced generation of warships, distinguishing it from the smaller vessels: it has room for two additional devices, can hold some of the more powerful devices, and is the smallest ship which requires off-planet construction (though not necessarily in a vacuum.)  The Cruiser is the pinnacle of elementary spacecraft development, and is often the largest ship that many evolving races have in their armada.  Eventually, though, they are surpassed as the race learns new methods of production.",
                     Class = 5,
@@ -5375,7 +5375,7 @@ namespace Archspace2
                 },
                 new ShipClass()
                 {
-                    Id = 4006,
+                    Id = ShipClasses.BattleCruiser,
                     Name = "BattleCruiser",
                     Description = "The differences between a Cruiser and the more formidable BattleCruiser are few but significant.  They both have the same number of weapons batteries, but the size of each battery is greatly increased, greatly magnifying the offensive power of each BattleCruiser. This ship is also lighter and faster that the Battleship, while being able to take much more damage than the average Cruiser.  In fact, it is often a perfect combination of the classes above and below it.",
                     Class = 6,
@@ -5388,7 +5388,7 @@ namespace Archspace2
                 },
                 new ShipClass()
                 {
-                    Id = 4007,
+                    Id = ShipClasses.BattleShip,
                     Name = "BattleShip",
                     Description = "With the capability of destroying an average space station single-handedly, the Battleship forms the foundation of any serious armada.  It is the largest, most heavily armed and armored type of ship able to be manufactured within gravity.  Its lack of speed demands an array of escorts (Frigate class and smaller) to protect its vulnerable flanks and rear.  Of course, such escorts are usually easily provided by anyone with the power to create a fleet of Battleships.",
                     Class = 7,
@@ -5401,7 +5401,7 @@ namespace Archspace2
                 },
                 new ShipClass()
                 {
-                    Id = 4008,
+                    Id = ShipClasses.Dreadnaught,
                     Name = "Dreadnaught",
                     Description = "This ponderous beast is so large and well armed that it can barely be called a ship, and must be built in orbit.  This super-vessel is bloated with weaponry and armor, and is a menace for any class of opposing forces.  Many an opponent has suddenly realized they were doomed when they saw this powerful creation appear amidst its enemies fleets. Obviously, the Dreadnought requires a full deployment of escorts and support vessels.",
                     Class = 8,
@@ -5414,7 +5414,7 @@ namespace Archspace2
                 },
                 new ShipClass()
                 {
-                    Id = 4009,
+                    Id = ShipClasses.MobileFortress,
                     Name = "Mobile Fortress",
                     Description = "The Mobile Fortress is so large and so well armed that it can only be classified a space station.  (Though it is reasonably movable, its real function is to destroy any enemies who are foolish enough to approach.)  This titan is large enough that it is a feature itself, around which an armada can station a defense.  It does still retain enough movement though, that it can be brought to bear against any weaponry that your opponent might have which is larger.  The Mobile Fortress is basically an excuse to put many, many guns together in one place.",
                     Class = 9,
@@ -5427,7 +5427,7 @@ namespace Archspace2
                 },
                 new ShipClass()
                 {
-                    Id = 4010,
+                    Id = ShipClasses.Doomstar,
                     Name = "Doomstar",
                     Description = "The Doomstar, as its name implies, is nearly a celestial body in its own right.  The pinnacle of space design for any known sentient species, this behemoth is so large that merely trying to land it on a planet would cause an ecological catastrophe.  It is large enough that it generates a large gravitational pull, which would wreak havoc on itself and any planets that it approached.  Fitted with a terrifying array of weaponry, the Doomstar can dispense annihilation upon any nearly any enemy.  Simply put, anyone who tries attacking a Doomstar deserves what they get.",
                     Class = 10,
@@ -7893,7 +7893,7 @@ namespace Archspace2
             {
                 new Weapon()
                 {
-                    Id = 6101,
+                    Id = Weapons.Laser,
                     Name = "Laser",
                     Description = "The Laser is the basic idea behind all beam weapons. The focusing of light through the correct crystal matrix can make it into an efficient tool or a deadly weapon. This is another of the weapons that all races in the Empire seem to possess. Although not as powerful as some later weapons, the laser is an important weapon for all starting rulers.",
                     TechLevel = 1,
@@ -7917,7 +7917,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6102,
+                    Id = Weapons.PlasmaBeam,
                     Name = "Plasma Beam",
                     Description = "The Plasma Beam is a uses the your knowledge of the differing states of matter to form and project a focused ray of plasma at your enemies. When this matter reaches its target, the reaction is quite deadly. This makes the plasma beam quite effective against enemies who have not yet developed technology which protects from this type of attack.",
                     TechLevel = 2,
@@ -7954,7 +7954,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6103,
+                    Id = Weapons.CrystalLaser,
                     Name = "Crystal Laser",
                     Description = "The Crystal Laser uses your knowledge of crystal manipulation to purify the focusing component in your laser weaponry. This newly focused beam is more deadly and more accurate than its predecessor. This new lens does not cool as fast as the originals though, which means you cannot fire as often without risking dangerous temperatures.",
                     TechLevel = 2,
@@ -7978,7 +7978,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6104,
+                    Id = Weapons.GravitonBeam,
                     Name = "Graviton Beam",
                     Description = "The Graviton Beam is actually a focused projection of many graviton particles. As this projection moves it gathers both speed and mass through attraction to objects in its path. This means that when it hits it has much speed and mass, this, along with the actual effect of the particles on the target itself allow this beam to crush your enemies.",
                     TechLevel = 3,
@@ -8017,7 +8017,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6105,
+                    Id = Weapons.PsiBlaster,
                     Name = "Psi Blaster",
                     Description = "The Psi Blaster is a weapon that can go from merely dangerous to outright deadly if used by the correct races. Powered by either a races own ability or by machines cleverly created for the purpose, the psi blaster destroys your enemies with forces that cannot be seen but only felt.",
                     TechLevel = 3,
@@ -8053,7 +8053,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6106,
+                    Id = Weapons.NeutronBlaster,
                     Name = "Neutron Blaster",
                     Description = "The Neutron Blaster uses the understanding of sub atomic physics to assemble neutrons which are tailored to rip through hull components. These are then projected along the path of a guiding laser to the enemy. Upon contact, they interact with the hull and can often cripple if not destroy an enemy ship.",
                     TechLevel = 3,
@@ -8086,7 +8086,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6107,
+                    Id = Weapons.Phasor,
                     Name = "Phasor",
                     Description = "The Phasor is a deadly weapon that can alter the way in which space-time and the target interact. This can cause a high range of effects, from almost no damage, to complete destruction/dissolution of the component materials of the effected target. The phasor is perhaps on of the better known weapons in the current fighting happening within the Empire.",
                     TechLevel = 5,
@@ -8117,7 +8117,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6108,
+                    Id = Weapons.TachyonBeam,
                     Name = "Tachyon Beam",
                     Description = "The Tachyon Beam is a force which alters the probability of the target structure. The desired effect is to cause all of the particles of the structure to \"randomly\" repel each other. If this can be achieved for even an instant it can cause the effected area to explode as all of the particles attempt to put distance between their neighbors.",
                     TechLevel = 4,
@@ -8150,7 +8150,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6109,
+                    Id = Weapons.OscillationofDissonance,
                     Name = "Oscillation of Dissonance",
                     Description = "The Oscillation of Dissonance is the most deadly Beam weapon to be invented. It has the power to rip ships to pieces faster than any other beam weapon. One of the more deadly aspects of this weapon is its ability to ignore almost all armor that your enemies may have on their ships.",
                     TechLevel = 5,
@@ -8183,7 +8183,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6110,
+                    Id = Weapons.PsiStormLauncher,
                     Name = "Psi Storm Launcher",
                     Description = "The Psi Storm Launcher is a weapon often feared not just for the obvious damage it can do to matter, but also for the effects upon minds that survive it. This weapon creates a temporary vortex to the fourth dimension allowing psionic apparitions to manifest in our physical space. They do not always choose to do great damage, but the mental storms this living thoughts create can cause the bravest commanders to retreat.",
                     TechLevel = 5,
@@ -8225,7 +8225,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6201,
+                    Id = Weapons.NuclearMissile,
                     Name = "Nuclear Missile",
                     Description = "The Nuclear Missile was in the past one of the most feared weapons known. However, as races leave their first planet, they inevitably discover more powerful means of destruction. The nuclear missile is still a great force for destruction, and is in fact the one missile type that all races seem to have when they first reach the stars.",
                     TechLevel = 1,
@@ -8249,7 +8249,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6202,
+                    Id = Weapons.FusionMissile,
                     Name = "Fusion Missile",
                     Description = "The Fusion Missile is a logical progression from the nuclear missile. As a race refines their science, they are able to truly utilize fusion power efficiently. This power can be used for many things. One of these uses is to make more deadly weapons. This is the second type of missile that many races use as its power is a simple upgrade to that of the nuclear missile that proves so effective early in a powers career.",
                     TechLevel = 2,
@@ -8273,7 +8273,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6203,
+                    Id = Weapons.NovaTorpedo,
                     Name = "Nova Torpedo",
                     Description = "The Nova Torpedo is the final stage of the evolution of the nuclear missile. This missile takes initial science of fusion to a new height. With the use of each of these missiles a temporary star is created out of the component atoms of the target. This missile has the capacity for more damage than all but two other weapons. This force can be of great help in a battle, but be warned - the weapon takes a long time to prepare before it can be used again.",
                     TechLevel = 4,
@@ -8297,7 +8297,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6204,
+                    Id = Weapons.KamikazeConsciousTorpedo,
                     Name = "Kamikaze Conscious Torpedo",
                     Description = "The Kamikaze Torpedo has caused demonstrations upon numerous words. This weapon uses the very force that lies behind all living things to track your enemy. Of course, this link is rarely one way, so when this weapon is activated, those who can notice are often said to cringe at the shock this device sends thru the unconsciousness. Some people have begun to argue that this abuse will have repercussions, but few rulers head this. The weapon is too efficient to avoid using it because it gives some sensitive people headaches.",
                     TechLevel = 3,
@@ -8334,7 +8334,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6205,
+                    Id = Weapons.DeathSpore,
                     Name = "Death Spore",
                     Description = "The Death Spore might not sound like the most threatening weapon. However, this device has it uses. In this time when more and more races are turning to artificial life forms for many things, the death spore is merely the destructive use of this trend. This weapon is tailored to damage your enemies, and woe be to the enemy who tries to use any sort of living shield to protect themselves, as this life form will use such shielding to fuel itself to even greater destructive heights.",
                     TechLevel = 3,
@@ -8367,7 +8367,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6206,
+                    Id = Weapons.AntiMatterMissile,
                     Name = "Anti-Matter Missile",
                     Description = "The Antimatter Missile seems simple enough. As one developer said while working on this project, \"just imagine what this material will do when it comes into contact with regular matter, without the proper controls. In fact this scientist witnessed it first hand when a containment mistake was made during prototype construction. It goes without saying that there was not enough of him for a proper burial.",
                     TechLevel = 3,
@@ -8391,7 +8391,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6207,
+                    Id = Weapons.ReflexiumMissile,
                     Name = "Reflexium Missile",
                     Description = "The Reflexium Missile is the use of an interesting property of reflexium. For some reason any interaction between this metal and most shielding causes great stress to the powering component of shields. This makes this weapon quite effective against those who utilize shielding to a great extent. Of course, the effect of a strong material impacting an object at high speed is nothing to laugh at either.",
                     TechLevel = 4,
@@ -8424,7 +8424,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6208,
+                    Id = Weapons.PsionicPulseShocker,
                     Name = "Psionic Pulse Shocker",
                     Description = "The Psionic Pulse Shocker a deadly method of using psionic forces. This missile is in fact a focusing device for the psionic energies of your crew. They then use their abilities to hasten the entropy within your enemies to dangerous levels. If the enemy is unprepared, this can easily be their undoing.",
                     TechLevel = 4,
@@ -8466,7 +8466,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6209,
+                    Id = Weapons.TimeWakeHomingMissile,
                     Name = "Time-Wake Homing Missile",
                     Description = "The Time-Wake Homing Missile is a tricky weapon to figure out. Whether it is in fact tracking its enemies future path, or if it tracks its own future to determine the best path, this missile can be quite deadly and effective. There are even reports of it relocating itself through space/time and thus penetrating enemy shields and armor.",
                     TechLevel = 5,
@@ -8505,7 +8505,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6210,
+                    Id = Weapons.HomingBlackHole,
                     Name = "Homing Black Hole",
                     Description = "The Homing Black Hole is easily the single most powerful weapon ever created. This missile calls into being a temporary and small black hole, which can destroy fleets of weak vessels and cripple some of the largest ships in existence. The only drawback to this weapon is that it takes a long time to bring the next shot online.",
                     TechLevel = 5,
@@ -8529,7 +8529,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6301,
+                    Id = Weapons.RailGun,
                     Name = "Rail Gun",
                     Description = "The Rail Gun uses the basic principle that species have been using for thousands of Millennia. If you throw something at your enemies fast enough, it will hurt them. While this principle has been refined in other ways, the rail gun is still an effective way to harm your enemy. The fact that you are only accelerating simple matter and not charging it means that this type of weapon is especially useful because it can pass through almost any shields that your enemy may use.",
                     TechLevel = 1,
@@ -8553,7 +8553,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6302,
+                    Id = Weapons.GatlingRailGun,
                     Name = "Gatling Rail Gun",
                     Description = "The Gatling Rail Gun is a more effective version of the rail gun. It uses an understanding of inertia in order to direct a larger amount of matter toward your enemy. This means that when you hit you should usually do a greater amount of damage to your enemy. The fact that you have greater control also means there is less heat built up during the shot, so you can fire more often.",
                     TechLevel = 2,
@@ -8586,7 +8586,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6303,
+                    Id = Weapons.MassDriver,
                     Name = "Mass Driver",
                     Description = "The Mass Driver uses a strong electromagnetic field to propel a projectile towards your enemy at amazing speeds. This weapon does not have as much restraint as the gatling rail gun, however the greater speed and mass allow this weapon to be somewhat more effective both in hitting your enemy and in causing damage.",
                     TechLevel = 2,
@@ -8619,7 +8619,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6304,
+                    Id = Weapons.GaussCannon,
                     Name = "Gauss Cannon",
                     Description = "The Gauss Cannon uses compressed material for the projectile. This material has much greater density and mass, so the force is exerts on its target is much more focused. This means that not only will this weapon pass through shields, but it will even penetrate a portion of your enemies armor.",
                     TechLevel = 4,
@@ -8658,7 +8658,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6305,
+                    Id = Weapons.AntiMatterCannon,
                     Name = "Anti-Matter Cannon",
                     Description = "The Anti-Matter Cannon work on a combination of the principles used to create the rail gun and the anti-matter missile. Firing shots as though they were normal rail gun charges, the projectiles fired are much more deadly, and so the overall weapon becomes one of the most efficient projectile weapons available.",
                     TechLevel = 3,
@@ -8691,7 +8691,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6306,
+                    Id = Weapons.AutofireGaussCannon,
                     Name = "Autofire Gauss Cannon",
                     Description = "The Autofire Gauss Cannon improves on the gauss cannon in one significant manner, speed. By using knowledge of space/time you are able to remove the heat from this weapon much faster and thus fire it at a greatly increased rate. It also has a slightly increased ability to make it past enemy defenses.",
                     TechLevel = 5,
@@ -8730,7 +8730,7 @@ namespace Archspace2
                 },
                 new Weapon()
                 {
-                    Id = 6307,
+                    Id = Weapons.DistortionBlaster,
                     Name = "Distortion Blaster",
                     Description = "The Distortion Blaster is one of the most deadly weapons ever to be created. One shot from this monstrous weapon can out-damage some of the weaker weapons. Of course, it fires at speeds almost ten times faster than many missiles, which is why it is so feared. This weapon works by projecting small pieces of material from other dimensions into your enemies midst. These particles have a horrible effect on the enemy as they try to make anything they contact conform to their dimensional laws.",
                     TechLevel = 5,

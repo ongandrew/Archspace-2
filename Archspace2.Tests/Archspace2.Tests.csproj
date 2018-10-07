@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Archspace2.Battle.Simulator\Archspace2.Battle.Simulator.csproj" />
     <ProjectReference Include="..\Archspace2.Battle\Archspace2.Battle.csproj" />
     <ProjectReference Include="..\Archspace2.Data\Archspace2.Data.csproj" />
   </ItemGroup>

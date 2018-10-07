@@ -317,6 +317,11 @@ namespace Archspace2.Battle
             IsCapital = aIsCapital;
         }
 
+        public Fleet(int aId, string aName, Player aPlayer, ShipClass aShipClass, Armor aArmor, Computer aComputer, Engine aEngine, Shield aShield, List<Device> aDevices, List<Weapon> aWeapons, Admiral aAdmiral, int aShipCount, long aPower, bool aIsCapital, double aX, double aY, double aDirection, Command aCommand) : this(aId, aName, aPlayer, aShipClass, aArmor, aComputer, aEngine, aShield, aDevices, aWeapons, aAdmiral, aShipCount, aPower, aIsCapital)
+        {
+            Deploy(aX, aY, aDirection, aCommand);
+        }
+
         public Fleet(Fleet aFleet) : this()
         {
             this.Bind(aFleet);

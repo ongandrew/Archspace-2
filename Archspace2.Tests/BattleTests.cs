@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -394,6 +395,8 @@ namespace Archspace2.Battle
             Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.Movement), "No fleets moved.");
             Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.Fire), "No fleets fired despite battle conditions.");
             Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.Hit), "No fleets were hit despite battle conditions.");
+
+            File.WriteAllText("fromfleets.json", simulation.Record.ToString());
         }
 
         [TestMethod]
@@ -566,8 +569,6 @@ namespace Archspace2.Battle
             Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.Fire), "No fleets fired despite battle conditions.");
             Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.Hit), "No fleets were hit despite battle conditions.");
             Assert.IsTrue(simulation.Record.Events.Any(x => x.Type == RecordEventType.FleetDisabled), "No fleets were disabled despite battle conditions.");
-
-            File.WriteAllText("battle.json", simulation.Record.ToString());
         }
     }
 }
