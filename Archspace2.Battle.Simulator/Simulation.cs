@@ -5,7 +5,24 @@ using Universal.Common.Serialization;
 
 namespace Archspace2.Battle.Simulator
 {
-    public class Simulation : JsonSerializable<Simulation>
+    public interface ISimulationBattlefield
+    {
+        Battlefield Battlefield { get; }
+    }
+
+    public interface ISimulationAttacker
+    {
+        Player AttackingPlayer { get; }
+        Armada AttackingArmada { get; }
+    }
+
+    public interface ISimulationDefender
+    {
+        Player DefendingPlayer { get; }
+        Armada DefendingArmada { get; }
+    }
+
+    public class Simulation : JsonSerializable<Simulation>, ISimulationAttacker, ISimulationDefender, ISimulationBattlefield
     {
         [JsonProperty("Configuration")]
         public Configuration Configuration { get; protected set; }

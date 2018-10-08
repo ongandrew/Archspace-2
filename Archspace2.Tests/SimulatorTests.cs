@@ -1,10 +1,12 @@
 ﻿using Archspace2.Battle.Simulator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Universal.Common.Serialization;
 
 namespace Archspace2
 {
@@ -395,7 +397,10 @@ namespace Archspace2
             Battle.Battle battle = simulation.Build();
 
             battle.Run();
-            File.WriteAllText("simulation.json", simulation.ToString());
+            File.WriteAllText("simulation.json", simulation.ToString(new JsonSerializerSettings()
+            {
+                ContractResolver = new AssignableContractResolver(typeof(ISimulationAttacker), typeof(ISimulationDefender), typeof(ISimulationBattlefield))
+            }));
             File.WriteAllText("battle.json", battle.Record.ToString());
         }
     }

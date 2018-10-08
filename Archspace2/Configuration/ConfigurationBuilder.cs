@@ -5336,7 +5336,7 @@ namespace Archspace2
                 },
                 new ShipClass()
                 {
-                    Id = ShipClasses.Corvette,
+                    Id = ShipClasses.Frigate,
                     Name = "Frigate",
                     Description = "This ship is usually deployed to keep smaller and faster ships away from the less maneuverable Destroyers.  While not as maneuverable as the Corvette, the Frigate has more firepower.  Frigates are also useful in flanking and rear attacks against enemy Cruisers otherwise engaged in combat.  This is also the first ship which can be fitted with enhancing devices; Since these enhancements can perform a variety of functions, the Frigate is the first class of truly versatile ships.",
                     Class = 3,
