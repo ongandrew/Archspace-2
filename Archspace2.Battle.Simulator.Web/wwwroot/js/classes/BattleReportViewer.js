@@ -36,6 +36,9 @@
             ));
         }
 
+        this.fireEvents = this.events.filter(x => x.type == "Fire");
+        this.hitEvents = this.events.filter(x => x.type == "Hit");
+
         this.battlefield = data.battlefield;
 
         this.updateFleetPositions(0);
@@ -44,14 +47,6 @@
 
     get fleets() {
         return this.attackerFleets.concat(this.defenderFleets);
-    }
-
-    get fireEvents() {
-        return this.events.filter(x => x.type == "Fire");
-    }
-
-    get hitEvents() {
-        return this.events.filter(x => x.type == "Hit");
     }
 
     runTurn(number = 1) {
