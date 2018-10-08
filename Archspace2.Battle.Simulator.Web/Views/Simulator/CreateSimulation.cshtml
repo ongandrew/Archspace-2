@@ -1,0 +1,1756 @@
+﻿@using Archspace2.Battle.Simulator
+@{
+    ViewData["Title"] = "ConfigureSimulation";
+    Simulation simulation = ViewBag.Simulation;
+}
+
+<h2>ConfigureSimulation</h2>
+
+<form>
+    <fieldset>
+        <legend>Attacker Configuration</legend>
+        <p>
+            <label>Attacking Player</label>
+            <textarea id="attacking-player-json"
+                      rows="5"
+                      cols="150">
+{
+    "Id": 1,
+    "Name": "Attacker",
+    "Race": 1
+}</textarea>
+        </p>
+        <p>
+            <label>Attacking Armada</label>
+            <textarea id="attacking-armada-json"
+                      rows="20"
+                      cols="150">[
+    {
+        "Fleet": {
+            "Id": 0,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2000,
+        "Y": 4600,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 1,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2000,
+        "Y": 4800,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 2,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2000,
+        "Y": 5000,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": true
+    },
+    {
+        "Fleet": {
+            "Id": 3,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2000,
+        "Y": 5200,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 4,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2000,
+        "Y": 5400,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 5,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2200,
+        "Y": 4600,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 6,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2200,
+        "Y": 4800,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 7,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2200,
+        "Y": 5000,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 8,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2200,
+        "Y": 5200,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 9,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2200,
+        "Y": 5400,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 10,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2400,
+        "Y": 4600,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 11,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2400,
+        "Y": 4800,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 12,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2400,
+        "Y": 5000,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 13,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2400,
+        "Y": 5200,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 14,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2400,
+        "Y": 5400,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 15,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2600,
+        "Y": 4600,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 16,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2600,
+        "Y": 4800,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 17,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2600,
+        "Y": 5000,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 18,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2600,
+        "Y": 5200,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 19,
+            "Name": "Attacking Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 1
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 2600,
+        "Y": 5400,
+        "Direction": 0,
+        "Command": 1,
+        "IsCapital": false
+    }
+]</textarea>
+        </p>
+        <legend>Defender Configuration</legend>
+        <p>
+            <label>Defending Player</label>
+            <textarea id="defending-player-json"
+                      rows="5"
+                      cols="150">{
+    "Id": 2,
+    "Name": "Defender",
+    "Race": 8
+}</textarea>
+        </p>
+        <p>
+            <label>Defending Armada</label>
+            <textarea id="defending-armada-json"
+                      rows="20"
+                      cols="150">[
+    {
+        "Fleet": {
+            "Id": 20,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7400,
+        "Y": 4600,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 21,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7400,
+        "Y": 4800,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 22,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7400,
+        "Y": 5000,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 23,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7400,
+        "Y": 5200,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 24,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7400,
+        "Y": 5400,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 25,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7600,
+        "Y": 4600,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 26,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7600,
+        "Y": 4800,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 27,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7600,
+        "Y": 5000,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 28,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7600,
+        "Y": 5200,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 29,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7600,
+        "Y": 5400,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 30,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7800,
+        "Y": 4600,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 31,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7800,
+        "Y": 4800,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 32,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7800,
+        "Y": 5000,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 33,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7800,
+        "Y": 5200,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 34,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 7800,
+        "Y": 5400,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 35,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 8000,
+        "Y": 4600,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 36,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 8000,
+        "Y": 4800,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 37,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 8000,
+        "Y": 5000,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": true
+    },
+    {
+        "Fleet": {
+            "Id": 38,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 8000,
+        "Y": 5200,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    },
+    {
+        "Fleet": {
+            "Id": 39,
+            "Name": "Defending Fleet",
+            "Admiral": {
+                "Level": 20,
+                "SpecialAbility": 2,
+                "RacialAbility": 7
+            },
+            "Design": {
+                "Id": 0,
+                "Name": null,
+                "ShipClass": 4010,
+                "Armor": 5113,
+                "Computer": 5205,
+                "Engine": 5405,
+                "Shield": 5305,
+                "Weapons": [
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210,
+                    6210
+                ],
+                "Devices": [
+                    5522,
+                    5516,
+                    5511,
+                    5502,
+                    5527
+                ]
+            },
+            "ShipCount": 40
+        },
+        "X": 8000,
+        "Y": 5400,
+        "Direction": 180,
+        "Command": 1,
+        "IsCapital": false
+    }
+]</textarea>
+        </p>
+    </fieldset>
+</form>
+
+<button onclick="onClickSubmit()">Submit</button>
+
+<script type="text/javascript">
+    async function onClickSubmit() {
+        let attackingPlayer = JSON.parse(document.querySelector("#attacking-player-json").innerHTML);
+        let attackingArmada = JSON.parse(document.querySelector("#attacking-armada-json").innerHTML);
+        let defendingPlayer = JSON.parse(document.querySelector("#defending-player-json").innerHTML);
+        let defendingArmada = JSON.parse(document.querySelector("#defending-armada-json").innerHTML);
+
+        let request = new Object();
+        request.AttackingPlayer = attackingPlayer;
+        request.AttackingArmada = attackingArmada;
+        request.DefendingPlayer = defendingPlayer;
+        request.DefendingArmada = defendingArmada;
+
+        console.log(
+        await 
+                (await fetch("run_simulation",
+            {
+                method: "POST",
+                body: JSON.stringify(request)
+                })).json()
+        );
+    }
+
+</script>
