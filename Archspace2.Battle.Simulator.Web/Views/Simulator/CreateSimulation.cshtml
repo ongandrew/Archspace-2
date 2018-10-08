@@ -1730,7 +1730,7 @@
 
 <button onclick="onClickSubmit()">Submit</button>
 
-<div id="battle-report-viewer" style="background: #000000">
+<div id="battle-report-viewer" style="background: #000000; color: #ffffff">
 
 </div>
 
@@ -1768,6 +1768,8 @@
             viewer.draw(document.querySelector("#battle-report-viewer"));
 
             viewer.load(battleReportResponse);
+
+            window.scrollTo(0, document.body.scrollHeight);
         }
     </script>
 }
