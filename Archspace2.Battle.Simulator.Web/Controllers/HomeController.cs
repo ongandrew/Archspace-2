@@ -8,7 +8,7 @@ namespace Archspace2.Battle.Simulator.Web
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("CreateSimulation", "Simulator");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

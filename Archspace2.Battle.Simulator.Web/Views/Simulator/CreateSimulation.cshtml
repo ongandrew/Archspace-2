@@ -1,10 +1,10 @@
 ﻿@using Archspace2.Battle.Simulator
 @{
-    ViewData["Title"] = "ConfigureSimulation";
+    ViewData["Title"] = "Create Simulation";
     Simulation simulation = ViewBag.Simulation;
 }
 
-<h2>ConfigureSimulation</h2>
+<h2>Create Simulation</h2>
 
 <form>
     <fieldset>
@@ -1730,27 +1730,45 @@
 
 <button onclick="onClickSubmit()">Submit</button>
 
-<script type="text/javascript">
-    async function onClickSubmit() {
-        let attackingPlayer = JSON.parse(document.querySelector("#attacking-player-json").innerHTML);
-        let attackingArmada = JSON.parse(document.querySelector("#attacking-armada-json").innerHTML);
-        let defendingPlayer = JSON.parse(document.querySelector("#defending-player-json").innerHTML);
-        let defendingArmada = JSON.parse(document.querySelector("#defending-armada-json").innerHTML);
+<div id="battle-report-viewer" style="background: #000000">
 
-        let request = new Object();
-        request.AttackingPlayer = attackingPlayer;
-        request.AttackingArmada = attackingArmada;
-        request.DefendingPlayer = defendingPlayer;
-        request.DefendingArmada = defendingArmada;
+</div>
 
-        console.log(
-        await 
-                (await fetch("run_simulation",
-            {
-                method: "POST",
-                body: JSON.stringify(request)
-                })).json()
-        );
-    }
+@section Scripts {
+    <script src="/js/classes/Line.js"></script>
+    <script src="/js/classes/Point.js"></script>
+    <script src="/js/classes/Fleet.js"></script>
+    <script src="/js/classes/Player.js"></script>
+    <script src="/js/classes/BattleView.js"></script>
+    <script src="/js/classes/BattleLog.js"></script>
+    <script src="/js/classes/BattleReportViewer.js"></script>
+    <script type="text/javascript">
+        async function onClickSubmit() {
+            let attackingPlayer = JSON.parse(document.querySelector("#attacking-player-json").innerHTML);
+            let attackingArmada = JSON.parse(document.querySelector("#attacking-armada-json").innerHTML);
+            let defendingPlayer = JSON.parse(document.querySelector("#defending-player-json").innerHTML);
+            let defendingArmada = JSON.parse(document.querySelector("#defending-armada-json").innerHTML);
 
-</script>
+            let request = new Object();
+            request.AttackingPlayer = attackingPlayer;
+            request.AttackingArmada = attackingArmada;
+            request.DefendingPlayer = defendingPlayer;
+            request.DefendingArmada = defendingArmada;
+
+
+            let battleReportResponse = await (await fetch("run_simulation",
+                {
+                    method: "POST",
+                    body: JSON.stringify(request)
+                }
+            )).json();
+
+            let viewer = new BattleReportViewer();
+
+            viewer.draw(document.querySelector("#battle-report-viewer"));
+
+            viewer.load(battleReportResponse);
+        }
+    </script>
+}
+
