@@ -35,7 +35,7 @@ namespace Archspace2
 
         public PlayerMessageType Type { get; set; }
         
-        internal PlayerMessage() : base()
+        public PlayerMessage() : base()
         {
         }
         public PlayerMessage(Universe aUniverse) : base(aUniverse)

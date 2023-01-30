@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
-using Universal.Common.Extensions;
-using Universal.Common.Reflection.Extensions;
+using Universal.Common;
+using Universal.Common.Reflection;
 
 namespace Archspace2
 {
@@ -675,15 +675,18 @@ namespace Archspace2
 
         public Fleet Fleet { get; set; }
 
+        public Admiral() : this(null)
+        {
+		}
         public Admiral(Universe aUniverse) : base(aUniverse)
         {
-            Experience = 0;
-            Level = 1;
-            BaseSkills = new AdmiralSkills();
-            ArmadaClass = Enum.GetValues(typeof(ArmadaClass)).Cast<ArmadaClass>().Random();
-            BaseFleetCapacity = RandomNumberGenerator.Next(1, 6) + 5;
-            BaseEfficiency = RandomNumberGenerator.Next(1, 31) + 24;
-        }
+			Experience = 0;
+			Level = 1;
+			BaseSkills = new AdmiralSkills();
+			ArmadaClass = Enum.GetValues(typeof(ArmadaClass)).Cast<ArmadaClass>().Random();
+			BaseFleetCapacity = RandomNumberGenerator.Next(1, 6) + 5;
+			BaseEfficiency = RandomNumberGenerator.Next(1, 31) + 24;
+		}
 
         public Admiral AsRandomAdmiral()
         {

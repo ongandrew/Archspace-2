@@ -9,7 +9,7 @@ namespace Archspace2
         [ForeignKey("OwnerId")]
         public Council Council { get; set; }
 
-        internal CouncilMailbox()
+        public CouncilMailbox()
         {
         }
         public CouncilMailbox(Council aCouncil) : base(aCouncil.Universe)

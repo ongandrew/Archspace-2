@@ -19,6 +19,7 @@ namespace Archspace2
             return result;
         }
 
+        public BlackMarket() : this(null) { }
         public BlackMarket(Universe aUniverse) : base(aUniverse)
         {
             BlackMarketItems = new List<BlackMarketItem>();

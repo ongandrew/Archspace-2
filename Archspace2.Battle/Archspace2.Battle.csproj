@@ -1,14 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+    <UserSecretsId>e439db93-7852-442c-b8c3-390346eb41e5</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="Universal.Common" Version="4.2.2.1" />
-    <PackageReference Include="Universal.Common.Reflection" Version="0.1.2.2" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Archspace2\Archspace2.csproj" />

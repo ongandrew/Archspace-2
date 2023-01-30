@@ -10,7 +10,7 @@ namespace Archspace2
         [ForeignKey("ToId")]
         public Player ToPlayer { get; private set; }
 
-        internal PlayerRelation()
+        public PlayerRelation()
         {
         }
         public PlayerRelation(Universe aUniverse, Player aPlayer1, Player aPlayer2, RelationType aRelationType, int aExpiryTurn = 0) : base(aUniverse)

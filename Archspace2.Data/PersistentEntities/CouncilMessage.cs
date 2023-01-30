@@ -40,7 +40,7 @@ namespace Archspace2
 
         public CouncilMessageType Type { get; set; }
         
-        internal CouncilMessage() : base()
+        public CouncilMessage() : base()
         {
         }
         public CouncilMessage(Universe aUniverse) : base(aUniverse)

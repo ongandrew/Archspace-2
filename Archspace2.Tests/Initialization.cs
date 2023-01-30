@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace Archspace2
@@ -11,13 +11,8 @@ namespace Archspace2
         [AssemblyInitialize]
         public static async Task AssemblyInit(TestContext context)
         {
-            SqlConnectionStringBuilder sqlConnectionStringBuilder = new SqlConnectionStringBuilder();
-            sqlConnectionStringBuilder.DataSource = ".";
-            sqlConnectionStringBuilder.InitialCatalog = "Archspace 2 Tests";
-            sqlConnectionStringBuilder.IntegratedSecurity = true;
-            
-            await Game.InitializeAsync(sqlConnectionStringBuilder.ToString());
-            await Game.CreateNewUniverseAsync(DateTime.UtcNow, DateTime.UtcNow.AddYears(1));
+            await Game.InitializeAsync("Server=.;Initial Catalog=Archspace 2 Tests;Integrated Security=True;TrustServerCertificate=True;");
+			await Game.CreateNewUniverseAsync(DateTime.UtcNow, DateTime.UtcNow.AddYears(1));
         }
     }
 }

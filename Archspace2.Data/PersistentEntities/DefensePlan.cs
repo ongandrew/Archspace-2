@@ -8,7 +8,8 @@ namespace Archspace2
     [Table("DefensePlan")]
     public class DefensePlan : UniverseEntity, IValidatable
     {
-        public DefensePlan(Universe aUniverse) : base(aUniverse)
+		public DefensePlan() : this(null) { }
+		public DefensePlan(Universe aUniverse) : base(aUniverse)
         {
             DefenseDeployments = new List<DefenseDeployment>();
         }

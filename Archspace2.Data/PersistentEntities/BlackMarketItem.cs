@@ -30,8 +30,9 @@ namespace Archspace2
         public int? BidderId { get; set; }
         [ForeignKey("BidderId")]
         public Player Bidder { get; set; }
-        
-        public BlackMarketItem(Universe aUniverse) : base(aUniverse)
+
+		public BlackMarketItem() : this(null) { }
+		public BlackMarketItem(Universe aUniverse) : base(aUniverse)
         {
         }
         

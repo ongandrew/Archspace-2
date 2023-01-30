@@ -187,7 +187,8 @@ namespace Archspace2
             }
         }
 
-        public Planet(Universe aUniverse) : base(aUniverse)
+		public Planet() : this(null) { }
+		public Planet(Universe aUniverse) : base(aUniverse)
         {
             Population = 0;
 

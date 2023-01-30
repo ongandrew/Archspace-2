@@ -164,7 +164,8 @@ namespace Archspace2
             }
         }
 
-        public ShipDesign(Universe aUniverse) : base(aUniverse)
+		public ShipDesign() : this(null) { }
+		public ShipDesign(Universe aUniverse) : base(aUniverse)
         {
             mDevices = new List<Device>();
             mWeapons = new List<Weapon>();

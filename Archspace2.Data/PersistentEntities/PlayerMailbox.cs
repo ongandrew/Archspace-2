@@ -10,7 +10,7 @@ namespace Archspace2
         [ForeignKey("OwnerId")]
         public Player Player { get; set; }
 
-        internal PlayerMailbox()
+        public PlayerMailbox()
         {
         }
         public PlayerMailbox(Player aPlayer) : base(aPlayer.Universe)

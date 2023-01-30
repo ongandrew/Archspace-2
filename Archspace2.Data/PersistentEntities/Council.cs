@@ -75,7 +75,8 @@ namespace Archspace2
         public ICollection<CouncilRelation> ToRelations { get; set; }
         public ICollection<Player> Players { get; set; }
 
-        public Council(Universe aUniverse) : base(aUniverse)
+		public Council() : this(null) { }
+		public Council(Universe aUniverse) : base(aUniverse)
         {
             mProjects = new List<Project>();
 

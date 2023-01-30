@@ -28,7 +28,8 @@ namespace Archspace2
         public string CallerMemberName { get => mCallerMemberName; private set => mCallerMemberName = value; }
         public int CallerLineNumber { get => mCallerLineNumber; private set => mCallerLineNumber = value; }
 
-        public SystemLog(string aMessage, LogType aLogType, string aCallerFilePath, string aCallerMemberName, int aCallerLineNumber) : base()
+		public SystemLog() { }
+		public SystemLog(string aMessage, LogType aLogType, string aCallerFilePath, string aCallerMemberName, int aCallerLineNumber) : base()
         {
             mMessage = aMessage;
             mLogType = aLogType;

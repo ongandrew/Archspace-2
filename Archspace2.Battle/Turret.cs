@@ -1,4 +1,4 @@
-﻿using Universal.Common.Reflection.Extensions;
+﻿using Universal.Common.Reflection;
 
 namespace Archspace2.Battle
 {

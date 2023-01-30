@@ -19,7 +19,7 @@ namespace Archspace2
             }
         }
 
-        internal UniverseEntity() : base()
+        public UniverseEntity() : base()
         {
         }
         public UniverseEntity(Universe aUniverse) : this()

@@ -10,7 +10,7 @@ namespace Archspace2
         [ForeignKey("ToId")]
         public Council ToCouncil { get; private set; }
 
-        internal CouncilRelation()
+        public CouncilRelation()
         {
         }
         public CouncilRelation(Universe aUniverse, Council aCouncil1, Council aCouncil2, RelationType aRelationType, int aExpiryTurn = 0) : base(aUniverse)

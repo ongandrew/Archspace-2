@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using Universal.Common.Extensions;
+using Universal.Common;
 
 namespace Archspace2
 {
@@ -264,7 +264,7 @@ namespace Archspace2
         public ICollection<PlayerRelation> ToRelations { get; set; }
         public ICollection<ShipDesign> ShipDesigns { get; set; }
 
-        internal Player()
+        public Player()
         {
         }
         public Player(Universe aUniverse) : base(aUniverse)

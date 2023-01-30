@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using Universal.Common.Extensions;
+using Universal.Common;
 
 namespace Archspace2
 {
@@ -61,7 +61,7 @@ namespace Archspace2
         public FleetStatus Status { get; set; }
         public Mission Mission { get; set; }
 
-        private Fleet()
+        public Fleet()
         {
         }
         public Fleet(Universe aUniverse) : base(aUniverse)

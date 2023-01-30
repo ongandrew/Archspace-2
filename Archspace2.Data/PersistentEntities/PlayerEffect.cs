@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using Universal.Common.Extensions;
+using Universal.Common;
 
 namespace Archspace2
 {
@@ -26,7 +26,8 @@ namespace Archspace2
 
         public bool IsInstant { get; set; }
 
-        public PlayerEffectInstance(Universe aUniverse) : base(aUniverse)
+		public PlayerEffectInstance() : this(null) { }
+		public PlayerEffectInstance(Universe aUniverse) : base(aUniverse)
         {
             ControlModelModifier = new ControlModel();
         }

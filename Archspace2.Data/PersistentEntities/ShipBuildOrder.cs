@@ -15,7 +15,11 @@ namespace Archspace2
         [ForeignKey("ShipDesignId")]
         public ShipDesign ShipDesign { get; set; }
 
-        public ShipBuildOrder(Shipyard aShipyard, long aNumberToBuild, ShipDesign aShipDesign) : base(aShipyard.Universe)
+		public ShipBuildOrder() 
+        {
+			OrderTime = DateTime.UtcNow;
+		}
+		public ShipBuildOrder(Shipyard aShipyard, long aNumberToBuild, ShipDesign aShipDesign) : base(aShipyard.Universe)
         {
             OrderTime = DateTime.UtcNow;
             Shipyard = aShipyard;

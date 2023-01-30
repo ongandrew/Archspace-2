@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Universal.Common.Extensions;
-using Universal.Common.Reflection.Extensions;
+using Universal.Common;
+using Universal.Common.Reflection;
 
 namespace Archspace2
 {

@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>Archspace2</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="Universal.Common" Version="4.2.2.1" />
-    <PackageReference Include="Universal.Common.Reflection" Version="0.1.2.2" />
-    <PackageReference Include="Universal.Common.Serialization" Version="1.4.0.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Universal.Common" Version="8.2.2" />
+    <PackageReference Include="Universal.Common.Reflection" Version="2.1.1" />
+    <PackageReference Include="Universal.Common.Serialization" Version="2.3.0" />
   </ItemGroup>
 
 </Project>

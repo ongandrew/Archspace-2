@@ -87,7 +87,8 @@ namespace Archspace2
             }
         }
 
-        public Shipyard(Player aPlayer) : base(aPlayer.Universe)
+		public Shipyard() : this(null) { }
+		public Shipyard(Player aPlayer) : base(aPlayer.Universe)
         {
             Player = aPlayer;
             mShipBuildOrders = new List<ShipBuildOrder>();

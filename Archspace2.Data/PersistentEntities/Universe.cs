@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using Universal.Common.Extensions;
+using Universal.Common;
 
 namespace Archspace2
 {
     [Table("Universe")]
     public sealed class Universe : Entity
     {
-        private Universe() : base()
+        public Universe() : base()
         {
             Empire = new Empire(this);
             BlackMarket = new BlackMarket(this);
@@ -18,7 +18,6 @@ namespace Archspace2
             Councils = new List<Council>();
             Players = new List<Player>();
         }
-
         public Universe(DateTime aFromDate, DateTime? aToDate = null) : this()
         {
             FromDate = aFromDate;

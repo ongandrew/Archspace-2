@@ -17,7 +17,8 @@ namespace Archspace2
 
         public bool Seen { get; set; }
 
-        public NewsItem(Universe aUniverse) : base(aUniverse)
+		public NewsItem() : this(null) { }
+		public NewsItem(Universe aUniverse) : base(aUniverse)
         {
             DateTime = DateTime.UtcNow;
             Turn = aUniverse.CurrentTurn;
